@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advaita Agent File System Audit</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f13; color: #e0e0e8; min-height: 100vh; }
+
+  header { background: #1a1a24; border-bottom: 1px solid #2a2a3a; padding: 20px 32px; display: flex; align-items: center; gap: 16px; }
+  header h1 { font-size: 18px; font-weight: 600; color: #fff; }
+  header p { font-size: 13px; color: #888; margin-top: 2px; }
+  .badge { background: #2a2a3a; border: 1px solid #3a3a4a; border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #aaa; white-space: nowrap; }
+  .legend { display: flex; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #999; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.green { background: #22c55e; }
+  .dot.yellow { background: #f59e0b; }
+  .dot.red { background: #ef4444; }
+  .dot.blue { background: #60a5fa; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; height: calc(100vh - 70px); overflow: hidden; }
+
+  .agent-col { border-right: 1px solid #1e1e2e; display: flex; flex-direction: column; overflow: hidden; }
+  .agent-col:last-child { border-right: none; }
+  .col-header { padding: 14px 16px; background: #14141e; border-bottom: 1px solid #1e1e2e; flex-shrink: 0; }
+  .col-header h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+  .col-header .meta { font-size: 11px; color: #666; margin-top: 3px; }
+  .leo-header h2 { color: #a78bfa; }
+  .ivan-header h2 { color: #60a5fa; }
+  .mack-header h2 { color: #34d399; }
+
+  .col-scroll { flex: 1; overflow-y: auto; padding: 8px; }
+  .col-scroll::-webkit-scrollbar { width: 4px; }
+  .col-scroll::-webkit-scrollbar-track { background: transparent; }
+  .col-scroll::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 2px; }
+
+  .folder-item { margin: 2px 0; }
+  .folder-btn { width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 6px 8px; border-radius: 6px; display: flex; align-items: center; gap: 8px; transition: background 0.15s; color: #e0e0e8; }
+  .folder-btn:hover { background: #1e1e2e; }
+  .folder-btn.active { background: #1e1e2e; }
+  .folder-btn .icon { font-size: 13px; flex-shrink: 0; opacity: 0.8; }
+  .folder-btn .name { font-size: 12px; flex: 1; font-family: 'SF Mono', 'Fira Code', monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .folder-btn .score { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .score.green { background: #22c55e; box-shadow: 0 0 6px #22c55e66; }
+  .score.yellow { background: #f59e0b; box-shadow: 0 0 6px #f59e0b66; }
+  .score.red { background: #ef4444; box-shadow: 0 0 6px #ef444466; }
+  .score.blue { background: #60a5fa; box-shadow: 0 0 6px #60a5fa66; }
+
+  .folder-children { padding-left: 20px; border-left: 1px solid #1e1e2e; margin-left: 12px; }
+
+  .section-label { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 8px 4px; font-weight: 600; }
+
+  /* Detail panel — slides in from right as overlay */
+  .detail-overlay { position: fixed; right: 0; top: 70px; width: 420px; height: calc(100vh - 70px); background: #15151f; border-left: 1px solid #2a2a3a; transform: translateX(100%); transition: transform 0.2s ease; z-index: 100; display: flex; flex-direction: column; overflow: hidden; }
+  .detail-overlay.open { transform: translateX(0); }
+  .detail-header { padding: 16px 20px 12px; border-bottom: 1px solid #1e1e2e; flex-shrink: 0; }
+  .detail-header .path { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; color: #888; word-break: break-all; margin-bottom: 6px; }
+  .detail-header .title { font-size: 15px; font-weight: 600; color: #fff; }
+  .detail-header .close-btn { position: absolute; top: 14px; right: 16px; background: #2a2a3a; border: none; color: #aaa; cursor: pointer; width: 28px; height: 28px; border-radius: 6px; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .detail-header .close-btn:hover { background: #3a3a4a; color: #fff; }
+  .detail-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+  .detail-body::-webkit-scrollbar { width: 4px; }
+  .detail-body::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 2px; }
+
+  .rec-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 14px; }
+  .rec-badge.green { background: #052a14; border: 1px solid #22c55e44; color: #22c55e; }
+  .rec-badge.yellow { background: #2a1a00; border: 1px solid #f59e0b44; color: #f59e0b; }
+  .rec-badge.red { background: #2a0505; border: 1px solid #ef444444; color: #ef4444; }
+  .rec-badge.blue { background: #0a1a2a; border: 1px solid #60a5fa44; color: #60a5fa; }
+
+  .detail-section { margin-bottom: 16px; }
+  .detail-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #666; margin-bottom: 6px; }
+  .detail-section p { font-size: 13px; color: #ccc; line-height: 1.6; }
+  .detail-section ul { font-size: 12px; color: #aaa; padding-left: 16px; line-height: 1.8; }
+  .detail-section code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; background: #1e1e2e; padding: 2px 5px; border-radius: 3px; color: #a78bfa; }
+  .tag { display: inline-block; background: #1e1e2e; border: 1px solid #2a2a3a; border-radius: 4px; padding: 2px 7px; font-size: 11px; color: #888; margin: 2px; }
+
+  .unify-banner { background: #0a1a2a; border: 1px solid #60a5fa33; border-radius: 8px; padding: 12px; margin-bottom: 16px; }
+  .unify-banner .label { font-size: 11px; color: #60a5fa; font-weight: 600; margin-bottom: 4px; }
+  .unify-banner p { font-size: 12px; color: #aaa; line-height: 1.5; }
+
+  /* mobile fallback */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; height: auto; }
+    .agent-col { height: auto; max-height: none; }
+    .col-scroll { max-height: 400px; }
+    .detail-overlay { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Advaita Agent File System Audit</h1>
+    <p>Click any folder to see what's inside, why it exists, and whether to keep, adjust, or remove it.</p>
+  </div>
+  <div class="legend">
+    <div class="leg"><div class="dot green"></div> Keep</div>
+    <div class="leg"><div class="dot yellow"></div> Adjust/Consolidate</div>
+    <div class="leg"><div class="dot red"></div> Recommend Delete</div>
+    <div class="leg"><div class="dot blue"></div> Migrate to Drive</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ===== LEO COL ===== -->
+  <div class="agent-col">
+    <div class="col-header leo-header">
+      <h2>Leo (Orchestrator)</h2>
+      <div class="meta">Runtime: Agent SDK (Haiku) · iMac · openclaw user</div>
+    </div>
+    <div class="col-scroll">
+      <div class="section-label">Agent Identity</div>
+
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('leo-soul')">
+          <span class="icon">📄</span><span class="name">agents/leo/agent/SOUL.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('leo-soul-baks')">
+          <span class="icon">🗂</span><span class="name">agents/leo/agent/SOUL.md.bak.*</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('leo-auth')">
+          <span class="icon">🔑</span><span class="name">agents/leo/agent/auth-profiles.json</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('leo-sessions')">
+          <span class="icon">📁</span><span class="name">agents/leo/sessions/ (95 .jsonl)</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Memory</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('leo-sqlite')">
+          <span class="icon">🗃</span><span class="name">memory/leo.sqlite</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('soul-rules')">
+          <span class="icon">📋</span><span class="name">memory/SOUL_RULES.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('soul-status')">
+          <span class="icon">📊</span><span class="name">memory/SOUL_STATUS.md</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('all-sqlites')">
+          <span class="icon">🗃</span><span class="name">memory/*.sqlite (29 agents)</span><span class="score blue"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Workspace Config Files</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-soul')">
+          <span class="icon">📄</span><span class="name">workspace/SOUL.md</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-boot')">
+          <span class="icon">🚀</span><span class="name">workspace/BOOT.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-agents')">
+          <span class="icon">👥</span><span class="name">workspace/AGENTS.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-user')">
+          <span class="icon">👤</span><span class="name">workspace/USER.md</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-toolreg')">
+          <span class="icon">🛠</span><span class="name">workspace/tool-registry.json</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-channel')">
+          <span class="icon">💬</span><span class="name">workspace/CHANNEL_MAP.json</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-channel-contract')">
+          <span class="icon">📜</span><span class="name">workspace/CHANNEL_CONTRACT.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-budget')">
+          <span class="icon">💰</span><span class="name">workspace/BUDGET-GUARD.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-machines')">
+          <span class="icon">💻</span><span class="name">workspace/MACHINES.md</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-active-tasks')">
+          <span class="icon">✅</span><span class="name">workspace/active-tasks.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-stale-docs')">
+          <span class="icon">🗂</span><span class="name">workspace/SOUL.md.* backups (6+)</span><span class="score red"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Workspace — Operational Folders</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-scripts')">
+          <span class="icon">📁</span><span class="name">workspace/scripts/ (50+ .py)</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-memory')">
+          <span class="icon">📁</span><span class="name">workspace/memory/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-secrets')">
+          <span class="icon">🔐</span><span class="name">workspace/secrets/ (.env files)</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-logs')">
+          <span class="icon">📁</span><span class="name">workspace/logs/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-reports')">
+          <span class="icon">📁</span><span class="name">workspace/reports/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-ghl')">
+          <span class="icon">📁</span><span class="name">workspace/ghl/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-meta')">
+          <span class="icon">📁</span><span class="name">workspace/meta-ads/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-fdd')">
+          <span class="icon">📁</span><span class="name">workspace/fdd-data/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-legal')">
+          <span class="icon">📁</span><span class="name">workspace/legal/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-finance')">
+          <span class="icon">📁</span><span class="name">workspace/finance/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-research')">
+          <span class="icon">📁</span><span class="name">workspace/research/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-transcripts')">
+          <span class="icon">📁</span><span class="name">workspace/transcripts/</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-tmp')">
+          <span class="icon">📁</span><span class="name">workspace/tmp/</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-backups')">
+          <span class="icon">📁</span><span class="name">workspace/backups/</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-node')">
+          <span class="icon">📁</span><span class="name">workspace/node_modules/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-mapki')">
+          <span class="icon">📁</span><span class="name">workspace/mapki/ + mapki-nextjs/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-sixbrain')">
+          <span class="icon">📁</span><span class="name">workspace/sixbrain/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-audits')">
+          <span class="icon">📁</span><span class="name">workspace/audits/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ws-sam-piper')">
+          <span class="icon">📁</span><span class="name">workspace/sam/ piper/ harry/</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">System Infrastructure</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-openclaw-json')">
+          <span class="icon">⚙️</span><span class="name">openclaw.json (MASTER CONFIG)</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-identity')">
+          <span class="icon">🔐</span><span class="name">identity/ (device keys + registry)</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-gateway')">
+          <span class="icon">🌐</span><span class="name">gateway/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-crons')">
+          <span class="icon">⏰</span><span class="name">crons/ + cron/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-flows')">
+          <span class="icon">🔀</span><span class="name">flows/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-mcp')">
+          <span class="icon">🔌</span><span class="name">mcp-servers/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-secrets')">
+          <span class="icon">🔐</span><span class="name">secrets/ (.env files, root level)</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-delivery')">
+          <span class="icon">📨</span><span class="name">delivery-queue/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-agents-all')">
+          <span class="icon">📁</span><span class="name">agents/ (70+ agent workspaces)</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-workspace-agents')">
+          <span class="icon">📁</span><span class="name">workspace-[name]/ (50+ folders)</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-logs')">
+          <span class="icon">📁</span><span class="name">logs/ (root system logs)</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-backups')">
+          <span class="icon">📁</span><span class="name">backups/ + _backup_sessions/</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('oc-openclaw-baks')">
+          <span class="icon">🗂</span><span class="name">openclaw.json.bak.* (30+ copies)</span><span class="score red"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== IVAN-CC COL ===== -->
+  <div class="agent-col">
+    <div class="col-header ivan-header">
+      <h2>Ivan-CC (Claude Code)</h2>
+      <div class="meta">Runtime: Claude Code · iMac · ~/.claude/</div>
+    </div>
+    <div class="col-scroll">
+      <div class="section-label">Core Identity</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-claude-md')">
+          <span class="icon">📄</span><span class="name">~/.claude/CLAUDE.md</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-settings')">
+          <span class="icon">⚙️</span><span class="name">~/.claude/settings.json</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-settings-local')">
+          <span class="icon">⚙️</span><span class="name">~/.claude/settings.local.json</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Skills</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-skills')">
+          <span class="icon">📁</span><span class="name">~/.claude/skills/ (86 skills)</span><span class="score green"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Project Memory</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-mem-imac')">
+          <span class="icon">🧠</span><span class="name">projects/-Users-openclaw-Ivan---Imac/memory/</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-mem-agentsdk')">
+          <span class="icon">🧠</span><span class="name">projects/-Users-openclaw-Agent-SDK/memory/</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-mem-other')">
+          <span class="icon">🧠</span><span class="name">projects/-Users-openclaw--openclaw/memory/</span><span class="score blue"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-mem-archived')">
+          <span class="icon">🗂</span><span class="name">projects/_ARCHIVED-*/</span><span class="score red"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Session & Runtime</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-history')">
+          <span class="icon">📜</span><span class="name">~/.claude/history.jsonl</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-sessions')">
+          <span class="icon">📁</span><span class="name">~/.claude/sessions/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-scheduled')">
+          <span class="icon">⏰</span><span class="name">~/.claude/scheduled-tasks/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-channels')">
+          <span class="icon">💬</span><span class="name">~/.claude/channels/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-cache')">
+          <span class="icon">📁</span><span class="name">~/.claude/cache/</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-plugins')">
+          <span class="icon">🔌</span><span class="name">~/.claude/plugins/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-shell-snap')">
+          <span class="icon">📁</span><span class="name">~/.claude/shell-snapshots/</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-telemetry')">
+          <span class="icon">📊</span><span class="name">~/.claude/telemetry/</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Auth</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-notebooklm-auth')">
+          <span class="icon">🔑</span><span class="name">~/.notebooklm/storage_state.json</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">iCloud Bridge (Shared with Mack)</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-icloud')">
+          <span class="icon">☁️</span><span class="name">iCloud/claude-config/memory/</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-icloud-core')">
+          <span class="icon">📄</span><span class="name">iCloud/claude-config/memory/core-protocols.md</span><span class="score blue"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Ivan Workspace (in openclaw)</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-workspace')">
+          <span class="icon">📁</span><span class="name">.openclaw/workspace-ivan/</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-workspace-screenshots')">
+          <span class="icon">🖼</span><span class="name">.openclaw/workspace-ivan/*.png (screenshots)</span><span class="score red"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Ivan Agent Entry</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('ivan-agent-dir')">
+          <span class="icon">📁</span><span class="name">.openclaw/agents/ivan-cc/</span><span class="score green"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MACK COL ===== -->
+  <div class="agent-col">
+    <div class="col-header mack-header">
+      <h2>Mack (MacBook)</h2>
+      <div class="meta">Runtime: Claude Code · MacBook · ~/.claude/ · Strategy + Chrome</div>
+    </div>
+    <div class="col-scroll">
+
+      <div class="section-label">Core Identity (iCloud-Synced)</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-claude-md')">
+          <span class="icon">📄</span><span class="name">~/.claude/CLAUDE.md ☁️ (same as Ivan)</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-settings')">
+          <span class="icon">⚙️</span><span class="name">~/.claude/settings.json (DIFFERENT)</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Skills (Drive-Synced)</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-skills')">
+          <span class="icon">📁</span><span class="name">~/.claude/skills/ ☁️ (same 86 skills)</span><span class="score green"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Memory (THE FRAGMENTATION PROBLEM)</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-memory-problem')">
+          <span class="icon">⚠️</span><span class="name">projects/[MacBook-paths]/memory/ (isolated)</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-icloud-bridge')">
+          <span class="icon">☁️</span><span class="name">iCloud/claude-config/memory/ (bridge)</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Remote Access to Ivan</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-tailscale')">
+          <span class="icon">🌐</span><span class="name">Tailscale: openclaws-imac.tail503ee0.ts.net</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-finance-dash')">
+          <span class="icon">💰</span><span class="name">Tailscale: :8732 (finance dashboard)</span><span class="score green"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-ssh')">
+          <span class="icon">🔌</span><span class="name">SSH backup: 100.103.51.12</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Mack Session & Runtime</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-sessions')">
+          <span class="icon">📁</span><span class="name">~/.claude/sessions/ (MacBook-local)</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-history')">
+          <span class="icon">📜</span><span class="name">~/.claude/history.jsonl (MacBook-local)</span><span class="score yellow"></span>
+        </button>
+      </div>
+
+      <div class="section-label">Mack Workspace (in openclaw via Tailscale)</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-workspace-main')">
+          <span class="icon">📁</span><span class="name">.openclaw/workspace-main/ (on Ivan)</span><span class="score green"></span>
+        </button>
+      </div>
+
+      <div class="section-label">The Unification Gap</div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-gap-memory')">
+          <span class="icon">❌</span><span class="name">No shared memory with Ivan-CC</span><span class="score red"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-gap-secrets')">
+          <span class="icon">❌</span><span class="name">No direct secret access</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('mack-gap-config')">
+          <span class="icon">❌</span><span class="name">No access to openclaw.json</span><span class="score yellow"></span>
+        </button>
+      </div>
+      <div class="folder-item">
+        <button class="folder-btn" onclick="show('drive-unify')">
+          <span class="icon">🎯</span><span class="name">→ PROPOSED: Drive Unification Layer</span><span class="score blue"></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detail">
+  <div class="detail-header">
+    <div class="path" id="d-path"></div>
+    <div class="title" id="d-title"></div>
+    <button class="close-btn" onclick="closeDetail()">✕</button>
+  </div>
+  <div class="detail-body" id="d-body"></div>
+</div>
+
+<script>
+const data = {
+
+  /* ===== LEO ===== */
+  'leo-soul': {
+    path: '/Users/openclaw/.openclaw/agents/leo/agent/SOUL.md',
+    title: 'Leo SOUL.md — Core Identity',
+    score: 'green', label: 'Keep',
+    what: 'Defines who Leo is at the runtime level. Contains: model assignment (Haiku + Advisor mode), delegation-only rule ("never execute directly"), $45/day API budget cap, communication style rules, skill loading instructions, and the red line against claiming "no access" without checking tool-registry.json first.',
+    why: 'The openclaw Agent SDK runtime loads this file as the system prompt for every Leo session. Placed in agents/leo/agent/ because each agent needs an isolated identity file — if this were shared, one agent could overwrite another\'s identity.',
+    action: 'Keep as-is. This is functioning correctly. The only improvement would be making this the Drive-synced source of truth instead of a local file.',
+    tags: ['identity', 'runtime', 'model-config']
+  },
+  'leo-soul-baks': {
+    path: '/Users/openclaw/.openclaw/agents/leo/agent/SOUL.md.bak.apr11, .bak.apr15, .bak-apr20',
+    title: 'Leo SOUL.md Backup Files (3 copies)',
+    score: 'red', label: 'Recommend Delete',
+    what: '3 backup copies of SOUL.md from April 11, 15, and 20. These were created manually before making changes to Leo\'s identity rules.',
+    why: 'No automated backup system exists, so backups were created manually "just in case." They accumulate over time with no cleanup process.',
+    action: 'Once you have confirmed the current SOUL.md is correct, these can be deleted. Suggest replacing with a simple git repo for the agents/ directory so history is preserved automatically without manual .bak files.',
+    tags: ['backup', 'stale', 'clutter']
+  },
+  'leo-auth': {
+    path: '/Users/openclaw/.openclaw/agents/leo/agent/auth-profiles.json',
+    title: 'Leo Auth Profiles',
+    score: 'green', label: 'Keep',
+    what: 'Authentication tokens for Leo\'s openclaw runtime session — not Google/Anthropic keys, but the internal openclaw auth system that identifies this Leo instance to the gateway.',
+    why: 'Scoped to agents/leo/agent/ so each agent has isolated credentials. The gateway uses these to verify Leo\'s requests are legitimate.',
+    action: 'Keep. No action needed.',
+    tags: ['auth', 'runtime', 'identity']
+  },
+  'leo-sessions': {
+    path: '/Users/openclaw/.openclaw/agents/leo/sessions/ (95 .jsonl files + sessions.json)',
+    title: 'Leo Session Logs',
+    score: 'yellow', label: 'Adjust — Add Auto-Pruning',
+    what: '95 session log files, one per Leo boot since the system started. Each is a full JSONL transcript of that session. sessions.json is the live index the gateway uses to route messages to the right active session.',
+    why: 'JSONL format because sessions stream in real-time — you can\'t append to JSON mid-stream. Stored per-agent so the gateway can look up "is Leo in an active session right now?"',
+    action: 'Keep sessions.json and the last 10-14 session files. Files older than 30 days serve no operational purpose. Recommend a cron (Cody) to auto-archive sessions > 30 days to workspace/session-archives/ and delete after 90 days.',
+    tags: ['sessions', 'logs', 'auto-prune']
+  },
+  'leo-sqlite': {
+    path: '/Users/openclaw/.openclaw/memory/leo.sqlite',
+    title: "Leo's Memory Database",
+    score: 'blue', label: 'Migrate to Drive',
+    what: "Leo's persistent memory across sessions. Stores facts Bennett has shared, preferences, context that shouldn't be re-explained every session. Queried by the claude-mem MCP tool.",
+    why: 'Lives in /memory/ (not agents/leo/) because the memory system queries across ALL agent databases from one location. 29 total .sqlite files — one per agent.',
+    action: 'This is a top-priority item for the unification project. If this database lived on Google Drive or was synced there, Mack could access Leo\'s memory too. Short-term: ensure this is backed up to Drive daily. Long-term: HTTP API on Ivan that any agent can query.',
+    tags: ['memory', 'sqlite', 'unification-target']
+  },
+  'soul-rules': {
+    path: '/Users/openclaw/.openclaw/memory/SOUL_RULES.md',
+    title: 'SOUL_RULES.md — System-Wide Communication Rules',
+    score: 'green', label: 'Keep',
+    what: 'Contains the identity anchor ("you are Leo, not Mack, not Cody") and all communication rules: short sentences, no "On it" filler, emoji + 3-5 word title in main channel only, silence on green, max 2 posts/10min. Also contains Tiffany routing rules and red lines.',
+    why: 'Lives in /memory/ so it\'s loaded by the memory system BEFORE workspace files at every boot. If it were in /workspace/, it might not load during compaction recovery.',
+    action: 'Keep. This is a core system file.',
+    tags: ['identity', 'rules', 'communication']
+  },
+  'soul-status': {
+    path: '/Users/openclaw/.openclaw/memory/SOUL_STATUS.md',
+    title: 'SOUL_STATUS.md — Current System State',
+    score: 'yellow', label: 'Adjust — Fix 400-char Limit Violation',
+    what: 'Current operational snapshot: runtime status, active crons (50 gateway + 6 LaunchAgent), model assignments, API budget cap, Meta CAPI integration notes, attribution script status. Roger flagged it on Apr 21 for violating the 400-character limit.',
+    why: 'Single place to look for "what is the system doing right now" without running diagnostics. Updated manually after major changes.',
+    action: 'Trim to under 400 chars (strip the CAPI and attribution notes — those belong in workspace/scripts/ comments). Move verbose status to a separate SOUL_STATUS_VERBOSE.md that isn\'t subject to the limit.',
+    tags: ['status', 'size-violation', 'needs-trim']
+  },
+  'all-sqlites': {
+    path: '/Users/openclaw/.openclaw/memory/*.sqlite (29 agents)',
+    title: 'All Agent Memory Databases',
+    score: 'blue', label: 'Migrate to Shared Access',
+    what: 'One SQLite database per agent: leo, cody, sam, piper, demi, fred, harry, roger, dan, sally, ali, grok, connie (and variants), mary, pam, rachel, trevor, talon, jury, judge-gemini/gpt/opus, main, ady. Each stores that agent\'s persistent memory.',
+    why: 'Centralized in /memory/ so the memory MCP can scan across all agents. SQLite is local-only — no network access.',
+    action: 'This entire directory is the unification target. A read API on Ivan (HTTP) would let Mack and cloud agents access any agent\'s memory without needing local file access.',
+    tags: ['memory', 'all-agents', 'unification-target']
+  },
+  'ws-soul': {
+    path: '/Users/openclaw/.openclaw/workspace/SOUL.md',
+    title: 'Workspace SOUL.md (Leo Operational Copy)',
+    score: 'yellow', label: 'Clarify — Redundant with agents/leo/agent/SOUL.md',
+    what: 'A second copy of Leo\'s soul rules that lives in the shared workspace. Includes workspace-specific additions. Size limit: 4,000 chars (raised from 2,500 with Bennett approval Apr 9).',
+    why: 'Originally created because sub-agents in the workspace also needed to know Leo\'s rules. The dual-SOUL setup is intentional but confusing — agents/leo/agent/SOUL.md is loaded by the runtime; workspace/SOUL.md is read by agents during workspace operations.',
+    action: 'Consider consolidating: make agents/leo/agent/SOUL.md the single source and have workspace/SOUL.md be a symlink or just a one-line redirect. Currently these can drift apart and cause inconsistencies.',
+    tags: ['identity', 'redundant', 'consolidate']
+  },
+  'ws-boot': {
+    path: '/Users/openclaw/.openclaw/workspace/BOOT.md',
+    title: 'BOOT.md — Leo Session Checklist',
+    score: 'green', label: 'Keep',
+    what: '5-step checklist Leo runs at every session start: (1) read SOUL_RULES.md, (2) check active-tasks.md, (3) confirm gateway running, (4) confirm session count under 15, (5) confirm SOUL.md size, then post to #leo-auto. Also defines the failure protocol.',
+    why: 'After a compaction event, Leo loses all conversational memory. This file gives him a deterministic checklist to recover to operational state without asking Bennett what to do.',
+    action: 'Keep. Critical for reliability.',
+    tags: ['boot', 'recovery', 'reliability']
+  },
+  'ws-agents': {
+    path: '/Users/openclaw/.openclaw/workspace/AGENTS.md',
+    title: 'AGENTS.md — Full Agent Roster',
+    score: 'green', label: 'Keep (+ sync to Drive)',
+    what: 'Lists all 21+ agents with roles, red lines, workspace rules, group chat assignments. Leo reads this to know which agent handles what task. Also loaded by sub-agents to understand the team structure.',
+    why: 'Centralized roster prevents Leo from routing incorrectly. 8,000 char size limit enforced.',
+    action: 'Keep. Recommend adding a Drive copy so Mack and cloud agents can read the roster without Tailscale.',
+    tags: ['roster', 'routing', 'team']
+  },
+  'ws-user': {
+    path: '/Users/openclaw/.openclaw/workspace/USER.md',
+    title: 'USER.md — Bennett Profile',
+    score: 'blue', label: 'Migrate to Drive',
+    what: "Bennett's profile: goals, communication preferences, how he likes to receive information, his role at FKI, current priorities. Loaded at boot so agents know who they're helping.",
+    why: 'Separate from SOUL.md so it can be updated without touching identity files. Lives in workspace so all agents can access it.',
+    action: 'This should live in Google Drive so Mack gets the same profile without duplication. Currently Mack may have a stale or different version of Bennett\'s profile.',
+    tags: ['user-profile', 'unification-target', 'drive']
+  },
+  'ws-toolreg': {
+    path: '/Users/openclaw/.openclaw/workspace/tool-registry.json',
+    title: 'tool-registry.json — Available Tools Index',
+    score: 'blue', label: 'Migrate to Drive',
+    what: 'Master registry of all tools available to all agents — what APIs are connected, what CLI tools exist, which agents have access to what. Leo checks this before every task to avoid claiming "no access" incorrectly.',
+    why: 'Prevents a common failure mode where Leo would say "I can\'t do that" when the tool actually exists. Lives in workspace because it\'s operational reference, not identity.',
+    action: 'HIGH PRIORITY for Drive migration. Ivan-CC already has a memory file pointing to this. If it were in Drive, Mack could also check it before routing tasks.',
+    tags: ['tools', 'registry', 'unification-target']
+  },
+  'ws-channel': {
+    path: '/Users/openclaw/.openclaw/workspace/CHANNEL_MAP.json',
+    title: 'CHANNEL_MAP.json — Slack Channel IDs',
+    score: 'green', label: 'Keep',
+    what: 'Maps human-readable channel names to Slack IDs: #leo-auto=C0AKXT2S1T2, #leo-bennett=C0APWHBBHLP, #6-brain=C0AL3FJ8C04, Leo DM=D0AFXEJL2SK, Bennett=U08H07DMNTS, etc.',
+    why: 'Slack API requires IDs not names. Separate file so Leo can look up IDs without parsing SOUL.md. Also lets you change channel IDs without editing identity files.',
+    action: 'Keep. Already referenced in CLAUDE.md so Ivan-CC has it too.',
+    tags: ['slack', 'routing', 'ids']
+  },
+  'ws-channel-contract': {
+    path: '/Users/openclaw/.openclaw/workspace/CHANNEL_CONTRACT.md',
+    title: 'CHANNEL_CONTRACT.md — Posting Rules',
+    score: 'green', label: 'Keep',
+    what: 'Rules for what goes in which channel: main channel = emoji + 3-5 word title only; all detail goes in threads; silence on green (no post if nothing to report); max 2 posts per channel per 10 minutes.',
+    why: 'Without this, Leo would flood channels with verbose updates. The contract enforces communication discipline that Bennett set after early versions were too noisy.',
+    action: 'Keep.',
+    tags: ['slack', 'communication', 'rules']
+  },
+  'ws-budget': {
+    path: '/Users/openclaw/.openclaw/workspace/BUDGET-GUARD.md',
+    title: 'BUDGET-GUARD.md — API Budget Rules',
+    score: 'green', label: 'Keep',
+    what: '$45/day hard cap. Alert thresholds at $5 (info), $15 (warning), $30 (escalate), $45 (halt). Tiffany routing rule: cost > $0.10 → try Tiffany (free local compute) first before paid API.',
+    why: 'Separate file so Roger can audit budget rules independently. Having this in SOUL.md would make it harder to update thresholds without risking identity drift.',
+    action: 'Keep.',
+    tags: ['budget', 'cost', 'rules']
+  },
+  'ws-machines': {
+    path: '/Users/openclaw/.openclaw/workspace/MACHINES.md',
+    title: 'MACHINES.md — Machine Inventory',
+    score: 'blue', label: 'Migrate to Drive',
+    what: 'Lists all machines: iMac (Tailscale hostname, local IP, user), MacBook (Tailscale node, IP), any other devices. Includes SSH and HTTP access patterns.',
+    why: 'Leo needs this to know how to reach Mack or trigger Ivan-CC remotely. Lives in workspace so any agent can reference it.',
+    action: 'Move to Drive. This is exactly the kind of reference that should be available on any machine without Tailscale.',
+    tags: ['infrastructure', 'machines', 'drive']
+  },
+  'ws-active-tasks': {
+    path: '/Users/openclaw/.openclaw/workspace/active-tasks.md',
+    title: 'active-tasks.md — Current Task Queue',
+    score: 'green', label: 'Keep',
+    what: 'Wave state tracker — what tasks are pending, in-progress, or done. Leo reads at boot to resume after restarts. 2,000 byte size limit. Archive goes to active-tasks-archive.md.',
+    why: 'Without this, every restart requires Bennett to re-brief Leo on what was happening. This is Leo\'s working memory between sessions.',
+    action: 'Keep. The 2,000 byte limit is working — forces discipline in how tasks are described.',
+    tags: ['tasks', 'state', 'continuity']
+  },
+  'ws-stale-docs': {
+    path: '/Users/openclaw/.openclaw/workspace/SOUL.md.backup-*, .bak-*, .archive.*',
+    title: 'SOUL.md Backup Files in Workspace (6+ copies)',
+    score: 'red', label: 'Recommend Delete',
+    what: 'Multiple backup copies of workspace SOUL.md: backup-restructure, backup.apr2, bak-ivan-20260408, bak-mack-2026-04-08, bak.before-restore, bak.mack, bak.mack.apr8, bak.mack2, bak-mac-cc-20260408, new, pre-phase2-backup, archive.20260401.',
+    why: 'Created before structural changes. No automated system, so these pile up with each edit.',
+    action: 'All of these can be deleted once you confirm the current SOUL.md is correct. Use git instead — add the workspace/ directory to git tracking and you never need manual .bak files.',
+    tags: ['clutter', 'stale', 'delete']
+  },
+  'ws-scripts': {
+    path: '/Users/openclaw/.openclaw/workspace/scripts/ (50+ Python files)',
+    title: 'Scripts — Agent Operational Code',
+    score: 'green', label: 'Keep',
+    what: 'All Python scripts the agents run: attribution-daily.py, meta-capi-sync.py, tiffany-slack-listener.py, briefing-sdk.py, advisor-benchmark.py, fdd pipeline scripts, GHL sync scripts, and 40+ more. These are the actual automation.',
+    why: 'Centralized so any agent (via Cody) can execute them. Cody is the only agent allowed to run scripts — others request execution through Cody.',
+    action: 'Keep. This is the operational engine. Regular audit for dead scripts recommended (scripts that haven\'t run in 30+ days).',
+    tags: ['scripts', 'automation', 'core']
+  },
+  'ws-memory': {
+    path: '/Users/openclaw/.openclaw/workspace/memory/',
+    title: 'Workspace Memory Folder',
+    score: 'yellow', label: 'Adjust — Consolidate with /memory/',
+    what: 'Contains: daily logs (2026-04-01.md through 04-08.md), SOUL_RULES.md copy, active-tasks.md copy, active_projects.md, agents-archive snapshots, AUTH-STATE.md, SKILL_MANIFEST.md.',
+    why: 'Originally a separate workspace-level memory. Now partially redundant with /memory/ at the openclaw root. Both locations exist because different boot paths load from different directories.',
+    action: 'Consolidate. Root /memory/ should be the canonical location. Remove duplicate files from workspace/memory/ and update all boot paths to read from one place.',
+    tags: ['memory', 'duplicate', 'consolidate']
+  },
+  'ws-secrets': {
+    path: '/Users/openclaw/.openclaw/workspace/secrets/ (and root secrets/)',
+    title: 'Workspace Secrets (.env files)',
+    score: 'yellow', label: 'Adjust — Two secrets locations',
+    what: 'API credentials split across two folders: workspace/secrets/ and the root /secrets/. Contains: anthropic.env, ghl.env, gemini.env, google-ads.env, google-oauth.env, grok.env, meta-ads.env, elevenlabs.env, evomap.env, composio.env, github.env, and qb_credentials.env in workspace root.',
+    why: 'Originally all secrets were in workspace/secrets/. Root /secrets/ was added later. Now both exist and scripts reference different paths.',
+    action: 'Consolidate to root /secrets/ and update all script references. Having two secrets locations is a maintenance nightmare and security risk (you might update one and miss the other).',
+    tags: ['secrets', 'duplicate', 'security']
+  },
+  'ws-logs': {
+    path: '/Users/openclaw/.openclaw/workspace/logs/',
+    title: 'Workspace Logs',
+    score: 'yellow', label: 'Adjust — Add Auto-Rotation',
+    what: 'Runtime logs from scripts and crons. Grows indefinitely without cleanup.',
+    why: 'Scripts write logs here for debugging. No rotation policy currently.',
+    action: 'Add logrotate config: keep 7 days, compress after 1 day, delete after 30 days. Cody can set this up.',
+    tags: ['logs', 'maintenance', 'rotation']
+  },
+  'ws-reports': {
+    path: '/Users/openclaw/.openclaw/workspace/reports/',
+    title: 'Reports Output Folder',
+    score: 'yellow', label: 'Adjust — Move to Drive',
+    what: 'Generated reports (territory analysis, competitive intelligence, etc.). These are outputs, not configuration.',
+    why: 'Scripts write reports here as a default output location.',
+    action: 'Reports should go to Google Drive automatically after generation so Bennett can access them from any machine. Keep this as a staging folder, add auto-upload to Drive after creation.',
+    tags: ['outputs', 'drive', 'staging']
+  },
+  'ws-ghl': {
+    path: '/Users/openclaw/.openclaw/workspace/ghl/',
+    title: 'GHL Data Folder',
+    score: 'green', label: 'Keep',
+    what: 'GoHighLevel pipeline data, contact exports, campaign state. Used by GHL sync scripts and Piper.',
+    why: 'Local cache of GHL data for fast access without API calls every time.',
+    action: 'Keep. Ensure cache files have timestamps and are refreshed on a schedule.',
+    tags: ['ghl', 'crm', 'cache']
+  },
+  'ws-meta': {
+    path: '/Users/openclaw/.openclaw/workspace/meta-ads/',
+    title: 'Meta Ads Data',
+    score: 'green', label: 'Keep',
+    what: 'Meta/Facebook Ads data: campaign JSONs, weekly raw exports, full audit from Apr 10. Used by the CAPI sync script (live since Apr 20, 53 events sent first run).',
+    why: 'Local store for ad performance data and CAPI event tracking.',
+    action: 'Keep. Already has a well-defined pipeline.',
+    tags: ['meta', 'ads', 'capi']
+  },
+  'ws-fdd': {
+    path: '/Users/openclaw/.openclaw/workspace/fdd-data/',
+    title: 'FDD Pipeline Data',
+    score: 'green', label: 'Keep',
+    what: 'Franchise Disclosure Document processing data. The FDD batch process reads from here. Note: FDD batch has been down since Apr 21 at 16:29 CST with no auto-restart configured.',
+    why: 'Structured store for FDD documents and processing state.',
+    action: 'Keep the folder. Fix the FDD batch auto-restart — this is a separate issue flagged on Apr 21.',
+    tags: ['fdd', 'franchise', 'pipeline']
+  },
+  'ws-legal': {
+    path: '/Users/openclaw/.openclaw/workspace/legal/',
+    title: 'Legal Documents',
+    score: 'green', label: 'Keep',
+    what: 'Legal reference documents for Lex. Service of process docs, DD materials, attorney communication audit.',
+    why: 'Centralized so Lex agent can access without fetching from Drive every time.',
+    action: 'Keep. Consider Drive mirror for access from Mack.',
+    tags: ['legal', 'lex', 'documents']
+  },
+  'ws-finance': {
+    path: '/Users/openclaw/.openclaw/workspace/finance/',
+    title: 'Finance Data',
+    score: 'green', label: 'Keep',
+    what: 'Financial data folder. Finance dashboard runs on port 8732.',
+    why: 'Local store for financial data used by the finance dashboard and reporting scripts.',
+    action: 'Keep.',
+    tags: ['finance', 'dashboard']
+  },
+  'ws-research': {
+    path: '/Users/openclaw/.openclaw/workspace/research/',
+    title: 'Research Folder',
+    score: 'yellow', label: 'Adjust — Archive Old Research',
+    what: 'Roger\'s research outputs and raw dumps. Includes research-dump-apr4.md and other competitive intelligence.',
+    why: 'Staging area for Roger\'s research before it\'s synthesized into reports.',
+    action: 'Archive anything older than 60 days to workspace/session-archives/. Keep the folder.',
+    tags: ['research', 'roger', 'archive']
+  },
+  'ws-transcripts': {
+    path: '/Users/openclaw/.openclaw/workspace/transcripts/',
+    title: 'Call Transcripts',
+    score: 'blue', label: 'Migrate to Drive',
+    what: 'Sales call transcripts processed by Reed. Bennett pipeline calls, owner strategy transcripts.',
+    why: 'Reed reads from here. Scripts write processed transcripts here.',
+    action: 'Transcripts should be in Google Drive so Bennett can upload from any device and Reed can process them. Keep this as a local processing cache but make Drive the source.',
+    tags: ['transcripts', 'reed', 'drive']
+  },
+  'ws-tmp': {
+    path: '/Users/openclaw/.openclaw/workspace/tmp/',
+    title: 'Temp Files',
+    score: 'red', label: 'Recommend Delete (contents)',
+    what: 'Temporary working files created during script execution. Should be ephemeral.',
+    why: 'Scripts use /tmp/ as scratch space but don\'t always clean up.',
+    action: 'Safe to delete contents. Add a cron: delete anything in tmp/ older than 7 days.',
+    tags: ['temp', 'cleanup', 'cron']
+  },
+  'ws-backups': {
+    path: '/Users/openclaw/.openclaw/workspace/backups/',
+    title: 'Workspace Backups',
+    score: 'red', label: 'Review and Prune',
+    what: 'Manual backups created before major changes. Includes archive tar.gz from Mar 19 and other snapshots.',
+    why: 'Created manually as "just in case" before risky operations.',
+    action: 'Review what\'s here. Anything older than the last confirmed-working state can be deleted. Replace with git tracking.',
+    tags: ['backups', 'stale', 'prune']
+  },
+  'ws-node': {
+    path: '/Users/openclaw/.openclaw/workspace/node_modules/',
+    title: 'Node.js Dependencies',
+    score: 'yellow', label: 'Verify — Should be gitignored',
+    what: 'npm package dependencies for Node.js scripts in workspace (package.json, package-lock.json).',
+    why: 'Some workspace scripts use Node.js.',
+    action: 'Verify these are in .gitignore. node_modules should never be committed or synced. Run npm install to regenerate if needed.',
+    tags: ['node', 'dependencies', 'gitignore']
+  },
+  'ws-mapki': {
+    path: '/Users/openclaw/.openclaw/workspace/mapki/ + mapki-nextjs/ + mapki-viktor/',
+    title: 'Mapki Project Files (3 folders)',
+    score: 'yellow', label: 'Consolidate — 3 folders for one project',
+    what: 'Territory mapping dashboard project. Three separate folders: mapki/ (original), mapki-nextjs/ (Next.js rebuild), mapki-viktor/ (Viktor\'s version). Contains analytics, dashboard HTML, strategy docs.',
+    why: 'Evolved through 3 generations without cleaning up the old versions.',
+    action: 'Keep mapki-nextjs/ (the active version). Archive mapki/ and mapki-viktor/ to a single mapki-archive/ folder.',
+    tags: ['mapki', 'consolidate', 'project']
+  },
+  'ws-sixbrain': {
+    path: '/Users/openclaw/.openclaw/workspace/sixbrain/',
+    title: 'Six Brain Decision Engine Files',
+    score: 'green', label: 'Keep',
+    what: 'Outputs from the Six Brain decision framework: synthesis reports, schedule files.',
+    why: 'Six Brain is an active protocol. Results stored here for reference.',
+    action: 'Keep.',
+    tags: ['sixbrain', 'decisions', 'active']
+  },
+  'ws-audits': {
+    path: '/Users/openclaw/.openclaw/workspace/audits/',
+    title: 'Audit Reports',
+    score: 'yellow', label: 'Archive Old Ones',
+    what: 'System audit reports. Includes the full Advaita audit from Apr 6.',
+    why: 'Roger and Ivan-CC write audits here for review.',
+    action: 'Keep the last 3 audits. Archive older ones.',
+    tags: ['audits', 'roger', 'archive']
+  },
+  'ws-sam-piper': {
+    path: '/Users/openclaw/.openclaw/workspace/sam/ + piper/ + harry/',
+    title: 'Agent-Specific Output Folders',
+    score: 'yellow', label: 'Consolidate — Move to agent workspaces',
+    what: 'Output folders for specific agents: Sam (sales analysis), Piper (GHL updates), Harry (research). Each contains agent-specific outputs.',
+    why: 'Created organically as agents needed somewhere to write outputs.',
+    action: 'These should move to workspace-sam/, workspace-piper/, etc. (the established pattern). Having both workspace-[name]/ AND workspace/[name]/ is confusing.',
+    tags: ['agents', 'outputs', 'consolidate']
+  },
+  'oc-openclaw-json': {
+    path: '/Users/openclaw/.openclaw/openclaw.json',
+    title: 'openclaw.json — MASTER SYSTEM CONFIG',
+    score: 'green', label: 'Keep (+ Drive mirror)',
+    what: 'The single most important file in the system. Defines ALL agents (70+), their models, workspace paths, system prompts, API keys, gateway settings, and Slack configuration. This file IS the openclaw runtime.',
+    why: 'Central registry for the openclaw gateway. Every agent boot, every API call, every routing decision references this file. Never edit directly — route through Cody with review.',
+    action: 'Keep at this location (required by runtime). HOWEVER: create a sanitized read-only copy in Google Drive for disaster recovery. If the iMac fails and this file is lost, the entire system needs to be rebuilt from memory.',
+    tags: ['master-config', 'critical', 'backup']
+  },
+  'oc-identity': {
+    path: '/Users/openclaw/.openclaw/identity/ (device.json, device-auth.json, registry.sqlite)',
+    title: 'System Identity — Device Keys & Agent Registry',
+    score: 'green', label: 'Keep',
+    what: 'device.json: iMac device ID + Ed25519 key pair for signing. device-auth.json: per-agent auth tokens. registry.sqlite: database of all registered agents and their capabilities. current-conversations.json: live routing table.',
+    why: 'The openclaw gateway uses cryptographic signing to verify agent requests. Without these, the gateway can\'t authenticate.',
+    action: 'Keep. Back up device.json and registry.sqlite to a secure location (not Drive — too sensitive). Secure backup vault or 1Password.',
+    tags: ['identity', 'cryptography', 'critical']
+  },
+  'oc-gateway': {
+    path: '/Users/openclaw/.openclaw/gateway/',
+    title: 'Gateway — Message Routing Engine',
+    score: 'green', label: 'Keep',
+    what: 'The openclaw gateway process that routes Slack messages to the right agent. This is what makes Leo respond to @mentions. Also contains the HTTP server that Mack calls via Tailscale.',
+    why: 'The bridge between Slack and the Agent SDK. Without this running, no agents respond.',
+    action: 'Keep. Ensure LaunchAgent is configured to auto-restart on failure.',
+    tags: ['gateway', 'routing', 'critical']
+  },
+  'oc-crons': {
+    path: '/Users/openclaw/.openclaw/crons/ + cron/ (two folders)',
+    title: 'Cron Scripts (Two Folders — Needs Merge)',
+    score: 'yellow', label: 'Consolidate — Two cron folders',
+    what: '50 gateway crons + 6 LaunchAgent crons. Split across /crons/ and /cron/ (singular). Only confirmed file: ghl-cassidi-sync-weekly.sh.',
+    why: 'Two folders because crons/ was the original location and cron/ was added later. Neither was deprecated when the other was created.',
+    action: 'Merge to /crons/. Update all references. Run a full cron audit to verify which ones are active.',
+    tags: ['crons', 'duplicate', 'consolidate']
+  },
+  'oc-flows': {
+    path: '/Users/openclaw/.openclaw/flows/',
+    title: 'Workflow Definitions',
+    score: 'yellow', label: 'Audit — May be deprecated',
+    what: 'Workflow definition files for the openclaw flow system.',
+    why: 'The flow system was an earlier approach to multi-agent workflows before the Agent SDK migration.',
+    action: 'Audit: are these flows still referenced by any active scripts? If not, archive. The Agent SDK has replaced most flow-based orchestration.',
+    tags: ['flows', 'legacy', 'audit']
+  },
+  'oc-mcp': {
+    path: '/Users/openclaw/.openclaw/mcp-servers/',
+    title: 'MCP Server Configurations',
+    score: 'green', label: 'Keep',
+    what: 'Configuration for all MCP servers connected to Ivan-CC: Slack, Notion, GitHub, Google Drive, Calendar, QuickBooks, Google Ads, computer-use, Chrome control, etc.',
+    why: 'MCP servers extend Ivan-CC\'s capabilities beyond the base Claude API. Each config defines the server endpoint and auth.',
+    action: 'Keep. These are what give Ivan-CC all the tools you see in the sidebar.',
+    tags: ['mcp', 'tools', 'critical']
+  },
+  'oc-secrets': {
+    path: '/Users/openclaw/.openclaw/secrets/ (root level)',
+    title: 'Root Secrets Folder',
+    score: 'green', label: 'Keep (consolidate workspace/secrets here)',
+    what: 'anthropic.env, ghl.env, gemini.env, google-ads.env, google-oauth.env, grok.env, meta-ads.env, elevenlabs.env, evomap.env, composio.env, github.env. One .env file per integration.',
+    why: 'Root-level location keeps secrets separate from workspace and agent files. Each .env is one integration for easy rotation.',
+    action: 'Keep. Consolidate workspace/secrets/ into this folder and update all script references to one canonical path.',
+    tags: ['secrets', 'credentials', 'consolidate']
+  },
+  'oc-delivery': {
+    path: '/Users/openclaw/.openclaw/delivery-queue/',
+    title: 'Message Delivery Queue',
+    score: 'green', label: 'Keep',
+    what: 'Queue for outbound Slack messages. The gateway reads from here to rate-limit posting and avoid Slack rate limits.',
+    why: 'Without a queue, multiple agents posting simultaneously would get rate-limited or message orders would be wrong.',
+    action: 'Keep.',
+    tags: ['slack', 'queue', 'gateway']
+  },
+  'oc-agents-all': {
+    path: '/Users/openclaw/.openclaw/agents/ (70+ agent directories)',
+    title: 'All Agent Directories',
+    score: 'yellow', label: 'Audit — Many may be unused',
+    what: '70+ agent directories including: leo, cody, sam, piper, connie (12 variants), dan, demi, eric, fred, harry, judge-gemini/gpt/grok/opus, jury, leo, main, pam, rachel, reed, roger, sally, scribe, talon, trevor, viktor, and many more.',
+    why: 'Each agent in openclaw.json gets a directory. Some are active; some are experimental or deprecated.',
+    action: 'Audit which agents are actively referenced in openclaw.json and AGENTS.md. Archive directories for agents that no longer exist. This is probably 20-30 dead directories.',
+    tags: ['agents', 'audit', 'cleanup']
+  },
+  'oc-workspace-agents': {
+    path: '/Users/openclaw/.openclaw/workspace-[name]/ (50+ workspace folders)',
+    title: 'Per-Agent Workspace Folders',
+    score: 'yellow', label: 'Audit — Many may be empty or stale',
+    what: 'workspace-cody (1-7), workspace-connie (12 variants), workspace-leo, workspace-piper, workspace-ivan, workspace-main, workspace-boardroom, workspace-lex, workspace-dan, workspace-demi, workspace-eric, workspace-fred, workspace-roger, and more.',
+    why: 'Each active agent gets its own workspace folder with SOUL.md, AGENTS.md, IDENTITY.md, USER.md, BOOTSTRAP.md, HEARTBEAT.md, TOOLS.md.',
+    action: 'Audit which workspaces are actively used vs empty shells. The 7 cody variants (cody-1 through cody-7) are likely from parallel processing experiments and can probably be merged.',
+    tags: ['workspaces', 'agents', 'audit']
+  },
+  'oc-logs': {
+    path: '/Users/openclaw/.openclaw/logs/ (root system logs)',
+    title: 'System Logs (Root)',
+    score: 'yellow', label: 'Adjust — Add Rotation',
+    what: 'Root-level system logs from the gateway and core openclaw processes.',
+    why: 'System-level logs separate from workspace-level logs.',
+    action: 'Add rotation. Keep 30 days, compress after 7, delete after 90.',
+    tags: ['logs', 'rotation', 'maintenance']
+  },
+  'oc-backups': {
+    path: '/Users/openclaw/.openclaw/backups/ + _backup_sessions_20260228-144652/',
+    title: 'Old Backup Directories',
+    score: 'red', label: 'Recommend Delete After Review',
+    what: 'Session backups from Feb 28, 2026 (nearly 2 months old) and other old backup snapshots.',
+    why: 'Created during the original system setup. Never cleaned up.',
+    action: 'Review contents. If you haven\'t needed anything from these in 2 months, delete. Replace backup strategy with git.',
+    tags: ['backups', 'stale', 'delete']
+  },
+  'oc-openclaw-baks': {
+    path: '/Users/openclaw/.openclaw/openclaw.json.bak.* (30+ copies)',
+    title: 'openclaw.json Backup Files (30+ Copies)',
+    score: 'red', label: 'Prune — Keep Last 5',
+    what: '30+ dated backup copies of openclaw.json: .backup.1772288000, .backup.20260329-claude, .backup.20260330-133758-leo-fix, .backup.apr2, .bak-anthropic-*, .bak-connie-*, .bak-demi-*, .bak-haiku-*, .bak-ivan-cc-20260413, .bak-mac-cc-20260402, .bak-slack-disable-20260416, plus .clobbered.* files (15+).',
+    why: 'Every edit to openclaw.json creates a backup because the file is so critical. The .clobbered files are from conflict resolution. No automated pruning.',
+    action: 'Keep the 5 most recent .bak files. Delete everything older. The .clobbered files can all go — they were created during conflicts that are long resolved.',
+    tags: ['backups', 'clutter', 'prune']
+  },
+
+  /* ===== IVAN-CC ===== */
+  'ivan-claude-md': {
+    path: '/Users/openclaw/.claude/CLAUDE.md',
+    title: 'CLAUDE.md — Global Claude Code Instructions',
+    score: 'green', label: 'Keep (already unified)',
+    what: 'The master instruction file for Ivan-CC. Contains: boot identity check table (iMac=Ivan-CC, MacBook=Mack), all red lines, model rules (Leo=Haiku, Eric=Opus, all others=Gemini Flash), Google Doc share rule, memory routing rules, channel IDs, session close rule, skill routing.',
+    why: 'Claude Code loads CLAUDE.md from ~/.claude/ automatically at every session. iCloud-synced so Mack gets the same file. This is the ONE file that is already unified across machines.',
+    action: 'Keep as-is. Already working correctly. Keep under 3,500 chars (rule enforced). Current size: ~2,800 chars.',
+    tags: ['identity', 'global', 'unified', 'icloud']
+  },
+  'ivan-settings': {
+    path: '/Users/openclaw/.claude/settings.json',
+    title: 'settings.json — Ivan-CC Permissions & Hooks',
+    score: 'green', label: 'Keep',
+    what: 'Defines: allowed tools (Bash(*), Read(*), Edit(*), Write(*), python3, playwright), session start hooks (AUTOLOAD_CONTEXT message, SKILL_ROUTER message, iCloud git pull), Stop hooks, GitHub token env var, OPENCLAW_GITHUB env var.',
+    why: 'Ivan-CC needs broad permissions because it\'s the primary execution agent on iMac. The hooks run before every session to inject context into the system prompt.',
+    action: 'Keep. Review the GITHUB_TOKEN value periodically — tokens expire.',
+    tags: ['permissions', 'hooks', 'runtime']
+  },
+  'ivan-settings-local': {
+    path: '/Users/openclaw/.claude/settings.local.json',
+    title: 'settings.local.json — Local Overrides',
+    score: 'yellow', label: 'Audit — What\'s in here?',
+    what: 'Local overrides not synced to other machines. Contents not audited in this session.',
+    why: 'Claude Code supports local overrides for machine-specific config that shouldn\'t apply everywhere.',
+    action: 'Check what\'s in here. If empty or just defaults, can be removed. If it has iMac-specific overrides, document what they are.',
+    tags: ['settings', 'local', 'audit']
+  },
+  'ivan-skills': {
+    path: '/Users/openclaw/.claude/skills/ (86 skill folders)',
+    title: 'Skills — Google Drive Synced',
+    score: 'green', label: 'Keep (already the unified system)',
+    what: '86 skills synced from Google Drive folder 1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY. Includes: notebooklm, slack-skill, memory, leo-audit, secrets-index, tools-index, bootstrap, and 79 more. Each is a folder with SKILL.md.',
+    why: 'Drive-for-Desktop syncs these automatically. Google Drive is the SINGLE SOURCE OF TRUTH. Edit in Drive only.',
+    action: 'Keep. This is the model for unification — copy this pattern to memory, identity files, and tool registry.',
+    tags: ['skills', 'drive', 'unified', 'active']
+  },
+  'ivan-mem-imac': {
+    path: '/Users/openclaw/.claude/projects/-Users-openclaw-Ivan---Imac/memory/',
+    title: 'Ivan-CC Project Memory (iMac project space)',
+    score: 'blue', label: 'Migrate to Drive',
+    what: 'Contains: MEMORY.md (index), SOUL_RULES.md, core-protocols.md, agents-roster.md, bugs-known-issues.md, feedback_*.md (6 files), project_*.md (9 files), tool-access.md. This is Ivan-CC\'s working memory about the iMac environment.',
+    why: 'Claude Code auto-memory system writes here. Path derived from working directory hash. All files follow the name/description/type frontmatter format.',
+    action: 'This entire folder is a migration target. If these files were in Google Drive, they\'d be accessible from Mack and cloud agents without Tailscale. Short-term: back up here. Long-term: Drive as source of truth.',
+    tags: ['memory', 'auto-memory', 'migration-target']
+  },
+  'ivan-mem-agentsdk': {
+    path: '/Users/openclaw/.claude/projects/-Users-openclaw-Agent-SDK/memory/',
+    title: 'Ivan-CC Memory (Agent SDK project)',
+    score: 'blue', label: 'Migrate to Drive',
+    what: 'Memory for the Agent SDK workspace: MEMORY.md, reference_ghl_mcp.md, reference_skills_drive.md, reference_tool_registry.md, project_advaita_context.md, feedback_no_escalate_before_tools.md, feedback_exhaust_tools_before_bennett.md.',
+    why: 'Separate project memory because Claude Code uses the working directory to namespace memories.',
+    action: 'Same as above — migrate to Drive for cross-machine access.',
+    tags: ['memory', 'agent-sdk', 'migration-target']
+  },
+  'ivan-mem-other': {
+    path: '/Users/openclaw/.claude/projects/-Users-openclaw--openclaw/memory/',
+    title: 'Ivan-CC Memory (openclaw project)',
+    score: 'blue', label: 'Migrate to Drive',
+    what: 'Memory accumulated during sessions working in the ~/.openclaw/ directory.',
+    why: 'Third memory namespace, derived from the ~/.openclaw path.',
+    action: 'Consolidate all memory into one Drive folder. Having 3+ separate memory namespaces for the same agent (Ivan-CC) is the core fragmentation problem.',
+    tags: ['memory', 'fragmentation', 'consolidate']
+  },
+  'ivan-mem-archived': {
+    path: '/Users/openclaw/.claude/projects/_ARCHIVED-OpenClaw-CC-Imac/',
+    title: 'Archived Project Memory',
+    score: 'red', label: 'Review and Delete',
+    what: 'Old project memory from a previous workspace setup that was archived.',
+    why: 'Created when the project directory was restructured. Claude Code kept the old memory under a new _ARCHIVED- prefix.',
+    action: 'Review if any critical memories are here that weren\'t migrated to the current memory folders. Then delete.',
+    tags: ['archive', 'stale', 'delete']
+  },
+  'ivan-history': {
+    path: '/Users/openclaw/.claude/history.jsonl',
+    title: 'Claude Code Conversation History',
+    score: 'yellow', label: 'Adjust — Add Size Limit',
+    what: 'Full history of all Ivan-CC conversations in JSONL format. Can grow very large over months.',
+    why: 'Claude Code writes this automatically. Used for /resume and context recovery.',
+    action: 'Add periodic archiving: move conversations older than 30 days to an archive file. Claude Code supports this natively.',
+    tags: ['history', 'size', 'archive']
+  },
+  'ivan-sessions': {
+    path: '/Users/openclaw/.claude/sessions/',
+    title: 'Active Session State Files',
+    score: 'yellow', label: 'Adjust — Prune Old Sessions',
+    what: 'Session state for active Claude Code conversations. Allows /resume to work.',
+    why: 'Claude Code manages these. Old sessions persist unnecessarily.',
+    action: 'Prune sessions older than 14 days.',
+    tags: ['sessions', 'prune', 'maintenance']
+  },
+  'ivan-scheduled': {
+    path: '/Users/openclaw/.claude/scheduled-tasks/',
+    title: 'Scheduled Remote Agent Tasks',
+    score: 'green', label: 'Keep',
+    what: 'Cron-triggered Claude Code sessions — tasks that run on a schedule via the Claude Code scheduling system. Each task definition specifies the prompt and timing.',
+    why: 'The Claude Code native scheduling system. More reliable than shell crons for agent tasks.',
+    action: 'Keep. Audit periodically for dead tasks.',
+    tags: ['crons', 'scheduled', 'active']
+  },
+  'ivan-channels': {
+    path: '/Users/openclaw/.claude/channels/',
+    title: 'Channel Configuration',
+    score: 'green', label: 'Keep',
+    what: 'Configuration for Claude Code channel routing.',
+    why: 'Defines how Claude Code handles different input channels.',
+    action: 'Keep.',
+    tags: ['channels', 'config']
+  },
+  'ivan-cache': {
+    path: '/Users/openclaw/.claude/cache/',
+    title: 'Claude Code Cache',
+    score: 'red', label: 'Safe to Clear Periodically',
+    what: 'Cached API responses and file reads. Speeds up repeat operations.',
+    why: 'Automatic caching by Claude Code.',
+    action: 'Safe to clear periodically. Add to monthly maintenance routine.',
+    tags: ['cache', 'cleanup', 'maintenance']
+  },
+  'ivan-plugins': {
+    path: '/Users/openclaw/.claude/plugins/',
+    title: 'MCP Plugin Configurations',
+    score: 'green', label: 'Keep',
+    what: 'MCP server plugin definitions for Ivan-CC — all the tools in the sidebar (Slack, Notion, GitHub, Drive, Calendar, QB, computer-use, Chrome).',
+    why: 'Claude Code loads MCP servers from here at startup.',
+    action: 'Keep.',
+    tags: ['mcp', 'plugins', 'tools']
+  },
+  'ivan-shell-snap': {
+    path: '/Users/openclaw/.claude/shell-snapshots/',
+    title: 'Shell Snapshots',
+    score: 'red', label: 'Safe to Delete',
+    what: 'Snapshots of shell environment state at various points.',
+    why: 'Diagnostic tool — created when troubleshooting shell issues.',
+    action: 'Safe to delete. Not used in normal operations.',
+    tags: ['debug', 'stale', 'delete']
+  },
+  'ivan-telemetry': {
+    path: '/Users/openclaw/.claude/telemetry/',
+    title: 'Usage Telemetry',
+    score: 'yellow', label: 'Leave (managed by Claude Code)',
+    what: 'Usage and performance telemetry collected by Claude Code.',
+    why: 'Anthropic telemetry system — managed automatically.',
+    action: 'Leave alone. Claude Code manages this.',
+    tags: ['telemetry', 'anthropic', 'managed']
+  },
+  'ivan-notebooklm-auth': {
+    path: '/Users/openclaw/.notebooklm/storage_state.json',
+    title: 'NotebookLM OAuth Session',
+    score: 'yellow', label: 'Adjust — Needs Re-auth (expired Apr 2)',
+    what: 'Google OAuth cookies for the notebooklm-py CLI. Last updated April 2, 2026 — currently expired (confirmed today, auth fails).',
+    why: 'notebooklm-py stores auth state here by default. Shared across all notebooklm CLI calls from this user.',
+    action: 'Re-authenticate: run "notebooklm login" in Terminal. Note: the Google login flow must be completed in the browser — it cannot be scripted.',
+    tags: ['auth', 'notebooklm', 'expired']
+  },
+  'ivan-icloud': {
+    path: '~/Library/Mobile Documents/com~apple~CloudDocs/claude-config/memory/',
+    title: 'iCloud Memory Bridge',
+    score: 'green', label: 'Keep (expand this pattern)',
+    what: 'iCloud-synced directory accessible on both iMac and MacBook. Session start hook does "git pull" on this directory. Currently holds core-protocols.md.',
+    why: 'The only real-time file sync between iMac and MacBook that doesn\'t require Tailscale. Mack posts [MEMORY] tags to Slack and Ivan-CC manually syncs — this folder is the better approach.',
+    action: 'EXPAND this. Move more shared files here: USER.md, MACHINES.md, tool-registry.json, and the consolidated memory index. This is the low-tech version of the Drive unification layer.',
+    tags: ['icloud', 'bridge', 'unified', 'expand']
+  },
+  'ivan-icloud-core': {
+    path: 'iCloud/claude-config/memory/core-protocols.md',
+    title: 'core-protocols.md (iCloud)',
+    score: 'blue', label: 'Migrate to Drive (or keep both)',
+    what: 'Core agent protocols — shared across iMac and MacBook via iCloud. The foundational rules both machines need.',
+    why: 'iCloud sync is reliable for text files. This was the first file moved to the shared location.',
+    action: 'Keep in iCloud AND add to Drive for cloud agent access. Both sync paths serve different agent types.',
+    tags: ['protocols', 'icloud', 'core']
+  },
+  'ivan-workspace': {
+    path: '/Users/openclaw/.openclaw/workspace-ivan/',
+    title: "Ivan-CC's Workspace (in openclaw)",
+    score: 'yellow', label: 'Audit — Partially stale',
+    what: 'Ivan-CC\'s openclaw workspace: SOUL.md, AGENTS.md, BOOTSTRAP.md, HEARTBEAT.md, IDENTITY.md, TOOLS.md, USER.md. Also contains old screenshots from debugging sessions.',
+    why: 'Separate workspace from Leo\'s because Ivan-CC operates differently — no Slack routing, direct file access.',
+    action: 'Keep the config files. Delete the screenshots (chrome_active.png, ghl_*.png etc.) — these are debugging artifacts from specific past sessions.',
+    tags: ['workspace', 'cleanup', 'screenshots']
+  },
+  'ivan-workspace-screenshots': {
+    path: '/Users/openclaw/.openclaw/workspace-ivan/*.png (8 screenshots)',
+    title: 'Debug Screenshots in Ivan Workspace',
+    score: 'red', label: 'Recommend Delete',
+    what: 'chrome_active.png, chrome_front.png, chrome_region.png, chrome_resized.png, chrome_workflows.png, ghl_after_load.png, ghl_final.png, ghl_login_fresh.png, ghl_p2_state.png, ghl_state.png, ghl_workflows_page.png. Screenshots from browser automation debugging.',
+    why: 'Created during debugging of GHL browser automation sessions. Were never cleaned up.',
+    action: 'Delete all. No operational value.',
+    tags: ['screenshots', 'debug', 'delete']
+  },
+  'ivan-agent-dir': {
+    path: '/Users/openclaw/.openclaw/agents/ivan-cc/',
+    title: 'Ivan-CC Agent Directory (in openclaw)',
+    score: 'green', label: 'Keep',
+    what: 'Ivan-CC\'s agent registration in the openclaw system. Contains sessions/ folder for tracking Ivan-CC sessions from Leo\'s perspective.',
+    why: 'Even though Ivan-CC is Claude Code (not Agent SDK), it\'s registered in openclaw so Leo knows it exists and how to reach it.',
+    action: 'Keep.',
+    tags: ['agent', 'registration', 'openclaw']
+  },
+
+  /* ===== MACK ===== */
+  'mack-claude-md': {
+    path: '~/.claude/CLAUDE.md (MacBook)',
+    title: 'CLAUDE.md — Already Unified via iCloud',
+    score: 'green', label: 'Keep (already working)',
+    what: 'Exact same file as Ivan-CC\'s CLAUDE.md. iCloud keeps them in sync. Both machines boot with identical global instructions, red lines, model rules, and routing.',
+    why: 'iCloud sync via ~/Library/Mobile Documents/. The git pull in the session start hook ensures latest version is loaded.',
+    action: 'Already working. No action needed.',
+    tags: ['identity', 'unified', 'icloud']
+  },
+  'mack-settings': {
+    path: '~/.claude/settings.json (MacBook — DIFFERENT from Ivan)',
+    title: "Mack's settings.json — Different Permissions",
+    score: 'yellow', label: 'Adjust — Document the differences',
+    what: 'Mack has more restricted permissions than Ivan-CC. No Bash(*) wildcard — Mack uses HTTP/Tailscale to trigger actions on Ivan instead of running them locally. Different hooks reflect the MacBook environment.',
+    why: 'Intentionally different because Mack is a strategy/coordination agent, not an execution agent. Direct execution on MacBook could be dangerous.',
+    action: 'This divergence is INTENTIONAL — document it clearly. Add a comment in both settings.json files explaining why they differ and which one is for which machine. Current risk: no documentation means future confusion.',
+    tags: ['settings', 'intentional-difference', 'document']
+  },
+  'mack-skills': {
+    path: '~/.claude/skills/ (MacBook — same 86 skills)',
+    title: 'Mack Skills — Already Unified via Drive',
+    score: 'green', label: 'Keep (already working)',
+    what: 'Same 86 skills as Ivan-CC, synced from the same Google Drive folder. Drive-for-Desktop runs on MacBook and keeps skills in sync.',
+    why: 'This is the template for unification — it works.',
+    action: 'No action. This is the model to replicate for memory and config.',
+    tags: ['skills', 'drive', 'unified']
+  },
+  'mack-memory-problem': {
+    path: '~/.claude/projects/[MacBook-derived-paths]/memory/',
+    title: 'Mack Memory — THE Core Fragmentation Problem',
+    score: 'red', label: 'Fix — This is why you feel lost switching machines',
+    what: 'Claude Code derives memory paths from the local file system. On MacBook, paths look like /Users/[macbook-user]/... which creates completely different memory namespaces than iMac\'s /Users/openclaw/... paths. Result: Mack and Ivan-CC have zero shared memory.',
+    why: 'This is by design in Claude Code — memory is project-scoped. But it creates the "starting from scratch" problem you described.',
+    action: 'THREE PATHS FORWARD: (1) SHORT-TERM: Move shared memory files to iCloud bridge folder (already set up). (2) MEDIUM-TERM: Drive folder Memory/Shared/ that both machines write to and read from via the Drive MCP. (3) LONG-TERM: HTTP memory API on Ivan that all agents query regardless of machine.',
+    tags: ['memory', 'fragmentation', 'critical', 'fix-needed']
+  },
+  'mack-icloud-bridge': {
+    path: '~/Library/Mobile Documents/com~apple~CloudDocs/claude-config/memory/',
+    title: 'iCloud Bridge (MacBook side)',
+    score: 'yellow', label: 'Expand — This is the short-term fix',
+    what: 'Same iCloud directory as on iMac. Files here sync to both machines in real-time. Currently only holds core-protocols.md.',
+    why: 'iCloud is already set up and working. The session start hook does git pull here.',
+    action: 'Add these files here immediately: USER.md (Bennett profile), MACHINES.md, tool-registry.json snapshot, and a SHARED_MEMORY.md that both machines update. This is the fastest win.',
+    tags: ['icloud', 'bridge', 'expand', 'quick-win']
+  },
+  'mack-tailscale': {
+    path: 'https://openclaws-imac.tail503ee0.ts.net',
+    title: 'Tailscale — Mack\'s Primary Ivan Access',
+    score: 'green', label: 'Keep',
+    what: 'Tailscale HTTPS endpoint for Ivan\'s HTTP server. Mack calls this to trigger any action on Ivan that requires local file access, execution, or secrets. All Mack→Ivan communication goes here.',
+    why: 'Tailscale creates a secure private network between MacBook and iMac without VPN configuration. The 503ee0 network ID means only enrolled devices can access.',
+    action: 'Keep. Verify the HTTP server on Ivan restarts automatically if it crashes.',
+    tags: ['tailscale', 'networking', 'critical']
+  },
+  'mack-finance-dash': {
+    path: 'https://openclaws-imac.tail503ee0.ts.net:8732',
+    title: 'Finance Dashboard (HTTP only)',
+    score: 'green', label: 'Keep',
+    what: 'Finance dashboard running on Ivan, accessible from MacBook via Tailscale. HTTP only (not HTTPS) on port 8732.',
+    why: 'Finance data lives on Ivan; the dashboard renders it via a local web server.',
+    action: 'Keep. Note: HTTP only means this should NOT be accessed from untrusted networks.',
+    tags: ['finance', 'dashboard', 'tailscale']
+  },
+  'mack-ssh': {
+    path: 'SSH to 100.103.51.12 (Ivan Tailscale IP)',
+    title: 'SSH Backup Access',
+    score: 'yellow', label: 'Keep as backup only',
+    what: 'SSH access to Ivan as a fallback when the HTTP server is down.',
+    why: 'HTTP is primary; SSH is backup. The Red Line says "SSH backup only."',
+    action: 'Keep the capability but ensure it\'s documented as last resort. If using SSH frequently, the HTTP server has a problem that should be fixed.',
+    tags: ['ssh', 'backup', 'tailscale']
+  },
+  'mack-sessions': {
+    path: '~/.claude/sessions/ (MacBook-local)',
+    title: 'Mack Session Files',
+    score: 'yellow', label: 'Prune — Machine-local only',
+    what: 'Active session state for Mack\'s Claude Code conversations on MacBook.',
+    why: 'Same as Ivan-CC sessions but scoped to MacBook.',
+    action: 'Prune old sessions. No cross-machine value.',
+    tags: ['sessions', 'local', 'prune']
+  },
+  'mack-history': {
+    path: '~/.claude/history.jsonl (MacBook)',
+    title: 'Mack Conversation History (MacBook)',
+    score: 'yellow', label: 'Note — Separate from Ivan history',
+    what: 'Full history of Mack\'s conversations, completely separate from Ivan-CC\'s history.jsonl.',
+    why: 'Each machine has its own history. No sync.',
+    action: 'Keep locally. If you want searchable cross-machine history, the claude-mem MCP (observations/sessions system) already provides this at a higher level.',
+    tags: ['history', 'local', 'separate']
+  },
+  'mack-workspace-main': {
+    path: '/Users/openclaw/.openclaw/workspace-main/ (on Ivan, accessed via Tailscale)',
+    title: 'Mack\'s Primary Workspace (lives on Ivan)',
+    score: 'green', label: 'Keep',
+    what: 'Mack\'s operational workspace, which actually lives on the iMac and is accessed via Tailscale HTTP. Contains SOUL.md, AGENTS.md, BOOTSTRAP.md, HEARTBEAT.md, IDENTITY.md, USER.md, TOOLS.md.',
+    why: 'Mack\'s workspace is on Ivan so it persists even when MacBook is off. Mack reads/writes via the HTTP API.',
+    action: 'Keep. This is an elegant solution — Mack\'s state lives on the always-on iMac.',
+    tags: ['workspace', 'tailscale', 'on-ivan']
+  },
+  'mack-gap-memory': {
+    path: '(Gap) No shared memory between Mack and Ivan-CC',
+    title: 'Memory Gap — Root Cause of "Starting Over" Problem',
+    score: 'red', label: 'Fix This First',
+    what: 'Ivan-CC and Mack maintain completely separate memory namespaces. When you switch machines, all context Ivan-CC accumulated is invisible to Mack and vice versa. The only bridge is the manual [MEMORY] tag Slack protocol.',
+    why: 'Claude Code memory is path-derived and local-only by design. No built-in sync.',
+    action: 'Priority fix: Establish a Google Drive Memory/ folder. Both agents write key context there. The Drive MCP lets both read it. Pattern: Memory/Ivan/, Memory/Mack/, Memory/Shared/. Use the skills folder as the template — it already works across both machines.',
+    tags: ['gap', 'memory', 'fix-first', 'fragmentation']
+  },
+  'mack-gap-secrets': {
+    path: '(Gap) Mack has no direct secret access',
+    title: 'Secrets Gap — Mack Must Proxy Through Ivan',
+    score: 'yellow', label: 'Acceptable for now',
+    what: 'All API keys live in Ivan\'s secrets/ folder. Mack can\'t read them directly — must call Ivan\'s HTTP API to use them.',
+    why: 'Security design: secrets stay on the always-on iMac. MacBook could be lost/stolen; the Tailscale proxy means credentials never travel to the MacBook.',
+    action: 'This is actually the right design. Only issue: if Ivan goes offline, Mack loses access to all integrations. Document this dependency clearly.',
+    tags: ['secrets', 'proxy', 'acceptable']
+  },
+  'mack-gap-config': {
+    path: '(Gap) Mack cannot read openclaw.json',
+    title: 'Config Gap — Master Config Invisible to Mack',
+    score: 'yellow', label: 'Mitigate with Drive mirror',
+    what: 'openclaw.json defines all agents, but Mack can\'t read it without Tailscale + SSH.',
+    why: 'Security and consistency — only Leo and Cody should modify the master config.',
+    action: 'Create a sanitized read-only summary in Drive: which agents exist, what they do, their Slack handles. Not the full JSON (too sensitive) but enough for Mack to understand the system without Tailscale.',
+    tags: ['config', 'gap', 'drive-mirror']
+  },
+  'drive-unify': {
+    path: 'Google Drive → Proposed Unification Layer',
+    title: 'PROPOSED: Drive-Based Unified Agent OS',
+    score: 'blue', label: 'Build This',
+    what: 'Using Google Drive as the shared layer that all agents (Leo, Ivan-CC, Mack, cloud agents) can read and write. Pattern proven by the skills folder. Proposed structure: /Advaita Skills/ (✅ done), /Memory/Shared/ + /Memory/Ivan/ + /Memory/Mack/ + /Memory/Leo/, /Identities/Leo.md + Ivan.md + Mack.md/, /Config/agent-roster.md + machines.md + tool-registry.md/, /Transcripts/ (Bennett uploads from any device).',
+    why: 'Skills migration on Apr 21 proved this works. Drive MCP gives cloud agents access; Drive-for-Desktop gives iMac and MacBook access. iCloud is good for 2-machine sync but doesn\'t help cloud agents.',
+    action: 'Start with Memory/Shared/ — move the 5 most critical shared files there this week. Then add Identity files. Config last (most sensitive).',
+    tags: ['drive', 'unification', 'architecture', 'build']
+  }
+};
+
+let activeBtn = null;
+
+function show(id) {
+  const d = data[id];
+  if (!d) return;
+
+  if (activeBtn) activeBtn.classList.remove('active');
+  const btns = document.querySelectorAll(`[onclick="show('${id}')"]`);
+  if (btns.length) { activeBtn = btns[0]; activeBtn.classList.add('active'); }
+
+  document.getElementById('d-path').textContent = d.path;
+  document.getElementById('d-title').textContent = d.title;
+
+  const labels = { green: 'Keep', yellow: 'Adjust / Consolidate', red: 'Recommend Delete', blue: 'Migrate to Drive' };
+  const icons = { green: '✅', yellow: '⚠️', red: '🗑', blue: '🚀' };
+
+  document.getElementById('d-body').innerHTML = `
+    <div class="rec-badge ${d.score}">${icons[d.score]} ${d.label}</div>
+    ${d.score === 'red' ? '<div class="unify-banner"><div class="label">Note</div><p>Ivan-CC will not delete anything. This is a recommendation only. You decide what to remove.</p></div>' : ''}
+    <div class="detail-section">
+      <h4>What\'s inside</h4>
+      <p>${d.what}</p>
+    </div>
+    <div class="detail-section">
+      <h4>Why it\'s at this path</h4>
+      <p>${d.why}</p>
+    </div>
+    <div class="detail-section">
+      <h4>Recommended action</h4>
+      <p>${d.action}</p>
+    </div>
+    <div class="detail-section">
+      <h4>Tags</h4>
+      <div>${d.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    </div>
+  `;
+
+  document.getElementById('detail').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detail').classList.remove('open');
+  if (activeBtn) { activeBtn.classList.remove('active'); activeBtn = null; }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+</script>
+</body>
+</html>
