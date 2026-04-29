@@ -264,14 +264,17 @@ const kids = [
 ];
 
 const habits = [
-  {task:'Brush teeth (morning)',        time:2,  pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Brush teeth (morning)',         time:2,  pts:5,  who:['Harvey','Lila','Mia']},
   {task:'Brush teeth (night)',           time:2,  pts:5,  who:['Harvey','Lila','Mia']},
   {task:'Make bed',                      time:5,  pts:5,  who:['Harvey','Lila','Mia']},
   {task:'Pick up toys / floor',          time:5,  pts:5,  who:['Harvey','Lila','Mia']},
   {task:'Clear plate after meal',        time:2,  pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Shoes & backpack ready (school)',time:3, pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Fill toilet paper roll',        time:1,  pts:5,  who:['Harvey','Lila','Mia']},
   {task:'Unload dishwasher',             time:10, pts:20, who:['Harvey','Lila','Mia']},
   {task:'Set the table',                 time:5,  pts:10, who:['Lila','Mia']},
   {task:'Help with laundry (sort/fold)', time:15, pts:15, who:['Lila','Mia']},
+  {task:'Reading log (school program)',  time:15, pts:10, who:['Harvey','Lila','Mia'], bonus:true},
   {task:'Yoga / Exercise (15 min)',      time:15, pts:20, who:['Harvey','Lila','Mia'], bonus:true},
   {task:'Errands / Walmart run',         time:15, pts:5,  who:['Harvey','Lila','Mia'], bonus:true}
 ];
@@ -297,17 +300,22 @@ const diffCfg = {
 };
 
 const groups = [
-  {id:'avatar',   type:'daily',  icon:'📺', name:'Nightly Avatar / Show',     thresh:'All 3 brush teeth tonight', cost:0},
-  {id:'icecream', type:'easy',   icon:'🍦', name:"Ice cream at Macy's",       thresh:'75 group pts',  cost:10},
-  {id:'park',     type:'easy',   icon:'🌳', name:'Park hopping',              thresh:'60 group pts',  cost:0},
-  {id:'biking',   type:'easy',   icon:'🚴', name:'Murdoch Trail (biking)',    thresh:'60 group pts',  cost:0},
-  {id:'pickle',   type:'easy',   icon:'🏓', name:'Pickleball',                thresh:'60 group pts',  cost:0},
-  {id:'pool',     type:'medium', icon:'🏊', name:"Swimming (Grandpa's pool)", thresh:'80 group pts',  cost:0},
-  {id:'arcade',   type:'medium', icon:'🕹️', name:'Nickel Arcade',             thresh:'100 group pts', cost:20},
-  {id:'dinner',   type:'medium', icon:'🍽️', name:'Out to dinner',              thresh:'120 group pts', cost:40},
-  {id:'bowling',  type:'big',    icon:'🎳', name:'Bowling',                   thresh:'140 group pts', cost:45},
-  {id:'minigolf', type:'big',    icon:'⛳', name:'Mini golf',                 thresh:'130 group pts', cost:35},
-  {id:'movies',   type:'big',    icon:'🎬', name:'Movies',                    thresh:'150 group pts', cost:50}
+  {id:'avatar',   type:'daily',  icon:'📺', name:'Nightly Avatar / Show',      thresh:'All 3 brush teeth tonight', cost:0},
+  {id:'tacotuez', type:'daily',  icon:'🌮', name:'Taco Tuesday dinner out',    thresh:'All 3 brush teeth + make bed', cost:0},
+  {id:'icecream', type:'easy',   icon:'🍦', name:"Ice cream run",              thresh:'75 group pts',  cost:10},
+  {id:'park',     type:'easy',   icon:'🌳', name:'Park hopping',               thresh:'60 group pts',  cost:0},
+  {id:'biking',   type:'easy',   icon:'🚴', name:'Murdoch Trail (biking)',     thresh:'60 group pts',  cost:0},
+  {id:'pickle',   type:'easy',   icon:'🏓', name:'Pickleball',                 thresh:'60 group pts',  cost:0},
+  {id:'hiking',   type:'easy',   icon:'🥾', name:'Hiking day (school off)',    thresh:'65 group pts',  cost:0},
+  {id:'txroadhse',type:'easy',   icon:'🤠', name:'Texas Roadhouse lunch',      thresh:'75 group pts',  cost:40},
+  {id:'pool',     type:'medium', icon:'🏊', name:"Swimming (Grandpa's pool)",  thresh:'80 group pts',  cost:0},
+  {id:'ninjapk',  type:'medium', icon:'🤸', name:'Ninja Kids park',            thresh:'90 group pts',  cost:30},
+  {id:'arcade',   type:'medium', icon:'🕹️', name:'Nickel Arcade',              thresh:'100 group pts', cost:20},
+  {id:'dinner',   type:'medium', icon:'🍽️', name:'Out to dinner',               thresh:'120 group pts', cost:40},
+  {id:'bowling',  type:'big',    icon:'🎳', name:'Bowling',                    thresh:'140 group pts', cost:45},
+  {id:'minigolf', type:'big',    icon:'⛳', name:'Mini golf',                  thresh:'130 group pts', cost:35},
+  {id:'movies',   type:'big',    icon:'🎬', name:'Movies',                     thresh:'150 group pts', cost:50},
+  {id:'lakepow',  type:'big',    icon:'🏕️', name:'Lake Powell trip',           thresh:'180 group pts', cost:0}
 ];
 
 const groupCfg = {
@@ -319,40 +327,61 @@ const groupCfg = {
 
 // Store items — kids spend points here (points go DOWN)
 const storeItems = [
-  {id:'tab15',   cat:'📱 Screen Time', icon:'📱', name:'15 min tablet',     pts:20,  desc:'Extra screen time'},
-  {id:'tab30',   cat:'📱 Screen Time', icon:'📱', name:'30 min tablet',     pts:40,  desc:'Extra screen time'},
-  {id:'tab60',   cat:'📱 Screen Time', icon:'📱', name:'1 hr tablet',       pts:80,  desc:'Extra screen time'},
-  {id:'movie',   cat:'🎬 Family Picks', icon:'🎬', name:'Pick the movie',    pts:30,  desc:'You choose movie night'},
-  {id:'dinner',  cat:'🎬 Family Picks', icon:'🍕', name:'Pick dinner',       pts:25,  desc:'You choose what\'s for dinner'},
-  {id:'bed30',   cat:'🌙 Bedtime',      icon:'🌙', name:'Stay up 30 min late', pts:35, desc:'One night pass'},
-  {id:'friend',  cat:'🎉 Special',      icon:'🎉', name:'Friend sleepover',  pts:100, desc:'Invite a friend to stay over'},
-  {id:'treat',   cat:'🎉 Special',      icon:'🍭', name:'Special treat',     pts:15,  desc:'Ice cream, popsicle, candy'},
-  {id:'nobed',   cat:'🌙 Bedtime',      icon:'😴', name:'Skip bedtime chore', pts:20, desc:'One free pass (one chore)'},
-  {id:'game',    cat:'🎉 Special',      icon:'🎮', name:'30 min video game', pts:30,  desc:'Extra game time'},
+  // Screen Time
+  {id:'tab15',     cat:'📱 Screen Time',   icon:'📱', name:'15 min tablet',          pts:20,  desc:'Extra screen time'},
+  {id:'tab30',     cat:'📱 Screen Time',   icon:'📱', name:'30 min tablet',          pts:40,  desc:'Extra screen time'},
+  {id:'tab60',     cat:'📱 Screen Time',   icon:'📱', name:'1 hr tablet',            pts:80,  desc:'Extra screen time'},
+  {id:'netflix30', cat:'📱 Screen Time',   icon:'🎬', name:'Netflix 30 min',         pts:35,  desc:'Pick what to watch on Netflix'},
+  {id:'youtube30', cat:'📱 Screen Time',   icon:'▶️',  name:'YouTube 30 min',         pts:25,  desc:'Your choice on YouTube'},
+  {id:'game',      cat:'📱 Screen Time',   icon:'🎮', name:'30 min video game',      pts:30,  desc:'Extra game time'},
+  // Restaurants & Food
+  {id:'txroadhse', cat:'🍔 Restaurants',   icon:'🤠', name:'Texas Roadhouse lunch',  pts:75,  desc:'Yee-haw! Rolls & honey butter 🧈'},
+  {id:'tacotuey',  cat:'🍔 Restaurants',   icon:'🌮', name:'Pick Taco Tuesday spot', pts:30,  desc:'You choose where we get tacos'},
+  {id:'icecream2', cat:'🍔 Restaurants',   icon:'🍦', name:'Ice cream outing',       pts:35,  desc:'Mango pineapple, strawberry, chocolate...'},
+  {id:'donuts',    cat:'🍔 Restaurants',   icon:'🍩', name:'Donut run',              pts:20,  desc:'Pink donuts, warmed up — yummy!'},
+  {id:'dinnerout', cat:'🍔 Restaurants',   icon:'🍽️', name:'Pick dinner restaurant', pts:40,  desc:'You choose where the family eats'},
+  // Family Picks
+  {id:'movie',     cat:'🎬 Family Picks',  icon:'🍿', name:'Pick the movie',         pts:30,  desc:'You choose movie night'},
+  {id:'dinner',    cat:'🎬 Family Picks',  icon:'🍕', name:'Pick dinner (home)',      pts:25,  desc:'You choose what\'s for dinner at home'},
+  {id:'ninjapk',   cat:'🎬 Family Picks',  icon:'🤸', name:'Ninja Kids park trip',   pts:90,  desc:'Confirmed Maxwell family fav!'},
+  // Bedtime
+  {id:'bed30',     cat:'🌙 Bedtime',       icon:'🌙', name:'Stay up 30 min late',    pts:35,  desc:'One night pass'},
+  {id:'nobed',     cat:'🌙 Bedtime',       icon:'😴', name:'Skip a bedtime chore',   pts:20,  desc:'One free pass on one chore'},
+  // Special
+  {id:'treat',     cat:'🎉 Special',       icon:'🍭', name:'Special treat',          pts:15,  desc:'Ice cream, popsicle, candy'},
+  {id:'friend',    cat:'🎉 Special',       icon:'🎉', name:'Friend sleepover',       pts:100, desc:'Invite a friend to stay over'},
+  {id:'puppy',     cat:'🎉 Special',       icon:'🐶', name:"Harvey's Puppy Fund",    pts:500, desc:'Save up enough and we get a puppy! 🐾'},
 ];
 
-const storeCategories = ['📱 Screen Time', '🎬 Family Picks', '🌙 Bedtime', '🎉 Special'];
+const storeCategories = ['📱 Screen Time', '🍔 Restaurants', '🎬 Family Picks', '🌙 Bedtime', '🎉 Special'];
 
 // Badges definition
 const badgeDefs = [
-  {id:'first10',   icon:'⭐', name:'First 10 pts',    cond: (s) => s.total >= 10},
-  {id:'first50',   icon:'🌟', name:'50 pts earned',   cond: (s) => s.total >= 50},
-  {id:'first100',  icon:'💫', name:'100 pts club',    cond: (s) => s.total >= 100},
-  {id:'first250',  icon:'🏅', name:'250 pts legend',  cond: (s) => s.total >= 250},
-  {id:'streak3',   icon:'🔥', name:'3-day streak',    cond: (s) => s.streak >= 3},
-  {id:'streak7',   icon:'🔥🔥', name:'7-day streak',  cond: (s) => s.streak >= 7},
-  {id:'habits10',  icon:'✅', name:'10 habits done',  cond: (s) => s.habitsTotal >= 10},
-  {id:'habits50',  icon:'💪', name:'50 habits done',  cond: (s) => s.habitsTotal >= 50},
-  {id:'bonus5',    icon:'🎁', name:'5 bonus pts',     cond: (s) => s.bonusCount >= 5},
-  {id:'spender',   icon:'🛍️', name:'First purchase',  cond: (s) => s.purchases >= 1},
-  {id:'saver',     icon:'💰', name:'Saved 200 pts',   cond: (s) => s.totalEarned >= 200},
-  {id:'yoga',      icon:'🧘', name:'Yoga warrior',    cond: (s) => s.yogaCount >= 3},
+  {id:'first10',   icon:'⭐',  name:'First 10 pts',     cond: (s) => s.totalEarned >= 10},
+  {id:'first50',   icon:'🌟',  name:'50 pts earned',    cond: (s) => s.totalEarned >= 50},
+  {id:'first100',  icon:'💫',  name:'100 pts club',     cond: (s) => s.totalEarned >= 100},
+  {id:'first250',  icon:'🏅',  name:'250 pts legend',   cond: (s) => s.totalEarned >= 250},
+  {id:'first500',  icon:'👑',  name:'500 pts royalty',  cond: (s) => s.totalEarned >= 500},
+  {id:'streak3',   icon:'🔥',  name:'3-day streak',     cond: (s) => s.streak >= 3},
+  {id:'streak7',   icon:'🔥🔥',name:'7-day streak',     cond: (s) => s.streak >= 7},
+  {id:'habits10',  icon:'✅',  name:'10 habits done',   cond: (s) => s.habitsTotal >= 10},
+  {id:'habits50',  icon:'💪',  name:'50 habits done',   cond: (s) => s.habitsTotal >= 50},
+  {id:'bonus5',    icon:'🎁',  name:'5 bonus adds',     cond: (s) => s.bonusCount >= 5},
+  {id:'spender',   icon:'🛍️',  name:'First purchase',   cond: (s) => s.purchases >= 1},
+  {id:'saver',     icon:'💰',  name:'Saved 200 pts',    cond: (s) => s.totalEarned >= 200},
+  {id:'yoga',      icon:'🧘',  name:'Yoga warrior',     cond: (s) => s.yogaCount >= 3},
+  {id:'dance',     icon:'💃',  name:'Dance star',       cond: (s) => s.danceCount >= 3},
+  {id:'helper',    icon:'🫂',  name:'Helper hero',      cond: (s) => s.siblingCount >= 3},
+  {id:'taco',      icon:'🌮',  name:'Taco champ',       cond: (s) => s.habitsTotal >= 25},
+  {id:'puppyfund', icon:'🐶',  name:'Puppy saver',      cond: (s) => s.totalEarned >= 300},
 ];
 
 const bonusCats = [
   {id:'yoga',    icon:'🧘', name:'Yoga / Exercise', pts:20},
+  {id:'dance',   icon:'💃', name:'Dance class', pts:15},
   {id:'errand',  icon:'🛒', name:'Errands / Walmart', pts:5},
   {id:'reading', icon:'📚', name:'Extra Reading', pts:10},
+  {id:'sibling', icon:'🫂', name:'Helped a sibling', pts:10},
   {id:'kind',    icon:'🤝', name:'Random Kindness', pts:10},
   {id:'clean',   icon:'🧹', name:'Extra Cleaning', pts:15},
   {id:'custom',  icon:'✨', name:'Custom Amount', pts:null}
@@ -394,10 +423,14 @@ function getBonusLog()   { return lsGet('chore-v1-bonus', []); }
 function getPurchases(n) { return lsGet('chore-v1-purchases-' + n, []); }
 function getHabitsTotal(n){ return lsGet('chore-v1-habits-total-' + n, 0); }
 function addHabitsTotal(n, v){ lsSet('chore-v1-habits-total-' + n, getHabitsTotal(n) + v); }
-function getYogaCount(n) { return lsGet('chore-v1-yoga-' + n, 0); }
-function addYoga(n)      { lsSet('chore-v1-yoga-' + n, getYogaCount(n) + 1); }
-function getBonusCount(n){ return lsGet('chore-v1-bonus-count-' + n, 0); }
-function addBonusCount(n){ lsSet('chore-v1-bonus-count-' + n, getBonusCount(n) + 1); }
+function getYogaCount(n)    { return lsGet('chore-v1-yoga-' + n, 0); }
+function addYoga(n)         { lsSet('chore-v1-yoga-' + n, getYogaCount(n) + 1); }
+function getDanceCount(n)   { return lsGet('chore-v1-dance-' + n, 0); }
+function addDance(n)        { lsSet('chore-v1-dance-' + n, getDanceCount(n) + 1); }
+function getSiblingCount(n) { return lsGet('chore-v1-sibling-' + n, 0); }
+function addSibling(n)      { lsSet('chore-v1-sibling-' + n, getSiblingCount(n) + 1); }
+function getBonusCount(n)   { return lsGet('chore-v1-bonus-count-' + n, 0); }
+function addBonusCount(n)   { lsSet('chore-v1-bonus-count-' + n, getBonusCount(n) + 1); }
 function getChallenge()  { return lsGet('chore-v1-challenge', null); }
 function setChallenge(c) { lsSet('chore-v1-challenge', c); }
 
@@ -412,7 +445,9 @@ function kidStats(name) {
     habitsTotal: getHabitsTotal(name),
     bonusCount: getBonusCount(name),
     purchases: purchases.length,
-    yogaCount: getYogaCount(name)
+    yogaCount: getYogaCount(name),
+    danceCount: getDanceCount(name),
+    siblingCount: getSiblingCount(name)
   };
 }
 
@@ -539,7 +574,9 @@ function submitBonus() {
     setTotal(kn, getTotal(kn) + pts);
     addEarned(kn, pts);
     addBonusCount(kn);
-    if (cat.id === 'yoga') addYoga(kn);
+    if (cat.id === 'yoga')    addYoga(kn);
+    if (cat.id === 'dance')   addDance(kn);
+    if (cat.id === 'sibling') addSibling(kn);
     log.unshift({kid: kn, pts, reason: cat.name, date: td});
     checkBadgeUnlocks(kn);
   });
