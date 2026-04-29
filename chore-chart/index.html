@@ -1,114 +1,575 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maxwell Family Chore Chart</title>
-<style>
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8fa;color:#1a1a2e;margin:0;padding:20px}
-.chore-container{max-width:1200px;margin:0 auto}
-h1{font-size:28px;font-weight:700;margin-bottom:8px}
-.subtitle{font-size:14px;color:#888;margin-bottom:24px}
-.chart{background:#fff;border-radius:12px;border:1px solid #e5e5ea;overflow:hidden}
-.chart-header{display:grid;grid-template-columns:150px repeat(auto-fit,minmax(150px,1fr));gap:0;border-bottom:2px solid #e5e5ea}
-.header-cell{padding:16px;font-weight:700;text-align:center;background:#f8f8fa;border-right:1px solid #e5e5ea}
-.header-cell:first-child{text-align:left;background:#1a1a2e;color:#fff}
-.chart-row{display:grid;grid-template-columns:150px repeat(auto-fit,minmax(150px,1fr));gap:0;border-bottom:1px solid #e5e5ea}
-.chart-row:last-child{border-bottom:none}
-.row-label{padding:16px;font-weight:600;background:#f8f8fa;border-right:1px solid #e5e5ea;text-align:left}
-.chart-cell{padding:16px;border-right:1px solid #e5e5ea;text-align:center;background:#fff;display:flex;align-items:center;justify-content:center;min-height:60px}
-.chart-cell:last-child{border-right:none}
-.status{display:inline-block;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600}
-.status.done{background:#dcfce7;color:#16a34a}
-.status.pending{background:#fef9c3;color:#a16207}
-.status.skip{background:#fee2e2;color:#dc2626}
-.status.empty{background:#e5e5ea;color:#666;opacity:0.5}
-.legend{display:flex;gap:16px;margin-top:24px;flex-wrap:wrap;padding:16px;background:#f8f8fa;border-radius:8px;border:1px solid #e5e5ea}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
-.legend-dot{width:12px;height:12px;border-radius:20px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Maxwell Family Chore Chart</title>
+  <!--
+    Dashboard: Maxwell Family Chore Chart
+    Audience: Bennett + Family (kids)
+    Tier: A — GitHub Pages (public, embedded as iframe in advaita-agent-audit)
+    Data: Static JS config — edit FAMILY_DATA below to update kids/chores/points
+    Refresh: On-demand — localStorage persists checkmarks per ISO week
+    Brand: FKI dark theme (#0a0a0f / #14141f) + per-kid accent colors
+    iPhone: YES — 390px viewport, 44px tap targets, 1-col mobile
+    Built: 2026-04-29 | dashboard-skill v2
+  -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --card: #14141f;
+      --card2: #1a1a2e;
+      --border: rgba(255,255,255,0.08);
+      --text: #e8eaf0;
+      --muted: #7a7d8f;
+      --green: #22c55e;
+      --gold: #f59e0b;
+      --radius: 14px;
+      --tap: 48px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ─────────────────────────────── */
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .header-title { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+    .header-week {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .week-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .week-btn {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .week-btn:active { opacity: 0.7; }
+    .week-label {
+      font-size: 12px;
+      color: var(--muted);
+      min-width: 80px;
+      text-align: center;
+    }
+
+    /* ── Scoreboard ───────────────────────── */
+    .scores {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 16px 16px 8px;
+    }
+    @media (min-width: 480px) {
+      .scores { grid-template-columns: 1fr 1fr; }
+    }
+    .score-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .score-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .score-info { flex: 1; min-width: 0; }
+    .score-name { font-size: 15px; font-weight: 700; }
+    .score-pts { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .score-bar-wrap {
+      background: rgba(255,255,255,0.06);
+      border-radius: 6px;
+      height: 6px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .score-bar {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.4s ease;
+    }
+    .score-badge {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    /* ── Kid sections ─────────────────────── */
+    .section { padding: 8px 16px 16px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .section-title { font-size: 16px; font-weight: 700; }
+
+    /* ── Chore table ─────────────────────── */
+    .chore-table { width: 100%; border-collapse: collapse; }
+    .chore-table th, .chore-table td {
+      padding: 0;
+      text-align: center;
+    }
+    .chore-table thead th {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 0 4px 8px;
+      width: 36px;
+    }
+    .chore-table thead th:first-child {
+      text-align: left;
+      width: auto;
+      padding-left: 0;
+    }
+    .chore-row {
+      background: var(--card);
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+    .chore-row td {
+      border-top: 1px solid var(--border);
+    }
+    .chore-row td:first-child { border-top: none; }
+    /* Row wrapper using divs instead for better mobile */
+
+    .chore-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .chore-name-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px 8px;
+      gap: 8px;
+    }
+    .chore-name {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .chore-pts-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
+      color: var(--muted);
+    }
+    .chore-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border-top: 1px solid var(--border);
+    }
+    .day-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0 8px;
+      gap: 4px;
+      border-right: 1px solid var(--border);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      min-height: var(--tap);
+      justify-content: center;
+    }
+    .day-cell:last-child { border-right: none; }
+    .day-cell.inactive { opacity: 0.25; pointer-events: none; }
+    .day-cell.today-col { background: rgba(255,255,255,0.03); }
+    .day-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .day-label.today { color: var(--gold); }
+    .check-box {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      font-size: 14px;
+    }
+    .day-cell.checked .check-box {
+      border-color: transparent;
+      color: white;
+    }
+    .day-cell.today-col .check-box {
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Week summary banner ─────────────── */
+    .week-summary {
+      margin: 0 16px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .week-summary-title {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .leaderboard-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .leaderboard-row:last-child { border-bottom: none; }
+    .lb-rank { font-size: 16px; width: 24px; text-align: center; }
+    .lb-name { flex: 1; font-size: 14px; font-weight: 600; }
+    .lb-pts { font-size: 14px; font-weight: 700; }
+    .lb-pct { font-size: 11px; color: var(--muted); margin-left: 4px; }
+
+    /* ── Reset button ────────────────────── */
+    .reset-row {
+      padding: 0 16px 32px;
+      text-align: center;
+    }
+    .reset-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 13px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .reset-btn:active { opacity: 0.6; }
+
+    /* ── Demo badge ──────────────────────── */
+    .demo-badge {
+      position: fixed;
+      top: 8px;
+      right: 8px;
+      background: var(--gold);
+      color: #000;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: none;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
 
-<div class="chore-container">
-  <h1>🏠 Maxwell Family Chore Chart</h1>
-  <p class="subtitle">Weekly task assignments and tracking</p>
-  
-  <div class="chart">
-    <div class="chart-header">
-      <div class="header-cell">Task / Week</div>
-      <div class="header-cell">Mon</div>
-      <div class="header-cell">Tue</div>
-      <div class="header-cell">Wed</div>
-      <div class="header-cell">Thu</div>
-      <div class="header-cell">Fri</div>
-      <div class="header-cell">Sat</div>
-      <div class="header-cell">Sun</div>
+<div class="demo-badge" id="demoBadge">SAMPLE DATA</div>
+
+<header>
+  <div class="header-row">
+    <div>
+      <div class="header-title">🏠 Maxwell Chore Chart</div>
+      <div class="header-week" id="headerWeek">Loading…</div>
     </div>
-    
-    <div class="chart-row">
-      <div class="row-label">Dishes</div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status pending">Pending</span></div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status pending">Pending</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-    </div>
-    
-    <div class="chart-row">
-      <div class="row-label">Laundry</div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status pending">Pending</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status pending">Pending</span></div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-    </div>
-    
-    <div class="chart-row">
-      <div class="row-label">Vacuum</div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-    </div>
-    
-    <div class="chart-row">
-      <div class="row-label">Trash</div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status pending">Pending</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-    </div>
-    
-    <div class="chart-row">
-      <div class="row-label">Yard Work</div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status empty">—</span></div>
-      <div class="chart-cell"><span class="status done">✓ Done</span></div>
-      <div class="chart-cell"><span class="status pending">Pending</span></div>
+    <div class="week-nav">
+      <button class="week-btn" onclick="changeWeek(-1)" aria-label="Previous week">‹</button>
+      <span class="week-label" id="weekLabel"></span>
+      <button class="week-btn" onclick="changeWeek(1)" aria-label="Next week">›</button>
     </div>
   </div>
-  
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div> Completed</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> Pending</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> Overdue</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#e5e5ea"></div> Not assigned</div>
-  </div>
+</header>
+
+<div id="scoresEl" class="scores"></div>
+<div id="appEl"></div>
+
+<div class="week-summary">
+  <div class="week-summary-title">📊 This Week's Leaderboard</div>
+  <div id="leaderboardEl"></div>
 </div>
 
+<div class="reset-row">
+  <button class="reset-btn" onclick="confirmReset()">Reset This Week</button>
+</div>
+
+<script>
+  // ──────────────────────────────────────────────────────────────
+  // CONFIGURE HERE — Update names, emojis, colors, and chores
+  // Days: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+  // ──────────────────────────────────────────────────────────────
+  const FAMILY_DATA = {
+    kids: [
+      {
+        name: 'Kid 1',
+        emoji: '⭐',
+        color: '#6C63FF',
+        chores: [
+          { task: 'Make Bed',       days: [1,2,3,4,5,6,0], points: 5  },
+          { task: 'Brush Teeth AM', days: [1,2,3,4,5,6,0], points: 5  },
+          { task: 'Clean Room',     days: [6],             points: 15 },
+          { task: 'Set Table',      days: [1,2,3,4,5],    points: 10 },
+          { task: 'Take Out Trash', days: [3,6],           points: 15 },
+        ]
+      },
+      {
+        name: 'Kid 2',
+        emoji: '🌟',
+        color: '#EC4899',
+        chores: [
+          { task: 'Make Bed',        days: [1,2,3,4,5,6,0], points: 5  },
+          { task: 'Brush Teeth AM',  days: [1,2,3,4,5,6,0], points: 5  },
+          { task: 'Clean Room',      days: [6],              points: 15 },
+          { task: 'Clear Table',     days: [1,2,3,4,5],     points: 10 },
+          { task: 'Feed Pet',        days: [1,2,3,4,5,6,0], points: 10 },
+        ]
+      }
+    ]
+  };
+
+  // ──────────────────────────────────────────────────────────────
+  // State
+  // ──────────────────────────────────────────────────────────────
+  const DAY_LABELS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const DAY_FULL   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  let offsetWeeks = 0; // 0 = current week
+
+  function getWeekKey(offset) {
+    const d = new Date();
+    d.setDate(d.getDate() - d.getDay() + 1 + offset * 7); // Mon
+    return `chores-${d.getFullYear()}-W${String(getISOWeek(d)).padStart(2,'0')}`;
+  }
+
+  function getISOWeek(d) {
+    const tmp = new Date(d);
+    tmp.setHours(0,0,0,0);
+    tmp.setDate(tmp.getDate() + 3 - (tmp.getDay() + 6) % 7);
+    const week1 = new Date(tmp.getFullYear(), 0, 4);
+    return 1 + Math.round(((tmp - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+  }
+
+  function getWeekDates(offset) {
+    const today = new Date();
+    const mon = new Date(today);
+    mon.setHours(0,0,0,0);
+    mon.setDate(today.getDate() - ((today.getDay() + 6) % 7) + offset * 7);
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(mon);
+      d.setDate(mon.getDate() + i);
+      days.push(d);
+    }
+    return days; // Mon–Sun
+  }
+
+  // Days ordered Mon(1)→Sun(0) for display
+  const DAY_ORDER = [1,2,3,4,5,6,0];
+
+  function loadChecked() {
+    try {
+      const raw = localStorage.getItem(getWeekKey(offsetWeeks));
+      return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+  }
+
+  function saveChecked(data) {
+    localStorage.setItem(getWeekKey(offsetWeeks), JSON.stringify(data));
+  }
+
+  let checked = loadChecked();
+
+  function toggleCheck(kidIdx, choreIdx, dayOfWeek) {
+    const key = `${kidIdx}-${choreIdx}-${dayOfWeek}`;
+    checked[key] = !checked[key];
+    saveChecked(checked);
+    render();
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Points calc
+  // ──────────────────────────────────────────────────────────────
+  function calcPoints(kidIdx) {
+    const kid = FAMILY_DATA.kids[kidIdx];
+    let earned = 0, possible = 0;
+    const weekDates = getWeekDates(offsetWeeks);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    kid.chores.forEach((chore, choreIdx) => {
+      DAY_ORDER.forEach((dayOfWeek, colIdx) => {
+        const date = weekDates[colIdx];
+        if (!chore.days.includes(dayOfWeek)) return;
+        possible += chore.points;
+        const key = `${kidIdx}-${choreIdx}-${dayOfWeek}`;
+        if (checked[key]) earned += chore.points;
+      });
+    });
+    return { earned, possible };
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Render
+  // ──────────────────────────────────────────────────────────────
+  function render() {
+    const weekDates = getWeekDates(offsetWeeks);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const todayDOW = today.getDay();
+    const isCurrentWeek = offsetWeeks === 0;
+
+    // Header
+    const mon = weekDates[0], sun = weekDates[6];
+    const weekLabel = `${MONTH_NAMES[mon.getMonth()]} ${mon.getDate()}–${mon.getDate() !== sun.getDate() || mon.getMonth() !== sun.getMonth() ? (mon.getMonth() !== sun.getMonth() ? MONTH_NAMES[sun.getMonth()]+' ' : '') + sun.getDate() : sun.getDate()}`;
+    document.getElementById('headerWeek').textContent = `Week of ${MONTH_NAMES[mon.getMonth()]} ${mon.getDate()}`;
+    document.getElementById('weekLabel').textContent = weekLabel;
+
+    // Scores
+    const scoresEl = document.getElementById('scoresEl');
+    scoresEl.innerHTML = FAMILY_DATA.kids.map((kid, kidIdx) => {
+      const { earned, possible } = calcPoints(kidIdx);
+      const pct = possible > 0 ? Math.round(earned / possible * 100) : 0;
+      const medal = pct >= 90 ? '🥇' : pct >= 70 ? '🥈' : pct >= 50 ? '🥉' : '';
+      return `
+        <div class="score-card">
+          <div class="score-avatar" style="background:${kid.color}22;">${kid.emoji}</div>
+          <div class="score-info">
+            <div class="score-name">${kid.name}</div>
+            <div class="score-pts">${earned} / ${possible} pts · ${pct}%</div>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:${pct}%;background:${kid.color};"></div>
+            </div>
+          </div>
+          <div class="score-badge">${medal}</div>
+        </div>`;
+    }).join('');
+
+    // Kid sections
+    const appEl = document.getElementById('appEl');
+    appEl.innerHTML = FAMILY_DATA.kids.map((kid, kidIdx) => {
+      const choresHtml = kid.chores.map((chore, choreIdx) => {
+        const daysHtml = DAY_ORDER.map((dayOfWeek, colIdx) => {
+          const date = weekDates[colIdx];
+          const active = chore.days.includes(dayOfWeek);
+          const isToday = isCurrentWeek && date.getTime() === today.getTime();
+          const key = `${kidIdx}-${choreIdx}-${dayOfWeek}`;
+          const isDone = checked[key];
+          const dayStr = DAY_LABELS[dayOfWeek].substring(0,1) + DAY_LABELS[dayOfWeek].substring(1,2).toLowerCase();
+          let cls = 'day-cell';
+          if (!active) cls += ' inactive';
+          if (isToday) cls += ' today-col';
+          if (isDone && active) cls += ' checked';
+          const checkStyle = isDone && active ? `background:${kid.color};` : '';
+          const labelCls = isToday ? 'day-label today' : 'day-label';
+          const checkmark = isDone ? '✓' : '';
+          const onclick = active ? `onclick="toggleCheck(${kidIdx},${choreIdx},${dayOfWeek})"` : '';
+          return `<div class="${cls}" ${onclick} role="${active?'checkbox':''}" aria-checked="${isDone}" aria-label="${chore.task} ${DAY_FULL[dayOfWeek]}">
+            <span class="${labelCls}">${dayStr}</span>
+            <div class="check-box" style="${checkStyle}">${checkmark}</div>
+          </div>`;
+        }).join('');
+
+        return `<div class="chore-item">
+          <div class="chore-name-row">
+            <span class="chore-name">${chore.task}</span>
+            <span class="chore-pts-badge">${chore.points}pts</span>
+          </div>
+          <div class="chore-days">${daysHtml}</div>
+        </div>`;
+      }).join('');
+
+      return `<div class="section">
+        <div class="section-header">
+          <span style="font-size:20px;">${kid.emoji}</span>
+          <span class="section-title" style="color:${kid.color};">${kid.name}</span>
+        </div>
+        ${choresHtml}
+      </div>`;
+    }).join('');
+
+    // Leaderboard
+    const ranked = FAMILY_DATA.kids.map((kid, kidIdx) => {
+      const { earned, possible } = calcPoints(kidIdx);
+      const pct = possible > 0 ? Math.round(earned / possible * 100) : 0;
+      return { name: kid.name, emoji: kid.emoji, color: kid.color, earned, possible, pct };
+    }).sort((a, b) => b.pct - a.pct);
+
+    const medals = ['🥇','🥈','🥉','4️⃣'];
+    document.getElementById('leaderboardEl').innerHTML = ranked.map((kid, i) => `
+      <div class="leaderboard-row">
+        <span class="lb-rank">${medals[i] || (i+1)}</span>
+        <span style="font-size:16px;">${kid.emoji}</span>
+        <span class="lb-name" style="color:${kid.color};">${kid.name}</span>
+        <span class="lb-pts" style="color:${kid.color};">${kid.earned}pts</span>
+        <span class="lb-pct">${kid.pct}%</span>
+      </div>`).join('');
+  }
+
+  function changeWeek(delta) {
+    offsetWeeks += delta;
+    checked = loadChecked();
+    render();
+  }
+
+  function confirmReset() {
+    if (confirm('Reset all checkmarks for this week?')) {
+      checked = {};
+      saveChecked(checked);
+      render();
+    }
+  }
+
+  // Init
+  render();
+</script>
 </body>
 </html>
