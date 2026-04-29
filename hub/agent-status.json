@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-29T20:41:05Z",
+  "updated": "2026-04-29T20:42:42Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "7m ago",
-      "memory_updated_rel": "7m ago",
+      "last_active_rel": "9m ago",
+      "memory_updated_rel": "9m ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -68,8 +68,8 @@
       "tasks_max": 5,
       "current_task": "FDD extractor \u00b7 run #? \u00b7 ? uploaded \u00b7 disk ?",
       "current_skill": "tiffany-fdd-supervisor",
-      "last_active_rel": "1m ago",
-      "memory_updated_rel": "1m ago",
+      "last_active_rel": "2m ago",
+      "memory_updated_rel": "2m ago",
       "notion_project": "Demi Territory Engine",
       "color_class": "tiffany-color",
       "text_class": "tiffany-color-text"
@@ -104,8 +104,8 @@
       "tasks_max": 5,
       "current_task": "Call detector pulse \u00b7 1 trigger(s) last run",
       "current_skill": "reed-call-detector",
-      "last_active_rel": "just now",
-      "memory_updated_rel": "just now",
+      "last_active_rel": "2m ago",
+      "memory_updated_rel": "2m ago",
       "notion_project": "LinkedIn \u2192 GHL Pipeline",
       "color_class": "reed-color",
       "text_class": "reed-color-text"
@@ -113,11 +113,11 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 87,
+    "ivan_cpu_pct": 46,
     "ivan_ram_pct": 54,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
-    "active_crons": 47,
+    "active_crons": 48,
     "active_cron_names": [
       "meta-capi",
       "linkedin-dm",
