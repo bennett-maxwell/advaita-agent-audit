@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Machine Health · FKI</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0a0a0f;
+  color: #e0e0e6;
+  min-height: 100vh;
+  padding: 0 0 40px;
+}
+
+/* ── Header ── */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #ffffff12;
+  position: sticky;
+  top: 0;
+  background: #0a0a0f;
+  z-index: 10;
+}
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a0a0b0;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-height: 44px;
+  min-width: 44px;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: #e0e0e6; }
+.back-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+.header-center { text-align: center; }
+.header-title { font-size: 15px; font-weight: 600; color: #e0e0e6; }
+.header-subtitle { font-size: 12px; color: #6b6b7e; margin-top: 2px; }
+
+.refresh-btn {
+  background: none;
+  border: 1px solid #ffffff20;
+  color: #a0a0b0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  min-height: 44px;
+  transition: all 0.2s;
+}
+.refresh-btn:hover { border-color: #ffffff40; color: #e0e0e6; }
+
+/* ── Status banner ── */
+.status-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #14141f;
+  border-bottom: 1px solid #ffffff0a;
+  font-size: 13px;
+  color: #6b6b7e;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-green  { background: #22c55e; box-shadow: 0 0 6px #22c55e80; }
+.dot-yellow { background: #f59e0b; box-shadow: 0 0 6px #f59e0b80; }
+.dot-red    { background: #ef4444; box-shadow: 0 0 6px #ef444480; }
+.dot-gray   { background: #4b5563; }
+.dot-pulse  { animation: pulse 2s infinite; }
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+.demo-badge {
+  margin-left: auto;
+  background: #f59e0b20;
+  color: #f59e0b;
+  border: 1px solid #f59e0b40;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Main grid ── */
+.main { padding: 20px; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── Machine card ── */
+.machine-card {
+  background: #14141f;
+  border: 1px solid #ffffff1a;
+  border-radius: 16px;
+  padding: 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-height: 220px;
+}
+.machine-card.online  { border-color: #22c55e33; }
+.machine-card.offline { border-color: #ef444433; opacity: 0.7; }
+.machine-card:hover   { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.machine-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e0e0e6;
+  line-height: 1.2;
+}
+.machine-ip {
+  font-size: 12px;
+  color: #6b6b7e;
+  margin-top: 3px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.pill-online  { background: #22c55e20; color: #22c55e; border: 1px solid #22c55e40; }
+.pill-offline { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+
+/* ── Metric rows ── */
+.metrics { display: flex; flex-direction: column; gap: 10px; }
+
+.metric-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+.metric-label { color: #6b6b7e; }
+.metric-value {
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.val-green  { color: #22c55e; }
+.val-yellow { color: #f59e0b; }
+.val-red    { color: #ef4444; }
+.val-gray   { color: #4b5563; }
+
+.progress-bar {
+  height: 5px;
+  background: #ffffff10;
+  border-radius: 100px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.6s ease;
+}
+.fill-green  { background: linear-gradient(90deg, #16a34a, #22c55e); }
+.fill-yellow { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.fill-red    { background: linear-gradient(90deg, #dc2626, #ef4444); }
+.fill-gray   { background: #374151; }
+
+/* ── Uptime + last-seen footer ── */
+.card-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #ffffff0a;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #4b5563;
+}
+
+/* ── Updated row ── */
+.updated-row {
+  text-align: center;
+  font-size: 12px;
+  color: #4b5563;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+    Hub
+  </a>
+  <div class="header-center">
+    <div class="header-title">💻 Machine Health</div>
+    <div class="header-subtitle">Auto-refresh · 60s</div>
+  </div>
+  <button class="refresh-btn" onclick="loadData()">↺ Refresh</button>
+</div>
+
+<!-- Status banner -->
+<div class="status-banner" id="statusBanner">
+  <div class="status-dot dot-gray dot-pulse" id="bannerDot"></div>
+  <span id="bannerText">Loading…</span>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <div class="section-label">Advaita Network — 3 Machines</div>
+  <div class="grid" id="machineGrid">
+    <!-- Cards injected by JS -->
+  </div>
+  <div class="updated-row" id="updatedRow"></div>
+</div>
+
+<script>
+// ── Fallback data (shown when all fetches fail) ────────────────────────────
+const FALLBACK_DATA = {
+  "updated": "2026-04-29T20:00:00Z",
+  "machines": [
+    {"id":"imac","name":"iMac","ip":"100.103.51.12","online":true,"cpu":22,"mem":54,"disk":61,"uptime":"12 days","last_seen":"2026-04-29T20:00:00Z"},
+    {"id":"macbook","name":"MacBook","ip":"100.112.24.104","online":true,"cpu":35,"mem":68,"disk":72,"uptime":"1 day","last_seen":"2026-04-29T20:00:00Z"},
+    {"id":"tiffany","name":"Tiffany","ip":"100.91.17.106","online":false,"cpu":0,"mem":0,"disk":0,"uptime":"offline","last_seen":"unknown"}
+  ]
+};
+
+// ── Fetch URLs — primary (8800), CF Tunnel, Tailscale ─────────────────────
+const DATA_URLS = [
+  "http://openclaws-imac.tail503ee0.ts.net:8800/machine-health.json",
+  "https://fkicommand.com/machine-health.json",
+  "http://100.103.51.12:8800/machine-health.json"
+];
+
+let isDemo = false;
+let refreshTimer = null;
+
+async function fetchWithTimeout(url) {
+  const ctrl = new AbortController();
+  const timer = AbortSignal.timeout(5000);
+  const merged = AbortSignal.any
+    ? AbortSignal.any([ctrl.signal, timer])
+    : timer;
+  const resp = await fetch(url, { signal: merged });
+  if (!resp.ok) throw new Error("HTTP " + resp.status);
+  return resp.json();
+}
+
+async function loadData() {
+  setBanner("loading");
+  let data = null;
+  for (const url of DATA_URLS) {
+    try {
+      data = await fetchWithTimeout(url);
+      isDemo = false;
+      break;
+    } catch(e) {
+      // try next
+    }
+  }
+  if (!data) {
+    data = FALLBACK_DATA;
+    isDemo = true;
+  }
+  render(data);
+  scheduleRefresh();
+}
+
+function scheduleRefresh() {
+  if (refreshTimer) clearTimeout(refreshTimer);
+  refreshTimer = setTimeout(loadData, 60000);
+}
+
+// ── Color helpers ─────────────────────────────────────────────────────────
+function pctClass(v) {
+  if (v < 0)  return "gray";
+  if (v < 70) return "green";
+  if (v < 90) return "yellow";
+  return "red";
+}
+
+function fmtPct(v, online) {
+  if (!online) return '<span class="metric-value val-gray">—</span>';
+  const cls = pctClass(v);
+  return `<span class="metric-value val-${cls}">${v}%</span>`;
+}
+
+function progressBar(v, online) {
+  if (!online) return `<div class="progress-bar"><div class="progress-fill fill-gray" style="width:0%"></div></div>`;
+  const cls = pctClass(v);
+  return `<div class="progress-bar"><div class="progress-fill fill-${cls}" style="width:${v}%"></div></div>`;
+}
+
+// ── Render ────────────────────────────────────────────────────────────────
+function render(data) {
+  const grid = document.getElementById("machineGrid");
+  grid.innerHTML = data.machines.map(m => cardHTML(m)).join("");
+
+  // Updated row
+  const upd = new Date(data.updated);
+  const ago = Math.round((Date.now() - upd.getTime()) / 1000);
+  const agoStr = ago < 60 ? `${ago}s ago` : ago < 3600 ? `${Math.round(ago/60)}m ago` : `${Math.round(ago/3600)}h ago`;
+  document.getElementById("updatedRow").textContent = `Data collected ${agoStr} · ${isDemo ? "DEMO" : upd.toLocaleTimeString()}`;
+
+  // Banner
+  const online = data.machines.filter(m => m.online).length;
+  const total  = data.machines.length;
+  const allOk  = data.machines.filter(m => m.online).every(m => m.cpu < 90 && m.mem < 90 && m.disk < 90);
+  if (isDemo) {
+    setBanner("demo");
+  } else if (online === total && allOk) {
+    setBanner("green");
+  } else if (online < total) {
+    setBanner("partial", online, total);
+  } else {
+    setBanner("warning");
+  }
+}
+
+function cardHTML(m) {
+  const statusClass = m.online ? "online" : "offline";
+  const pill = m.online
+    ? `<span class="status-pill pill-online"><span class="status-dot dot-green"></span>Online</span>`
+    : `<span class="status-pill pill-offline"><span class="status-dot dot-red"></span>Offline</span>`;
+
+  const lastSeen = m.last_seen === "unknown" ? "unknown"
+    : (() => { try { return new Date(m.last_seen).toLocaleTimeString(); } catch(e) { return m.last_seen; } })();
+
+  return `
+  <div class="machine-card ${statusClass}">
+    <div class="card-top">
+      <div>
+        <div class="machine-name">${m.name}</div>
+        <div class="machine-ip">${m.ip}</div>
+      </div>
+      ${pill}
+    </div>
+    <div class="metrics">
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-label">CPU</span>
+          ${fmtPct(m.cpu, m.online)}
+        </div>
+        ${progressBar(m.cpu, m.online)}
+      </div>
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-label">Memory</span>
+          ${fmtPct(m.mem, m.online)}
+        </div>
+        ${progressBar(m.mem, m.online)}
+      </div>
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-label">Disk</span>
+          ${fmtPct(m.disk, m.online)}
+        </div>
+        ${progressBar(m.disk, m.online)}
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>↑ ${m.uptime}</span>
+      <span>Seen ${lastSeen}</span>
+    </div>
+  </div>`;
+}
+
+function setBanner(state, online, total) {
+  const dot  = document.getElementById("bannerDot");
+  const text = document.getElementById("bannerText");
+  const banner = document.getElementById("statusBanner");
+  const demoEl = banner.querySelector(".demo-badge");
+  if (demoEl) demoEl.remove();
+
+  dot.className = "status-dot";
+
+  if (state === "loading") {
+    dot.className += " dot-gray dot-pulse";
+    text.textContent = "Loading machine data…";
+  } else if (state === "green") {
+    dot.className += " dot-green";
+    text.textContent = "All systems healthy";
+  } else if (state === "warning") {
+    dot.className += " dot-yellow";
+    text.textContent = "High resource usage detected";
+  } else if (state === "partial") {
+    dot.className += " dot-yellow";
+    text.textContent = `${online}/${total} machines online`;
+  } else if (state === "demo") {
+    dot.className += " dot-yellow";
+    text.textContent = "Live data unavailable";
+    const badge = document.createElement("span");
+    badge.className = "demo-badge";
+    badge.textContent = "DEMO DATA";
+    banner.appendChild(badge);
+  }
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
