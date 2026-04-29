@@ -2,35 +2,44 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Maxwell Family Chore Chart</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#FFF9F0 0%,#FFF0FB 50%,#F0F4FF 100%);min-height:100vh;padding-bottom:60px}
-.header{background:linear-gradient(135deg,#7C3AED,#DB2777);padding:28px 20px 20px;text-align:center;box-shadow:0 4px 20px rgba(124,58,237,.3)}
-.header h1{color:#fff;font-size:24px;font-weight:700;margin:0 0 4px}
-.header p{color:rgba(255,255,255,.85);margin:0;font-size:13px}
-.key-bar{margin-top:14px;background:rgba(255,255,255,.15);border-radius:10px;padding:8px 14px;display:inline-flex;gap:16px;font-size:12px;color:#fff;flex-wrap:wrap;justify-content:center}
-.tabs{display:flex;overflow-x:auto;background:#fff;border-bottom:2px solid #F3F4F6;padding:0 6px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.tab{flex:1;min-width:72px;padding:13px 6px 11px;border:none;background:none;cursor:pointer;font-size:11px;font-weight:500;color:#6B7280;border-bottom:3px solid transparent;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#FFF9F0 0%,#FFF0FB 50%,#F0F4FF 100%);min-height:100vh;padding-bottom:80px}
+.header{background:linear-gradient(135deg,#7C3AED,#DB2777);padding:22px 16px 16px;text-align:center;box-shadow:0 4px 20px rgba(124,58,237,.3)}
+.header h1{color:#fff;font-size:22px;font-weight:700;margin:0 0 3px}
+.header .subtitle{color:rgba(255,255,255,.8);font-size:12px;margin:0 0 10px}
+.key-bar{background:rgba(255,255,255,.15);border-radius:10px;padding:7px 12px;display:inline-flex;gap:14px;font-size:11px;color:#fff;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.kid-pts-row{display:flex;gap:8px}
+.kid-pts-chip{flex:1;background:rgba(255,255,255,.18);border-radius:12px;padding:9px 6px;text-align:center;border:2px solid rgba(255,255,255,.3)}
+.kpc-emoji{font-size:18px}
+.kpc-name{font-size:11px;font-weight:700;color:#fff;margin-top:2px}
+.kpc-pts{font-size:18px;font-weight:800;color:#fff;line-height:1.1}
+.kpc-streak{font-size:9px;color:rgba(255,255,255,.85);margin-top:2px;min-height:12px}
+.tabs{display:flex;overflow-x:auto;background:#fff;border-bottom:2px solid #F3F4F6;padding:0 4px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tab{flex:1;min-width:60px;padding:12px 4px 10px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:500;color:#6B7280;border-bottom:3px solid transparent;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px}
 .tab:hover{background:#F9FAFB;color:#1a1a2e}
 .tab.active{color:#7C3AED;border-bottom-color:#7C3AED;font-weight:700}
-.pane{display:none;padding:18px 14px;max-width:580px;margin:0 auto}
+.pane{display:none;padding:16px 14px;max-width:580px;margin:0 auto}
 .pane.active{display:block}
 .intro{color:#6B7280;font-size:12px;margin-bottom:14px;text-align:center}
+.section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin:0 0 7px}
+.week-badge{display:inline-flex;align-items:center;gap:4px;background:#EDE9FE;color:#7C3AED;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700}
 .kid-row{display:flex;gap:8px;margin-bottom:14px}
 .kid-chip{flex:1;background:#fff;border-radius:10px;padding:9px 6px;text-align:center;border:2px solid transparent}
 .kid-chip .ke{font-size:20px}
 .kid-chip .kn{font-weight:700;font-size:12px}
 .kid-chip .ka{font-size:10px;color:#9CA3AF}
 .card{background:#fff;border-radius:12px;padding:13px 14px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #F3F4F6}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px}
+.card.bonus-cat{border-left:4px solid #10B981}
 .card-title{font-weight:700;font-size:14px;color:#111827}
-.card-sub{font-size:11px;color:#9CA3AF;margin-top:2px}
+.card-sub{font-size:11px;color:#9CA3AF;margin-top:2px;margin-bottom:9px}
 .card-pts{font-weight:700;color:#7C3AED}
 .kid-btns{display:flex;gap:6px}
-.kb{flex:1;padding:7px 4px;border-radius:8px;border:2px solid transparent;background:#F9FAFB;cursor:not-allowed;font-size:15px;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .18s}
+.kb{flex:1;padding:7px 4px;border-radius:8px;border:2px solid transparent;background:#F9FAFB;cursor:not-allowed;font-size:15px;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .18s;min-height:48px;justify-content:center}
 .kb.eligible{cursor:pointer}
+.kb.eligible:active{transform:scale(.94)}
 .kb-lbl{font-size:9px;font-weight:700}
 .pay-card{background:#fff;border-radius:12px;padding:13px 14px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #F3F4F6;display:flex;gap:12px;align-items:flex-start}
 .pay-body{flex:1}
@@ -43,15 +52,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pay-dollar{font-size:17px;font-weight:700}
 .pay-word{font-size:9px;opacity:.85}
 .group-section-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin:16px 0 7px}
-.ga-card{background:#fff;border-radius:12px;padding:13px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px}
-.ga-icon{font-size:28px}
-.ga-body{flex:1}
+.ga-card{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px}
+.ga-icon{font-size:26px;flex-shrink:0}
+.ga-body{flex:1;min-width:0}
 .ga-name{font-weight:700;font-size:14px;color:#111827}
 .ga-thresh{font-size:11px;font-weight:700;margin-top:2px}
 .ga-cost{font-size:10px;color:#9CA3AF;margin-top:2px}
+.ga-done-count{font-size:10px;color:#10B981;font-weight:700;margin-top:3px}
+.ga-done-btn{background:linear-gradient(135deg,#10B981,#059669);color:#fff;border:none;border-radius:8px;padding:8px 11px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;min-height:40px;min-width:52px}
+.ga-done-btn:active{transform:scale(.94)}
 .team-box{background:rgba(124,58,237,.06);border:2px solid rgba(124,58,237,.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;text-align:center}
 .team-box h4{font-size:13px;font-weight:700;color:#7C3AED}
 .team-box p{font-size:11px;color:#6B7280;margin-top:4px;line-height:1.5}
+.log-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#fff;border-radius:10px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.log-icon{font-size:20px;flex-shrink:0}
+.log-name{font-size:12px;font-weight:600;color:#111827;flex:1}
+.log-date{font-size:10px;color:#9CA3AF;flex-shrink:0}
 .redeem-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
 .redeem-card{background:#fff;border-radius:10px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #F3F4F6}
 .redeem-val{font-weight:700;font-size:18px;color:#7C3AED}
@@ -64,57 +80,498 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .cta-box{background:linear-gradient(135deg,#7C3AED,#DB2777);border-radius:14px;padding:18px;color:#fff;text-align:center;margin-top:20px}
 .cta-box h4{font-size:14px;font-weight:700;margin-bottom:6px}
 .cta-box p{font-size:11px;opacity:.9;line-height:1.6}
-.section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin:0 0 7px}
+.add-grid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.add-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.sel-card{background:#fff;border-radius:12px;padding:14px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:2px solid #F3F4F6;cursor:pointer;transition:all .18s}
+.sel-card:active{transform:scale(.95)}
+.sel-card.on{border-color:#7C3AED;background:#FAF5FF}
+.sel-card .sc-icon{font-size:24px;margin-bottom:5px}
+.sel-card .sc-name{font-size:12px;font-weight:700;color:#111827}
+.sel-card .sc-sub{font-size:10px;color:#9CA3AF;margin-top:2px}
+.cat-card.on{border-color:#DB2777;background:#FDF2F8}
+.custom-row{margin-bottom:16px}
+.custom-input{width:100%;border:2px solid #E5E7EB;border-radius:10px;padding:12px 14px;font-size:18px;font-weight:700;color:#111827;background:#fff;-webkit-appearance:none;appearance:none}
+.custom-input:focus{outline:none;border-color:#7C3AED}
+.submit-btn{width:100%;background:linear-gradient(135deg,#7C3AED,#DB2777);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:24px;min-height:52px;transition:opacity .2s}
+.submit-btn:disabled{opacity:.35;cursor:not-allowed}
+.submit-btn:not(:disabled):active{transform:scale(.97)}
+.bonus-log-pts{font-size:13px;font-weight:700;color:#10B981}
+.bonus-log-reason{font-size:11px;color:#6B7280}
+.empty-state{text-align:center;color:#9CA3AF;font-size:12px;padding:16px 0}
+.bonus-tag{font-size:9px;background:#D1FAE5;color:#065F46;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;vertical-align:middle}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:200;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
+
 <div class="header">
   <h1>🌟 Maxwell Family Chart</h1>
-  <p>Harvey 🦁 · Lila 🦋 · Mia ⭐</p>
+  <div class="subtitle">Harvey 🦁 · Lila 🦋 · Mia ⭐</div>
   <div class="key-bar"><span>⏱ 2 min = 5 pts</span><span>•</span><span>💎 5 pts ≈ $1</span><span>•</span><span>📱 20 pts = 15 min tablet</span></div>
+  <div class="kid-pts-row" id="header-pts"></div>
 </div>
+
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('habits')" id="t-habits"><span>✅</span>Daily Habits</button>
-  <button class="tab" onclick="switchTab('paid')" id="t-paid"><span>💰</span>Paid Chores</button>
-  <button class="tab" onclick="switchTab('group')" id="t-group"><span>🏆</span>Group Rewards</button>
-  <button class="tab" onclick="switchTab('redeem')" id="t-redeem"><span>🎁</span>Redeem Points</button>
+  <button class="tab active" onclick="switchTab('habits')" id="t-habits"><span>✅</span>Daily</button>
+  <button class="tab" onclick="switchTab('paid')" id="t-paid"><span>💰</span>Paid</button>
+  <button class="tab" onclick="switchTab('group')" id="t-group"><span>🏆</span>Rewards</button>
+  <button class="tab" onclick="switchTab('redeem')" id="t-redeem"><span>🎁</span>Redeem</button>
+  <button class="tab" onclick="switchTab('addpts')" id="t-addpts"><span>➕</span>Add Pts</button>
 </div>
+
 <div class="pane active" id="p-habits">
-  <p class="intro">These earn <strong>points</strong> — not money. Save for tablet time or group rewards!</p>
-  <div class="kid-row">
-    <div class="kid-chip" style="border-color:#F97316;background:#FFF7ED"><div class="ke">🦁</div><div class="kn" style="color:#F97316">Harvey</div><div class="ka">age 5</div></div>
-    <div class="kid-chip" style="border-color:#A855F7;background:#FAF5FF"><div class="ke">🦋</div><div class="kn" style="color:#A855F7">Lila</div><div class="ka">age 7</div></div>
-    <div class="kid-chip" style="border-color:#EC4899;background:#FDF2F8"><div class="ke">⭐</div><div class="kn" style="color:#EC4899">Mia</div><div class="ka">age 9</div></div>
-  </div>
+  <p class="intro">Earn <strong>points</strong> — not money. Save for tablet time or group rewards!</p>
+  <div id="habits-week-badge" style="text-align:center;margin-bottom:12px"></div>
+  <div class="kid-row" id="habits-kid-row"></div>
   <div id="habits-list"></div>
 </div>
-<div class="pane" id="p-paid"><p class="intro">These earn <strong>real money!</strong> Rate $5–9/hr based on difficulty.</p><div id="paid-list"></div></div>
-<div class="pane" id="p-group">
-  <div class="team-box"><div style="font-size:18px;margin-bottom:3px">🤝</div><h4>Team Rules</h4><p>All 3 kids must hit the threshold — either <strong>all go</strong> or <strong>none go</strong>.</p></div>
-  <div id="group-list"></div>
+
+<div class="pane" id="p-paid">
+  <p class="intro">Earn <strong>real money!</strong> Rate $5–9/hr based on difficulty.</p>
+  <div id="paid-list"></div>
 </div>
+
+<div class="pane" id="p-group">
+  <div class="team-box">
+    <div style="font-size:18px;margin-bottom:3px">🤝</div>
+    <h4>Team Rules</h4>
+    <p>All 3 kids must hit the threshold — either <strong>all go</strong> or <strong>none go</strong>.</p>
+  </div>
+  <div id="group-list"></div>
+  <div id="rewards-log"></div>
+</div>
+
 <div class="pane" id="p-redeem">
   <p class="section-h">📱 Tablet Time</p>
   <div class="redeem-grid" id="redeem-tablet"></div>
   <p class="section-h" style="margin-top:4px">💰 Point → Dollar Guide</p>
   <div class="pt-table" id="pt-table"></div>
-  <div class="cta-box"><h4>🌟 How It All Works</h4><p>Daily habits → points → tablet time or group rewards<br>Paid chores → real money 💵<br>Group points → family adventures!<br><br><strong>You choose your outcome. Work more = earn more.</strong></p></div>
+  <div class="cta-box">
+    <h4>🌟 How It All Works</h4>
+    <p>Daily habits → points → tablet time or group rewards<br>Paid chores → real money 💵<br>Group points → family adventures!<br><br><strong>You choose your outcome. Work more = earn more.</strong></p>
+  </div>
 </div>
+
+<div class="pane" id="p-addpts">
+  <p class="intro">Add bonus points for any kid.</p>
+  <p class="section-h">Who gets points?</p>
+  <div class="add-grid-4" id="kid-selector"></div>
+  <p class="section-h">Category</p>
+  <div class="add-grid-3" id="cat-selector"></div>
+  <div id="custom-row" class="custom-row" style="display:none">
+    <p class="section-h">Custom Points</p>
+    <input class="custom-input" type="number" id="custom-pts-val" placeholder="Enter points" min="1" max="999" oninput="renderAddBtn()">
+  </div>
+  <button class="submit-btn" id="add-pts-btn" onclick="submitBonus()" disabled>Add Points</button>
+  <p class="section-h">Recent Bonus Points</p>
+  <div id="bonus-log-list"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-const kids=[{name:'Harvey',age:5,e:'🦁',c:'#F97316',bg:'#FFF7ED'},{name:'Lila',age:7,e:'🦋',c:'#A855F7',bg:'#FAF5FF'},{name:'Mia',age:9,e:'⭐',c:'#EC4899',bg:'#FDF2F8'}];
-const habits=[{task:'Brush teeth (morning)',time:2,pts:5,who:['Harvey','Lila','Mia']},{task:'Brush teeth (night)',time:2,pts:5,who:['Harvey','Lila','Mia']},{task:'Make bed',time:5,pts:5,who:['Harvey','Lila','Mia']},{task:'Pick up toys / floor',time:5,pts:5,who:['Harvey','Lila','Mia']},{task:'Clear plate after meal',time:2,pts:5,who:['Harvey','Lila','Mia']},{task:'Unload dishwasher',time:10,pts:20,who:['Harvey','Lila','Mia']},{task:'Set the table',time:5,pts:10,who:['Lila','Mia']},{task:'Help with laundry (sort/fold)',time:15,pts:15,who:['Lila','Mia']}];
-const paid=[{task:'Load dishwasher',time:15,rate:6,pay:1.50,diff:'medium',who:['Mia']},{task:'Vacuum (one room)',time:20,rate:6,pay:2.00,diff:'medium',who:['Lila','Mia']},{task:'Clean bathroom sink/counter',time:15,rate:7,pay:1.75,diff:'medium',who:['Lila','Mia']},{task:'Clean toilet',time:15,rate:9,pay:2.25,diff:'hard',who:['Mia']},{task:'Clean walls / baseboards',time:20,rate:6,pay:2.00,diff:'medium',who:['Lila','Mia']},{task:'Vacuum whole house',time:40,rate:6,pay:4.00,diff:'medium',who:['Mia']},{task:'Full bathroom clean',time:30,rate:8,pay:4.00,diff:'hard',who:['Mia']},{task:'Cook / help with meal',time:30,rate:7,pay:3.50,diff:'medium',who:['Lila','Mia']},{task:'Responsible for dessert',time:20,rate:6,pay:2.00,diff:'easy',who:['Lila','Mia']},{task:'Clean garage (portion)',time:45,rate:7,pay:5.25,diff:'hard',who:['Mia']},{task:'Wash car (help)',time:30,rate:7,pay:3.50,diff:'hard',who:['Mia']}];
-const diffCfg={easy:{bg:'#DCFCE7',tx:'#166534',lbl:'Easy'},medium:{bg:'#FEF9C3',tx:'#854D0E',lbl:'Medium'},hard:{bg:'#FEE2E2',tx:'#991B1B',lbl:'Hard'}};
-const groups=[{type:'daily',icon:'📺',name:'Nightly Avatar / Show',thresh:'All 3 brush teeth tonight',cost:0},{type:'easy',icon:'🍦',name:"Ice cream at Macy's",thresh:'75 group pts',cost:10},{type:'easy',icon:'🌳',name:'Park hopping',thresh:'60 group pts',cost:0},{type:'easy',icon:'🚴',name:'Murdoch Trail (biking)',thresh:'60 group pts',cost:0},{type:'easy',icon:'🏓',name:'Pickleball',thresh:'60 group pts',cost:0},{type:'medium',icon:'🏊',name:"Swimming (Grandpa's pool)",thresh:'80 group pts',cost:0},{type:'medium',icon:'🕹️',name:'Nickel Arcade',thresh:'100 group pts',cost:20},{type:'medium',icon:'🍽️',name:'Out to dinner',thresh:'120 group pts',cost:40},{type:'big',icon:'🎳',name:'Bowling',thresh:'140 group pts',cost:45},{type:'big',icon:'⛳',name:'Mini golf',thresh:'130 group pts',cost:35},{type:'big',icon:'🎬',name:'Movies',thresh:'150 group pts',cost:50}];
-const groupCfg={daily:{lbl:'Every Night',tc:'#1E40AF'},easy:{lbl:'Easy Goals 🌿',tc:'#166634'},medium:{lbl:'Medium Goals 🔥',tc:'#9A3412'},big:{lbl:'Big Goals 🏆',tc:'#7E22CE'}};
-const checked={};
-function switchTab(t){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');document.getElementById('p-'+t).classList.add('active');}
-function toggle(k){checked[k]=!checked[k];buildHabits();}
-function buildHabits(){const el=document.getElementById('habits-list');el.innerHTML=habits.map((h,i)=>{const btns=kids.map(k=>{const elig=h.who.includes(k.name);const key=i+'-'+k.name;const done=checked[key];const border=elig?(done?k.c:k.c+'55'):'#E5E7EB';const bg=done?k.c:elig?k.bg:'#F9FAFB';const label=done?'✅':elig?k.e:'—';const lc=done?'#fff':elig?k.c:'#D1D5DB';return '<button class="kb '+(elig?'eligible':'')+'" onclick="'+(elig?'toggle(\''+key+'\')':'')+'" style="border-color:'+border+';background:'+bg+'" '+((!elig)?'disabled':'')+"><span style='font-size:16px'>"+label+"</span><span class='kb-lbl' style='color:"+lc+"'>"+(elig?k.name:'N/A')+"</span></button>";}).join('');return '<div class="card"><div class="card-top"><div><div class="card-title">'+h.task+'</div><div class="card-sub">~'+h.time+' min · <span class="card-pts">'+h.pts+' pts</span></div></div></div><div class="kid-btns">'+btns+'</div></div>';}).join('');}
-function buildPaid(){const el=document.getElementById('paid-list');el.innerHTML=paid.map(c=>{const dc=diffCfg[c.diff];const whos=kids.map(k=>{const elig=c.who.includes(k.name);return '<span class="who-chip" style="background:'+(elig?k.bg:'#F3F4F6')+';color:'+(elig?k.c:'#D1D5DB')+';border-color:'+(elig?k.c+'44':'#E5E7EB')+'">'+k.e+' '+k.name+'</span>';}).join('');return '<div class="pay-card"><div class="pay-body"><div class="pay-title">'+c.task+'<span class="diff-badge" style="background:'+dc.bg+';color:'+dc.tx+'">'+dc.lbl+'</span></div><div class="pay-meta">~'+c.time+' min · $'+c.rate+'/hr</div><div class="who-chips">'+whos+'</div></div><div class="pay-amount"><div class="pay-dollar">$'+c.pay.toFixed(2)+'</div><div class="pay-word">earned</div></div></div>';}).join('');}
-function buildGroup(){const types=['daily','easy','medium','big'];const el=document.getElementById('group-list');el.innerHTML=types.map(type=>{const cfg=groupCfg[type];const items=groups.filter(g=>g.type===type).map(g=>{const costLine=g.cost>0?'<div class="ga-cost">~$'+g.cost+' total · kids cover ~$'+Math.ceil(g.cost*.65)+'</div>':type!=='daily'?'<div class="ga-cost" style="color:#10B981">Free activity! 🎉</div>':'';return '<div class="ga-card"><div class="ga-icon">'+g.icon+'</div><div class="ga-body"><div class="ga-name">'+g.name+'</div><div class="ga-thresh" style="color:'+cfg.tc+'">🎯 '+g.thresh+'</div>'+costLine+'</div></div>';}).join('');return '<div class="group-section-lbl">'+cfg.lbl+'</div>'+items;}).join('');}
-function buildRedeem(){const tablet=[{pts:20,time:'15 min'},{pts:40,time:'30 min'},{pts:60,time:'45 min'},{pts:80,time:'1 hour'}];document.getElementById('redeem-tablet').innerHTML=tablet.map(r=>'<div class="redeem-card"><div style="font-size:22px;margin-bottom:4px">📱</div><div class="redeem-val">'+r.time+'</div><div class="redeem-unit">tablet time</div><div class="redeem-cost">'+r.pts+' pts</div></div>').join('');const pts=[5,10,15,20,25,50,100];document.getElementById('pt-table').innerHTML=pts.map(p=>'<div class="pt-row"><span class="pt-key">'+p+' pts</span><span style="color:#374151">≈ $'+(p/5).toFixed(2)+'</span></div>').join('');}
-buildHabits();buildPaid();buildGroup();buildRedeem();
+// ── Data ───────────────────────────────────────────────────────────────────
+const kids = [
+  {name:'Harvey', age:5, e:'🦁', c:'#F97316', bg:'#FFF7ED'},
+  {name:'Lila',   age:7, e:'🦋', c:'#A855F7', bg:'#FAF5FF'},
+  {name:'Mia',    age:9, e:'⭐', c:'#EC4899', bg:'#FDF2F8'}
+];
+
+const habits = [
+  {task:'Brush teeth (morning)',        time:2,  pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Brush teeth (night)',           time:2,  pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Make bed',                      time:5,  pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Pick up toys / floor',          time:5,  pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Clear plate after meal',        time:2,  pts:5,  who:['Harvey','Lila','Mia']},
+  {task:'Unload dishwasher',             time:10, pts:20, who:['Harvey','Lila','Mia']},
+  {task:'Set the table',                 time:5,  pts:10, who:['Lila','Mia']},
+  {task:'Help with laundry (sort/fold)', time:15, pts:15, who:['Lila','Mia']},
+  {task:'Yoga / Exercise (15 min)',      time:15, pts:20, who:['Harvey','Lila','Mia'], bonus:true},
+  {task:'Errands / Walmart run',         time:15, pts:5,  who:['Harvey','Lila','Mia'], bonus:true}
+];
+
+const paid = [
+  {task:'Load dishwasher',          time:15, rate:6, pay:1.50, diff:'medium', who:['Mia']},
+  {task:'Vacuum (one room)',        time:20, rate:6, pay:2.00, diff:'medium', who:['Lila','Mia']},
+  {task:'Clean bathroom sink',      time:15, rate:7, pay:1.75, diff:'medium', who:['Lila','Mia']},
+  {task:'Clean toilet',             time:15, rate:9, pay:2.25, diff:'hard',   who:['Mia']},
+  {task:'Clean walls / baseboards', time:20, rate:6, pay:2.00, diff:'medium', who:['Lila','Mia']},
+  {task:'Vacuum whole house',       time:40, rate:6, pay:4.00, diff:'medium', who:['Mia']},
+  {task:'Full bathroom clean',      time:30, rate:8, pay:4.00, diff:'hard',   who:['Mia']},
+  {task:'Cook / help with meal',    time:30, rate:7, pay:3.50, diff:'medium', who:['Lila','Mia']},
+  {task:'Responsible for dessert',  time:20, rate:6, pay:2.00, diff:'easy',   who:['Lila','Mia']},
+  {task:'Clean garage (portion)',   time:45, rate:7, pay:5.25, diff:'hard',   who:['Mia']},
+  {task:'Wash car (help)',          time:30, rate:7, pay:3.50, diff:'hard',   who:['Mia']}
+];
+
+const diffCfg = {
+  easy:   {bg:'#DCFCE7', tx:'#166534', lbl:'Easy'},
+  medium: {bg:'#FEF9C3', tx:'#854D0E', lbl:'Medium'},
+  hard:   {bg:'#FEE2E2', tx:'#991B1B', lbl:'Hard'}
+};
+
+const groups = [
+  {id:'avatar',   type:'daily',  icon:'📺', name:'Nightly Avatar / Show',     thresh:'All 3 brush teeth tonight', cost:0},
+  {id:'icecream', type:'easy',   icon:'🍦', name:"Ice cream at Macy's",       thresh:'75 group pts',  cost:10},
+  {id:'park',     type:'easy',   icon:'🌳', name:'Park hopping',              thresh:'60 group pts',  cost:0},
+  {id:'biking',   type:'easy',   icon:'🚴', name:'Murdoch Trail (biking)',    thresh:'60 group pts',  cost:0},
+  {id:'pickle',   type:'easy',   icon:'🏓', name:'Pickleball',                thresh:'60 group pts',  cost:0},
+  {id:'pool',     type:'medium', icon:'🏊', name:"Swimming (Grandpa's pool)", thresh:'80 group pts',  cost:0},
+  {id:'arcade',   type:'medium', icon:'🕹️', name:'Nickel Arcade',             thresh:'100 group pts', cost:20},
+  {id:'dinner',   type:'medium', icon:'🍽️', name:'Out to dinner',              thresh:'120 group pts', cost:40},
+  {id:'bowling',  type:'big',    icon:'🎳', name:'Bowling',                   thresh:'140 group pts', cost:45},
+  {id:'minigolf', type:'big',    icon:'⛳', name:'Mini golf',                 thresh:'130 group pts', cost:35},
+  {id:'movies',   type:'big',    icon:'🎬', name:'Movies',                    thresh:'150 group pts', cost:50}
+];
+
+const groupCfg = {
+  daily:  {lbl:'Every Night',     tc:'#1E40AF'},
+  easy:   {lbl:'Easy Goals 🌿',   tc:'#166634'},
+  medium: {lbl:'Medium Goals 🔥', tc:'#9A3412'},
+  big:    {lbl:'Big Goals 🏆',    tc:'#7E22CE'}
+};
+
+const bonusCats = [
+  {id:'yoga',    icon:'🧘', name:'Yoga / Exercise', pts:20},
+  {id:'errand',  icon:'🛒', name:'Errands / Walmart', pts:5},
+  {id:'reading', icon:'📚', name:'Extra Reading', pts:10},
+  {id:'kind',    icon:'🤝', name:'Random Kindness', pts:10},
+  {id:'clean',   icon:'🧹', name:'Extra Cleaning', pts:15},
+  {id:'custom',  icon:'✨', name:'Custom Amount', pts:null}
+];
+
+// ── State ──────────────────────────────────────────────────────────────────
+let selKid = null;
+let selCat = null;
+
+// ── localStorage helpers ───────────────────────────────────────────────────
+function isoWeek() {
+  const d = new Date();
+  const jan1 = new Date(d.getFullYear(), 0, 1);
+  const wk = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+  return d.getFullYear() + '-W' + String(wk).padStart(2, '0');
+}
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+
+const WEEK_KEY = 'chore-v1-checks-' + isoWeek();
+
+function lsGet(k, def) {
+  try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : def; }
+  catch { return def; }
+}
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+function getChecks()     { return lsGet(WEEK_KEY, {}); }
+function saveChecks(c)   { lsSet(WEEK_KEY, c); }
+function getTotal(n)     { return lsGet('chore-v1-total-' + n, 0); }
+function setTotal(n, v)  { lsSet('chore-v1-total-' + n, Math.max(0, v)); }
+function getStreak(n)    { return lsGet('chore-v1-streak-' + n, {count:0, last:''}); }
+function setStreak(n, v) { lsSet('chore-v1-streak-' + n, v); }
+function getRewardsLog() { return lsGet('chore-v1-rewards', []); }
+function getBonusLog()   { return lsGet('chore-v1-bonus', []); }
+
+// ── Streak logic ───────────────────────────────────────────────────────────
+function checkStreakUpdate(kidName, checks) {
+  const elig = habits.filter(h => h.who.includes(kidName));
+  const allDone = elig.every((h, _) => !!checks[habits.indexOf(h) + '-' + kidName]);
+  if (!allDone) return;
+  const td = todayStr();
+  const streak = getStreak(kidName);
+  if (streak.last === td) return;
+  const prev = new Date(); prev.setDate(prev.getDate() - 1);
+  const yd = prev.toISOString().split('T')[0];
+  setStreak(kidName, streak.last === yd
+    ? {count: streak.count + 1, last: td}
+    : {count: 1, last: td});
+}
+
+// ── Toggle habit ───────────────────────────────────────────────────────────
+function toggle(idx, kidName) {
+  const key = idx + '-' + kidName;
+  const checks = getChecks();
+  const h = habits[idx];
+  if (checks[key]) {
+    delete checks[key];
+    setTotal(kidName, getTotal(kidName) - h.pts);
+  } else {
+    checks[key] = true;
+    setTotal(kidName, getTotal(kidName) + h.pts);
+    checkStreakUpdate(kidName, checks);
+  }
+  saveChecks(checks);
+  buildHabits();
+  buildHeader();
+}
+
+// ── Mark group reward done ─────────────────────────────────────────────────
+function markRewardDone(rewardId) {
+  const r = groups.find(g => g.id === rewardId);
+  if (!r) return;
+  const log = getRewardsLog();
+  log.unshift({id: rewardId, name: r.name, icon: r.icon, date: todayStr()});
+  lsSet('chore-v1-rewards', log.slice(0, 60));
+  buildGroup();
+  showToast(r.icon + ' ' + r.name + ' logged! 🎉');
+}
+
+// ── Submit bonus points ────────────────────────────────────────────────────
+function submitBonus() {
+  if (!selKid || !selCat) return;
+  const cat = bonusCats.find(c => c.id === selCat);
+  let pts = cat.pts;
+  if (cat.id === 'custom') {
+    pts = parseInt(document.getElementById('custom-pts-val').value);
+    if (!pts || pts < 1) return;
+  }
+  const log = getBonusLog();
+  const td = todayStr();
+  const targets = selKid === 'All' ? kids.map(k => k.name) : [selKid];
+  targets.forEach(kn => {
+    setTotal(kn, getTotal(kn) + pts);
+    log.unshift({kid: kn, pts, reason: cat.name, date: td});
+  });
+  lsSet('chore-v1-bonus', log.slice(0, 100));
+  showToast('+' + pts + ' pts → ' + (selKid === 'All' ? 'all 3 kids' : selKid) + ' 🎉');
+  selKid = null; selCat = null;
+  document.getElementById('custom-pts-val').value = '';
+  buildAddPoints();
+  buildHeader();
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Tab switch ─────────────────────────────────────────────────────────────
+function switchTab(t) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('t-' + t).classList.add('active');
+  document.getElementById('p-' + t).classList.add('active');
+}
+
+// ── Build: Header ──────────────────────────────────────────────────────────
+function buildHeader() {
+  document.getElementById('header-pts').innerHTML = kids.map(k => {
+    const total = getTotal(k.name);
+    const streak = getStreak(k.name);
+    const streakStr = streak.count >= 1 ? '🔥 ' + streak.count + (streak.count === 1 ? '-day' : '-day') + ' streak' : '';
+    return `<div class="kid-pts-chip">
+      <div class="kpc-emoji">${k.e}</div>
+      <div class="kpc-name">${k.name}</div>
+      <div class="kpc-pts">${total}<span style="font-size:10px;font-weight:500;opacity:.8"> pts</span></div>
+      <div class="kpc-streak">${streakStr}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Build: Habits ──────────────────────────────────────────────────────────
+function buildHabits() {
+  const checks = getChecks();
+  const wk = isoWeek();
+
+  document.getElementById('habits-week-badge').innerHTML =
+    `<span class="week-badge">📅 Week ${wk}</span>`;
+
+  document.getElementById('habits-kid-row').innerHTML = kids.map(k => {
+    const weekPts = habits.reduce((sum, h, i) =>
+      h.who.includes(k.name) && checks[i + '-' + k.name] ? sum + h.pts : sum, 0);
+    return `<div class="kid-chip" style="border-color:${k.c};background:${k.bg}">
+      <div class="ke">${k.e}</div>
+      <div class="kn" style="color:${k.c}">${k.name}</div>
+      <div class="ka">${weekPts} pts this week</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('habits-list').innerHTML = habits.map((h, i) => {
+    const btns = kids.map(k => {
+      const elig = h.who.includes(k.name);
+      const key = i + '-' + k.name;
+      const done = !!checks[key];
+      const border = elig ? (done ? k.c : k.c + '55') : '#E5E7EB';
+      const bg = done ? k.c : elig ? k.bg : '#F9FAFB';
+      const label = done ? '✅' : elig ? k.e : '—';
+      const lc = done ? '#fff' : elig ? k.c : '#D1D5DB';
+      const clickFn = elig ? `toggle(${i},'${k.name}')` : '';
+      return `<button class="kb ${elig ? 'eligible' : ''}" onclick="${clickFn}"
+        style="border-color:${border};background:${bg}" ${!elig ? 'disabled' : ''}>
+        <span style="font-size:16px">${label}</span>
+        <span class="kb-lbl" style="color:${lc}">${elig ? k.name : 'N/A'}</span>
+      </button>`;
+    }).join('');
+    const bonusTag = h.bonus ? '<span class="bonus-tag">BONUS</span>' : '';
+    return `<div class="card${h.bonus ? ' bonus-cat' : ''}">
+      <div class="card-title">${h.task}${bonusTag}</div>
+      <div class="card-sub">~${h.time} min · <span class="card-pts">${h.pts} pts</span></div>
+      <div class="kid-btns">${btns}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Build: Paid ────────────────────────────────────────────────────────────
+function buildPaid() {
+  document.getElementById('paid-list').innerHTML = paid.map(c => {
+    const dc = diffCfg[c.diff];
+    const whos = kids.map(k => {
+      const elig = c.who.includes(k.name);
+      return `<span class="who-chip" style="background:${elig ? k.bg : '#F3F4F6'};color:${elig ? k.c : '#D1D5DB'};border-color:${elig ? k.c + '44' : '#E5E7EB'}">${k.e} ${k.name}</span>`;
+    }).join('');
+    return `<div class="pay-card">
+      <div class="pay-body">
+        <div class="pay-title">${c.task}<span class="diff-badge" style="background:${dc.bg};color:${dc.tx}">${dc.lbl}</span></div>
+        <div class="pay-meta">~${c.time} min · $${c.rate}/hr</div>
+        <div class="who-chips">${whos}</div>
+      </div>
+      <div class="pay-amount"><div class="pay-dollar">$${c.pay.toFixed(2)}</div><div class="pay-word">earned</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ── Build: Group ───────────────────────────────────────────────────────────
+function buildGroup() {
+  const rewardsLog = getRewardsLog();
+  const types = ['daily','easy','medium','big'];
+
+  document.getElementById('group-list').innerHTML = types.map(type => {
+    const cfg = groupCfg[type];
+    const items = groups.filter(g => g.type === type).map(g => {
+      const completions = rewardsLog.filter(r => r.id === g.id);
+      const costLine = g.cost > 0
+        ? `<div class="ga-cost">~$${g.cost} total · kids cover ~$${Math.ceil(g.cost * .65)}</div>`
+        : type !== 'daily' ? '<div class="ga-cost" style="color:#10B981">Free activity! 🎉</div>' : '';
+      const doneInfo = completions.length > 0
+        ? `<div class="ga-done-count">✓ Done ${completions.length}x · last ${completions[0].date}</div>`
+        : '';
+      return `<div class="ga-card">
+        <div class="ga-icon">${g.icon}</div>
+        <div class="ga-body">
+          <div class="ga-name">${g.name}</div>
+          <div class="ga-thresh" style="color:${cfg.tc}">🎯 ${g.thresh}</div>
+          ${costLine}${doneInfo}
+        </div>
+        <button class="ga-done-btn" onclick="markRewardDone('${g.id}')">✓ Done</button>
+      </div>`;
+    }).join('');
+    return `<div class="group-section-lbl">${cfg.lbl}</div>${items}`;
+  }).join('');
+
+  const logEl = document.getElementById('rewards-log');
+  if (rewardsLog.length > 0) {
+    const weekCounts = {};
+    rewardsLog.forEach(r => {
+      const d = new Date(r.date);
+      const jan1 = new Date(d.getFullYear(), 0, 1);
+      const wk = d.getFullYear() + '-W' + String(Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7)).padStart(2,'0');
+      weekCounts[wk] = (weekCounts[wk] || 0) + 1;
+    });
+    const thisWeekCount = weekCounts[isoWeek()] || 0;
+    logEl.innerHTML = `<div style="margin-top:20px">
+      <p class="section-h">📋 Completion Log
+        <span style="float:right;font-size:10px;color:${thisWeekCount >= 2 ? '#10B981' : '#F97316'};font-weight:700">
+          ${thisWeekCount}/2 this week
+        </span>
+      </p>
+      ${rewardsLog.slice(0, 12).map(r =>
+        `<div class="log-item">
+          <div class="log-icon">${r.icon}</div>
+          <div class="log-name">${r.name}</div>
+          <div class="log-date">${r.date}</div>
+        </div>`
+      ).join('')}
+    </div>`;
+  } else {
+    logEl.innerHTML = '';
+  }
+}
+
+// ── Build: Redeem ──────────────────────────────────────────────────────────
+function buildRedeem() {
+  const tablet = [{pts:20,time:'15 min'},{pts:40,time:'30 min'},{pts:60,time:'45 min'},{pts:80,time:'1 hour'}];
+  document.getElementById('redeem-tablet').innerHTML = tablet.map(r =>
+    `<div class="redeem-card">
+      <div style="font-size:22px;margin-bottom:4px">📱</div>
+      <div class="redeem-val">${r.time}</div>
+      <div class="redeem-unit">tablet time</div>
+      <div class="redeem-cost">${r.pts} pts</div>
+    </div>`
+  ).join('');
+  const pts = [5,10,15,20,25,50,100];
+  document.getElementById('pt-table').innerHTML = pts.map(p =>
+    `<div class="pt-row"><span class="pt-key">${p} pts</span><span style="color:#374151">≈ $${(p/5).toFixed(2)}</span></div>`
+  ).join('');
+}
+
+// ── Build: Add Points ──────────────────────────────────────────────────────
+function buildAddPoints() {
+  const kidTargets = [
+    ...kids.map(k => ({key: k.name, e: k.e, name: k.name, c: k.c})),
+    {key:'All', e:'🌟', name:'All 3 Kids', c:'#7C3AED'}
+  ];
+  document.getElementById('kid-selector').innerHTML = kidTargets.map(k =>
+    `<div class="sel-card ${selKid === k.key ? 'on' : ''}" onclick="selectKid('${k.key}')">
+      <div class="sc-icon">${k.e}</div>
+      <div class="sc-name" style="color:${selKid === k.key ? k.c : '#111827'}">${k.name}</div>
+    </div>`
+  ).join('');
+
+  document.getElementById('cat-selector').innerHTML = bonusCats.map(c =>
+    `<div class="sel-card cat-card ${selCat === c.id ? 'on' : ''}" onclick="selectCat('${c.id}')">
+      <div class="sc-icon">${c.icon}</div>
+      <div class="sc-name">${c.name}</div>
+      <div class="sc-sub">${c.pts !== null ? c.pts + ' pts' : 'you pick'}</div>
+    </div>`
+  ).join('');
+
+  document.getElementById('custom-row').style.display = selCat === 'custom' ? 'block' : 'none';
+
+  const log = getBonusLog();
+  document.getElementById('bonus-log-list').innerHTML = log.length === 0
+    ? '<p class="empty-state">No bonus points added yet</p>'
+    : log.slice(0, 15).map(entry => {
+        const k = kids.find(x => x.name === entry.kid);
+        return `<div class="log-item">
+          <div class="log-icon">${k ? k.e : '🌟'}</div>
+          <div style="flex:1">
+            <div class="bonus-log-pts">+${entry.pts} pts — ${entry.kid}</div>
+            <div class="bonus-log-reason">${entry.reason}</div>
+          </div>
+          <div class="log-date">${entry.date}</div>
+        </div>`;
+      }).join('');
+
+  renderAddBtn();
+}
+
+function selectKid(k) { selKid = k; buildAddPoints(); }
+function selectCat(c) { selCat = c; buildAddPoints(); }
+
+function renderAddBtn() {
+  const btn = document.getElementById('add-pts-btn');
+  const cat = bonusCats.find(c => c.id === selCat);
+  const customVal = parseInt(document.getElementById('custom-pts-val').value);
+  const ready = selKid && selCat && (selCat !== 'custom' || customVal >= 1);
+  btn.disabled = !ready;
+  if (ready) {
+    const pts = cat.id === 'custom' ? customVal : cat.pts;
+    const whoLbl = selKid === 'All' ? 'All 3 Kids' : selKid;
+    btn.textContent = `Add ${pts} pts → ${whoLbl}`;
+  } else {
+    btn.textContent = 'Add Points';
+  }
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+buildHeader();
+buildHabits();
+buildPaid();
+buildGroup();
+buildRedeem();
+buildAddPoints();
 </script>
 </body>
 </html>
