@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxwell Family Chore Chart</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8fa;color:#1a1a2e;margin:0;padding:20px}
+.chore-container{max-width:1200px;margin:0 auto}
+h1{font-size:28px;font-weight:700;margin-bottom:8px}
+.subtitle{font-size:14px;color:#888;margin-bottom:24px}
+.chart{background:#fff;border-radius:12px;border:1px solid #e5e5ea;overflow:hidden}
+.chart-header{display:grid;grid-template-columns:150px repeat(auto-fit,minmax(150px,1fr));gap:0;border-bottom:2px solid #e5e5ea}
+.header-cell{padding:16px;font-weight:700;text-align:center;background:#f8f8fa;border-right:1px solid #e5e5ea}
+.header-cell:first-child{text-align:left;background:#1a1a2e;color:#fff}
+.chart-row{display:grid;grid-template-columns:150px repeat(auto-fit,minmax(150px,1fr));gap:0;border-bottom:1px solid #e5e5ea}
+.chart-row:last-child{border-bottom:none}
+.row-label{padding:16px;font-weight:600;background:#f8f8fa;border-right:1px solid #e5e5ea;text-align:left}
+.chart-cell{padding:16px;border-right:1px solid #e5e5ea;text-align:center;background:#fff;display:flex;align-items:center;justify-content:center;min-height:60px}
+.chart-cell:last-child{border-right:none}
+.status{display:inline-block;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.status.done{background:#dcfce7;color:#16a34a}
+.status.pending{background:#fef9c3;color:#a16207}
+.status.skip{background:#fee2e2;color:#dc2626}
+.status.empty{background:#e5e5ea;color:#666;opacity:0.5}
+.legend{display:flex;gap:16px;margin-top:24px;flex-wrap:wrap;padding:16px;background:#f8f8fa;border-radius:8px;border:1px solid #e5e5ea}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
+.legend-dot{width:12px;height:12px;border-radius:20px}
+</style>
+</head>
+<body>
+
+<div class="chore-container">
+  <h1>🏠 Maxwell Family Chore Chart</h1>
+  <p class="subtitle">Weekly task assignments and tracking</p>
+  
+  <div class="chart">
+    <div class="chart-header">
+      <div class="header-cell">Task / Week</div>
+      <div class="header-cell">Mon</div>
+      <div class="header-cell">Tue</div>
+      <div class="header-cell">Wed</div>
+      <div class="header-cell">Thu</div>
+      <div class="header-cell">Fri</div>
+      <div class="header-cell">Sat</div>
+      <div class="header-cell">Sun</div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="row-label">Dishes</div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status pending">Pending</span></div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status pending">Pending</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="row-label">Laundry</div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status pending">Pending</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status pending">Pending</span></div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="row-label">Vacuum</div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="row-label">Trash</div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status pending">Pending</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="row-label">Yard Work</div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status empty">—</span></div>
+      <div class="chart-cell"><span class="status done">✓ Done</span></div>
+      <div class="chart-cell"><span class="status pending">Pending</span></div>
+    </div>
+  </div>
+  
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div> Completed</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> Pending</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> Overdue</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e5e5ea"></div> Not assigned</div>
+  </div>
+</div>
+
+</body>
+</html>

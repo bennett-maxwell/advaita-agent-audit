@@ -172,6 +172,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="tab" onclick="switchTab('skills')">🔗 Skills <span class="cnt">86</span></button>
     <button class="tab" onclick="switchTab('mindmap')">🗺️ Mind Map</button>
     <button class="tab" onclick="switchTab('bootflow')">🚀 Boot Flow</button>
+    <button class="tab" onclick="switchTab('choreChart')">🏠 Chore Chart</button>
   </div>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
@@ -395,9 +396,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div id="bootflow-inner"></div>
 </div>
 
+<!-- CHORE CHART TAB -->
+<div class="tab-panel" id="tab-choreChart">
+  <iframe src="/chore-chart/index.html" style="width:100%;height:calc(100vh - 52px);border:none;"></iframe>
+</div>
+
 <script>
 // ── TAB SWITCHING ──────────────────────────────
-const ALL_TABS=['leo','ivan','mack','skills','mindmap','bootflow'];
+const ALL_TABS=['leo','ivan','mack','skills','mindmap','bootflow','choreChart'];
 function switchTab(t){
   document.querySelectorAll('.tab').forEach((b,i)=>{b.classList.toggle('active',ALL_TABS[i]===t)});
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
