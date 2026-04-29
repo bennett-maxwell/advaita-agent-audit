@@ -173,6 +173,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="tab" onclick="switchTab('mindmap')">🗺️ Mind Map</button>
     <button class="tab" onclick="switchTab('bootflow')">🚀 Boot Flow</button>
     <button class="tab" onclick="switchTab('choreChart')">🏠 Chore Chart</button>
+    <button class="tab" onclick="switchTab('marketing')">📣 Marketing</button>
   </div>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
@@ -401,9 +402,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <iframe src="/chore-chart/index.html" style="width:100%;height:calc(100vh - 52px);border:none;"></iframe>
 </div>
 
+<!-- MARKETING TAB -->
+<div class="tab-panel" id="tab-marketing">
+  <iframe src="/marketing/index.html" style="width:100%;height:calc(100vh - 52px);border:none;"></iframe>
+</div>
+
 <script>
 // ── TAB SWITCHING ──────────────────────────────
-const ALL_TABS=['leo','ivan','mack','skills','mindmap','bootflow','choreChart'];
+const ALL_TABS=['leo','ivan','mack','skills','mindmap','bootflow','choreChart','marketing'];
 function switchTab(t){
   document.querySelectorAll('.tab').forEach((b,i)=>{b.classList.toggle('active',ALL_TABS[i]===t)});
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
