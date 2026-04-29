@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-29T20:28:46Z",
+  "updated": "2026-04-29T20:30:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -113,7 +113,7 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 62,
+    "ivan_cpu_pct": 66,
     "ivan_ram_pct": 54,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
