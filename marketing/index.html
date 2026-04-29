@@ -361,6 +361,81 @@
     }
     .task-item:last-child { border-bottom: none; }
     .task-check { flex-shrink: 0; }
+
+    /* ══════════════════════════════════════
+       OVERVIEW — Priority Board + Quick Links
+       ══════════════════════════════════════ */
+    .priority-board {
+      background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(168,85,247,0.05));
+      border: 1px solid rgba(79,142,247,0.25);
+      border-radius: var(--radius); padding: 14px; margin-bottom: 12px;
+    }
+    .priority-board-title {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px;
+    }
+    .priority-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid rgba(42,47,62,0.4);
+    }
+    .priority-item:last-child { border-bottom: none; }
+    .priority-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .priority-item.priority-urgent .priority-num { background: var(--red); }
+    .priority-text { flex: 1; min-width: 0; }
+    .priority-title { font-size: 13px; font-weight: 600; }
+    .priority-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .priority-link {
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      background: rgba(79,142,247,0.12); border: 1px solid rgba(79,142,247,0.25);
+      border-radius: 6px; padding: 4px 8px; text-decoration: none;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    .quick-links {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px 14px; margin-bottom: 12px;
+    }
+    .quick-links-title {
+      font-size: 10px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
+    }
+    .quick-links-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ql-btn {
+      font-size: 12px; font-weight: 600; color: var(--text);
+      background: rgba(42,47,62,0.6); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; text-decoration: none;
+      white-space: nowrap; transition: background 0.15s, border-color 0.15s;
+      display: inline-block;
+    }
+    .ql-btn:hover { background: rgba(79,142,247,0.15); border-color: rgba(79,142,247,0.4); }
+
+    /* ══════════════════════════════════════
+       BUDGET TAB — ROI Table
+       ══════════════════════════════════════ */
+    .roi-row {
+      display: grid;
+      grid-template-columns: 2fr 56px 2fr 88px;
+      gap: 8px; padding: 9px 0;
+      border-bottom: 1px solid rgba(42,47,62,0.4);
+      align-items: center; font-size: 12px;
+    }
+    .roi-row:last-child { border-bottom: none; }
+    .roi-name { font-weight: 700; font-size: 13px; }
+    .roi-role { font-size: 11px; color: var(--muted); }
+    .roi-cost { font-weight: 700; font-size: 13px; color: var(--yellow); text-align: center; }
+    .roi-output { color: var(--muted); }
+    .roi-verdict { text-align: right; }
+    @media (max-width: 440px) {
+      .roi-row { grid-template-columns: 1fr 1fr; gap: 4px; }
+      .roi-cost { text-align: left; }
+      .roi-output { grid-column: 1 / -1; }
+      .roi-verdict { text-align: left; }
+    }
   </style>
 </head>
 <body>
@@ -381,8 +456,10 @@
 <div class="nav">
   <button class="nav-btn active" onclick="show('overview')">Overview</button>
   <button class="nav-btn" onclick="show('creative')">🎬 Creative</button>
+  <button class="nav-btn" onclick="show('budget')">💰 Budget</button>
   <button class="nav-btn" onclick="show('organic')">🌱 Organic</button>
   <button class="nav-btn" onclick="show('pr')">📡 PR</button>
+  <button class="nav-btn" onclick="show('actions')">📋 Actions</button>
 </div>
 
 <!-- ══════════════════════════════════════ -->
@@ -410,6 +487,64 @@
       <div class="kpi-label">Organic Target</div>
       <div class="kpi-val purple">160+</div>
       <div class="kpi-sub">leads/mo if all active</div>
+    </div>
+  </div>
+
+  <!-- ── Priority Board ── -->
+  <div class="priority-board">
+    <div class="priority-board-title">⭐ This Week — Top Priorities</div>
+    <div class="priority-item priority-urgent">
+      <div class="priority-num">1</div>
+      <div class="priority-text">
+        <div class="priority-title">Activate Metricool Posting Schedule</div>
+        <div class="priority-sub">0 posts/week — social pipeline completely blocked. Leo can configure in 30 min.</div>
+      </div>
+      <a class="priority-link" href="https://metricool.com/app" target="_blank">Go →</a>
+    </div>
+    <div class="priority-item priority-urgent">
+      <div class="priority-num">2</div>
+      <div class="priority-text">
+        <div class="priority-title">Cold Email Setup (Clay + Instantly)</div>
+        <div class="priority-sub">Biggest organic unlock: +30-50 leads/mo at $5-8 CPL. Account creation is the only blocker.</div>
+      </div>
+      <a class="priority-link" href="javascript:show('organic')">Organic →</a>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">3</div>
+      <div class="priority-text">
+        <div class="priority-title">Deploy Arcads IC v2 + SH v2 to Meta</div>
+        <div class="priority-sub">Hooks built and rendered — waiting on Meta campaign launch. $550/mo already paid.</div>
+      </div>
+      <a class="priority-link" href="https://app.arcads.ai" target="_blank">Go →</a>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">4</div>
+      <div class="priority-text">
+        <div class="priority-title">AdStellar Weekly Insights Report</div>
+        <div class="priority-sub">Run Insights tab — competitor trends + FKI ad performance review weekly.</div>
+      </div>
+      <a class="priority-link" href="https://app.adstellar.ai" target="_blank">Go →</a>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">5</div>
+      <div class="priority-text">
+        <div class="priority-title">FKI Quarterly Market Report — First Draft</div>
+        <div class="priority-sub">99% AI-generated. Leo drafts in 1hr. High-credibility PR asset for franchise prospects.</div>
+      </div>
+      <a class="priority-link" href="javascript:show('pr')">PR tab →</a>
+    </div>
+  </div>
+
+  <!-- ── Quick Links ── -->
+  <div class="quick-links">
+    <div class="quick-links-title">⚡ Quick Links</div>
+    <div class="quick-links-row">
+      <a class="ql-btn" href="https://business.facebook.com/adsmanager/" target="_blank">📊 Ads Manager</a>
+      <a class="ql-btn" href="https://app.adstellar.ai" target="_blank">🔍 AdStellar</a>
+      <a class="ql-btn" href="https://metricool.com/app" target="_blank">📅 Metricool</a>
+      <a class="ql-btn" href="https://www.blaze.ai" target="_blank">📝 Blaze AI</a>
+      <a class="ql-btn" href="https://app.arcads.ai" target="_blank">🎭 Arcads</a>
+      <a class="ql-btn" href="https://www.notion.so/34dcf5514fd3818688b4cca473b643f2" target="_blank">📋 Ad Set Audit</a>
     </div>
   </div>
 
@@ -1013,13 +1148,282 @@
   <div class="ts">PR data: Notion Organic Outreach · Council v3 · Apr 25, 2026</div>
 </div>
 
+<!-- ══════════════════════════════════════ -->
+<!--  TAB 5 — BUDGET & ROI                 -->
+<!-- ══════════════════════════════════════ -->
+<div id="budget" class="section">
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Meta Spend/Mo</div>
+      <div class="kpi-val red">$11,677</div>
+      <div class="kpi-sub">IC + SH · Apr 2026</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Creative Tools/Mo</div>
+      <div class="kpi-val yellow">~$789</div>
+      <div class="kpi-sub">10 tools · 7 earning keep</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Organic Tools/Mo</div>
+      <div class="kpi-val" style="color:var(--muted);">$0</div>
+      <div class="kpi-sub">Clay + Instantly needed</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total Mktg/Mo</div>
+      <div class="kpi-val accent">~$12,466</div>
+      <div class="kpi-sub">Tools + paid media</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💰 Creative Tool ROI — Monthly Snapshot</div>
+    <div class="roi-row" style="font-size:10px;">
+      <div><span style="font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Tool</span></div>
+      <div style="text-align:center;"><span style="font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Cost</span></div>
+      <div><span style="font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Produced</span></div>
+      <div style="text-align:right;"><span style="font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">Verdict</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">AdStellar</div><div class="roi-role">Competitor intel + Meta launch</div></div>
+      <div class="roi-cost">$99</div>
+      <div class="roi-output">33 ads audited · 360FC strategy validated · brand kit live</div>
+      <div class="roi-verdict"><span class="badge badge-green">✅ Worth it</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">Arcads AI</div><div class="roi-role">UGC video at scale</div></div>
+      <div class="roi-cost">$550</div>
+      <div class="roi-output">IC v2 + SH v2 hooks built · not yet live on Meta</div>
+      <div class="roi-verdict"><span class="badge badge-yellow">⏳ Trial</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">HeyGen</div><div class="roi-role">Bennett AI avatar</div></div>
+      <div class="roi-cost">$29</div>
+      <div class="roi-output">Avatar trained · pre-recorded clips ready (ID: c7991c)</div>
+      <div class="roi-verdict"><span class="badge badge-green">✅ Worth it</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">ElevenLabs</div><div class="roi-role">Voice clone</div></div>
+      <div class="roi-cost">$5</div>
+      <div class="roi-output">Bennett voice clone live (voice ID: W2qLL)</div>
+      <div class="roi-verdict"><span class="badge badge-green">✅ Worth it</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">Blaze AI</div><div class="roi-role">Content drafting</div></div>
+      <div class="roi-cost">$39</div>
+      <div class="roi-output">Social + ad copy drafts · pipeline active</div>
+      <div class="roi-verdict"><span class="badge badge-yellow">⚠️ Monitor</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">Canva</div><div class="roi-role">Design + brand assets</div></div>
+      <div class="roi-cost">$16</div>
+      <div class="roi-output">Brand kits + ad templates for all 4 FKI brands</div>
+      <div class="roi-verdict"><span class="badge badge-green">✅ Worth it</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">CapCut</div><div class="roi-role">Video editing</div></div>
+      <div class="roi-cost">Free</div>
+      <div class="roi-output">Video post-production in pipeline</div>
+      <div class="roi-verdict"><span class="badge badge-green">✅ Worth it</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">Opus.pro</div><div class="roi-role">Short clip repurposing</div></div>
+      <div class="roi-cost">$29</div>
+      <div class="roi-output">Short-form clips from long-form content</div>
+      <div class="roi-verdict"><span class="badge badge-yellow">⏳ Trial</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">Metricool</div><div class="roi-role">Social scheduling</div></div>
+      <div class="roi-cost">$22</div>
+      <div class="roi-output"><span class="red">0 posts/week — scheduling pipeline not activated</span></div>
+      <div class="roi-verdict"><span class="badge badge-red">🔴 Justify</span></div>
+    </div>
+    <div class="roi-row">
+      <div><div class="roi-name">Remotion</div><div class="roi-role">Branded video automation</div></div>
+      <div class="roi-cost">Free</div>
+      <div class="roi-output">Templated video renders · runs local on Ivan</div>
+      <div class="roi-verdict"><span class="badge badge-green">✅ Worth it</span></div>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:var(--muted);padding-top:10px;border-top:1px solid var(--border);">
+      Total: ~<strong style="color:var(--text);">$789/mo</strong> · 7 earning keep · 1 needs activation (Metricool) · 2 in trial (Arcads, Opus)
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Meta Spend vs Target</div>
+    <div style="margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+        <span>IC — $3,678 spent of ~$4,000 target</span><span class="green" style="font-weight:700;">92%</span>
+      </div>
+      <div class="progress-wrap"><div class="progress-fill" style="width:92%;background:var(--green);"></div></div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+        <span>SH — $7,999 spent of ~$8,000 target</span><span class="green" style="font-weight:700;">100%</span>
+      </div>
+      <div class="progress-wrap"><div class="progress-fill" style="width:100%;background:var(--green);"></div></div>
+    </div>
+    <div style="padding:10px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:8px;font-size:12px;">
+      <span class="green">✓</span> Spend on target. CPL improvement path: <strong>IC → $14.50 target</strong> (now $15.85) · <strong>SH → $17.00 target</strong> (now $19.42) via Arcads creative refresh.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔓 ROI Unlock Path — Activate These to Cut CPL</div>
+    <div class="lead-row">
+      <span class="rank-badge rank-1">1</span>
+      <div class="lead-name">
+        <strong>Cold Email (Clay + Instantly)</strong><br>
+        <span style="font-size:11px;color:var(--muted);">$246/mo → 30-50 leads/mo at $5-8 CPL · account creation is the only blocker</span>
+      </div>
+      <span class="badge badge-red">Not started</span>
+    </div>
+    <div class="lead-row">
+      <span class="rank-badge rank-2">2</span>
+      <div class="lead-name">
+        <strong>Arcads UGC → Meta</strong><br>
+        <span style="font-size:11px;color:var(--muted);">Already paid $550/mo · UGC format could cut blended CPL 20-30%</span>
+      </div>
+      <span class="badge badge-yellow">Pending launch</span>
+    </div>
+    <div class="lead-row">
+      <span class="rank-badge rank-3">3</span>
+      <div class="lead-name">
+        <strong>LinkedIn Organic (5 posts/wk)</strong><br>
+        <span style="font-size:11px;color:var(--muted);">$36/mo Buffer → 10-20 leads/mo · AI ghost-written · Bennett voice</span>
+      </div>
+      <span class="badge badge-red">Not started</span>
+    </div>
+    <div class="lead-row">
+      <div class="rank-badge">4</div>
+      <div class="lead-name">
+        <strong>AdStellar Direct Meta Launches</strong><br>
+        <span style="font-size:11px;color:var(--muted);">Faster creative iteration → lower CPL over time · bypasses Ads Manager</span>
+      </div>
+      <span class="badge badge-yellow">Setup needed</span>
+    </div>
+  </div>
+
+  <div class="ts">Budget data: Meta Ads Manager + tool pricing pages · Apr 29, 2026</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--  TAB 6 — ACTIONS                      -->
+<!-- ══════════════════════════════════════ -->
+<div id="actions" class="section">
+
+  <div class="card">
+    <div class="card-title">🔴 Setup Queue <span style="font-size:10px;color:var(--red);font-weight:400;">5 items blocking growth</span></div>
+    <div class="queue-item">
+      <span class="dot dot-red"></span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;">Metricool — Activate posting schedule</div>
+        <div style="font-size:11px;color:var(--muted);">0 posts/week · social pipeline dead · Leo can configure in 30 min</div>
+      </div>
+      <a href="https://metricool.com/app" target="_blank" class="login-btn">Open →</a>
+    </div>
+    <div class="queue-item">
+      <span class="dot dot-red"></span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;">Cold Email — Create Clay + Instantly accounts</div>
+        <div style="font-size:11px;color:var(--muted);">Biggest organic unlock ($246/mo → 30-50 leads). Bennett creates account, Leo builds sequences.</div>
+      </div>
+      <span class="badge badge-yellow">Bennett Required</span>
+    </div>
+    <div class="queue-item">
+      <span class="dot dot-red"></span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;">Arcads IC v2 + SH v2 → Deploy to Meta campaigns</div>
+        <div style="font-size:11px;color:var(--muted);">Videos rendered. Need Meta campaign setup + budget allocation to go live.</div>
+      </div>
+      <a href="https://app.arcads.ai" target="_blank" class="login-btn">Open →</a>
+    </div>
+    <div class="queue-item">
+      <span class="dot dot-yellow"></span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;">AdStellar — Configure direct Meta launch flow</div>
+        <div style="font-size:11px;color:var(--muted);">Launch creatives from AdStellar directly — bypasses Ads Manager manual steps</div>
+      </div>
+      <a href="https://app.adstellar.ai" target="_blank" class="login-btn">Open →</a>
+    </div>
+    <div class="queue-item">
+      <span class="dot dot-yellow"></span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;">FKI Quarterly Market Report — Generate Draft #1</div>
+        <div style="font-size:11px;color:var(--muted);">99% AI-generated. Leo drafts in 1hr. High-credibility PR asset for prospects.</div>
+      </div>
+      <span class="badge badge-blue">Leo can do now</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏳ Approval Queue <span style="font-size:10px;color:var(--muted);font-weight:400;">0 waiting</span></div>
+    <div style="font-size:12px;color:var(--muted);padding:10px 0;text-align:center;">No items awaiting approval · All clear ✅</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 Next Big Wins — Impact vs Effort</div>
+    <div class="lead-row">
+      <span class="rank-badge rank-1">🚀</span>
+      <div class="lead-name">
+        <strong>Cold Email Live</strong><br>
+        <span style="font-size:11px;color:var(--muted);">+30-50 leads/mo · $5-8 CPL · Account creation is the only blocker</span>
+      </div>
+      <span class="badge badge-green">High impact</span>
+    </div>
+    <div class="lead-row">
+      <span class="rank-badge rank-2">🎬</span>
+      <div class="lead-name">
+        <strong>Arcads → Meta Live</strong><br>
+        <span style="font-size:11px;color:var(--muted);">Could cut blended CPL 20-30% · $550/mo already sunk cost</span>
+      </div>
+      <span class="badge badge-green">High impact</span>
+    </div>
+    <div class="lead-row">
+      <span class="rank-badge rank-3">📅</span>
+      <div class="lead-name">
+        <strong>Metricool Activated</strong><br>
+        <span style="font-size:11px;color:var(--muted);">Social pipeline unblocked · AI ghost-written posts 5x/week</span>
+      </div>
+      <span class="badge badge-yellow">Med impact</span>
+    </div>
+    <div class="lead-row">
+      <div class="rank-badge">📊</div>
+      <div class="lead-name">
+        <strong>AdStellar Weekly Insights</strong><br>
+        <span style="font-size:11px;color:var(--muted);">Competitor tracking → smarter creative decisions week over week</span>
+      </div>
+      <span class="badge badge-yellow">Med impact</span>
+    </div>
+    <div class="lead-row">
+      <div class="rank-badge">📰</div>
+      <div class="lead-name">
+        <strong>Market Report Published</strong><br>
+        <span style="font-size:11px;color:var(--muted);">Credibility signal for franchise prospects + PR amplification value</span>
+      </div>
+      <span class="badge badge-blue">Long-term</span>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(79,142,247,0.3);">
+    <div class="card-title" style="color:var(--accent);">⚙️ Leo Can Do Right Now — No Bennett Needed</div>
+    <div class="queue-item"><span class="dot dot-green"></span><div><div style="font-size:13px;font-weight:600;">FKI Quarterly Market Report (Draft)</div><div style="font-size:11px;color:var(--muted);">Leo drafts in Google Docs · Bennett reviews + publishes</div></div></div>
+    <div class="queue-item"><span class="dot dot-green"></span><div><div style="font-size:13px;font-weight:600;">Metricool schedule configuration</div><div style="font-size:11px;color:var(--muted);">Log in, build posting calendar, connect social accounts</div></div></div>
+    <div class="queue-item"><span class="dot dot-green"></span><div><div style="font-size:13px;font-weight:600;">AdStellar Insights — weekly report pull</div><div style="font-size:11px;color:var(--muted);">Run + summarize to #leo-auto Slack channel every Monday</div></div></div>
+    <div class="queue-item"><span class="dot dot-green"></span><div><div style="font-size:13px;font-weight:600;">Podcast Pitch List — 20 targets</div><div style="font-size:11px;color:var(--muted);">Build franchise + entrepreneur podcast list + draft AI pitches</div></div></div>
+    <div class="queue-item"><span class="dot dot-green"></span><div><div style="font-size:13px;font-weight:600;">LinkedIn organic content — 5 posts/week</div><div style="font-size:11px;color:var(--muted);">AI ghost-written in Bennett's voice · queued for Buffer once set up</div></div></div>
+  </div>
+
+  <div class="ts">Actions: Leo AI council synthesis · Apr 29, 2026</div>
+</div>
+
 <!-- ── JS ── -->
 <script>
   function show(id) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    const idx = ['overview','creative','organic','pr'].indexOf(id);
+    const idx = ['overview','creative','budget','organic','pr','actions'].indexOf(id);
     document.querySelectorAll('.nav-btn')[idx].classList.add('active');
   }
 
