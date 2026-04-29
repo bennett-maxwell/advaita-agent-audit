@@ -12,13 +12,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .header .subtitle{color:rgba(255,255,255,.8);font-size:12px;margin:0 0 10px}
 .key-bar{background:rgba(255,255,255,.15);border-radius:10px;padding:7px 12px;display:inline-flex;gap:14px;font-size:11px;color:#fff;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
 .kid-pts-row{display:flex;gap:8px}
-.kid-pts-chip{flex:1;background:rgba(255,255,255,.18);border-radius:12px;padding:9px 6px;text-align:center;border:2px solid rgba(255,255,255,.3)}
+.kid-pts-chip{flex:1;background:rgba(255,255,255,.18);border-radius:12px;padding:9px 6px;text-align:center;border:2px solid rgba(255,255,255,.3);cursor:pointer;transition:all .18s}
+.kid-pts-chip:active{transform:scale(.96)}
 .kpc-emoji{font-size:18px}
 .kpc-name{font-size:11px;font-weight:700;color:#fff;margin-top:2px}
 .kpc-pts{font-size:18px;font-weight:800;color:#fff;line-height:1.1}
 .kpc-streak{font-size:9px;color:rgba(255,255,255,.85);margin-top:2px;min-height:12px}
+.kpc-next{font-size:9px;color:rgba(255,255,255,.75);margin-top:2px;line-height:1.3}
 .tabs{display:flex;overflow-x:auto;background:#fff;border-bottom:2px solid #F3F4F6;padding:0 4px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.tab{flex:1;min-width:60px;padding:12px 4px 10px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:500;color:#6B7280;border-bottom:3px solid transparent;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px}
+.tab{flex:1;min-width:55px;padding:12px 3px 10px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:500;color:#6B7280;border-bottom:3px solid transparent;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px}
 .tab:hover{background:#F9FAFB;color:#1a1a2e}
 .tab.active{color:#7C3AED;border-bottom-color:#7C3AED;font-weight:700}
 .pane{display:none;padding:16px 14px;max-width:580px;margin:0 auto}
@@ -68,18 +70,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .log-icon{font-size:20px;flex-shrink:0}
 .log-name{font-size:12px;font-weight:600;color:#111827;flex:1}
 .log-date{font-size:10px;color:#9CA3AF;flex-shrink:0}
-.redeem-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
-.redeem-card{background:#fff;border-radius:10px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #F3F4F6}
-.redeem-val{font-weight:700;font-size:18px;color:#7C3AED}
-.redeem-unit{font-size:11px;color:#6B7280}
-.redeem-cost{margin-top:7px;background:#F3F4F6;border-radius:7px;padding:5px 8px;font-weight:700;font-size:12px;color:#374151}
-.pt-table{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.pt-row{display:flex;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #F3F4F6;font-size:13px}
-.pt-row:last-child{border-bottom:none}
-.pt-key{color:#7C3AED;font-weight:700}
-.cta-box{background:linear-gradient(135deg,#7C3AED,#DB2777);border-radius:14px;padding:18px;color:#fff;text-align:center;margin-top:20px}
-.cta-box h4{font-size:14px;font-weight:700;margin-bottom:6px}
-.cta-box p{font-size:11px;opacity:.9;line-height:1.6}
+/* Store / Redeem */
+.store-kid-tabs{display:flex;gap:8px;margin-bottom:16px}
+.store-kid-tab{flex:1;background:#fff;border-radius:10px;padding:10px 6px;text-align:center;border:2px solid #E5E7EB;cursor:pointer;transition:all .18s}
+.store-kid-tab.on{border-color:var(--kc);background:var(--kb)}
+.store-kid-tab:active{transform:scale(.95)}
+.store-kid-tab .ske{font-size:20px}
+.store-kid-tab .skn{font-size:11px;font-weight:700;margin-top:2px}
+.store-kid-tab .skp{font-size:13px;font-weight:800;margin-top:2px}
+.store-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin:16px 0 8px}
+.store-item{background:#fff;border-radius:12px;padding:13px 14px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #F3F4F6;display:flex;align-items:center;gap:12px}
+.store-item-icon{font-size:28px;flex-shrink:0}
+.store-item-body{flex:1}
+.store-item-name{font-weight:700;font-size:14px;color:#111827}
+.store-item-sub{font-size:11px;color:#9CA3AF;margin-top:2px}
+.store-item-times{font-size:10px;color:#10B981;font-weight:700;margin-top:3px}
+.buy-btn{border:none;border-radius:9px;padding:9px 13px;font-size:12px;font-weight:700;cursor:pointer;min-height:42px;min-width:56px;flex-shrink:0;transition:all .18s}
+.buy-btn.can{background:linear-gradient(135deg,#7C3AED,#DB2777);color:#fff}
+.buy-btn.can:active{transform:scale(.94)}
+.buy-btn.cant{background:#F3F4F6;color:#D1D5DB;cursor:not-allowed}
+.next-reward-bar{background:rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;margin-top:6px;font-size:10px;color:rgba(255,255,255,.9);text-align:center}
+.next-reward-progress{height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:4px;overflow:hidden}
+.next-reward-fill{height:4px;background:#fff;border-radius:2px;transition:width .4s}
+/* Badges */
+.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.badge-card{background:#fff;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:2px solid #F3F4F6;transition:all .2s}
+.badge-card.earned{border-color:#F59E0B;background:#FFFBEB}
+.badge-card.locked{opacity:.45}
+.badge-icon{font-size:28px;margin-bottom:4px}
+.badge-name{font-size:10px;font-weight:700;color:#111827}
+.badge-cond{font-size:9px;color:#9CA3AF;margin-top:2px}
+/* Add Pts */
 .add-grid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
 .add-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
 .sel-card{background:#fff;border-radius:12px;padding:14px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:2px solid #F3F4F6;cursor:pointer;transition:all .18s}
@@ -99,8 +120,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .bonus-log-reason{font-size:11px;color:#6B7280}
 .empty-state{text-align:center;color:#9CA3AF;font-size:12px;padding:16px 0}
 .bonus-tag{font-size:9px;background:#D1FAE5;color:#065F46;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;vertical-align:middle}
+/* Weekly Challenge */
+.challenge-box{background:linear-gradient(135deg,#7C3AED22,#DB277722);border:2px solid #7C3AED44;border-radius:12px;padding:14px;margin-bottom:16px}
+.challenge-box h4{font-size:13px;font-weight:700;color:#7C3AED;margin-bottom:6px}
+.challenge-active{display:flex;align-items:center;gap:10px}
+.challenge-icon{font-size:28px}
+.challenge-body{flex:1}
+.challenge-name{font-weight:700;font-size:14px;color:#111827}
+.challenge-meta{font-size:11px;color:#6B7280;margin-top:2px}
+.challenge-clear-btn{font-size:11px;color:#EF4444;background:none;border:none;cursor:pointer;font-weight:600;padding:4px 8px}
+.challenge-set-row{display:flex;gap:8px}
+.challenge-input{flex:1;border:2px solid #E5E7EB;border-radius:8px;padding:9px 12px;font-size:13px;color:#111827;background:#fff}
+.challenge-input:focus{outline:none;border-color:#7C3AED}
+.challenge-pts-input{width:70px;border:2px solid #E5E7EB;border-radius:8px;padding:9px 10px;font-size:13px;font-weight:700;color:#111827;background:#fff;text-align:center;-webkit-appearance:none;appearance:none}
+.challenge-pts-input:focus{outline:none;border-color:#7C3AED}
+.challenge-set-btn{background:linear-gradient(135deg,#7C3AED,#DB2777);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.challenge-set-btn:active{transform:scale(.95)}
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:580px;transform:translateY(40px);transition:transform .25s}
+.modal-overlay.show .modal{transform:translateY(0)}
+.modal-title{font-size:18px;font-weight:800;color:#111827;margin-bottom:4px}
+.modal-sub{font-size:12px;color:#6B7280;margin-bottom:20px}
+.modal-pts{font-size:48px;font-weight:900;text-align:center;margin:12px 0}
+.modal-confirm-btn{width:100%;background:linear-gradient(135deg,#7C3AED,#DB2777);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px}
+.modal-confirm-btn:active{transform:scale(.97)}
+.modal-cancel-btn{width:100%;background:none;border:2px solid #E5E7EB;color:#6B7280;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer}
+.modal-balance{font-size:13px;color:#9CA3AF;text-align:center;margin-bottom:16px}
+/* Toast */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:200;white-space:nowrap;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Cta */
+.cta-box{background:linear-gradient(135deg,#7C3AED,#DB2777);border-radius:14px;padding:18px;color:#fff;text-align:center;margin-top:20px}
+.cta-box h4{font-size:14px;font-weight:700;margin-bottom:6px}
+.cta-box p{font-size:11px;opacity:.9;line-height:1.6}
+.pt-table{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.pt-row{display:flex;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #F3F4F6;font-size:13px}
+.pt-row:last-child{border-bottom:none}
+.pt-key{color:#7C3AED;font-weight:700}
 </style>
 </head>
 <body>
@@ -116,22 +174,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="tab active" onclick="switchTab('habits')" id="t-habits"><span>✅</span>Daily</button>
   <button class="tab" onclick="switchTab('paid')" id="t-paid"><span>💰</span>Paid</button>
   <button class="tab" onclick="switchTab('group')" id="t-group"><span>🏆</span>Rewards</button>
-  <button class="tab" onclick="switchTab('redeem')" id="t-redeem"><span>🎁</span>Redeem</button>
+  <button class="tab" onclick="switchTab('store')" id="t-store"><span>🛍️</span>Store</button>
+  <button class="tab" onclick="switchTab('badges')" id="t-badges"><span>🎖️</span>Badges</button>
   <button class="tab" onclick="switchTab('addpts')" id="t-addpts"><span>➕</span>Add Pts</button>
 </div>
 
+<!-- DAILY HABITS -->
 <div class="pane active" id="p-habits">
-  <p class="intro">Earn <strong>points</strong> — not money. Save for tablet time or group rewards!</p>
+  <p class="intro">Earn <strong>points</strong> — not money. Spend in the Store!</p>
   <div id="habits-week-badge" style="text-align:center;margin-bottom:12px"></div>
   <div class="kid-row" id="habits-kid-row"></div>
   <div id="habits-list"></div>
 </div>
 
+<!-- PAID CHORES -->
 <div class="pane" id="p-paid">
   <p class="intro">Earn <strong>real money!</strong> Rate $5–9/hr based on difficulty.</p>
   <div id="paid-list"></div>
 </div>
 
+<!-- GROUP REWARDS -->
 <div class="pane" id="p-group">
   <div class="team-box">
     <div style="font-size:18px;margin-bottom:3px">🤝</div>
@@ -142,19 +204,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div id="rewards-log"></div>
 </div>
 
-<div class="pane" id="p-redeem">
-  <p class="section-h">📱 Tablet Time</p>
-  <div class="redeem-grid" id="redeem-tablet"></div>
-  <p class="section-h" style="margin-top:4px">💰 Point → Dollar Guide</p>
-  <div class="pt-table" id="pt-table"></div>
-  <div class="cta-box">
-    <h4>🌟 How It All Works</h4>
-    <p>Daily habits → points → tablet time or group rewards<br>Paid chores → real money 💵<br>Group points → family adventures!<br><br><strong>You choose your outcome. Work more = earn more.</strong></p>
-  </div>
+<!-- STORE -->
+<div class="pane" id="p-store">
+  <p class="intro">Spend your points on real rewards!</p>
+  <div class="store-kid-tabs" id="store-kid-tabs"></div>
+  <div id="store-items"></div>
 </div>
 
+<!-- BADGES -->
+<div class="pane" id="p-badges">
+  <p class="intro">Earn badges by hitting milestones!</p>
+  <div class="store-kid-tabs" id="badge-kid-tabs"></div>
+  <div id="badges-list"></div>
+</div>
+
+<!-- ADD POINTS -->
 <div class="pane" id="p-addpts">
   <p class="intro">Add bonus points for any kid.</p>
+
+  <!-- Weekly Challenge -->
+  <div class="challenge-box" id="challenge-box">
+    <h4>⚡ Weekly Challenge</h4>
+    <div id="challenge-content"></div>
+  </div>
+
   <p class="section-h">Who gets points?</p>
   <div class="add-grid-4" id="kid-selector"></div>
   <p class="section-h">Category</p>
@@ -166,6 +239,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="submit-btn" id="add-pts-btn" onclick="submitBonus()" disabled>Add Points</button>
   <p class="section-h">Recent Bonus Points</p>
   <div id="bonus-log-list"></div>
+</div>
+
+<!-- BUY MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-sub" id="modal-sub"></div>
+    <div class="modal-pts" id="modal-pts"></div>
+    <div class="modal-balance" id="modal-balance"></div>
+    <button class="modal-confirm-btn" id="modal-confirm-btn" onclick="confirmBuy()">Confirm Purchase</button>
+    <button class="modal-cancel-btn" onclick="closeModal()">Cancel</button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -232,6 +317,38 @@ const groupCfg = {
   big:    {lbl:'Big Goals 🏆',    tc:'#7E22CE'}
 };
 
+// Store items — kids spend points here (points go DOWN)
+const storeItems = [
+  {id:'tab15',   cat:'📱 Screen Time', icon:'📱', name:'15 min tablet',     pts:20,  desc:'Extra screen time'},
+  {id:'tab30',   cat:'📱 Screen Time', icon:'📱', name:'30 min tablet',     pts:40,  desc:'Extra screen time'},
+  {id:'tab60',   cat:'📱 Screen Time', icon:'📱', name:'1 hr tablet',       pts:80,  desc:'Extra screen time'},
+  {id:'movie',   cat:'🎬 Family Picks', icon:'🎬', name:'Pick the movie',    pts:30,  desc:'You choose movie night'},
+  {id:'dinner',  cat:'🎬 Family Picks', icon:'🍕', name:'Pick dinner',       pts:25,  desc:'You choose what\'s for dinner'},
+  {id:'bed30',   cat:'🌙 Bedtime',      icon:'🌙', name:'Stay up 30 min late', pts:35, desc:'One night pass'},
+  {id:'friend',  cat:'🎉 Special',      icon:'🎉', name:'Friend sleepover',  pts:100, desc:'Invite a friend to stay over'},
+  {id:'treat',   cat:'🎉 Special',      icon:'🍭', name:'Special treat',     pts:15,  desc:'Ice cream, popsicle, candy'},
+  {id:'nobed',   cat:'🌙 Bedtime',      icon:'😴', name:'Skip bedtime chore', pts:20, desc:'One free pass (one chore)'},
+  {id:'game',    cat:'🎉 Special',      icon:'🎮', name:'30 min video game', pts:30,  desc:'Extra game time'},
+];
+
+const storeCategories = ['📱 Screen Time', '🎬 Family Picks', '🌙 Bedtime', '🎉 Special'];
+
+// Badges definition
+const badgeDefs = [
+  {id:'first10',   icon:'⭐', name:'First 10 pts',    cond: (s) => s.total >= 10},
+  {id:'first50',   icon:'🌟', name:'50 pts earned',   cond: (s) => s.total >= 50},
+  {id:'first100',  icon:'💫', name:'100 pts club',    cond: (s) => s.total >= 100},
+  {id:'first250',  icon:'🏅', name:'250 pts legend',  cond: (s) => s.total >= 250},
+  {id:'streak3',   icon:'🔥', name:'3-day streak',    cond: (s) => s.streak >= 3},
+  {id:'streak7',   icon:'🔥🔥', name:'7-day streak',  cond: (s) => s.streak >= 7},
+  {id:'habits10',  icon:'✅', name:'10 habits done',  cond: (s) => s.habitsTotal >= 10},
+  {id:'habits50',  icon:'💪', name:'50 habits done',  cond: (s) => s.habitsTotal >= 50},
+  {id:'bonus5',    icon:'🎁', name:'5 bonus pts',     cond: (s) => s.bonusCount >= 5},
+  {id:'spender',   icon:'🛍️', name:'First purchase',  cond: (s) => s.purchases >= 1},
+  {id:'saver',     icon:'💰', name:'Saved 200 pts',   cond: (s) => s.totalEarned >= 200},
+  {id:'yoga',      icon:'🧘', name:'Yoga warrior',    cond: (s) => s.yogaCount >= 3},
+];
+
 const bonusCats = [
   {id:'yoga',    icon:'🧘', name:'Yoga / Exercise', pts:20},
   {id:'errand',  icon:'🛒', name:'Errands / Walmart', pts:5},
@@ -244,6 +361,9 @@ const bonusCats = [
 // ── State ──────────────────────────────────────────────────────────────────
 let selKid = null;
 let selCat = null;
+let storeSelKid = 'Mia';
+let badgeSelKid = 'Mia';
+let pendingBuy = null; // {storeItem, kidName}
 
 // ── localStorage helpers ───────────────────────────────────────────────────
 function isoWeek() {
@@ -253,7 +373,6 @@ function isoWeek() {
   return d.getFullYear() + '-W' + String(wk).padStart(2, '0');
 }
 function todayStr() { return new Date().toISOString().split('T')[0]; }
-
 const WEEK_KEY = 'chore-v1-checks-' + isoWeek();
 
 function lsGet(k, def) {
@@ -266,24 +385,58 @@ function getChecks()     { return lsGet(WEEK_KEY, {}); }
 function saveChecks(c)   { lsSet(WEEK_KEY, c); }
 function getTotal(n)     { return lsGet('chore-v1-total-' + n, 0); }
 function setTotal(n, v)  { lsSet('chore-v1-total-' + n, Math.max(0, v)); }
+function getTotalEarned(n) { return lsGet('chore-v1-earned-' + n, 0); }
+function addEarned(n, v)   { lsSet('chore-v1-earned-' + n, getTotalEarned(n) + v); }
 function getStreak(n)    { return lsGet('chore-v1-streak-' + n, {count:0, last:''}); }
 function setStreak(n, v) { lsSet('chore-v1-streak-' + n, v); }
 function getRewardsLog() { return lsGet('chore-v1-rewards', []); }
 function getBonusLog()   { return lsGet('chore-v1-bonus', []); }
+function getPurchases(n) { return lsGet('chore-v1-purchases-' + n, []); }
+function getHabitsTotal(n){ return lsGet('chore-v1-habits-total-' + n, 0); }
+function addHabitsTotal(n, v){ lsSet('chore-v1-habits-total-' + n, getHabitsTotal(n) + v); }
+function getYogaCount(n) { return lsGet('chore-v1-yoga-' + n, 0); }
+function addYoga(n)      { lsSet('chore-v1-yoga-' + n, getYogaCount(n) + 1); }
+function getBonusCount(n){ return lsGet('chore-v1-bonus-count-' + n, 0); }
+function addBonusCount(n){ lsSet('chore-v1-bonus-count-' + n, getBonusCount(n) + 1); }
+function getChallenge()  { return lsGet('chore-v1-challenge', null); }
+function setChallenge(c) { lsSet('chore-v1-challenge', c); }
+
+// ── Kid stats for badges ───────────────────────────────────────────────────
+function kidStats(name) {
+  const streak = getStreak(name);
+  const purchases = getPurchases(name);
+  return {
+    total: getTotal(name),
+    totalEarned: getTotalEarned(name),
+    streak: streak.count,
+    habitsTotal: getHabitsTotal(name),
+    bonusCount: getBonusCount(name),
+    purchases: purchases.length,
+    yogaCount: getYogaCount(name)
+  };
+}
+
+// ── Next reachable store item for proximity ────────────────────────────────
+function nextReward(kidName) {
+  const pts = getTotal(kidName);
+  // find cheapest item they can't yet afford, closest to their balance
+  const sorted = [...storeItems].sort((a, b) => a.pts - b.pts);
+  const next = sorted.find(s => s.pts > pts);
+  if (!next) return null;
+  return {name: next.name, pts: next.pts, need: next.pts - pts, pct: Math.round((pts / next.pts) * 100)};
+}
 
 // ── Streak logic ───────────────────────────────────────────────────────────
 function checkStreakUpdate(kidName, checks) {
   const elig = habits.filter(h => h.who.includes(kidName));
-  const allDone = elig.every((h, _) => !!checks[habits.indexOf(h) + '-' + kidName]);
+  const allDone = elig.every((h) => !!checks[habits.indexOf(h) + '-' + kidName]);
   if (!allDone) return;
   const td = todayStr();
   const streak = getStreak(kidName);
   if (streak.last === td) return;
   const prev = new Date(); prev.setDate(prev.getDate() - 1);
   const yd = prev.toISOString().split('T')[0];
-  setStreak(kidName, streak.last === yd
-    ? {count: streak.count + 1, last: td}
-    : {count: 1, last: td});
+  setStreak(kidName, streak.last === yd ? {count: streak.count + 1, last: td} : {count: 1, last: td});
 }
 
 // ── Toggle habit ───────────────────────────────────────────────────────────
@@ -297,11 +450,66 @@ function toggle(idx, kidName) {
   } else {
     checks[key] = true;
     setTotal(kidName, getTotal(kidName) + h.pts);
+    addEarned(kidName, h.pts);
+    addHabitsTotal(kidName, 1);
+    if (h.task.includes('Yoga')) addYoga(kidName);
     checkStreakUpdate(kidName, checks);
+    checkBadgeUnlocks(kidName);
   }
   saveChecks(checks);
   buildHabits();
   buildHeader();
+}
+
+// ── Badge unlock check ─────────────────────────────────────────────────────
+function checkBadgeUnlocks(kidName) {
+  const stats = kidStats(kidName);
+  const earned = lsGet('chore-v1-badges-' + kidName, []);
+  let newBadge = false;
+  badgeDefs.forEach(b => {
+    if (!earned.includes(b.id) && b.cond(stats)) {
+      earned.push(b.id);
+      newBadge = b.name;
+    }
+  });
+  lsSet('chore-v1-badges-' + kidName, earned);
+  if (newBadge) showToast('🎖️ New badge: ' + newBadge + '!');
+}
+
+// ── Store: open buy modal ──────────────────────────────────────────────────
+function openBuyModal(storeItemId, kidName) {
+  const item = storeItems.find(s => s.id === storeItemId);
+  const pts = getTotal(kidName);
+  if (pts < item.pts) return;
+  pendingBuy = {item, kidName};
+  const kid = kids.find(k => k.name === kidName);
+  document.getElementById('modal-title').textContent = item.icon + ' ' + item.name;
+  document.getElementById('modal-sub').textContent = item.desc + ' for ' + kid.e + ' ' + kidName;
+  document.getElementById('modal-pts').textContent = '−' + item.pts + ' pts';
+  document.getElementById('modal-pts').style.color = '#EF4444';
+  document.getElementById('modal-balance').textContent = 'Balance: ' + pts + ' pts → ' + (pts - item.pts) + ' pts after';
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('show');
+  pendingBuy = null;
+}
+
+function confirmBuy() {
+  if (!pendingBuy) return;
+  const {item, kidName} = pendingBuy;
+  setTotal(kidName, getTotal(kidName) - item.pts);
+  const purchases = getPurchases(kidName);
+  purchases.unshift({id: item.id, name: item.name, icon: item.icon, pts: item.pts, date: todayStr()});
+  lsSet('chore-v1-purchases-' + kidName, purchases.slice(0, 50));
+  document.getElementById('modal-overlay').classList.remove('show');
+  pendingBuy = null;
+  checkBadgeUnlocks(kidName);
+  buildStore();
+  buildHeader();
+  showToast('✅ Redeemed: ' + item.name + '!');
 }
 
 // ── Mark group reward done ─────────────────────────────────────────────────
@@ -329,7 +537,11 @@ function submitBonus() {
   const targets = selKid === 'All' ? kids.map(k => k.name) : [selKid];
   targets.forEach(kn => {
     setTotal(kn, getTotal(kn) + pts);
+    addEarned(kn, pts);
+    addBonusCount(kn);
+    if (cat.id === 'yoga') addYoga(kn);
     log.unshift({kid: kn, pts, reason: cat.name, date: td});
+    checkBadgeUnlocks(kn);
   });
   lsSet('chore-v1-bonus', log.slice(0, 100));
   showToast('+' + pts + ' pts → ' + (selKid === 'All' ? 'all 3 kids' : selKid) + ' 🎉');
@@ -337,6 +549,21 @@ function submitBonus() {
   document.getElementById('custom-pts-val').value = '';
   buildAddPoints();
   buildHeader();
+}
+
+// ── Weekly challenge ───────────────────────────────────────────────────────
+function setWeeklyChallenge() {
+  const name = document.getElementById('challenge-name-input').value.trim();
+  const pts = parseInt(document.getElementById('challenge-pts-input').value);
+  if (!name || !pts || pts < 1) return;
+  setChallenge({name, pts, set: todayStr()});
+  buildAddPoints();
+  showToast('⚡ Challenge set: ' + name);
+}
+
+function clearChallenge() {
+  setChallenge(null);
+  buildAddPoints();
 }
 
 // ── Toast ──────────────────────────────────────────────────────────────────
@@ -360,12 +587,17 @@ function buildHeader() {
   document.getElementById('header-pts').innerHTML = kids.map(k => {
     const total = getTotal(k.name);
     const streak = getStreak(k.name);
-    const streakStr = streak.count >= 1 ? '🔥 ' + streak.count + (streak.count === 1 ? '-day' : '-day') + ' streak' : '';
-    return `<div class="kid-pts-chip">
+    const streakStr = streak.count >= 1 ? '🔥 ' + streak.count + '-day streak' : '';
+    const nr = nextReward(k.name);
+    const nextLine = nr ? `${nr.need} pts from ${nr.name}` : '🏆 Max unlocked!';
+    return `<div class="kid-pts-chip" onclick="switchTab('store');storeSelKid='${k.name}';buildStore()">
       <div class="kpc-emoji">${k.e}</div>
       <div class="kpc-name">${k.name}</div>
       <div class="kpc-pts">${total}<span style="font-size:10px;font-weight:500;opacity:.8"> pts</span></div>
-      <div class="kpc-streak">${streakStr}</div>
+      <div class="kpc-streak">${streakStr || '&nbsp;'}</div>
+      ${nr ? `<div class="next-reward-bar">${nextLine}
+        <div class="next-reward-progress"><div class="next-reward-fill" style="width:${nr.pct}%"></div></div>
+      </div>` : `<div class="next-reward-bar">🏆 All unlocked!</div>`}
     </div>`;
   }).join('');
 }
@@ -373,11 +605,8 @@ function buildHeader() {
 // ── Build: Habits ──────────────────────────────────────────────────────────
 function buildHabits() {
   const checks = getChecks();
-  const wk = isoWeek();
-
   document.getElementById('habits-week-badge').innerHTML =
-    `<span class="week-badge">📅 Week ${wk}</span>`;
-
+    `<span class="week-badge">📅 Week ${isoWeek()}</span>`;
   document.getElementById('habits-kid-row').innerHTML = kids.map(k => {
     const weekPts = habits.reduce((sum, h, i) =>
       h.who.includes(k.name) && checks[i + '-' + k.name] ? sum + h.pts : sum, 0);
@@ -387,7 +616,6 @@ function buildHabits() {
       <div class="ka">${weekPts} pts this week</div>
     </div>`;
   }).join('');
-
   document.getElementById('habits-list').innerHTML = habits.map((h, i) => {
     const btns = kids.map(k => {
       const elig = h.who.includes(k.name);
@@ -397,8 +625,7 @@ function buildHabits() {
       const bg = done ? k.c : elig ? k.bg : '#F9FAFB';
       const label = done ? '✅' : elig ? k.e : '—';
       const lc = done ? '#fff' : elig ? k.c : '#D1D5DB';
-      const clickFn = elig ? `toggle(${i},'${k.name}')` : '';
-      return `<button class="kb ${elig ? 'eligible' : ''}" onclick="${clickFn}"
+      return `<button class="kb ${elig ? 'eligible' : ''}" onclick="${elig ? `toggle(${i},'${k.name}')` : ''}"
         style="border-color:${border};background:${bg}" ${!elig ? 'disabled' : ''}>
         <span style="font-size:16px">${label}</span>
         <span class="kb-lbl" style="color:${lc}">${elig ? k.name : 'N/A'}</span>
@@ -419,7 +646,7 @@ function buildPaid() {
     const dc = diffCfg[c.diff];
     const whos = kids.map(k => {
       const elig = c.who.includes(k.name);
-      return `<span class="who-chip" style="background:${elig ? k.bg : '#F3F4F6'};color:${elig ? k.c : '#D1D5DB'};border-color:${elig ? k.c + '44' : '#E5E7EB'}">${k.e} ${k.name}</span>`;
+      return `<span class="who-chip" style="background:${elig?k.bg:'#F3F4F6'};color:${elig?k.c:'#D1D5DB'};border-color:${elig?k.c+'44':'#E5E7EB'}">${k.e} ${k.name}</span>`;
     }).join('');
     return `<div class="pay-card">
       <div class="pay-body">
@@ -436,17 +663,15 @@ function buildPaid() {
 function buildGroup() {
   const rewardsLog = getRewardsLog();
   const types = ['daily','easy','medium','big'];
-
   document.getElementById('group-list').innerHTML = types.map(type => {
     const cfg = groupCfg[type];
     const items = groups.filter(g => g.type === type).map(g => {
       const completions = rewardsLog.filter(r => r.id === g.id);
       const costLine = g.cost > 0
-        ? `<div class="ga-cost">~$${g.cost} total · kids cover ~$${Math.ceil(g.cost * .65)}</div>`
+        ? `<div class="ga-cost">~$${g.cost} total · kids cover ~$${Math.ceil(g.cost*.65)}</div>`
         : type !== 'daily' ? '<div class="ga-cost" style="color:#10B981">Free activity! 🎉</div>' : '';
       const doneInfo = completions.length > 0
-        ? `<div class="ga-done-count">✓ Done ${completions.length}x · last ${completions[0].date}</div>`
-        : '';
+        ? `<div class="ga-done-count">✓ Done ${completions.length}x · last ${completions[0].date}</div>` : '';
       return `<div class="ga-card">
         <div class="ga-icon">${g.icon}</div>
         <div class="ga-body">
@@ -459,110 +684,166 @@ function buildGroup() {
     }).join('');
     return `<div class="group-section-lbl">${cfg.lbl}</div>${items}`;
   }).join('');
-
   const logEl = document.getElementById('rewards-log');
   if (rewardsLog.length > 0) {
     const weekCounts = {};
     rewardsLog.forEach(r => {
       const d = new Date(r.date);
-      const jan1 = new Date(d.getFullYear(), 0, 1);
-      const wk = d.getFullYear() + '-W' + String(Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7)).padStart(2,'0');
-      weekCounts[wk] = (weekCounts[wk] || 0) + 1;
+      const jan1 = new Date(d.getFullYear(),0,1);
+      const wk = d.getFullYear()+'-W'+String(Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7)).padStart(2,'0');
+      weekCounts[wk] = (weekCounts[wk]||0)+1;
     });
-    const thisWeekCount = weekCounts[isoWeek()] || 0;
+    const twc = weekCounts[isoWeek()]||0;
     logEl.innerHTML = `<div style="margin-top:20px">
-      <p class="section-h">📋 Completion Log
-        <span style="float:right;font-size:10px;color:${thisWeekCount >= 2 ? '#10B981' : '#F97316'};font-weight:700">
-          ${thisWeekCount}/2 this week
-        </span>
-      </p>
-      ${rewardsLog.slice(0, 12).map(r =>
-        `<div class="log-item">
-          <div class="log-icon">${r.icon}</div>
-          <div class="log-name">${r.name}</div>
-          <div class="log-date">${r.date}</div>
-        </div>`
-      ).join('')}
+      <p class="section-h">📋 Completion Log <span style="float:right;font-size:10px;color:${twc>=2?'#10B981':'#F97316'};font-weight:700">${twc}/2 this week</span></p>
+      ${rewardsLog.slice(0,12).map(r=>`<div class="log-item"><div class="log-icon">${r.icon}</div><div class="log-name">${r.name}</div><div class="log-date">${r.date}</div></div>`).join('')}
     </div>`;
-  } else {
-    logEl.innerHTML = '';
-  }
+  } else { logEl.innerHTML = ''; }
 }
 
-// ── Build: Redeem ──────────────────────────────────────────────────────────
-function buildRedeem() {
-  const tablet = [{pts:20,time:'15 min'},{pts:40,time:'30 min'},{pts:60,time:'45 min'},{pts:80,time:'1 hour'}];
-  document.getElementById('redeem-tablet').innerHTML = tablet.map(r =>
-    `<div class="redeem-card">
-      <div style="font-size:22px;margin-bottom:4px">📱</div>
-      <div class="redeem-val">${r.time}</div>
-      <div class="redeem-unit">tablet time</div>
-      <div class="redeem-cost">${r.pts} pts</div>
+// ── Build: Store ───────────────────────────────────────────────────────────
+function buildStore() {
+  // Kid selector tabs
+  document.getElementById('store-kid-tabs').innerHTML = kids.map(k =>
+    `<div class="store-kid-tab ${storeSelKid===k.name?'on':''}"
+      style="--kc:${k.c};--kb:${k.bg}"
+      onclick="storeSelKid='${k.name}';buildStore()">
+      <div class="ske">${k.e}</div>
+      <div class="skn" style="color:${storeSelKid===k.name?k.c:'#374151'}">${k.name}</div>
+      <div class="skp" style="color:${k.c}">${getTotal(k.name)} pts</div>
     </div>`
   ).join('');
-  const pts = [5,10,15,20,25,50,100];
-  document.getElementById('pt-table').innerHTML = pts.map(p =>
-    `<div class="pt-row"><span class="pt-key">${p} pts</span><span style="color:#374151">≈ $${(p/5).toFixed(2)}</span></div>`
+
+  const pts = getTotal(storeSelKid);
+  const purchases = getPurchases(storeSelKid);
+
+  let html = '';
+  storeCategories.forEach(cat => {
+    const items = storeItems.filter(s => s.cat === cat);
+    html += `<div class="store-section">${cat}</div>`;
+    items.forEach(item => {
+      const canBuy = pts >= item.pts;
+      const timesRedeemed = purchases.filter(p => p.id === item.id).length;
+      html += `<div class="store-item">
+        <div class="store-item-icon">${item.icon}</div>
+        <div class="store-item-body">
+          <div class="store-item-name">${item.name}</div>
+          <div class="store-item-sub">${item.desc}</div>
+          ${timesRedeemed > 0 ? `<div class="store-item-times">Redeemed ${timesRedeemed}x</div>` : ''}
+        </div>
+        <button class="buy-btn ${canBuy?'can':'cant'}" onclick="${canBuy?`openBuyModal('${item.id}','${storeSelKid}')`:''}">${item.pts} pts</button>
+      </div>`;
+    });
+  });
+
+  // Purchase history
+  if (purchases.length > 0) {
+    html += `<div class="store-section" style="margin-top:20px">📋 Purchase History</div>`;
+    purchases.slice(0, 8).forEach(p => {
+      html += `<div class="log-item"><div class="log-icon">${p.icon}</div><div class="log-name">${p.name} (${p.pts} pts)</div><div class="log-date">${p.date}</div></div>`;
+    });
+  }
+
+  document.getElementById('store-items').innerHTML = html;
+}
+
+// ── Build: Badges ──────────────────────────────────────────────────────────
+function buildBadges() {
+  document.getElementById('badge-kid-tabs').innerHTML = kids.map(k =>
+    `<div class="store-kid-tab ${badgeSelKid===k.name?'on':''}"
+      style="--kc:${k.c};--kb:${k.bg}"
+      onclick="badgeSelKid='${k.name}';buildBadges()">
+      <div class="ske">${k.e}</div>
+      <div class="skn" style="color:${badgeSelKid===k.name?k.c:'#374151'}">${k.name}</div>
+      <div class="skp" style="color:${k.c}">${lsGet('chore-v1-badges-'+k.name,[]).length}/${badgeDefs.length}</div>
+    </div>`
   ).join('');
+
+  const earned = lsGet('chore-v1-badges-' + badgeSelKid, []);
+  const stats = kidStats(badgeSelKid);
+  document.getElementById('badges-list').innerHTML = `<div class="badges-grid">` +
+    badgeDefs.map(b => {
+      const isEarned = earned.includes(b.id);
+      return `<div class="badge-card ${isEarned?'earned':'locked'}">
+        <div class="badge-icon">${b.icon}</div>
+        <div class="badge-name">${b.name}</div>
+        <div class="badge-cond">${isEarned?'✅ Earned':'🔒 Locked'}</div>
+      </div>`;
+    }).join('') + `</div>`;
 }
 
 // ── Build: Add Points ──────────────────────────────────────────────────────
 function buildAddPoints() {
+  // Weekly challenge
+  const ch = getChallenge();
+  if (ch) {
+    document.getElementById('challenge-content').innerHTML = `
+      <div class="challenge-active">
+        <div class="challenge-icon">⚡</div>
+        <div class="challenge-body">
+          <div class="challenge-name">${ch.name}</div>
+          <div class="challenge-meta">${ch.pts} pts reward · set ${ch.set}</div>
+        </div>
+        <button class="challenge-clear-btn" onclick="clearChallenge()">✕ Clear</button>
+      </div>`;
+  } else {
+    document.getElementById('challenge-content').innerHTML = `
+      <div style="font-size:11px;color:#6B7280;margin-bottom:10px">Set a special challenge for the kids this week.</div>
+      <div class="challenge-set-row">
+        <input class="challenge-input" id="challenge-name-input" placeholder="e.g. Read every day" type="text">
+        <input class="challenge-pts-input" id="challenge-pts-input" placeholder="pts" type="number" min="1" max="999">
+        <button class="challenge-set-btn" onclick="setWeeklyChallenge()">Set</button>
+      </div>`;
+  }
+
   const kidTargets = [
-    ...kids.map(k => ({key: k.name, e: k.e, name: k.name, c: k.c})),
+    ...kids.map(k => ({key:k.name, e:k.e, name:k.name, c:k.c})),
     {key:'All', e:'🌟', name:'All 3 Kids', c:'#7C3AED'}
   ];
   document.getElementById('kid-selector').innerHTML = kidTargets.map(k =>
-    `<div class="sel-card ${selKid === k.key ? 'on' : ''}" onclick="selectKid('${k.key}')">
+    `<div class="sel-card ${selKid===k.key?'on':''}" onclick="selectKid('${k.key}')">
       <div class="sc-icon">${k.e}</div>
-      <div class="sc-name" style="color:${selKid === k.key ? k.c : '#111827'}">${k.name}</div>
+      <div class="sc-name" style="color:${selKid===k.key?k.c:'#111827'}">${k.name}</div>
     </div>`
   ).join('');
 
   document.getElementById('cat-selector').innerHTML = bonusCats.map(c =>
-    `<div class="sel-card cat-card ${selCat === c.id ? 'on' : ''}" onclick="selectCat('${c.id}')">
+    `<div class="sel-card cat-card ${selCat===c.id?'on':''}" onclick="selectCat('${c.id}')">
       <div class="sc-icon">${c.icon}</div>
       <div class="sc-name">${c.name}</div>
-      <div class="sc-sub">${c.pts !== null ? c.pts + ' pts' : 'you pick'}</div>
+      <div class="sc-sub">${c.pts!==null?c.pts+' pts':'you pick'}</div>
     </div>`
   ).join('');
 
-  document.getElementById('custom-row').style.display = selCat === 'custom' ? 'block' : 'none';
+  document.getElementById('custom-row').style.display = selCat==='custom'?'block':'none';
 
   const log = getBonusLog();
-  document.getElementById('bonus-log-list').innerHTML = log.length === 0
+  document.getElementById('bonus-log-list').innerHTML = log.length===0
     ? '<p class="empty-state">No bonus points added yet</p>'
-    : log.slice(0, 15).map(entry => {
-        const k = kids.find(x => x.name === entry.kid);
+    : log.slice(0,15).map(entry => {
+        const k = kids.find(x=>x.name===entry.kid);
         return `<div class="log-item">
-          <div class="log-icon">${k ? k.e : '🌟'}</div>
-          <div style="flex:1">
-            <div class="bonus-log-pts">+${entry.pts} pts — ${entry.kid}</div>
-            <div class="bonus-log-reason">${entry.reason}</div>
-          </div>
+          <div class="log-icon">${k?k.e:'🌟'}</div>
+          <div style="flex:1"><div class="bonus-log-pts">+${entry.pts} pts — ${entry.kid}</div><div class="bonus-log-reason">${entry.reason}</div></div>
           <div class="log-date">${entry.date}</div>
         </div>`;
       }).join('');
-
   renderAddBtn();
 }
 
-function selectKid(k) { selKid = k; buildAddPoints(); }
-function selectCat(c) { selCat = c; buildAddPoints(); }
+function selectKid(k) { selKid=k; buildAddPoints(); }
+function selectCat(c) { selCat=c; buildAddPoints(); }
 
 function renderAddBtn() {
   const btn = document.getElementById('add-pts-btn');
-  const cat = bonusCats.find(c => c.id === selCat);
+  const cat = bonusCats.find(c=>c.id===selCat);
   const customVal = parseInt(document.getElementById('custom-pts-val').value);
-  const ready = selKid && selCat && (selCat !== 'custom' || customVal >= 1);
+  const ready = selKid && selCat && (selCat!=='custom'||customVal>=1);
   btn.disabled = !ready;
   if (ready) {
-    const pts = cat.id === 'custom' ? customVal : cat.pts;
-    const whoLbl = selKid === 'All' ? 'All 3 Kids' : selKid;
-    btn.textContent = `Add ${pts} pts → ${whoLbl}`;
-  } else {
-    btn.textContent = 'Add Points';
-  }
+    const pts = cat.id==='custom'?customVal:cat.pts;
+    btn.textContent = `Add ${pts} pts → ${selKid==='All'?'All 3 Kids':selKid}`;
+  } else { btn.textContent = 'Add Points'; }
 }
 
 // ── Init ───────────────────────────────────────────────────────────────────
@@ -570,7 +851,8 @@ buildHeader();
 buildHabits();
 buildPaid();
 buildGroup();
-buildRedeem();
+buildStore();
+buildBadges();
 buildAddPoints();
 </script>
 </body>
