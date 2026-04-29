@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!--
-  FKI Marketing Dashboard — v1.1
+  FKI Marketing Dashboard — v2.1
   Built: 2026-04-29 by Ivan-CC (Claude Sonnet 4.6)
   Skill: dashboard-skill v2 | Tier A — GitHub Pages
   Repo: bennett-maxwell/advaita-agent-audit → /marketing/
   Sections: Overview · Creative Tools · Organic Outreach · PR & Credibility
-  v1.1 changes: Creative tab — expandable tool cards with login links, signup dates,
+  v2.1 changes: Added 📊 Ads tab — full-funnel Meta→GHL attribution (CPAH per ad, Scale/Hold/Kill). v1.1 changes: Creative tab — expandable tool cards with login links, signup dates,
     produced output, how-to-view, plans changed, and credentials location.
   Data: Static snapshot from Notion (2026-04-29). Update manually or wire live pull.
   Last data pull: 2026-04-29T20:00 MDT
@@ -460,6 +460,7 @@
   <button class="nav-btn" onclick="show('organic')">🌱 Organic</button>
   <button class="nav-btn" onclick="show('pr')">📡 PR</button>
   <button class="nav-btn" onclick="show('actions')">📋 Actions</button>
+  <button class="nav-btn" onclick="show('ads')">📊 Ads</button>
 </div>
 
 <!-- ══════════════════════════════════════ -->
@@ -1417,6 +1418,365 @@
   <div class="ts">Actions: Leo AI council synthesis · Apr 29, 2026</div>
 </div>
 
+<!-- ── ADS TAB ── -->
+<div id="ads" class="section">
+  <h2 style="margin-bottom:4px">📊 Ad Performance — Full Funnel</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Meta spend → Booked → Held → Closes → Revenue · Window: 2026-01-29 → 2026-04-29 (90d) · Generated: 2026-04-29</p>
+
+  <!-- Brand Summary Cards -->
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+
+    <div class="card" style="flex:1;min-width:220px;">
+      <div class="card-hd">Salad House</div>
+      <div class="grid-2" style="gap:8px;font-size:13px;">
+        <div><span class="muted">Spend</span><br><strong>$31,832</strong></div>
+        <div><span class="muted">Revenue</span><br><strong>$25,002</strong></div>
+        <div><span class="muted">ROAS</span><br><strong>0.79x</strong></div>
+        <div><span class="muted">Booked</span><br><strong>147</strong></div>
+        <div><span class="muted">Held</span><br><strong>44</strong></div>
+        <div><span class="muted">$/Held</span><br><strong>$723</strong></div>
+      </div>
+    </div>
+    <div class="card" style="flex:1;min-width:220px;">
+      <div class="card-hd">Indy Clover</div>
+      <div class="grid-2" style="gap:8px;font-size:13px;">
+        <div><span class="muted">Spend</span><br><strong>$8,568</strong></div>
+        <div><span class="muted">Revenue</span><br><strong>$20,999</strong></div>
+        <div><span class="muted">ROAS</span><br><strong>2.45x</strong></div>
+        <div><span class="muted">Booked</span><br><strong>63</strong></div>
+        <div><span class="muted">Held</span><br><strong>11</strong></div>
+        <div><span class="muted">$/Held</span><br><strong>$779</strong></div>
+      </div>
+    </div>
+    <div class="card" style="flex:1;min-width:220px;">
+      <div class="card-hd">FKI 2nd Opinion</div>
+      <div class="grid-2" style="gap:8px;font-size:13px;">
+        <div><span class="muted">Spend</span><br><strong>$5,409</strong></div>
+        <div><span class="muted">Revenue</span><br><strong>$60,703</strong></div>
+        <div><span class="muted">ROAS</span><br><strong>11.22x</strong></div>
+        <div><span class="muted">Booked</span><br><strong>1</strong></div>
+        <div><span class="muted">Held</span><br><strong>0</strong></div>
+        <div><span class="muted">$/Held</span><br><strong>—</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attribution note -->
+  <div style="background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.25);border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:16px">
+    <strong>Attribution:</strong> HIGH-confidence via GHL <code>attributionSource.adId</code> (Meta CAPI native).
+    Fractional counts = probabilistic attribution where contacts match ad by brand + time window.
+    Booked = all scheduled appointments. Held = showed status only. Scale/Hold/Kill vs brand CPAH median.
+  </div>
+
+  <!-- Full Funnel Table -->
+  <div style="overflow-x:auto">
+  <table class="tbl" style="font-size:12px;min-width:900px">
+    <thead>
+      <tr>
+        <th>Brand</th>
+        <th>Ad Name</th>
+        <th style="text-align:right">Spend</th>
+        <th style="text-align:right">Leads</th>
+        <th style="text-align:right">Booked</th>
+        <th style="text-align:right">Book%</th>
+        <th style="text-align:right">Held</th>
+        <th style="text-align:right">Show%</th>
+        <th style="text-align:right">Closes</th>
+        <th style="text-align:right">$/Booked</th>
+        <th style="text-align:right">CPAH</th>
+        <th style="text-align:right">Revenue</th>
+        <th style="text-align:right">ROAS</th>
+        <th style="text-align:center">Signal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Leadform – FNL - 12 Feb - CBO">Investor Headlines</td>
+        <td style="text-align:right">$16,131</td>
+        <td style="text-align:right">892</td>
+        <td style="text-align:right">79.7</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">8.9%</td>
+        <td style="text-align:right">23.7</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">29.7%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$202</td>
+        <td style="text-align:right"><strong>$681</strong></td>
+        <td style="text-align:right">$12,669</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Indy Clover</td>
+        <td title="[IC] Leadform – FNL - 12 Feb - CBO">Investor Headlines</td>
+        <td style="text-align:right">$8,323</td>
+        <td style="text-align:right">580</td>
+        <td style="text-align:right">61.7</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">10.6%</td>
+        <td style="text-align:right">10.8</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">17.5%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$135</td>
+        <td style="text-align:right"><strong>$771</strong></td>
+        <td style="text-align:right">$20,399</td>
+        <td style="text-align:right">2.45x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Leadform – FNL - 12 Feb - CBO">Investor Headlines</td>
+        <td style="text-align:right">$7,053</td>
+        <td style="text-align:right">340</td>
+        <td style="text-align:right">33.2</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">9.8%</td>
+        <td style="text-align:right">10.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">30.1%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$213</td>
+        <td style="text-align:right"><strong>$707</strong></td>
+        <td style="text-align:right">$5,539</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">FKI 2nd Op</td>
+        <td title="[FKI] 2nd Opinion">v1 Static</td>
+        <td style="text-align:right">$4,610</td>
+        <td style="text-align:right">7</td>
+        <td style="text-align:right">1.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">13.8%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">0.0%</td>
+        <td style="text-align:right">2.9</td>
+        <td style="text-align:right">$4,778</td>
+        <td style="text-align:right"><strong>—</strong></td>
+        <td style="text-align:right">$50,644</td>
+        <td style="text-align:right">10.99x</td>
+        <td style="text-align:center"><span class="pill pill-blue">Monitor</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Leadform">Investor Headlines</td>
+        <td style="text-align:right">$4,427</td>
+        <td style="text-align:right">441</td>
+        <td style="text-align:right">15.9</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">3.6%</td>
+        <td style="text-align:right">4.8</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">29.9%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$278</td>
+        <td style="text-align:right"><strong>$931</strong></td>
+        <td style="text-align:right">$3,477</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Leadform">Investor Headlines</td>
+        <td style="text-align:right">$3,161</td>
+        <td style="text-align:right">256</td>
+        <td style="text-align:right">14.9</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">5.8%</td>
+        <td style="text-align:right">4.7</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">31.4%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$212</td>
+        <td style="text-align:right"><strong>$675</strong></td>
+        <td style="text-align:right">$2,483</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">FKI 2nd Op</td>
+        <td title="[FKI] 2nd Opinion">v1 AIV</td>
+        <td style="text-align:right">$631</td>
+        <td style="text-align:right">1</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">0.0%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">—</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">—</td>
+        <td style="text-align:right"><strong>—</strong></td>
+        <td style="text-align:right">$8,210</td>
+        <td style="text-align:right">13.01x</td>
+        <td style="text-align:center"><span class="pill pill-blue">Monitor</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Leadform – FNL - 12 Feb - CBO">Standard Headlines</td>
+        <td style="text-align:right">$584</td>
+        <td style="text-align:right">28</td>
+        <td style="text-align:right">1.8</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">6.6%</td>
+        <td style="text-align:right">0.5</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">27.0%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$318</td>
+        <td style="text-align:right"><strong>$1,179</strong></td>
+        <td style="text-align:right">$459</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Video Series – FNL - 26 March - CBO">Script 1 - 4 Video Creatives…</td>
+        <td style="text-align:right">$221</td>
+        <td style="text-align:right">0</td>
+        <td style="text-align:right">0.7</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">—</td>
+        <td style="text-align:right">0.2</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">27.0%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$318</td>
+        <td style="text-align:right"><strong>$1,179</strong></td>
+        <td style="text-align:right">$174</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">FKI 2nd Op</td>
+        <td title="[FKI] 2nd Opinion">v1 Static</td>
+        <td style="text-align:right">$168</td>
+        <td style="text-align:right">0</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">—</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">0.0%</td>
+        <td style="text-align:right">0.1</td>
+        <td style="text-align:right">$4,778</td>
+        <td style="text-align:right"><strong>—</strong></td>
+        <td style="text-align:right">$1,849</td>
+        <td style="text-align:right">10.99x</td>
+        <td style="text-align:center"><span class="pill pill-blue">Monitor</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Video Series – FNL - 26 March - CBO">Script 2 - 4 Video Creatives…</td>
+        <td style="text-align:right">$165</td>
+        <td style="text-align:right">0</td>
+        <td style="text-align:right">0.5</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">—</td>
+        <td style="text-align:right">0.1</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">27.0%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$318</td>
+        <td style="text-align:right"><strong>$1,179</strong></td>
+        <td style="text-align:right">$130</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Indy Clover</td>
+        <td title="[IC] Leadform – FNL - 12 Feb - CBO">Investor Headlines</td>
+        <td style="text-align:right">$113</td>
+        <td style="text-align:right">4</td>
+        <td style="text-align:right">0.6</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">14.9%</td>
+        <td style="text-align:right">0.1</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">15.6%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$190</td>
+        <td style="text-align:right"><strong>$1,224</strong></td>
+        <td style="text-align:right">$278</td>
+        <td style="text-align:right">2.45x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Video Series – FNL - 26 March - CBO">Script 3 - 4 Video Creatives…</td>
+        <td style="text-align:right">$89</td>
+        <td style="text-align:right">0</td>
+        <td style="text-align:right">0.3</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">—</td>
+        <td style="text-align:right">0.1</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">27.0%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$318</td>
+        <td style="text-align:right"><strong>$1,179</strong></td>
+        <td style="text-align:right">$70</td>
+        <td style="text-align:right">0.79x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Indy Clover</td>
+        <td title="[IC] Leadform">Investor Headlines</td>
+        <td style="text-align:right">$52</td>
+        <td style="text-align:right">2</td>
+        <td style="text-align:right">0.3</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">13.6%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">15.6%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$190</td>
+        <td style="text-align:right"><strong>$1,224</strong></td>
+        <td style="text-align:right">$126</td>
+        <td style="text-align:right">2.44x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Indy Clover</td>
+        <td title="[IC] Leadform – FNL Update 11-Feb">Investor Headlines</td>
+        <td style="text-align:right">$50</td>
+        <td style="text-align:right">2</td>
+        <td style="text-align:right">0.3</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">13.2%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">15.6%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$190</td>
+        <td style="text-align:right"><strong>$1,224</strong></td>
+        <td style="text-align:right">$123</td>
+        <td style="text-align:right">2.45x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Indy Clover</td>
+        <td title="[IC] Leadform">Investor Headlines</td>
+        <td style="text-align:right">$30</td>
+        <td style="text-align:right">0</td>
+        <td style="text-align:right">0.2</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">—</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">15.6%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$190</td>
+        <td style="text-align:right"><strong>$1,224</strong></td>
+        <td style="text-align:right">$73</td>
+        <td style="text-align:right">2.45x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;color:var(--muted)">Salad House</td>
+        <td title="[SH] Leadform">Standard Headlines</td>
+        <td style="text-align:right">$1</td>
+        <td style="text-align:right">0</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">—</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right;font-size:11px;color:var(--muted)">27.0%</td>
+        <td style="text-align:right">0.0</td>
+        <td style="text-align:right">$318</td>
+        <td style="text-align:right"><strong>$1,179</strong></td>
+        <td style="text-align:right">$1</td>
+        <td style="text-align:right">1.54x</td>
+        <td style="text-align:center"><span class="pill pill-green">Scale</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- Medians Reference -->
+  <div style="margin-top:16px;font-size:12px;color:var(--muted)">
+    Brand CPAH Medians (Scale ≤ median · Hold ≤ 2× · Kill &gt; 2×):
+    Salad House <strong>$1,179</strong> ·
+    Indy Clover <strong>$1,224</strong> ·
+    FKI 2nd Opinion <strong>n/a</strong> (direct closes, no median yet)
+  </div>
+  <div class="ts">Data: cpah-per-ad.py v4 · Ivan cron 6:30 AM MDT · 2026-04-29</div>
+</div>
+
+
 <!-- ── JS ── -->
 <script>
   function show(id) {
@@ -1425,7 +1785,7 @@
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     section.classList.add('active');
-    const idx = ['overview','creative','budget','organic','pr','actions'].indexOf(id);
+    const idx = ['overview','creative','budget','organic','pr','actions','ads'].indexOf(id);
     if (idx >= 0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
   }
 
