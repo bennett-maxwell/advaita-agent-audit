@@ -461,6 +461,7 @@
   <button class="nav-btn" onclick="show('pr')">📡 PR</button>
   <button class="nav-btn" onclick="show('actions')">📋 Actions</button>
   <button class="nav-btn" onclick="show('ads')">📊 Ads</button>
+  <button class="nav-btn" onclick="show('attribution')">🎯 CPA</button>
 </div>
 
 <!-- ══════════════════════════════════════ -->
@@ -1754,6 +1755,53 @@
 </div>
 
 
+<!-- ══════════════════════════════════════ -->
+<!--  TAB 8 — ATTRIBUTION / CPA            -->
+<!-- ══════════════════════════════════════ -->
+<div id="attribution" class="section">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+    <h2>🎯 Cost Per Appointment — 30d</h2>
+    <span id="cpa-ts" style="font-size:10px;color:var(--muted);"></span>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">
+    Meta spend ÷ GHL Fit Meeting appointments. Brand-level is reliable now.
+    Campaign-level UTM tracking activated <strong>Apr 30, 2026</strong> — rows grow as new leads come in.
+  </p>
+
+  <!-- Brand KPI cards -->
+  <div id="attr-brand-cards" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;"></div>
+
+  <!-- Campaign table -->
+  <div class="card">
+    <div class="card-hd">Per-Campaign CPA (utm_campaign)</div>
+    <p style="font-size:11px;color:var(--muted);margin:4px 0 10px;">Rows appear as UTM-tagged leads book appointments. Empty today = tracking just started.</p>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead>
+          <tr style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;">
+            <th style="text-align:left;padding:6px 4px;border-bottom:1px solid #2a2f3e;">Campaign</th>
+            <th style="text-align:left;padding:6px 4px;border-bottom:1px solid #2a2f3e;">Brand</th>
+            <th style="text-align:right;padding:6px 4px;border-bottom:1px solid #2a2f3e;">Spend</th>
+            <th style="text-align:right;padding:6px 4px;border-bottom:1px solid #2a2f3e;">Leads</th>
+            <th style="text-align:right;padding:6px 4px;border-bottom:1px solid #2a2f3e;">Booked</th>
+            <th style="text-align:right;padding:6px 4px;border-bottom:1px solid #2a2f3e;">Showed</th>
+            <th style="text-align:right;padding:6px 4px;border-bottom:1px solid #2a2f3e;">$/Booked</th>
+            <th style="text-align:right;padding:6px 4px;border-bottom:1px solid #2a2f3e;">$/Showed</th>
+          </tr>
+        </thead>
+        <tbody id="attr-campaign-tbody">
+          <tr><td colspan="8" style="padding:14px;text-align:center;color:var(--muted);">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ts" style="margin-top:12px;">
+    Source: utm-cpa-pipeline.py · Meta Graph API + GHL calendar events · Nightly 6:15 AM MDT · UTM tracking live Apr 30, 2026
+  </div>
+</div>
+
+
 <!-- ── JS ── -->
 <script>
   function show(id) {
@@ -1762,9 +1810,86 @@
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     section.classList.add('active');
-    const idx = ['overview','creative','budget','organic','pr','actions','ads'].indexOf(id);
+    const idx = ['overview','creative','budget','organic','pr','actions','ads','attribution'].indexOf(id);
     if (idx >= 0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
   }
+
+  // ── CPA / Attribution data ─────────────────────────────────────────────────
+  async function loadCPA() {
+    try {
+      const r = await fetch('cpa-data.json?t=' + Date.now());
+      if (!r.ok) return;
+      const d = await r.json();
+      renderCPA(d);
+    } catch(e) { /* silently skip if file not yet pushed */ }
+  }
+
+  function fmt$(n) { return n != null ? '$' + Math.round(n).toLocaleString() : '—'; }
+
+  function renderCPA(d) {
+    const ts = document.getElementById('cpa-ts');
+    if (ts) ts.textContent = 'Updated: ' + (d.generated || '').slice(0, 16);
+
+    // Brand KPI cards
+    const brandCards = document.getElementById('attr-brand-cards');
+    const brands = d.brand_summary || {};
+    const order = ['Indy Clover', 'Salad House', 'SRP', 'FKI 2nd Opinion'];
+    if (brandCards) {
+      brandCards.innerHTML = order
+        .filter(b => brands[b] && (brands[b].meta_spend || brands[b].step1_booked))
+        .map(b => {
+          const v = brands[b];
+          const cpb = v.cost_per_booked;
+          const color = !cpb ? '#7b8196' : cpb > 200 ? '#ef4444' : cpb > 100 ? '#f59e0b' : '#22c55e';
+          const sr = v.show_rate_pct;
+          const srColor = !sr ? '#7b8196' : sr > 30 ? '#22c55e' : sr > 15 ? '#f59e0b' : '#ef4444';
+          return `<div class="card" style="flex:1;min-width:130px;">
+            <div class="card-hd">${b}</div>
+            <div style="font-size:26px;font-weight:700;color:${color};margin:4px 0 2px;">${cpb ? fmt$(cpb) : '—'}</div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;">cost / booked</div>
+            <div style="font-size:11px;display:flex;justify-content:space-between;border-top:1px solid #2a2f3e;padding-top:6px;">
+              <span style="color:var(--muted);">Spend</span><strong>${v.meta_spend ? fmt$(v.meta_spend) : '—'}</strong>
+            </div>
+            <div style="font-size:11px;display:flex;justify-content:space-between;margin-top:3px;">
+              <span style="color:var(--muted);">Booked</span><strong>${v.step1_booked ?? '—'}</strong>
+            </div>
+            <div style="font-size:11px;display:flex;justify-content:space-between;margin-top:3px;">
+              <span style="color:var(--muted);">Show rate</span>
+              <strong style="color:${srColor};">${sr != null ? sr + '%' : '—'}</strong>
+            </div>
+          </div>`;
+        }).join('');
+    }
+
+    // Campaign table
+    const tbody = document.getElementById('attr-campaign-tbody');
+    const rows = (d.by_campaign || []).filter(r => r.meta_campaign_name);
+    if (tbody) {
+      if (rows.length) {
+        tbody.innerHTML = rows.map(r => {
+          const cpb = r.cost_per_booked, cps = r.cost_per_showed;
+          const cpbC = !cpb ? '#7b8196' : cpb > 300 ? '#ef4444' : cpb > 150 ? '#f59e0b' : '#22c55e';
+          const cpsC = !cps ? '#7b8196' : cps > 500 ? '#ef4444' : cps > 250 ? '#f59e0b' : '#22c55e';
+          return `<tr>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.meta_campaign_name}</td>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;font-size:11px;color:var(--muted);">${r.brand || '—'}</td>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;text-align:right;">${fmt$(r.meta_spend)}</td>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;text-align:right;">${r.meta_leads ?? '—'}</td>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;text-align:right;">${r.booked ?? 0}</td>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;text-align:right;">${r.showed ?? 0}</td>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;text-align:right;color:${cpbC};font-weight:600;">${fmt$(cpb)}</td>
+            <td style="padding:7px 4px;border-bottom:1px solid #2a2f3e;text-align:right;color:${cpsC};font-weight:700;">${fmt$(cps)}</td>
+          </tr>`;
+        }).join('');
+      } else {
+        tbody.innerHTML = `<tr><td colspan="8" style="padding:16px;text-align:center;color:var(--muted);font-size:12px;">
+          No UTM-tagged campaign rows yet — tracking started Apr 30, 2026. New leads who arrive via Meta ads will appear here within 24h after utm-cpa-pipeline.py runs nightly.
+        </td></tr>`;
+      }
+    }
+  }
+
+  loadCPA();
 
   function toggleCard(name) {
     const card = document.getElementById('card-' + name);
