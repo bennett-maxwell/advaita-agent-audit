@@ -1,7 +1,8 @@
 #!/bin/bash
-# Machine Health Collector v2 (2026-04-29)
+# Machine Health Collector v3 (2026-05-01)
 # v2 fix: macOS mem math — exclude `inactive` (reclaimable) from "used"
 # v2 add: Slack alert when iMac mem >95% for 2+ consecutive runs
+# v3 add: swap% for iMac and MacBook
 # Runs every 5 min via cron on Ivan
 # Output: /Users/openclaw/.openclaw/workspace/dashboard/machine-health.json
 
@@ -13,9 +14,9 @@ pct() {
 }
 
 json_machine() {
-  local id="$1" name="$2" ip="$3" online="$4" cpu="$5" mem="$6" disk="$7" uptime_str="$8" last_seen="$9"
-  printf '{"id":"%s","name":"%s","ip":"%s","online":%s,"cpu":%s,"mem":%s,"disk":%s,"uptime":"%s","last_seen":"%s"}' \
-    "$id" "$name" "$ip" "$online" "$cpu" "$mem" "$disk" "$uptime_str" "$last_seen"
+  local id="$1" name="$2" ip="$3" online="$4" cpu="$5" mem="$6" disk="$7" swap="$8" uptime_str="$9" last_seen="${10}"
+  printf '{"id":"%s","name":"%s","ip":"%s","online":%s,"cpu":%s,"mem":%s,"disk":%s,"swap":%s,"uptime":"%s","last_seen":"%s"}' \
+    "$id" "$name" "$ip" "$online" "$cpu" "$mem" "$disk" "$swap" "$uptime_str" "$last_seen"
 }
 
 # ── iMac (local) ─────────────────────────────────────────────────────────────
@@ -47,12 +48,19 @@ collect_imac() {
   DISK_PCT=$(df -h / | awk 'NR==2 {gsub(/%/,"",$5); print $5}')
   DISK_PCT=$(pct "$DISK_PCT")
 
+  SWAP_USED=$(sysctl vm.swapusage 2>/dev/null | awk '{v=$7; gsub(/M/,"",v); printf "%.0f", v+0}')
+  SWAP_TOTAL=$(sysctl vm.swapusage 2>/dev/null | awk '{v=$4; gsub(/M/,"",v); printf "%.0f", v+0}')
+  SWAP_PCT=0
+  if [ -n "$SWAP_TOTAL" ] && [ "$SWAP_TOTAL" -gt 0 ] 2>/dev/null; then
+    SWAP_PCT=$(awk -v u="$SWAP_USED" -v t="$SWAP_TOTAL" 'BEGIN{v=int(u/t*100+0.5); if(v<0)v=0; if(v>100)v=100; print v}')
+  fi
+
   UPTIME_STR=$(uptime | sed 's/.*up //' | sed 's/,.*//')
 
   # Export for alert logic
   export IMAC_MEM_PCT="$MEM_PCT"
 
-  echo "$(json_machine "imac" "iMac" "100.103.51.12" "true" "$CPU_TOTAL" "$MEM_PCT" "$DISK_PCT" "$UPTIME_STR" "$NOW")"
+  echo "$(json_machine "imac" "iMac" "100.103.51.12" "true" "$CPU_TOTAL" "$MEM_PCT" "$DISK_PCT" "$SWAP_PCT" "$UPTIME_STR" "$NOW")"
 }
 
 IMAC_JSON=$(collect_imac)
@@ -91,8 +99,15 @@ fi
 DISK=$(df -h / | awk 'NR==2 {gsub(/%/,"",$5); print $5}')
 UPTIME_STR=$(uptime | sed 's/.*up //' | sed 's/,.*//')
 
-printf '{"id":"macbook","name":"MacBook","ip":"100.112.24.104","online":true,"cpu":%s,"mem":%s,"disk":%s,"uptime":"%s","last_seen":"%s"}' \
-  "$CPU" "$MEM" "$DISK" "$UPTIME_STR" "$NOW"
+SWAP_USED=$(sysctl vm.swapusage 2>/dev/null | awk '{v=$7; gsub(/M/,"",v); printf "%.0f", v+0}')
+SWAP_TOTAL=$(sysctl vm.swapusage 2>/dev/null | awk '{v=$4; gsub(/M/,"",v); printf "%.0f", v+0}')
+SWAP_PCT=0
+if [ -n "$SWAP_TOTAL" ] && [ "$SWAP_TOTAL" -gt 0 ] 2>/dev/null; then
+  SWAP_PCT=$(awk -v u="$SWAP_USED" -v t="$SWAP_TOTAL" 'BEGIN{v=int(u/t*100+0.5); if(v<0)v=0; if(v>100)v=100; print v}')
+fi
+
+printf '{"id":"macbook","name":"MacBook","ip":"100.112.24.104","online":true,"cpu":%s,"mem":%s,"disk":%s,"swap":%s,"uptime":"%s","last_seen":"%s"}' \
+  "$CPU" "$MEM" "$DISK" "$SWAP_PCT" "$UPTIME_STR" "$NOW"
 REMOTE_SCRIPT
 }
 
@@ -104,7 +119,7 @@ else
   if [ -f "$MACBOOK_LAST_FILE" ]; then
     LAST_SEEN_MB=$(cat "$MACBOOK_LAST_FILE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('last_seen','unknown'))" 2>/dev/null || echo "unknown")
   fi
-  MACBOOK_JSON=$(json_machine "macbook" "MacBook" "$MACBOOK_IP" "false" "0" "0" "0" "offline" "$LAST_SEEN_MB")
+  MACBOOK_JSON=$(json_machine "macbook" "MacBook" "$MACBOOK_IP" "false" "0" "0" "0" "0" "offline" "$LAST_SEEN_MB")
 fi
 
 # ── Tiffany / HP Omen (HTTP Ollama) ──────────────────────────────────────────
@@ -156,7 +171,7 @@ if [ -n "$IMAC_MEM_PCT" ] && [ "$IMAC_MEM_PCT" -gt "$ALERT_THRESHOLD" ]; then
   if [ "$NEW" -eq 2 ]; then
     SLACK_TOKEN=$(grep '^SLACK_BOT_TOKEN=' /Users/openclaw/.openclaw/secrets/slack.env 2>/dev/null | cut -d= -f2- | tr -d '"' | tr -d "'")
     if [ -n "$SLACK_TOKEN" ]; then
-      MSG=":warning: iMac memory at ${IMAC_MEM_PCT}% for 2 consecutive collector runs. Investigate top -o mem on 100.103.51.12. (machine-health-collector v2)"
+      MSG=":warning: iMac memory at ${IMAC_MEM_PCT}% for 2 consecutive collector runs. Investigate top -o mem on 100.103.51.12. (machine-health-collector v3)"
       curl -s -X POST \
         -H "Authorization: Bearer ${SLACK_TOKEN}" \
         -H "Content-type: application/json" \
