@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-01T07:45:01Z",
+  "updated": "2026-05-01T08:00:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "9h ago",
-      "memory_updated_rel": "9h ago",
+      "last_active_rel": "10h ago",
+      "memory_updated_rel": "10h ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -48,7 +48,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "14 LaunchAgents active \u00b7 4 cloudflared \u00b7 13 python3 procs",
+      "current_task": "14 LaunchAgents active \u00b7 4 cloudflared \u00b7 18 python3 procs",
       "current_skill": "autopilot-skill v7",
       "last_active_rel": "just now",
       "memory_updated_rel": "15 min ago",
@@ -66,7 +66,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #94 \u00b7 45389 uploaded \u00b7 disk 473GB",
+      "current_task": "FDD extractor \u00b7 run #97 \u00b7 45389 uploaded \u00b7 disk 472GB [portal blocked]",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -104,8 +104,8 @@
       "tasks_max": 5,
       "current_task": "Call detector pulse \u00b7 0 trigger(s) last run",
       "current_skill": "reed-call-detector",
-      "last_active_rel": "5h ago",
-      "memory_updated_rel": "5h ago",
+      "last_active_rel": "6h ago",
+      "memory_updated_rel": "6h ago",
       "notion_project": "LinkedIn \u2192 GHL Pipeline",
       "color_class": "reed-color",
       "text_class": "reed-color-text"
@@ -113,8 +113,8 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 58,
-    "ivan_ram_pct": 56,
+    "ivan_cpu_pct": 97,
+    "ivan_ram_pct": 55,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
     "active_crons": 50,
@@ -134,7 +134,7 @@
     ],
     "tiffany_ollama_status": "offline",
     "ivan_launchagents_active": 14,
-    "ivan_python_procs": 13,
+    "ivan_python_procs": 18,
     "ivan_cloudflared_procs": 4,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
