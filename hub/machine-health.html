@@ -79,6 +79,7 @@ body {
 }
 .dot-green  { background: #22c55e; box-shadow: 0 0 6px #22c55e80; }
 .dot-yellow { background: #f59e0b; box-shadow: 0 0 6px #f59e0b80; }
+.dot-orange { background: #f97316; box-shadow: 0 0 6px #f9731680; }
 .dot-red    { background: #ef4444; box-shadow: 0 0 6px #ef444480; }
 .dot-gray   { background: #4b5563; }
 .dot-pulse  { animation: pulse 2s infinite; }
@@ -134,6 +135,9 @@ body {
   min-height: 220px;
 }
 .machine-card.online  { border-color: #22c55e33; }
+.machine-card.yellow  { border-color: #f59e0b55; }
+.machine-card.orange  { border-color: #f9731655; }
+.machine-card.red     { border-color: #ef444466; }
 .machine-card.offline { border-color: #ef444433; opacity: 0.7; }
 .machine-card:hover   { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
 
@@ -155,6 +159,18 @@ body {
   margin-top: 3px;
   font-family: 'SF Mono', 'Fira Code', monospace;
 }
+.machine-role {
+  font-size: 12px;
+  color: #a0a0b0;
+  margin-top: 5px;
+  line-height: 1.35;
+}
+.machine-spec {
+  font-size: 11px;
+  color: #6b6b7e;
+  margin-top: 3px;
+  line-height: 1.35;
+}
 .status-pill {
   display: flex;
   align-items: center;
@@ -167,6 +183,10 @@ body {
 }
 .pill-online  { background: #22c55e20; color: #22c55e; border: 1px solid #22c55e40; }
 .pill-offline { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+.pill-green   { background: #22c55e20; color: #22c55e; border: 1px solid #22c55e40; }
+.pill-yellow  { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+.pill-orange  { background: #f9731620; color: #fb923c; border: 1px solid #f9731640; }
+.pill-red     { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
 
 /* ── Metric rows ── */
 .metrics { display: flex; flex-direction: column; gap: 10px; }
@@ -183,6 +203,11 @@ body {
   font-size: 12px;
 }
 .metric-label { color: #6b6b7e; }
+.metric-note {
+  color: #6b6b7e;
+  font-size: 11px;
+  line-height: 1.35;
+}
 .metric-value {
   font-weight: 600;
   font-size: 13px;
@@ -190,6 +215,7 @@ body {
 }
 .val-green  { color: #22c55e; }
 .val-yellow { color: #f59e0b; }
+.val-orange { color: #fb923c; }
 .val-red    { color: #ef4444; }
 .val-gray   { color: #4b5563; }
 
@@ -206,8 +232,36 @@ body {
 }
 .fill-green  { background: linear-gradient(90deg, #16a34a, #22c55e); }
 .fill-yellow { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.fill-orange { background: linear-gradient(90deg, #ea580c, #fb923c); }
 .fill-red    { background: linear-gradient(90deg, #dc2626, #ef4444); }
 .fill-gray   { background: #374151; }
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.legend-card {
+  min-height: 74px;
+  padding: 10px;
+  border: 1px solid #ffffff12;
+  border-radius: 12px;
+  background: #14141f;
+}
+.legend-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.legend-copy {
+  color: #8b8b9f;
+  font-size: 11px;
+  line-height: 1.35;
+}
 
 /* ── Uptime + last-seen footer ── */
 .card-footer {
@@ -226,6 +280,12 @@ body {
   font-size: 12px;
   color: #4b5563;
   margin-top: 20px;
+}
+@media (max-width: 640px) {
+  .top-bar { padding: 12px; gap: 8px; }
+  .back-btn, .refresh-btn { padding: 8px 10px; }
+  .main { padding: 14px; }
+  .legend { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -252,7 +312,14 @@ body {
 
 <!-- Main -->
 <div class="main">
-  <div class="section-label">Advaita Network — 3 Machines</div>
+  <div class="section-label">Machine Status Guide</div>
+  <div class="legend" aria-label="Machine health color guide">
+    <div class="legend-card"><div class="legend-title"><span class="status-dot dot-green"></span>Green</div><div class="legend-copy">Safe. Keep working.</div></div>
+    <div class="legend-card"><div class="legend-title"><span class="status-dot dot-yellow"></span>Yellow</div><div class="legend-copy">May slow down. Consider cleanup soon.</div></div>
+    <div class="legend-card"><div class="legend-title"><span class="status-dot dot-orange"></span>Orange</div><div class="legend-copy">Very slow but usable. Clean up now.</div></div>
+    <div class="legend-card"><div class="legend-title"><span class="status-dot dot-red"></span>Red</div><div class="legend-copy">Not useful until reset or intervention.</div></div>
+  </div>
+  <div class="section-label">FKI Network — 3 Computers</div>
   <div class="grid" id="machineGrid">
     <!-- Cards injected by JS -->
   </div>
@@ -264,10 +331,43 @@ body {
 const FALLBACK_DATA = {
   "updated": "2026-04-29T20:00:00Z",
   "machines": [
-    {"id":"imac","name":"iMac","ip":"100.103.51.12","online":true,"cpu":22,"mem":54,"disk":61,"uptime":"12 days","last_seen":"2026-04-29T20:00:00Z"},
-    {"id":"macbook","name":"MacBook","ip":"100.112.24.104","online":true,"cpu":35,"mem":68,"disk":72,"uptime":"1 day","last_seen":"2026-04-29T20:00:00Z"},
-    {"id":"tiffany","name":"Tiffany","ip":"100.91.17.106","online":false,"cpu":0,"mem":0,"disk":0,"uptime":"offline","last_seen":"unknown"}
+    {"id":"imac","name":"Ivan iMac","ip":"100.103.51.12","online":true,"cpu":22,"mem":54,"disk":61,"uptime":"12 days","last_seen":"2026-04-29T20:00:00Z","role":"Primary AI host","spec":"40GB RAM · Intel i5 · LaunchAgents + dashboard deploys"},
+    {"id":"macbook","name":"Mack MacBook","ip":"100.112.24.104","online":true,"cpu":35,"mem":68,"disk":72,"uptime":"1 day","last_seen":"2026-04-29T20:00:00Z","role":"Bennett MacBook / strategy workstation","spec":"24GB RAM · M4 · Codex + desktop tools"},
+    {"id":"tiffany","name":"Tiffany HP Omen","ip":"100.91.17.106","online":false,"cpu":null,"mem":null,"disk":null,"uptime":"offline","last_seen":"unknown","role":"Local AI compute node","spec":"128GB RAM · Ollama HTTP only · no SSH","metrics_available":false}
   ]
+};
+
+const MACHINE_META = {
+  imac: {
+    name: "Ivan iMac",
+    role: "Primary AI host",
+    spec: "40GB RAM · Intel i5 · LaunchAgents + dashboard deploys"
+  },
+  macbook: {
+    name: "Mack MacBook",
+    role: "Bennett MacBook / strategy workstation",
+    spec: "24GB RAM · M4 · Codex + desktop tools"
+  },
+  tiffany: {
+    name: "Tiffany HP Omen",
+    role: "Local AI compute node",
+    spec: "128GB RAM · Ollama HTTP only · no SSH"
+  }
+};
+
+const THRESHOLDS = {
+  cpu:  { green: 50, yellow: 75, orange: 90 },
+  mem:  { green: 60, yellow: 80, orange: 90 },
+  swap: { green: 25, yellow: 50, orange: 70 },
+  disk: { green: 70, yellow: 85, orange: 95 }
+};
+
+const HEALTH_COPY = {
+  green: "Safe",
+  yellow: "May slow",
+  orange: "Very slow",
+  red: "Reset / intervene",
+  gray: "No live metric"
 };
 
 // ── Fetch URLs — primary (8800), CF Tunnel, Tailscale ─────────────────────
@@ -319,23 +419,39 @@ function scheduleRefresh() {
 }
 
 // ── Color helpers ─────────────────────────────────────────────────────────
-function pctClass(v) {
-  if (v < 0)  return "gray";
-  if (v < 70) return "green";
-  if (v < 90) return "yellow";
+function pctClass(metric, v) {
+  if (v === null || v === undefined || Number.isNaN(Number(v))) return "gray";
+  const limits = THRESHOLDS[metric] || THRESHOLDS.cpu;
+  const n = Number(v);
+  if (n <= limits.green) return "green";
+  if (n <= limits.yellow) return "yellow";
+  if (n <= limits.orange) return "orange";
   return "red";
 }
 
-function fmtPct(v, online) {
-  if (!online) return '<span class="metric-value val-gray">—</span>';
-  const cls = pctClass(v);
-  return `<span class="metric-value val-${cls}">${v}%</span>`;
+function worstLevel(levels) {
+  const order = ["gray", "green", "yellow", "orange", "red"];
+  return levels.reduce((worst, level) => order.indexOf(level) > order.indexOf(worst) ? level : worst, "green");
 }
 
-function progressBar(v, online) {
+function fmtPct(metric, v, online) {
+  if (!online) return '<span class="metric-value val-gray">—</span>';
+  const cls = pctClass(metric, v);
+  if (cls === "gray") return '<span class="metric-value val-gray">N/A</span>';
+  return `<span class="metric-value val-${cls}">${v}% · ${HEALTH_COPY[cls]}</span>`;
+}
+
+function progressBar(metric, v, online) {
   if (!online) return `<div class="progress-bar"><div class="progress-fill fill-gray" style="width:0%"></div></div>`;
-  const cls = pctClass(v);
-  return `<div class="progress-bar"><div class="progress-fill fill-${cls}" style="width:${v}%"></div></div>`;
+  const cls = pctClass(metric, v);
+  const width = cls === "gray" ? 0 : Number(v);
+  return `<div class="progress-bar"><div class="progress-fill fill-${cls}" style="width:${width}%"></div></div>`;
+}
+
+function machineLevels(m) {
+  return ["cpu", "mem", "swap", "disk"]
+    .filter(metric => m[metric] !== undefined)
+    .map(metric => pctClass(metric, m[metric]));
 }
 
 // ── Render ────────────────────────────────────────────────────────────────
@@ -352,22 +468,32 @@ function render(data) {
   // Banner
   const online = data.machines.filter(m => m.online).length;
   const total  = data.machines.length;
-  const allOk  = data.machines.filter(m => m.online).every(m => m.cpu < 90 && m.mem < 90 && m.disk < 90);
+  const levels = data.machines.filter(m => m.online).flatMap(m => machineLevels(m));
+  const worst = worstLevel(levels);
   if (isDemo) {
     setBanner("demo");
-  } else if (online === total && allOk) {
+  } else if (online === total && worst === "green") {
     setBanner("green");
   } else if (online < total) {
     setBanner("partial", online, total);
-  } else {
+  } else if (worst === "yellow") {
     setBanner("warning");
+  } else if (worst === "orange") {
+    setBanner("orange");
+  } else {
+    setBanner("red");
   }
 }
 
 function cardHTML(m) {
-  const statusClass = m.online ? "online" : "offline";
+  const meta = MACHINE_META[m.id] || {};
+  const displayName = m.name === "iMac" || m.name === "MacBook" || m.name === "Tiffany" ? (meta.name || m.name) : m.name;
+  const levels = machineLevels(m);
+  const cardLevel = m.online ? worstLevel(levels) : "offline";
+  const statusClass = m.online ? `${cardLevel} online` : "offline";
+  const pillLevel = m.online ? cardLevel : "red";
   const pill = m.online
-    ? `<span class="status-pill pill-online"><span class="status-dot dot-green"></span>Online</span>`
+    ? `<span class="status-pill pill-${pillLevel}"><span class="status-dot dot-${pillLevel}"></span>${HEALTH_COPY[pillLevel] || "Online"}</span>`
     : `<span class="status-pill pill-offline"><span class="status-dot dot-red"></span>Offline</span>`;
 
   const lastSeen = m.last_seen === "unknown" ? "unknown"
@@ -377,8 +503,10 @@ function cardHTML(m) {
   <div class="machine-card ${statusClass}">
     <div class="card-top">
       <div>
-        <div class="machine-name">${m.name}</div>
+        <div class="machine-name">${displayName}</div>
         <div class="machine-ip">${m.ip}</div>
+        <div class="machine-role">${m.role || meta.role || ""}</div>
+        <div class="machine-spec">${m.spec || meta.spec || ""}</div>
       </div>
       ${pill}
     </div>
@@ -386,24 +514,33 @@ function cardHTML(m) {
       <div class="metric-row">
         <div class="metric-header">
           <span class="metric-label">CPU</span>
-          ${fmtPct(m.cpu, m.online)}
+          ${fmtPct("cpu", m.cpu, m.online)}
         </div>
-        ${progressBar(m.cpu, m.online)}
+        ${progressBar("cpu", m.cpu, m.online)}
       </div>
       <div class="metric-row">
         <div class="metric-header">
           <span class="metric-label">Memory</span>
-          ${fmtPct(m.mem, m.online)}
+          ${fmtPct("mem", m.mem, m.online)}
         </div>
-        ${progressBar(m.mem, m.online)}
+        ${progressBar("mem", m.mem, m.online)}
       </div>
+      ${m.swap !== undefined ? `
+      <div class="metric-row">
+        <div class="metric-header">
+          <span class="metric-label">Swap</span>
+          ${fmtPct("swap", m.swap, m.online)}
+        </div>
+        ${progressBar("swap", m.swap, m.online)}
+      </div>` : ""}
       <div class="metric-row">
         <div class="metric-header">
           <span class="metric-label">Disk</span>
-          ${fmtPct(m.disk, m.online)}
+          ${fmtPct("disk", m.disk, m.online)}
         </div>
-        ${progressBar(m.disk, m.online)}
+        ${progressBar("disk", m.disk, m.online)}
       </div>
+      ${m.metrics_available === false ? `<div class="metric-note">Tiffany is checked by Ollama HTTP. CPU/RAM/Disk need a Windows health endpoint before those metrics can be live.</div>` : ""}
     </div>
     <div class="card-footer">
       <span>↑ ${m.uptime}</span>
@@ -429,7 +566,13 @@ function setBanner(state, online, total) {
     text.textContent = "All systems healthy";
   } else if (state === "warning") {
     dot.className += " dot-yellow";
-    text.textContent = "High resource usage detected";
+    text.textContent = "Yellow resource usage: cleanup may be needed soon";
+  } else if (state === "orange") {
+    dot.className += " dot-orange";
+    text.textContent = "Orange resource usage: machine is very slow but still usable";
+  } else if (state === "red") {
+    dot.className += " dot-red";
+    text.textContent = "Red resource usage: reset or intervention needed";
   } else if (state === "partial") {
     dot.className += " dot-yellow";
     text.textContent = `${online}/${total} machines online`;

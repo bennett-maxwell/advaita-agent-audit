@@ -107,20 +107,34 @@ else
   MACBOOK_JSON=$(json_machine "macbook" "MacBook" "$MACBOOK_IP" "false" "0" "0" "0" "offline" "$LAST_SEEN_MB")
 fi
 
-# ── Tiffany / HP Omen (SSH) ──────────────────────────────────────────────────
+# ── Tiffany / HP Omen (HTTP Ollama) ──────────────────────────────────────────
 
 TIFFANY_IP="100.91.17.106"
 TIFFANY_LAST_FILE="/tmp/machine-health-tiffany-last.json"
 
-collect_tiffany_remote() {
-  ssh -o ConnectTimeout=5 -o BatchMode=yes -o StrictHostKeyChecking=no \
-      openclaw@${TIFFANY_IP} 'powershell -Command "exit 0"' 2>/dev/null
+json_tiffany() {
+  local online="$1" model_count="$2" last_seen="$3"
+  printf '{"id":"%s","name":"%s","ip":"%s","online":%s,"cpu":null,"mem":null,"disk":null,"uptime":"%s","last_seen":"%s","role":"%s","spec":"%s","metrics_available":false,"ollama_models":%s}' \
+    "tiffany" "Tiffany HP Omen" "$TIFFANY_IP" "$online" "$([ "$online" = "true" ] && echo "ollama online" || echo "offline")" "$last_seen" \
+    "Local AI compute node" "128GB RAM · Ollama HTTP only · no SSH" "$model_count"
 }
 
-# Tiffany SSH unreachable as of 2026-04-29 — keep placeholder until OpenSSH installed
-LAST_SEEN_TF="unknown"
-[ -f "$TIFFANY_LAST_FILE" ] && LAST_SEEN_TF=$(cat "$TIFFANY_LAST_FILE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('last_seen','unknown'))" 2>/dev/null || echo "unknown")
-TIFFANY_JSON=$(json_machine "tiffany" "Tiffany" "$TIFFANY_IP" "false" "0" "0" "0" "offline" "$LAST_SEEN_TF")
+collect_tiffany_ollama() {
+  curl -fsS --connect-timeout 4 --max-time 8 "http://${TIFFANY_IP}:11434/api/tags" 2>/dev/null
+}
+
+TIFFANY_TAGS=$(collect_tiffany_ollama)
+if [ $? -eq 0 ] && echo "$TIFFANY_TAGS" | grep -q '"models"'; then
+  TIFFANY_MODELS=$(echo "$TIFFANY_TAGS" | python3 -c "import sys,json; print(len(json.load(sys.stdin).get('models',[])))" 2>/dev/null || echo 0)
+  TIFFANY_JSON=$(json_tiffany "true" "$TIFFANY_MODELS" "$NOW")
+  echo "$TIFFANY_JSON" > "$TIFFANY_LAST_FILE"
+else
+  LAST_SEEN_TF="unknown"
+  if [ -f "$TIFFANY_LAST_FILE" ]; then
+    LAST_SEEN_TF=$(cat "$TIFFANY_LAST_FILE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('last_seen','unknown'))" 2>/dev/null || echo "unknown")
+  fi
+  TIFFANY_JSON=$(json_tiffany "false" "0" "$LAST_SEEN_TF")
+fi
 
 # ── Write JSON ────────────────────────────────────────────────────────────────
 

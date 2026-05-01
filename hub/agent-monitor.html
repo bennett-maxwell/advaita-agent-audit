@@ -323,6 +323,47 @@ h1 {
 
 .agent-detail { color: var(--dim); }
 
+.agent-card .action-link {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.work-board {
+  margin: 12px 0;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.work-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.48);
+}
+
+.work-name {
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.work-line {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.work-links {
+  display: grid;
+  gap: 6px;
+}
+
 .side-stack {
   display: grid;
   gap: 12px;
@@ -442,12 +483,14 @@ details[open] summary::after { content: "-"; }
   .status-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .priority-grid, .main-grid, .wide-grid, .details-grid { grid-template-columns: 1fr; }
   .agent-grid, .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 430px) {
   .shell { padding: 12px; }
   .status-strip { grid-template-columns: 1fr 1fr; }
   .agent-grid, .links-grid { grid-template-columns: 1fr; }
+  .work-grid { grid-template-columns: 1fr; }
   .section-head { align-items: flex-start; flex-direction: column; }
   .priority-item { min-height: auto; }
 }
@@ -548,8 +591,8 @@ details[open] summary::after { content: "-"; }
     <div class="card">
       <div class="section-head">
         <div>
-          <div class="section-title">Agent Status</div>
-          <div id="statusUpdated" class="section-hint">Fetching live status...</div>
+          <div class="section-title">Main Agent Status</div>
+          <div id="statusUpdated" class="section-hint">Fetching live status... sub-agents are rolled up under their owner.</div>
         </div>
         <span id="agentCountBadge" class="badge yellow">Loading</span>
       </div>
@@ -571,6 +614,17 @@ details[open] summary::after { content: "-"; }
         </div>
       </div>
     </aside>
+  </section>
+
+  <section class="card work-board" aria-label="Recent work by main agent">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Clickable Work History</div>
+        <div class="section-hint">Main agents only. Today/yesterday history should be fed by Notion Sprint rows next.</div>
+      </div>
+      <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Open Sprint Board</a>
+    </div>
+    <div id="workGrid" class="work-grid"></div>
   </section>
 
   <section class="wide-grid">
@@ -658,9 +712,8 @@ const FALLBACK_DATA = {
     leo: { status: "active", detail: "Routing and advisor escalation" },
     ivan: { status: "active", detail: "Runtime, crons, deployments" },
     mack: { status: "active", detail: "Drive, Notion, Slack, desktop tools" },
-    tiffany: { status: "active", detail: "Phone and intake automation" },
-    chad: { status: "drafting", detail: "Strategy and dashboard HTML design" },
-    reed: { status: "active", detail: "Intelligence pulse" }
+    chad: { status: "active", detail: "Codex strategy, dashboard work, closeout" },
+    tiffany: { status: "offline", detail: "Local Ollama compute node" }
   },
   machine_health: {
     cpu: "Live on Machine Health",
@@ -669,16 +722,62 @@ const FALLBACK_DATA = {
   }
 };
 
+const MAIN_AGENT_ORDER = ["ivan", "mack", "chad", "leo", "tiffany"];
+
 const AGENT_LABELS = {
   leo: "Leo",
-  ivan: "Ivan CC",
-  mack: "Mack",
-  tiffany: "Tiffany",
-  chad: "Chad",
-  reed: "Reed",
-  piper: "Piper",
-  sky: "Sky",
-  fred: "Fred"
+  ivan: "Ivan / iMac",
+  mack: "Mack / MacBook",
+  tiffany: "Tiffany / HP Omen",
+  chad: "Chad Codex"
+};
+
+const AGENT_WORK = {
+  ivan: {
+    owner: "iMac runtime",
+    current: "Persistent jobs, dashboard deploy path, machine health collector.",
+    recent: "Dashboard and data collector infrastructure.",
+    links: [
+      ["Machine Health", "https://dashboard.franchiseki.com/hub/machine-health.html"],
+      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"]
+    ]
+  },
+  mack: {
+    owner: "MacBook desktop tools",
+    current: "Drive, Notion, Slack, browser/computer control tasks.",
+    recent: "Skill reads, Notion rows, desktop relay work.",
+    links: [
+      ["Skills Master", "https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY"],
+      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"]
+    ]
+  },
+  chad: {
+    owner: "Codex / ChatGPT",
+    current: "Dashboard repairs, system design, closeout proof.",
+    recent: "Machine Health and Agents Board fixes.",
+    links: [
+      ["This dashboard", "https://dashboard.franchiseki.com/hub/agent-monitor.html"],
+      ["Master Hub", "https://dashboard.franchiseki.com/"]
+    ]
+  },
+  leo: {
+    owner: "Main orchestrator",
+    current: "Routes agent work and escalates advisor questions.",
+    recent: "Sub-agent activity is rolled up here instead of shown as separate main agents.",
+    links: [
+      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"],
+      ["Master Prompt", "https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd"]
+    ]
+  },
+  tiffany: {
+    owner: "Local AI compute",
+    current: "Ollama endpoint check and batch AI compute when online.",
+    recent: "Currently checked by HTTP; dashboard marks offline if Ollama does not answer.",
+    links: [
+      ["Machine Health", "https://dashboard.franchiseki.com/hub/machine-health.html"],
+      ["Skills Master", "https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY"]
+    ]
+  }
 };
 
 function updateClock() {
@@ -703,10 +802,18 @@ function dotClass(status) {
 }
 
 function normalizeAgents(rawAgents) {
+  const byId = {};
   if (Array.isArray(rawAgents)) {
-    return rawAgents.map((agent, index) => [agent.id || agent.name || `agent_${index}`, agent]);
+    rawAgents.forEach((agent, index) => {
+      const id = String(agent.id || agent.name || `agent_${index}`).toLowerCase();
+      byId[id] = agent;
+    });
+  } else {
+    Object.entries(rawAgents || {}).forEach(([key, agent]) => {
+      byId[String(key).toLowerCase()] = agent;
+    });
   }
-  return Object.entries(rawAgents || {});
+  return MAIN_AGENT_ORDER.map(id => [id, byId[id] || FALLBACK_DATA.agents[id] || { status: "unknown", detail: "No live feed yet" }]);
 }
 
 async function fetchStatusData() {
@@ -731,7 +838,8 @@ function renderAgents(data, source, fallback) {
 
   grid.innerHTML = entries.map(([key, agent]) => {
     const status = agent.status || agent.state || "unknown";
-    const detail = agent.detail || agent.task || agent.current_task || "No task detail";
+    const work = AGENT_WORK[String(key).toLowerCase()] || {};
+    const detail = agent.detail || agent.task || agent.current_task || work.current || "No task detail";
     const seen = agent.last_seen || agent.updated || agent.timestamp || "";
     const label = AGENT_LABELS[String(key).toLowerCase()] || agent.name || key;
     const seenText = seen ? String(seen).slice(11, 16) + " UTC" : "No timestamp";
@@ -744,9 +852,12 @@ function renderAgents(data, source, fallback) {
         <div class="agent-state">${escapeHtml(status)}</div>
         <div class="agent-detail">${escapeHtml(detail)}</div>
         <div class="agent-detail">${escapeHtml(seenText)}</div>
+        <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">View work log</a>
       </article>
     `;
   }).join("");
+
+  renderWorkBoard(entries);
 
   document.getElementById("agentCountBadge").textContent = `${activeCount}/${entries.length} active`;
   document.getElementById("agentCountBadge").className = `badge ${activeCount >= Math.max(entries.length - 1, 1) ? "green" : activeCount > 0 ? "yellow" : "red"}`;
@@ -765,6 +876,26 @@ function renderAgents(data, source, fallback) {
   const systemBadge = document.getElementById("systemBadge");
   systemBadge.textContent = fallback ? "Live feed unreachable" : "Live feed connected";
   systemBadge.className = `badge ${fallback ? "red" : "green"}`;
+}
+
+function renderWorkBoard(entries) {
+  const grid = document.getElementById("workGrid");
+  const statusById = Object.fromEntries(entries.map(([key, agent]) => [key, agent]));
+  grid.innerHTML = MAIN_AGENT_ORDER.map(id => {
+    const work = AGENT_WORK[id];
+    const agent = statusById[id] || {};
+    const status = agent.status || agent.state || "unknown";
+    const links = work.links.map(([label, href]) => `<a class="link-btn" href="${href}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`).join("");
+    return `
+      <article class="work-card">
+        <div class="work-name">${escapeHtml(AGENT_LABELS[id])}</div>
+        <span class="badge ${dotClass(status)}">${escapeHtml(status)}</span>
+        <div class="work-line"><strong>Current:</strong> ${escapeHtml(work.current)}</div>
+        <div class="work-line"><strong>Recent:</strong> ${escapeHtml(work.recent)}</div>
+        <div class="work-links">${links}</div>
+      </article>
+    `;
+  }).join("");
 }
 
 function escapeHtml(value) {
