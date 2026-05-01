@@ -364,6 +364,69 @@ h1 {
   gap: 6px;
 }
 
+.message-board {
+  margin: 12px 0;
+}
+
+.message-form {
+  display: grid;
+  gap: 10px;
+}
+
+.message-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 8px;
+}
+
+.message-form select,
+.message-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.72);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  padding: 11px;
+}
+
+.message-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.message-output {
+  display: none;
+  border: 1px solid rgba(79, 142, 247, 0.22);
+  border-radius: 8px;
+  background: rgba(79, 142, 247, 0.08);
+  padding: 10px;
+  color: #d9e8ff;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.message-output.visible { display: block; }
+
+.approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.approval-btn {
+  min-height: 38px;
+  border: 1px solid rgba(79, 142, 247, 0.32);
+  border-radius: 8px;
+  background: rgba(79, 142, 247, 0.13);
+  color: #d9e8ff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 8px 10px;
+}
+
 .side-stack {
   display: grid;
   gap: 12px;
@@ -484,6 +547,7 @@ details[open] summary::after { content: "-"; }
   .priority-grid, .main-grid, .wide-grid, .details-grid { grid-template-columns: 1fr; }
   .agent-grid, .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .message-row { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 430px) {
@@ -587,6 +651,40 @@ details[open] summary::after { content: "-"; }
     </div>
   </section>
 
+  <section class="card message-board" aria-label="Agent message composer">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Message / Approval Composer</div>
+        <div class="section-hint">Prepares a dispatch message. Direct send needs a small authenticated backend before it can be one-tap from this static page.</div>
+      </div>
+      <span class="badge yellow">Backend needed</span>
+    </div>
+    <div class="message-form">
+      <div class="message-row">
+        <select id="agentTarget" aria-label="Agent target">
+          <option value="Ivan / iMac">Ivan / iMac</option>
+          <option value="Mack / MacBook">Mack / MacBook</option>
+          <option value="Chad Codex">Chad Codex</option>
+          <option value="Leo">Leo</option>
+          <option value="Tiffany / HP Omen">Tiffany / HP Omen</option>
+        </select>
+        <select id="messageIntent" aria-label="Message intent">
+          <option value="Keep going on your current task. Report proof and next action.">Keep going</option>
+          <option value="Approved. Proceed with the proposed action and report proof.">Approve</option>
+          <option value="Pause. Do not continue until the next instruction.">Pause</option>
+          <option value="Run health cleanup, identify the top cause, and report proof.">Run cleanup</option>
+        </select>
+      </div>
+      <textarea id="agentMessage" placeholder="Optional extra instruction"></textarea>
+      <div class="approval-actions">
+        <button class="approval-btn" type="button" onclick="prepareDispatch()">Prepare dispatch text</button>
+        <button class="approval-btn" type="button" onclick="copyDispatch()">Copy prepared text</button>
+        <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Open Sprint Board</a>
+      </div>
+      <div id="dispatchOutput" class="message-output"></div>
+    </div>
+  </section>
+
   <section class="main-grid">
     <div class="card">
       <div class="section-head">
@@ -605,12 +703,12 @@ details[open] summary::after { content: "-"; }
           <div class="section-title">Approval Queue</div>
           <span class="badge red">5 waiting</span>
         </div>
-        <div class="queue-list">
-          <div class="queue-item red"><div class="item-title">Vercel reconnect</div><div class="item-sub">mapki repo. Bennett must approve/login.</div></div>
-          <div class="queue-item red"><div class="item-title">Slack app token</div><div class="item-sub">A0B03UVET17. One Slack app action.</div></div>
-          <div class="queue-item yellow"><div class="item-title">GHL funnel pixels</div><div class="item-sub">Four funnels. IAM block means Bennett Required.</div></div>
-          <div class="queue-item yellow"><div class="item-title">EOD briefing format</div><div class="item-sub">Cron can run after final format choice.</div></div>
-          <div class="queue-item blue"><div class="item-title">Chad master prompt</div><div class="item-sub">Role definition needs canonical promotion.</div></div>
+          <div class="queue-list">
+          <div class="queue-item red"><div class="item-title">Vercel reconnect</div><div class="item-sub">mapki repo. Bennett must approve/login.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Vercel reconnect')">Approve text</button><a class="action-link" href="https://vercel.com/" target="_blank" rel="noreferrer">Open</a></div></div>
+          <div class="queue-item red"><div class="item-title">Slack app token</div><div class="item-sub">A0B03UVET17. One Slack app action.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Slack app token')">Approve text</button><a class="action-link" href="https://api.slack.com/apps/A0B03UVET17" target="_blank" rel="noreferrer">Open</a></div></div>
+          <div class="queue-item yellow"><div class="item-title">GHL funnel pixels</div><div class="item-sub">Four funnels. IAM block means Bennett Required.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('GHL funnel pixels')">Approve text</button><a class="action-link" href="https://app.crmx.app" target="_blank" rel="noreferrer">Open</a></div></div>
+          <div class="queue-item yellow"><div class="item-title">EOD briefing format</div><div class="item-sub">Cron can run after final format choice.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('EOD briefing format')">Approve text</button></div></div>
+          <div class="queue-item blue"><div class="item-title">Chad master prompt</div><div class="item-sub">Role definition needs canonical promotion.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Chad master prompt')">Approve text</button><a class="action-link" href="https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd" target="_blank" rel="noreferrer">Open</a></div></div>
         </div>
       </div>
     </aside>
@@ -896,6 +994,40 @@ function renderWorkBoard(entries) {
       </article>
     `;
   }).join("");
+}
+
+function prepareDispatch() {
+  const target = document.getElementById("agentTarget").value;
+  const intent = document.getElementById("messageIntent").value;
+  const extra = document.getElementById("agentMessage").value.trim();
+  const text = [
+    `Dashboard dispatch -> ${target}`,
+    intent,
+    extra ? `Extra: ${extra}` : "",
+    "Return concrete proof, blocker if any, and next action."
+  ].filter(Boolean).join("\n");
+  const out = document.getElementById("dispatchOutput");
+  out.textContent = text;
+  out.classList.add("visible");
+  return text;
+}
+
+function quickApprove(item) {
+  document.getElementById("agentTarget").value = "Leo";
+  document.getElementById("messageIntent").value = "Approved. Proceed with the proposed action and report proof.";
+  document.getElementById("agentMessage").value = `Approval: ${item}`;
+  prepareDispatch();
+  document.querySelector(".message-board").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function copyDispatch() {
+  const text = prepareDispatch();
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById("dispatchOutput").textContent = text + "\n\nCopied.";
+  } catch (_) {
+    document.getElementById("dispatchOutput").textContent = text + "\n\nCopy failed on this browser. Select this text manually.";
+  }
 }
 
 function escapeHtml(value) {

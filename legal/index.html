@@ -74,6 +74,21 @@
   .back-link:hover { color: #9ca3af; }
   .loading { display: none; align-items: center; gap: 8px; font-size: 13px; color: #60a5fa; }
   .loading.show { display: flex; }
+  .manual-link {
+    display: none;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #0f1e35;
+    color: #bfdbfe;
+    border: 1px solid #3b82f633;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .manual-link.show { display: flex; }
   .spinner { width: 16px; height: 16px; border: 2px solid #3b82f630; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .confidential-note {
@@ -91,7 +106,7 @@
 <div class="gate-card">
   <div class="icon-wrap">⚖️</div>
   <h1>Legal Dashboard</h1>
-  <p class="sub">Attorney-client privileged. Bennett Maxwell access only.</p>
+  <p class="sub">Attorney-client privileged. One password only: <strong>legal 2026</strong>.</p>
 
   <div class="input-wrap">
     <input type="password" id="pw" placeholder="Password" autofocus autocomplete="current-password" />
@@ -107,6 +122,8 @@
     Opening legal dashboard...
   </div>
 
+  <a class="manual-link" id="manualLink" href="http://openclaws-imac.tail503ee0.ts.net:8733/legal-command-center.html" rel="noreferrer">Open Live Legal Dashboard</a>
+
   <a class="back-link" href="index.html">← Back to Command Center</a>
 
   <div class="confidential-note">
@@ -116,13 +133,13 @@
 </div>
 
 <script>
-  // SHA-256 password hash.
+  // SHA-256 of "legal 2026".
   const TARGET = '2505432d39679af270da2bf753da0067c48ff3fb87599eae65d6cbf59f9dcfb8';
   const LEGAL_URL = 'http://openclaws-imac.tail503ee0.ts.net:8733/legal-command-center.html';
   const SESSION_KEY = 'fki_legal_auth';
 
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
-    window.location.href = LEGAL_URL;
+    unlock(false);
   }
 
   async function sha256(str) {
@@ -138,10 +155,7 @@
     const hash = await sha256(pw);
     if (hash === TARGET) {
       sessionStorage.setItem(SESSION_KEY, 'ok');
-      document.getElementById('errMsg').classList.remove('show');
-      document.getElementById('loadingMsg').classList.add('show');
-      btn.style.display = 'none';
-      setTimeout(() => { window.location.href = LEGAL_URL; }, 400);
+      unlock(true);
     } else {
       const input = document.getElementById('pw');
       input.classList.add('error');
@@ -151,6 +165,14 @@
       input.value = '';
       input.focus();
     }
+  }
+
+  function unlock(autoOpen) {
+    document.getElementById('errMsg').classList.remove('show');
+    document.getElementById('loadingMsg').classList.add('show');
+    document.getElementById('manualLink').classList.add('show');
+    document.getElementById('submitBtn').style.display = 'none';
+    if (autoOpen) setTimeout(() => { window.location.href = LEGAL_URL; }, 400);
   }
 
   document.getElementById('pw').addEventListener('keydown', e => {

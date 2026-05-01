@@ -195,14 +195,31 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  border: 1px solid #ffffff0d;
+  border-radius: 10px;
+  padding: 9px;
+  background: #0f0f1a;
 }
 .metric-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 12px;
+  width: 100%;
+  min-height: 44px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
 }
-.metric-label { color: #6b6b7e; }
+.metric-label { color: #c8cad6; font-weight: 700; }
+.metric-label::after {
+  content: " Tap for fixes";
+  color: #6b6b7e;
+  font-weight: 500;
+  font-size: 10px;
+}
 .metric-note {
   color: #6b6b7e;
   font-size: 11px;
@@ -235,6 +252,52 @@ body {
 .fill-orange { background: linear-gradient(90deg, #ea580c, #fb923c); }
 .fill-red    { background: linear-gradient(90deg, #dc2626, #ef4444); }
 .fill-gray   { background: #374151; }
+
+.metric-detail {
+  display: none;
+  border-top: 1px solid #ffffff0d;
+  margin-top: 8px;
+  padding-top: 8px;
+  color: #a0a0b0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.metric-row.expanded .metric-detail { display: grid; gap: 8px; }
+.fix-list {
+  display: grid;
+  gap: 6px;
+}
+.fix-item {
+  padding: 8px;
+  border-radius: 8px;
+  background: #14141f;
+  border: 1px solid #ffffff0d;
+}
+.fix-item strong { color: #e0e0e6; }
+.fix-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.fix-action {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid #4f8ef74d;
+  padding: 8px 10px;
+  color: #cfe3ff;
+  background: #4f8ef71f;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+.fix-action.disabled {
+  border-color: #ffffff14;
+  color: #6b6b7e;
+  background: #ffffff08;
+}
 
 .legend {
   display: grid;
@@ -368,6 +431,39 @@ const HEALTH_COPY = {
   orange: "Very slow",
   red: "Reset / intervene",
   gray: "No live metric"
+};
+
+const METRIC_FIXES = {
+  cpu: {
+    what: "CPU is the machine thinking hard right now. Spikes are normal; staying high means one app or agent is using the computer heavily.",
+    phone: "Open the work log, pause low-priority work, or message the owner to run cleanup.",
+    computer: "Open Activity Monitor, sort by CPU, quit the top non-critical app. Do not kill Ivan daemon processes.",
+    action: "Ask owner to check CPU"
+  },
+  mem: {
+    what: "Memory is active RAM. Yellow means it may slow down; orange/red means close apps or reduce agent sessions.",
+    phone: "Ask the agent to run the health script or pause extra sessions.",
+    computer: "Close Chrome tabs, quit unused apps, and keep MacBook Claude sessions at 2 max / Ivan at 3 max.",
+    action: "Ask owner to clean memory"
+  },
+  swap: {
+    what: "Swap means the computer is using disk as fake RAM. This is the clearest slow-computer warning.",
+    phone: "Run the health cleanup request. MacBook can auto-quit Codex when swap is above 70%.",
+    computer: "Quit Codex/Chrome/large apps, then restart if swap stays red.",
+    action: "Ask owner to reduce swap"
+  },
+  disk: {
+    what: "Disk is storage used. Red disk can break updates, logs, and agent writes.",
+    phone: "Ask for log/temp cleanup and open the machine owner work log.",
+    computer: "Empty Trash, delete downloads, prune old logs, and move large files off local disk.",
+    action: "Ask owner to clean disk"
+  }
+};
+
+const MACHINE_OWNER = {
+  imac: "Ivan",
+  macbook: "Mack",
+  tiffany: "Tiffany"
 };
 
 // ── Fetch URLs — primary (8800), CF Tunnel, Tailscale ─────────────────────
@@ -512,33 +608,37 @@ function cardHTML(m) {
     </div>
     <div class="metrics">
       <div class="metric-row">
-        <div class="metric-header">
+        <button class="metric-header" type="button" onclick="toggleMetric('${m.id}-cpu')">
           <span class="metric-label">CPU</span>
           ${fmtPct("cpu", m.cpu, m.online)}
-        </div>
+        </button>
         ${progressBar("cpu", m.cpu, m.online)}
+        ${metricDetailHTML(m, "cpu")}
       </div>
       <div class="metric-row">
-        <div class="metric-header">
+        <button class="metric-header" type="button" onclick="toggleMetric('${m.id}-mem')">
           <span class="metric-label">Memory</span>
           ${fmtPct("mem", m.mem, m.online)}
-        </div>
+        </button>
         ${progressBar("mem", m.mem, m.online)}
+        ${metricDetailHTML(m, "mem")}
       </div>
       ${m.swap !== undefined ? `
       <div class="metric-row">
-        <div class="metric-header">
+        <button class="metric-header" type="button" onclick="toggleMetric('${m.id}-swap')">
           <span class="metric-label">Swap</span>
           ${fmtPct("swap", m.swap, m.online)}
-        </div>
+        </button>
         ${progressBar("swap", m.swap, m.online)}
+        ${metricDetailHTML(m, "swap")}
       </div>` : ""}
       <div class="metric-row">
-        <div class="metric-header">
+        <button class="metric-header" type="button" onclick="toggleMetric('${m.id}-disk')">
           <span class="metric-label">Disk</span>
           ${fmtPct("disk", m.disk, m.online)}
-        </div>
+        </button>
         ${progressBar("disk", m.disk, m.online)}
+        ${metricDetailHTML(m, "disk")}
       </div>
       ${m.metrics_available === false ? `<div class="metric-note">Tiffany is checked by Ollama HTTP. CPU/RAM/Disk need a Windows health endpoint before those metrics can be live.</div>` : ""}
     </div>
@@ -547,6 +647,33 @@ function cardHTML(m) {
       <span>Seen ${lastSeen}</span>
     </div>
   </div>`;
+}
+
+function metricDetailHTML(machine, metric) {
+  const fix = METRIC_FIXES[metric];
+  const owner = MACHINE_OWNER[machine.id] || machine.name;
+  const body = [
+    `<div class="fix-item"><strong>What it means:</strong> ${fix.what}</div>`,
+    `<div class="fix-item"><strong>From phone:</strong> ${fix.phone}</div>`,
+    `<div class="fix-item"><strong>At computer:</strong> ${fix.computer}</div>`
+  ].join("");
+  const request = encodeURIComponent(`${owner}: ${fix.action} on ${machine.name}. Metric is ${metric.toUpperCase()}. Please run health cleanup, report top cause, and update Sprint Board with proof.`);
+  return `
+    <div class="metric-detail" id="detail-${machine.id}-${metric}">
+      <div class="fix-list">${body}</div>
+      <div class="fix-actions">
+        <a class="fix-action" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Open Sprint Board</a>
+        <a class="fix-action" href="sms:?&body=${request}">Copy phone request</a>
+        <span class="fix-action disabled">Direct SSH action needs backend</span>
+      </div>
+    </div>`;
+}
+
+function toggleMetric(id) {
+  const detail = document.getElementById("detail-" + id);
+  if (!detail) return;
+  const row = detail.closest(".metric-row");
+  row.classList.toggle("expanded");
 }
 
 function setBanner(state, online, total) {
