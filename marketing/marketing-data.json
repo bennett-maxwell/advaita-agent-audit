@@ -1,6 +1,5 @@
-[2026-05-01T14:12:54Z] Building marketing-data.json from live sources
 {
-  "updated": "2026-05-01T14:12:54.239474Z",
+  "updated": "2026-05-01T14:13:47.605094Z",
   "window_days": 30,
   "demo_mode": false,
   "kpis": {
