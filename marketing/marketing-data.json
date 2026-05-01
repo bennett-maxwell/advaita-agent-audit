@@ -1,25 +1,25 @@
 {
-  "updated": "2026-05-01T18:00:01.011185Z",
+  "updated": "2026-05-01T22:00:01.263053Z",
   "window_days": 30,
   "demo_mode": false,
   "kpis": {
-    "total_spend": 9316,
-    "total_leads": 452,
-    "blended_cpl": 20.61,
-    "ic_spend": 3958,
+    "total_spend": 9354,
+    "total_leads": 454,
+    "blended_cpl": 20.6,
+    "ic_spend": 3996,
     "ic_leads": 200,
-    "ic_cpl": 19.79,
+    "ic_cpl": 19.98,
     "ic_booked": 59,
-    "ic_showed": 12,
-    "ic_show_pct": 20.3,
+    "ic_showed": 13,
+    "ic_show_pct": 22.0,
     "ic_revenue": 21000,
-    "ic_roas": 5.31,
-    "sh_spend": 5358,
-    "sh_leads": 252,
-    "sh_cpl": 21.26,
+    "ic_roas": 5.26,
+    "sh_spend": 5359,
+    "sh_leads": 254,
+    "sh_cpl": 21.1,
     "sh_booked": 47,
-    "sh_showed": 15,
-    "sh_show_pct": 31.9,
+    "sh_showed": 16,
+    "sh_show_pct": 34.0,
     "sh_revenue": 25000,
     "sh_roas": 4.67,
     "fki_revenue": 70386,
@@ -32,18 +32,18 @@
       "meta_snapshot": [
         {
           "brand": "IC",
-          "spend": 3958,
+          "spend": 3996,
           "leads": 200,
-          "cpl": 19.79,
-          "show_pct": 20.3,
+          "cpl": 19.98,
+          "show_pct": 22.0,
           "booked": 59
         },
         {
           "brand": "SH",
-          "spend": 5358,
-          "leads": 252,
-          "cpl": 21.26,
-          "show_pct": 31.9,
+          "spend": 5359,
+          "leads": 254,
+          "cpl": 21.1,
+          "show_pct": 34.0,
           "booked": 47
         }
       ]
@@ -51,31 +51,31 @@
     "ads": {
       "window_days": 90,
       "ad_count": 17,
-      "attributed": 272,
+      "attributed": 280,
       "rows": [
         {
           "ad_name": "Investor Headlines",
           "brand": "Salad House",
-          "spend": 16185.66,
-          "leads": 894,
-          "cpl": 18.1,
-          "booked": 81.2,
-          "shows": 24.0,
-          "cpah": 676.0,
-          "cpab": 199.0,
-          "show_rate": 29.5
+          "spend": 16227.46,
+          "leads": 902,
+          "cpl": 17.99,
+          "booked": 82.8,
+          "shows": 24.8,
+          "cpah": 655.0,
+          "cpab": 196.0,
+          "show_rate": 29.9
         },
         {
           "ad_name": "Investor Headlines",
           "brand": "Indy Clover",
-          "spend": 8500.73,
-          "leads": 582,
-          "cpl": 14.61,
-          "booked": 64.7,
-          "shows": 10.8,
-          "cpah": 787.0,
-          "cpab": 131.0,
-          "show_rate": 16.7
+          "spend": 8710.12,
+          "leads": 584,
+          "cpl": 14.91,
+          "booked": 68.6,
+          "shows": 11.8,
+          "cpah": 739.0,
+          "cpab": 127.0,
+          "show_rate": 17.2
         },
         {
           "ad_name": "Investor Headlines",
@@ -83,47 +83,47 @@
           "spend": 7053.28,
           "leads": 340,
           "cpl": 20.74,
-          "booked": 32.8,
-          "shows": 10.1,
-          "cpah": 699.0,
-          "cpab": 215.0,
-          "show_rate": 30.8
+          "booked": 34.4,
+          "shows": 10.4,
+          "cpah": 677.0,
+          "cpab": 205.0,
+          "show_rate": 30.3
         },
         {
           "ad_name": "v1 Static",
           "brand": "FKI 2nd Opinion",
-          "spend": 4468.78,
+          "spend": 4312.76,
           "leads": 7,
-          "cpl": 638.4,
+          "cpl": 616.11,
           "booked": 1.0,
           "shows": 0,
           "cpah": null,
-          "cpab": 4637.0,
+          "cpab": 4481.0,
           "show_rate": 0.0
         },
         {
           "ad_name": "Investor Headlines",
           "brand": "Salad House",
-          "spend": 3885.74,
-          "leads": 389,
-          "cpl": 9.99,
-          "booked": 14.5,
-          "shows": 4.4,
-          "cpah": 893.0,
-          "cpab": 267.0,
-          "show_rate": 29.9
+          "spend": 3319.84,
+          "leads": 327,
+          "cpl": 10.15,
+          "booked": 13.0,
+          "shows": 4.0,
+          "cpah": 825.0,
+          "cpab": 255.0,
+          "show_rate": 30.9
         },
         {
           "ad_name": "Investor Headlines",
           "brand": "Salad House",
-          "spend": 3119.41,
+          "spend": 3099.18,
           "leads": 254,
-          "cpl": 12.28,
-          "booked": 15.1,
-          "shows": 4.7,
-          "cpah": 665.0,
-          "cpab": 207.0,
-          "show_rate": 31.1
+          "cpl": 12.2,
+          "booked": 15.3,
+          "shows": 4.8,
+          "cpah": 643.0,
+          "cpab": 203.0,
+          "show_rate": 31.6
         },
         {
           "ad_name": "v1 AIV",
@@ -145,9 +145,9 @@
           "cpl": 20.86,
           "booked": 1.9,
           "shows": 0.5,
-          "cpah": 1159.0,
-          "cpab": 310.0,
-          "show_rate": 26.7
+          "cpah": 1099.0,
+          "cpab": 302.0,
+          "show_rate": 27.5
         },
         {
           "ad_name": "Script 1 - 4 Video Creatives Pack",
@@ -157,9 +157,9 @@
           "cpl": null,
           "booked": 0.7,
           "shows": 0.2,
-          "cpah": 1159.0,
-          "cpab": 310.0,
-          "show_rate": 26.7
+          "cpah": 1099.0,
+          "cpab": 302.0,
+          "show_rate": 27.5
         },
         {
           "ad_name": "v1 Static",
@@ -170,7 +170,7 @@
           "booked": 0.0,
           "shows": 0,
           "cpah": null,
-          "cpab": 4637.0,
+          "cpab": 4481.0,
           "show_rate": 0.0
         }
       ]
