@@ -197,6 +197,15 @@
     .progress-wrap { background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
     .progress-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
 
+
+    /* ── Live data layer ── */
+    #demo-banner {
+      display: none; background: #f59e0b; color: #000;
+      text-align: center; font-size: 12px; font-weight: 700;
+      padding: 6px; position: sticky; top: 0; z-index: 200;
+    }
+    #demo-banner.visible { display: block; }
+
     /* ── Lead potential ── */
     .lead-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(42,47,62,0.4); }
     .lead-row:last-child { border-bottom: none; }
@@ -482,13 +491,14 @@
 </head>
 <body>
 
+<div id="demo-banner">⚠️ DEMO MODE — data may be stale. Live fetch failed or token missing.</div>
 <!-- ── Header ── -->
 <div class="header">
   <a class="back-link" href="../">← Advaita Command</a>
   <div class="header-row">
     <div>
       <h1>📣 <span>Marketing</span> Command</h1>
-      <div class="header-sub">Creative · Organic · PR — Updated Apr 29, 2026</div>
+      <div class="header-sub">Creative · Organic · PR &nbsp;·&nbsp; <span id="last-refreshed" style="color:var(--muted)">Updated Apr 29, 2026</span> <span id="demo-badge" style="display:none;background:#f59e0b;color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;margin-left:6px;">DEMO</span></div>
     </div>
     <span class="badge badge-purple">FKI</span>
   </div>
@@ -514,12 +524,12 @@
   <div class="kpi-row">
     <div class="kpi">
       <div class="kpi-label">Paid Spend/Mo</div>
-      <div class="kpi-val accent">$12K</div>
+      <div class="kpi-val accent" id="kpi-total-spend">$12K</div>
       <div class="kpi-sub">IC + SH Meta</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Blended CPL</div>
-      <div class="kpi-val yellow">$18.20</div>
+      <div class="kpi-val yellow" id="kpi-blended-cpl">$18.20</div>
       <div class="kpi-sub">IC $15.85 · SH $19.42</div>
     </div>
     <div class="kpi">
@@ -593,10 +603,10 @@
   </div>
 
   <div class="card">
-    <div class="card-title">📊 Meta Paid Snapshot</div>
+    <div class="card-title">📊 Meta Paid Snapshot <span id="live-badge" style="display:none;font-size:10px;font-weight:400;color:var(--green);margin-left:8px;">● LIVE</span></div>
     <table class="tbl">
       <thead><tr><th>Brand</th><th>Spend</th><th>Leads</th><th>CPL</th><th>Show %</th></tr></thead>
-      <tbody>
+      <tbody id="meta-snapshot-tbody">
         <tr>
           <td><span class="queue-brand brand-ic">IC</span></td>
           <td>$3,678</td><td>232</td><td class="green">$15.85</td><td>24%</td>
@@ -1971,5 +1981,111 @@
     });
   }
 </script>
+
+<script>
+/* ── Marketing Live Data Layer ── */
+(function() {
+  const GH_URL = 'https://raw.githubusercontent.com/bennett-maxwell/advaita-agent-audit/main/marketing/marketing-data.json';
+  const TAILSCALE_URL = 'http://openclaws-imac.tail503ee0.ts.net:8800/marketing/marketing-data.json';
+
+  function fmt$(n) {
+    if (n === null || n === undefined) return '—';
+    if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return '$' + Math.round(n).toLocaleString();
+    return '$' + n.toFixed(2);
+  }
+
+  function relTime(iso) {
+    const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+    if (diff < 120) return 'just now';
+    if (diff < 3600) return Math.round(diff/60) + 'm ago';
+    if (diff < 86400) return Math.round(diff/3600) + 'h ago';
+    return Math.round(diff/86400) + 'd ago';
+  }
+
+  function applyData(d) {
+    const k = d.kpis || {};
+    
+    // KPI tiles
+    const spend = document.getElementById('kpi-total-spend');
+    if (spend && k.total_spend) spend.textContent = fmt$(k.total_spend);
+    
+    const cpl = document.getElementById('kpi-blended-cpl');
+    if (cpl && k.blended_cpl) cpl.textContent = fmt$(k.blended_cpl);
+
+    // Meta snapshot tbody
+    const tbody = document.getElementById('meta-snapshot-tbody');
+    if (tbody && d.tabs && d.tabs.overview && d.tabs.overview.meta_snapshot) {
+      const rows = d.tabs.overview.meta_snapshot;
+      const total_spend = rows.reduce((a, r) => a + (r.spend || 0), 0);
+      const total_leads = rows.reduce((a, r) => a + (r.leads || 0), 0);
+      const blended = total_leads ? (total_spend / total_leads).toFixed(2) : 0;
+      tbody.innerHTML = rows.map(r => {
+        const brandClass = r.brand === 'IC' ? 'brand-ic' : 'brand-sh';
+        const cplClass = parseFloat(r.cpl) < 20 ? 'green' : 'yellow';
+        return '<tr><td><span class="queue-brand ' + brandClass + '">' + r.brand + '</span></td>' +
+          '<td>' + fmt$(r.spend) + '</td>' +
+          '<td>' + (r.leads || 0) + '</td>' +
+          '<td class="' + cplClass + '">' + fmt$(r.cpl) + '</td>' +
+          '<td>' + (r.show_pct || 0) + '%</td></tr>';
+      }).join('') +
+      '<tr><td><strong>Total</strong></td>' +
+        '<td><strong>' + fmt$(total_spend) + '</strong></td>' +
+        '<td><strong>' + total_leads + '</strong></td>' +
+        '<td class="yellow"><strong>' + fmt$(parseFloat(blended)) + '</strong></td>' +
+        '<td>—</td></tr>';
+    }
+
+    // Last refreshed
+    const lr = document.getElementById('last-refreshed');
+    if (lr && d.updated) lr.textContent = 'Live · refreshed ' + relTime(d.updated);
+
+    // Demo mode handling
+    if (d.demo_mode) {
+      const banner = document.getElementById('demo-banner');
+      if (banner) banner.classList.add('visible');
+      const badge = document.getElementById('demo-badge');
+      if (badge) badge.style.display = 'inline-block';
+    } else {
+      const liveBadge = document.getElementById('live-badge');
+      if (liveBadge) liveBadge.style.display = 'inline';
+    }
+  }
+
+  function fetchWithTimeout(url, timeout) {
+    return new Promise((resolve, reject) => {
+      const ctrl = new AbortController();
+      const id = setTimeout(() => ctrl.abort(), timeout);
+      fetch(url, { signal: ctrl.signal, cache: 'no-cache' })
+        .then(r => { clearTimeout(id); return r.json(); })
+        .then(resolve)
+        .catch(err => { clearTimeout(id); reject(err); });
+    });
+  }
+
+  async function loadMarketingData() {
+    try {
+      const d = await fetchWithTimeout(GH_URL, 5000);
+      applyData(d);
+    } catch(e1) {
+      try {
+        const d = await fetchWithTimeout(TAILSCALE_URL, 5000);
+        applyData(d);
+      } catch(e2) {
+        // Both failed — show demo badge, keep static values
+        const banner = document.getElementById('demo-banner');
+        if (banner) banner.classList.add('visible');
+        const badge = document.getElementById('demo-badge');
+        if (badge) badge.style.display = 'inline-block';
+        const lr = document.getElementById('last-refreshed');
+        if (lr) lr.textContent = 'offline — showing cached values';
+      }
+    }
+  }
+
+  loadMarketingData();
+})();
+</script>
+
 </body>
 </html>
