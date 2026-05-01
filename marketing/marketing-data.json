@@ -1,0 +1,200 @@
+[2026-05-01T14:12:54Z] Building marketing-data.json from live sources
+{
+  "updated": "2026-05-01T14:12:54.239474Z",
+  "window_days": 30,
+  "demo_mode": false,
+  "kpis": {
+    "total_spend": 9316,
+    "total_leads": 452,
+    "blended_cpl": 20.61,
+    "ic_spend": 3958,
+    "ic_leads": 200,
+    "ic_cpl": 19.79,
+    "ic_booked": 59,
+    "ic_showed": 12,
+    "ic_show_pct": 20.3,
+    "ic_revenue": 21000,
+    "ic_roas": 5.31,
+    "sh_spend": 5358,
+    "sh_leads": 252,
+    "sh_cpl": 21.26,
+    "sh_booked": 47,
+    "sh_showed": 15,
+    "sh_show_pct": 31.9,
+    "sh_revenue": 25000,
+    "sh_roas": 4.67,
+    "fki_revenue": 70386,
+    "alltime_revenue": 1130211,
+    "alltime_ad_spend": 116010,
+    "alltime_net_income": 482269
+  },
+  "tabs": {
+    "overview": {
+      "meta_snapshot": [
+        {
+          "brand": "IC",
+          "spend": 3958,
+          "leads": 200,
+          "cpl": 19.79,
+          "show_pct": 20.3,
+          "booked": 59
+        },
+        {
+          "brand": "SH",
+          "spend": 5358,
+          "leads": 252,
+          "cpl": 21.26,
+          "show_pct": 31.9,
+          "booked": 47
+        }
+      ]
+    },
+    "ads": {
+      "window_days": 90,
+      "ad_count": 17,
+      "attributed": 272,
+      "rows": [
+        {
+          "ad_name": "Investor Headlines",
+          "brand": "Salad House",
+          "spend": 16185.66,
+          "leads": 894,
+          "cpl": 18.1,
+          "booked": 81.2,
+          "shows": 24.0,
+          "cpah": 676.0,
+          "cpab": 199.0,
+          "show_rate": 29.5
+        },
+        {
+          "ad_name": "Investor Headlines",
+          "brand": "Indy Clover",
+          "spend": 8500.73,
+          "leads": 582,
+          "cpl": 14.61,
+          "booked": 64.7,
+          "shows": 10.8,
+          "cpah": 787.0,
+          "cpab": 131.0,
+          "show_rate": 16.7
+        },
+        {
+          "ad_name": "Investor Headlines",
+          "brand": "Salad House",
+          "spend": 7053.28,
+          "leads": 340,
+          "cpl": 20.74,
+          "booked": 32.8,
+          "shows": 10.1,
+          "cpah": 699.0,
+          "cpab": 215.0,
+          "show_rate": 30.8
+        },
+        {
+          "ad_name": "v1 Static",
+          "brand": "FKI 2nd Opinion",
+          "spend": 4468.78,
+          "leads": 7,
+          "cpl": 638.4,
+          "booked": 1.0,
+          "shows": 0,
+          "cpah": null,
+          "cpab": 4637.0,
+          "show_rate": 0.0
+        },
+        {
+          "ad_name": "Investor Headlines",
+          "brand": "Salad House",
+          "spend": 3885.74,
+          "leads": 389,
+          "cpl": 9.99,
+          "booked": 14.5,
+          "shows": 4.4,
+          "cpah": 893.0,
+          "cpab": 267.0,
+          "show_rate": 29.9
+        },
+        {
+          "ad_name": "Investor Headlines",
+          "brand": "Salad House",
+          "spend": 3119.41,
+          "leads": 254,
+          "cpl": 12.28,
+          "booked": 15.1,
+          "shows": 4.7,
+          "cpah": 665.0,
+          "cpab": 207.0,
+          "show_rate": 31.1
+        },
+        {
+          "ad_name": "v1 AIV",
+          "brand": "FKI 2nd Opinion",
+          "spend": 630.97,
+          "leads": 1,
+          "cpl": 630.97,
+          "booked": 0,
+          "shows": 0,
+          "cpah": null,
+          "cpab": null,
+          "show_rate": null
+        },
+        {
+          "ad_name": "Standard Headlines",
+          "brand": "Salad House",
+          "spend": 584.1,
+          "leads": 28,
+          "cpl": 20.86,
+          "booked": 1.9,
+          "shows": 0.5,
+          "cpah": 1159.0,
+          "cpab": 310.0,
+          "show_rate": 26.7
+        },
+        {
+          "ad_name": "Script 1 - 4 Video Creatives Pack",
+          "brand": "Salad House",
+          "spend": 221.42,
+          "leads": 0,
+          "cpl": null,
+          "booked": 0.7,
+          "shows": 0.2,
+          "cpah": 1159.0,
+          "cpab": 310.0,
+          "show_rate": 26.7
+        },
+        {
+          "ad_name": "v1 Static",
+          "brand": "FKI 2nd Opinion",
+          "spend": 168.35,
+          "leads": 0,
+          "cpl": null,
+          "booked": 0.0,
+          "shows": 0,
+          "cpah": null,
+          "cpab": 4637.0,
+          "show_rate": 0.0
+        }
+      ]
+    },
+    "budget": {
+      "alltime_revenue": 1130211,
+      "alltime_expenses": 658941,
+      "alltime_net": 482269,
+      "alltime_ad_spend": 116010
+    },
+    "creative": {
+      "tools_count": 10,
+      "live": 7,
+      "setup_needed": 3
+    },
+    "organic": {
+      "strategies_active": 2,
+      "strategies_total": 10,
+      "target_leads_mo": 160
+    },
+    "pr": {
+      "items_count": 5,
+      "completed": 2
+    }
+  }
+}
