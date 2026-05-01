@@ -28,6 +28,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .intro{color:#6B7280;font-size:12px;margin-bottom:14px;text-align:center}
 .section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin:0 0 7px}
 .week-badge{display:inline-flex;align-items:center;gap:4px;background:#EDE9FE;color:#7C3AED;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700}
+.date-nav{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}
+.date-nav-btn{border:none;border-radius:10px;background:#fff;color:#7C3AED;box-shadow:0 2px 8px rgba(0,0,0,.05);min-width:44px;min-height:44px;font-size:16px;font-weight:900;cursor:pointer}
+.date-nav-btn:active{transform:scale(.95)}
 .kid-row{display:flex;gap:8px;margin-bottom:14px}
 .kid-chip{flex:1;background:#fff;border-radius:10px;padding:9px 6px;text-align:center;border:2px solid transparent}
 .kid-chip .ke{font-size:20px}
@@ -140,6 +143,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .challenge-pts-input:focus{outline:none;border-color:#7C3AED}
 .challenge-set-btn{background:linear-gradient(135deg,#7C3AED,#DB2777);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
 .challenge-set-btn:active{transform:scale(.95)}
+/* Calendar */
+.month-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.month-title{font-size:18px;font-weight:900;color:#111827;text-align:center;flex:1}
+.month-btn{border:none;border-radius:10px;background:#fff;color:#7C3AED;box-shadow:0 2px 8px rgba(0,0,0,.05);min-width:44px;min-height:44px;font-size:18px;font-weight:900;cursor:pointer}
+.month-btn:active{transform:scale(.95)}
+.month-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.month-kid-card{background:#fff;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:2px solid var(--kc)}
+.month-kid-emoji{font-size:20px}
+.month-kid-name{font-size:12px;font-weight:800;margin-top:2px;color:var(--kc)}
+.month-kid-points{font-size:20px;font-weight:900;margin-top:2px;color:#111827}
+.month-kid-sub{font-size:12px;color:#6B7280;margin-top:2px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-dow{text-align:center;font-size:12px;font-weight:800;color:#9CA3AF;padding:4px 0}
+.cal-day{background:#fff;border:2px solid #F3F4F6;border-radius:12px;min-height:58px;padding:6px 4px;text-align:left;box-shadow:0 1px 4px rgba(0,0,0,.04);cursor:pointer}
+.cal-day:active{transform:scale(.96)}
+.cal-day.blank{opacity:0;pointer-events:none}
+.cal-day.today{border-color:#7C3AED}
+.cal-day.selected{background:#FAF5FF;border-color:#DB2777}
+.cal-num{font-size:12px;font-weight:900;color:#111827}
+.cal-points{font-size:11px;font-weight:800;color:#10B981;margin-top:3px;line-height:1.25}
+.cal-empty{font-size:11px;color:#D1D5DB;margin-top:3px}
+.calendar-note{background:#fff;border-radius:12px;padding:12px 14px;margin-top:14px;font-size:12px;color:#6B7280;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,.05)}
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-overlay.show{opacity:1;pointer-events:all}
@@ -164,8 +189,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pt-row:last-child{border-bottom:none}
 .pt-key{color:#7C3AED;font-weight:700}
 @media (max-width:480px){
-  .key-bar,.tab,.intro,.section-h,.week-badge,.kpc-name,.kpc-streak,.kpc-next,.kid-chip .ka,.card-sub,.kb-lbl,.pay-meta,.diff-badge,.who-chip,.pay-word,.group-section-lbl,.ga-thresh,.ga-cost,.ga-done-count,.team-box p,.log-date,.store-section,.store-item-sub,.store-item-times,.next-reward-bar,.badge-name,.badge-cond,.sel-card .sc-sub,.modal-sub,.modal-balance,.cta-box p,.bonus-tag,.bonus-log-reason,.challenge-meta,[style*="font-size:9px"],[style*="font-size:10px"],[style*="font-size:11px"]{font-size:12px!important}
-  .tab,.kid-pts-chip,.kb,.ga-done-btn,.store-kid-tab,.buy-btn,.sel-card,.submit-btn,.challenge-set-btn,.modal-confirm-btn,.modal-cancel-btn{min-height:44px}
+  .key-bar,.tab,.intro,.section-h,.week-badge,.kpc-name,.kpc-streak,.kpc-next,.kid-chip .ka,.card-sub,.kb-lbl,.pay-meta,.diff-badge,.who-chip,.pay-word,.group-section-lbl,.ga-thresh,.ga-cost,.ga-done-count,.team-box p,.log-date,.store-section,.store-item-sub,.store-item-times,.next-reward-bar,.badge-name,.badge-cond,.sel-card .sc-sub,.modal-sub,.modal-balance,.cta-box p,.bonus-tag,.bonus-log-reason,.challenge-meta,.cal-points,.cal-empty,[style*="font-size:9px"],[style*="font-size:10px"],[style*="font-size:11px"]{font-size:12px!important}
+  .tab,.kid-pts-chip,.kb,.ga-done-btn,.store-kid-tab,.buy-btn,.sel-card,.submit-btn,.challenge-set-btn,.modal-confirm-btn,.modal-cancel-btn,.cal-day{min-height:44px}
   .tabs{top:68px}
 }
 </style>
@@ -181,12 +206,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <div class="quick-actions" aria-label="Quick actions">
   <button class="quick-action" onclick="switchTab('addpts')"><span>➕</span>Add Pts</button>
+  <button class="quick-action" onclick="switchTab('calendar')"><span>📅</span>Month</button>
   <button class="quick-action" onclick="switchTab('store')"><span>🛍️</span>Store</button>
-  <button class="quick-action" onclick="switchTab('group')"><span>🏆</span>Rewards</button>
 </div>
 
 <div class="tabs">
   <button class="tab active" onclick="switchTab('habits')" id="t-habits"><span>✅</span>Daily</button>
+  <button class="tab" onclick="switchTab('calendar')" id="t-calendar"><span>📅</span>Month</button>
   <button class="tab" onclick="switchTab('paid')" id="t-paid"><span>💰</span>Paid</button>
   <button class="tab" onclick="switchTab('group')" id="t-group"><span>🏆</span>Rewards</button>
   <button class="tab" onclick="switchTab('store')" id="t-store"><span>🛍️</span>Store</button>
@@ -198,8 +224,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="pane active" id="p-habits">
   <p class="intro">Earn <strong>points</strong> — not money. Spend in the Store!</p>
   <div id="habits-week-badge" style="text-align:center;margin-bottom:12px"></div>
+  <div class="date-nav">
+    <button class="date-nav-btn" onclick="moveSelectedDate(-1)" aria-label="Previous day">‹</button>
+    <span class="week-badge" id="selected-date-label"></span>
+    <button class="date-nav-btn" onclick="moveSelectedDate(1)" aria-label="Next day">›</button>
+  </div>
   <div class="kid-row" id="habits-kid-row"></div>
   <div id="habits-list"></div>
+</div>
+
+<!-- MONTH CALENDAR -->
+<div class="pane" id="p-calendar">
+  <p class="intro">Daily boards reset. Point balances carry forward. Tap a day to add or fix points.</p>
+  <div class="month-nav">
+    <button class="month-btn" onclick="moveCalendarMonth(-1)" aria-label="Previous month">‹</button>
+    <div class="month-title" id="month-title"></div>
+    <button class="month-btn" onclick="moveCalendarMonth(1)" aria-label="Next month">›</button>
+  </div>
+  <div class="month-summary" id="month-summary"></div>
+  <div class="calendar-grid" id="calendar-grid"></div>
+  <div class="calendar-note">Tap any day to open that day's checklist. The checklist resets by day; each kid's total balance carries forward until points are spent in the Store.</div>
 </div>
 
 <!-- PAID CHORES -->
@@ -236,6 +280,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <!-- ADD POINTS -->
 <div class="pane" id="p-addpts">
   <p class="intro">Add bonus points for any kid.</p>
+  <div style="text-align:center;margin-bottom:12px"><span class="week-badge" id="bonus-date-label"></span></div>
 
   <!-- Weekly Challenge -->
   <div class="challenge-box" id="challenge-box">
@@ -408,6 +453,8 @@ let selCat = null;
 let storeSelKid = 'Mia';
 let badgeSelKid = 'Mia';
 let pendingBuy = null; // {storeItem, kidName}
+let selectedDate = todayStr();
+let calendarMonth = selectedDate.slice(0, 7);
 
 // ── localStorage helpers ───────────────────────────────────────────────────
 function isoWeek() {
@@ -416,8 +463,21 @@ function isoWeek() {
   const wk = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
   return d.getFullYear() + '-W' + String(wk).padStart(2, '0');
 }
-function todayStr() { return new Date().toISOString().split('T')[0]; }
-const WEEK_KEY = 'chore-v1-checks-' + isoWeek();
+function todayStr() { return dateToStr(new Date()); }
+function dateToStr(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function dateFromStr(s) {
+  const [y, m, d] = s.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function niceDate(s) {
+  return dateFromStr(s).toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+}
+function monthLabel(monthKey) {
+  const [y, m] = monthKey.split('-').map(Number);
+  return new Date(y, m - 1, 1).toLocaleDateString('en-US', {month:'long', year:'numeric'});
+}
 
 function lsGet(k, def) {
   try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : def; }
@@ -425,8 +485,29 @@ function lsGet(k, def) {
 }
 function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
-function getChecks()     { return lsGet(WEEK_KEY, {}); }
-function saveChecks(c)   { lsSet(WEEK_KEY, c); }
+function checksKey(date = selectedDate) { return 'chore-v2-checks-' + date; }
+function getChecks(date = selectedDate) { return lsGet(checksKey(date), {}); }
+function saveChecks(c, date = selectedDate) { lsSet(checksKey(date), c); }
+function getDayPoints(date) { return lsGet('chore-v2-day-points-' + date, {}); }
+function setDayPoints(date, points) { lsSet('chore-v2-day-points-' + date, points); }
+function adjustDayPoints(date, kidName, delta) {
+  const points = getDayPoints(date);
+  points[kidName] = Math.max(0, (points[kidName] || 0) + delta);
+  setDayPoints(date, points);
+}
+function kidDayPoints(date, kidName) { return getDayPoints(date)[kidName] || 0; }
+function monthDays(monthKey = calendarMonth) {
+  const [y, m] = monthKey.split('-').map(Number);
+  return new Date(y, m, 0).getDate();
+}
+function kidMonthPoints(kidName, monthKey = calendarMonth) {
+  const days = monthDays(monthKey);
+  let total = 0;
+  for (let d = 1; d <= days; d++) {
+    total += kidDayPoints(`${monthKey}-${String(d).padStart(2,'0')}`, kidName);
+  }
+  return total;
+}
 function getTotal(n)     { return lsGet('chore-v1-total-' + n, 0); }
 function setTotal(n, v)  { lsSet('chore-v1-total-' + n, Math.max(0, v)); }
 function getTotalEarned(n) { return lsGet('chore-v1-earned-' + n, 0); }
@@ -477,15 +558,15 @@ function nextReward(kidName) {
 }
 
 // ── Streak logic ───────────────────────────────────────────────────────────
-function checkStreakUpdate(kidName, checks) {
+function checkStreakUpdate(kidName, checks, date = selectedDate) {
   const elig = habits.filter(h => h.who.includes(kidName));
   const allDone = elig.every((h) => !!checks[habits.indexOf(h) + '-' + kidName]);
   if (!allDone) return;
-  const td = todayStr();
+  const td = date;
   const streak = getStreak(kidName);
   if (streak.last === td) return;
-  const prev = new Date(); prev.setDate(prev.getDate() - 1);
-  const yd = prev.toISOString().split('T')[0];
+  const prev = dateFromStr(td); prev.setDate(prev.getDate() - 1);
+  const yd = dateToStr(prev);
   setStreak(kidName, streak.last === yd ? {count: streak.count + 1, last: td} : {count: 1, last: td});
 }
 
@@ -497,17 +578,20 @@ function toggle(idx, kidName) {
   if (checks[key]) {
     delete checks[key];
     setTotal(kidName, getTotal(kidName) - h.pts);
+    adjustDayPoints(selectedDate, kidName, -h.pts);
   } else {
     checks[key] = true;
     setTotal(kidName, getTotal(kidName) + h.pts);
     addEarned(kidName, h.pts);
+    adjustDayPoints(selectedDate, kidName, h.pts);
     addHabitsTotal(kidName, 1);
     if (h.task.includes('Yoga')) addYoga(kidName);
-    checkStreakUpdate(kidName, checks);
+    checkStreakUpdate(kidName, checks, selectedDate);
     checkBadgeUnlocks(kidName);
   }
-  saveChecks(checks);
+  saveChecks(checks, selectedDate);
   buildHabits();
+  buildCalendar();
   buildHeader();
 }
 
@@ -583,11 +667,12 @@ function submitBonus() {
     if (!pts || pts < 1) return;
   }
   const log = getBonusLog();
-  const td = todayStr();
+  const td = selectedDate;
   const targets = selKid === 'All' ? kids.map(k => k.name) : [selKid];
   targets.forEach(kn => {
     setTotal(kn, getTotal(kn) + pts);
     addEarned(kn, pts);
+    adjustDayPoints(td, kn, pts);
     addBonusCount(kn);
     if (cat.id === 'yoga')    addYoga(kn);
     if (cat.id === 'dance')   addDance(kn);
@@ -600,6 +685,7 @@ function submitBonus() {
   selKid = null; selCat = null;
   document.getElementById('custom-pts-val').value = '';
   buildAddPoints();
+  buildCalendar();
   buildHeader();
 }
 
@@ -632,6 +718,33 @@ function switchTab(t) {
   document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
   document.getElementById('t-' + t).classList.add('active');
   document.getElementById('p-' + t).classList.add('active');
+  if (t === 'calendar') buildCalendar();
+}
+
+function setSelectedDate(date) {
+  selectedDate = date;
+  calendarMonth = date.slice(0, 7);
+  buildHabits();
+  buildCalendar();
+  buildHeader();
+}
+
+function moveSelectedDate(delta) {
+  const d = dateFromStr(selectedDate);
+  d.setDate(d.getDate() + delta);
+  setSelectedDate(dateToStr(d));
+}
+
+function moveCalendarMonth(delta) {
+  const [y, m] = calendarMonth.split('-').map(Number);
+  const d = new Date(y, m - 1 + delta, 1);
+  calendarMonth = dateToStr(d).slice(0, 7);
+  buildCalendar();
+}
+
+function openCalendarDay(date) {
+  setSelectedDate(date);
+  switchTab('habits');
 }
 
 // ── Build: Header ──────────────────────────────────────────────────────────
@@ -658,14 +771,15 @@ function buildHeader() {
 function buildHabits() {
   const checks = getChecks();
   document.getElementById('habits-week-badge').innerHTML =
-    `<span class="week-badge">📅 Week ${isoWeek()}</span>`;
+    `<span class="week-badge">📅 Daily board resets at midnight</span>`;
+  document.getElementById('selected-date-label').textContent = niceDate(selectedDate);
   document.getElementById('habits-kid-row').innerHTML = kids.map(k => {
-    const weekPts = habits.reduce((sum, h, i) =>
-      h.who.includes(k.name) && checks[i + '-' + k.name] ? sum + h.pts : sum, 0);
+    const dayPts = kidDayPoints(selectedDate, k.name);
+    const monthPts = kidMonthPoints(k.name, selectedDate.slice(0, 7));
     return `<div class="kid-chip" style="border-color:${k.c};background:${k.bg}">
       <div class="ke">${k.e}</div>
       <div class="kn" style="color:${k.c}">${k.name}</div>
-      <div class="ka">${weekPts} pts this week</div>
+      <div class="ka">${dayPts} today · ${monthPts} this month</div>
     </div>`;
   }).join('');
   document.getElementById('habits-list').innerHTML = habits.map((h, i) => {
@@ -753,6 +867,51 @@ function buildGroup() {
   } else { logEl.innerHTML = ''; }
 }
 
+// ── Build: Calendar ────────────────────────────────────────────────────────
+function buildCalendar() {
+  const titleEl = document.getElementById('month-title');
+  const summaryEl = document.getElementById('month-summary');
+  const gridEl = document.getElementById('calendar-grid');
+  if (!titleEl || !summaryEl || !gridEl) return;
+
+  titleEl.textContent = monthLabel(calendarMonth);
+  summaryEl.innerHTML = kids.map(k => `
+    <div class="month-kid-card" style="--kc:${k.c};background:${k.bg}">
+      <div class="month-kid-emoji">${k.e}</div>
+      <div class="month-kid-name">${k.name}</div>
+      <div class="month-kid-points">${kidMonthPoints(k.name, calendarMonth)}</div>
+      <div class="month-kid-sub">month pts</div>
+    </div>
+  `).join('');
+
+  const [year, month] = calendarMonth.split('-').map(Number);
+  const first = new Date(year, month - 1, 1);
+  const days = monthDays(calendarMonth);
+  const blanks = first.getDay();
+  const cells = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => `<div class="cal-dow">${d}</div>`);
+  for (let i = 0; i < blanks; i++) cells.push('<button class="cal-day blank" tabindex="-1"></button>');
+
+  for (let day = 1; day <= days; day++) {
+    const date = `${calendarMonth}-${String(day).padStart(2,'0')}`;
+    const points = getDayPoints(date);
+    const total = kids.reduce((sum, k) => sum + (points[k.name] || 0), 0);
+    const pointLines = kids
+      .filter(k => points[k.name])
+      .map(k => `${k.e}${points[k.name]}`)
+      .join(' ');
+    const cls = [
+      'cal-day',
+      date === todayStr() ? 'today' : '',
+      date === selectedDate ? 'selected' : ''
+    ].filter(Boolean).join(' ');
+    cells.push(`<button class="${cls}" onclick="openCalendarDay('${date}')">
+      <div class="cal-num">${day}</div>
+      ${total ? `<div class="cal-points">${pointLines}</div>` : '<div class="cal-empty">0 pts</div>'}
+    </button>`);
+  }
+  gridEl.innerHTML = cells.join('');
+}
+
 // ── Build: Store ───────────────────────────────────────────────────────────
 function buildStore() {
   // Kid selector tabs
@@ -826,6 +985,8 @@ function buildBadges() {
 
 // ── Build: Add Points ──────────────────────────────────────────────────────
 function buildAddPoints() {
+  const bonusDateLabel = document.getElementById('bonus-date-label');
+  if (bonusDateLabel) bonusDateLabel.textContent = 'Adding to ' + niceDate(selectedDate);
   // Weekly challenge
   const ch = getChallenge();
   if (ch) {
@@ -903,6 +1064,7 @@ buildHeader();
 buildHabits();
 buildPaid();
 buildGroup();
+buildCalendar();
 buildStore();
 buildBadges();
 buildAddPoints();
