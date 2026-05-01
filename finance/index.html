@@ -1,46 +1,16 @@
 <!DOCTYPE html>
-<!--
-  FKI Finance Dashboard — v3
-  Single password gate + inline 6-tab dashboard. No Tailscale. No second password.
-  Password: "finance2026" (SHA-256 hash baked into TARGET).
-  Live data: pulled from /finance/finance-data.json (publish via cron from Ivan).
-  Falls back to embedded SAMPLE_DATA if JSON not yet pushed.
--->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <link rel="icon" href="data:,">
-<title>FKI Finance — Command Center</title>
+<title>Finance Dashboard · FKI</title>
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #14141f;
-    --card: #1a1a26;
-    --border: #2a2f3e;
-    --text: #e0e0e6;
-    --muted: #7b8196;
-    --accent: #4f8ef7;
-    --green: #22c55e;
-    --red: #ef4444;
-    --yellow: #f59e0b;
-    --purple: #a855f7;
-    --gold: #d4a23a;
-  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.5;
-  }
-
-  /* Gate */
-  #gate {
+    background: #0a0a0f;
+    color: #e0e0e6;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -49,7 +19,7 @@
   }
   .gate-card {
     width: min(420px, 100%);
-    background: var(--surface);
+    background: #14141f;
     border: 1px solid #22c55e33;
     border-radius: 20px;
     padding: 36px 30px;
@@ -58,331 +28,98 @@
     text-align: center;
     box-shadow: 0 18px 60px rgba(0,0,0,0.32);
   }
-  .icon-wrap { width: 64px; height: 64px; margin: 0 auto; background: #22c55e1a; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-  .gate-card h1 { font-size: 22px; color: #4ade80; letter-spacing: -0.3px; }
-  .gate-card .sub { color: var(--muted); font-size: 13px; }
+  .icon-wrap {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto;
+    background: #22c55e1a;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+  h1 { font-size: 22px; color: #4ade80; letter-spacing: -0.3px; }
+  .sub { color: #8b8b9f; font-size: 13px; line-height: 1.5; }
   .input-wrap { position: relative; }
   input[type="password"], input[type="text"] {
-    width: 100%; min-height: 48px;
+    width: 100%;
+    min-height: 48px;
     background: #0f0f1a;
     border: 1px solid #22c55e30;
     border-radius: 10px;
     padding: 13px 48px 13px 16px;
-    color: var(--text);
+    color: #e0e0e6;
     font-size: 16px;
     outline: none;
     font-family: 'SF Mono', Menlo, monospace;
     letter-spacing: 1px;
   }
   input:focus { border-color: #22c55e80; box-shadow: 0 0 0 3px rgba(34,197,94,0.08); }
-  input.error { border-color: var(--red); animation: shake 0.3s ease; }
+  input.error { border-color: #ef4444; animation: shake 0.3s ease; }
   @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-  .toggle-pw { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); min-width: 44px; min-height: 44px; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 15px; }
-  .submit { width: 100%; min-height: 48px; border: 0; border-radius: 10px; background: var(--green); color: #06100a; font-size: 15px; font-weight: 800; cursor: pointer; }
-  .submit:disabled { opacity: 0.6; cursor: not-allowed; }
-  .err-msg { color: var(--red); font-size: 13px; display: none; }
-  .err-msg.show { display: block; }
-
-  /* Dashboard shell */
-  #app { display: none; }
-  #app.active { display: block; }
-  .header {
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(10,10,15,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 20px;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  .toggle-pw {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    min-width: 44px;
+    min-height: 44px;
+    border: 0;
+    background: transparent;
+    color: #8b8b9f;
+    cursor: pointer;
+    font-size: 15px;
   }
-  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
-  .header h1 span { color: var(--green); }
-  .updated { font-size: 11px; color: var(--muted); }
-  .lock-btn { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; color: var(--muted); cursor: pointer; font-size: 12px; }
-  .lock-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .nav { display: flex; gap: 4px; padding: 12px 20px; overflow-x: auto; border-bottom: 1px solid var(--border); scrollbar-width: none; }
-  .nav::-webkit-scrollbar { display: none; }
-  .nav-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 8px 14px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; white-space: nowrap; transition: all 0.15s; }
-  .nav-btn:hover { color: var(--text); }
-  .nav-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  main { padding: 20px; max-width: 1200px; margin: 0 auto; }
-  .section { display: none; }
-  .section.active { display: block; }
-  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 18px; }
-  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-  .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
-  .kpi-val { font-size: 26px; font-weight: 700; margin: 4px 0 2px; letter-spacing: -0.5px; }
-  .kpi-val.green { color: var(--green); }
-  .kpi-val.red { color: var(--red); }
-  .kpi-val.yellow { color: var(--yellow); }
-  .kpi-val.purple { color: var(--purple); }
-  .kpi-val.accent { color: var(--accent); }
-  .kpi-sub { font-size: 11px; color: var(--muted); }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
-  .card-hd { font-size: 13px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; display: flex; justify-content: space-between; }
-  .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .row:last-child { border-bottom: 0; }
-  .row .label { color: var(--muted); }
-  .row .val { font-weight: 600; }
-  .bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 4px; }
-  .bar-fill { height: 100%; background: var(--accent); border-radius: 4px; }
-  .bar-fill.green { background: var(--green); }
-  .bar-fill.yellow { background: var(--yellow); }
-  .bar-fill.red { background: var(--red); }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { padding: 10px 8px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--border); }
-  th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; }
-  td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
-  .badge.green { background: #22c55e22; color: var(--green); }
-  .badge.red { background: #ef444422; color: var(--red); }
-  .badge.yellow { background: #f59e0b22; color: var(--yellow); }
-  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
-  @media (min-width: 720px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
-  .data-status { font-size: 11px; padding: 8px 12px; border-radius: 8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-  .data-status.demo { background: #f59e0b22; color: var(--yellow); border: 1px solid #f59e0b44; }
-  .data-status.live { background: #22c55e22; color: var(--green); border: 1px solid #22c55e44; }
-  .priority-board { background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(168,85,247,0.05)); border: 1px solid rgba(79,142,247,0.25); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
-  .priority-board-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
-  .priority-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .priority-item:last-child { border-bottom: 0; }
-  .priority-num { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .priority-urgent .priority-num { background: var(--red); }
-  .priority-text { flex: 1; }
-  .priority-title { font-size: 13px; font-weight: 600; }
-  .priority-sub { font-size: 11px; color: var(--muted); }
+  .submit, .manual-link {
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    border-radius: 10px;
+    background: #22c55e;
+    color: #06100a;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .manual-link { display: none; background: #18251d; color: #b9f6ca; border: 1px solid #22c55e33; }
+  .manual-link.show { display: inline-flex; }
+  .error-msg { color: #f87171; font-size: 13px; display: none; }
+  .error-msg.show { display: block; }
+  .status { color: #8b8b9f; font-size: 12px; line-height: 1.5; min-height: 18px; }
+  .back-link { color: #6b7280; font-size: 12px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
 </style>
 </head>
 <body>
+<main class="gate-card">
+  <div class="icon-wrap">💰</div>
+  <h1>Finance Dashboard</h1>
+  <p class="sub">One password only. Use <strong>finance 2026</strong>.</p>
 
-<!-- ===== Password Gate ===== -->
-<div id="gate">
-  <main class="gate-card">
-    <div class="icon-wrap">💰</div>
-    <h1>Finance Dashboard</h1>
-    <p class="sub">One password only. Bennett knows it.</p>
-    <div class="input-wrap">
-      <input type="password" id="pw" placeholder="Password" autofocus autocomplete="current-password">
-      <button class="toggle-pw" type="button" onclick="togglePw()" aria-label="Show password">Show</button>
-    </div>
-    <div class="err-msg" id="errMsg">Incorrect password. Try again.</div>
-    <button class="submit" id="submitBtn" onclick="handleSubmit()">Unlock Finance</button>
-    <a href="../hub/" style="color:var(--muted);font-size:12px;text-decoration:none;">← Back to Command Center</a>
-  </main>
-</div>
+  <div class="input-wrap">
+    <input type="password" id="pw" placeholder="Password" autofocus autocomplete="current-password">
+    <button class="toggle-pw" type="button" onclick="togglePw()" aria-label="Show password">Show</button>
+  </div>
 
-<!-- ===== Dashboard (revealed after unlock) ===== -->
-<div id="app">
-  <header class="header">
-    <h1>💰 <span>FKI Finance</span> Command</h1>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <span class="updated" id="updatedTs">—</span>
-      <button class="lock-btn" onclick="lock()">Lock 🔒</button>
-    </div>
-  </header>
-
-  <nav class="nav" id="nav">
-    <button class="nav-btn active" onclick="show('overview')">📊 Overview</button>
-    <button class="nav-btn" onclick="show('revenue')">📈 Revenue</button>
-    <button class="nav-btn" onclick="show('cash')">💵 Cash</button>
-    <button class="nav-btn" onclick="show('pnl')">📋 P&amp;L</button>
-    <button class="nav-btn" onclick="show('pipeline')">🎯 Pipeline</button>
-    <button class="nav-btn" onclick="show('adspend')">📢 Ad Spend</button>
-  </nav>
-
-  <main>
-    <div class="data-status demo" id="dataStatus">⚠ DEMO DATA — finance-data.json not yet published from Ivan</div>
-
-    <!-- Overview -->
-    <section id="overview" class="section active">
-      <div class="priority-board">
-        <div class="priority-board-title">⭐ This Week — Top Priorities</div>
-        <div class="priority-item priority-urgent">
-          <div class="priority-num">1</div>
-          <div class="priority-text">
-            <div class="priority-title">Approve Indy Clover Q2 ad budget bump</div>
-            <div class="priority-sub">CPL trending down — scale recommended · waiting on Bennett</div>
-          </div>
-        </div>
-        <div class="priority-item">
-          <div class="priority-num">2</div>
-          <div class="priority-text">
-            <div class="priority-title">Review May P&amp;L draft</div>
-            <div class="priority-sub">QB close completed Tuesday · 12-min review</div>
-          </div>
-        </div>
-        <div class="priority-item">
-          <div class="priority-num">3</div>
-          <div class="priority-text">
-            <div class="priority-title">Sign $48K SH franchise deal — final docs</div>
-            <div class="priority-sub">In Pipeline → Negotiation since 4/22 · close window closing</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Cash on Hand</div><div class="kpi-val green" id="kpi-cash">$487K</div><div class="kpi-sub">All accounts · ~6.2 mo runway</div></div>
-        <div class="kpi"><div class="kpi-label">MTD Revenue</div><div class="kpi-val accent" id="kpi-rev">$214K</div><div class="kpi-sub">vs $198K last month</div></div>
-        <div class="kpi"><div class="kpi-label">MTD Burn</div><div class="kpi-val yellow" id="kpi-burn">$78K</div><div class="kpi-sub">Payroll + ad spend dominant</div></div>
-        <div class="kpi"><div class="kpi-label">Pipeline Value</div><div class="kpi-val purple" id="kpi-pipe">$612K</div><div class="kpi-sub">14 active deals</div></div>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-hd"><span>Revenue by Brand</span><span style="color:var(--muted);font-weight:400;">MTD</span></div>
-          <div class="row"><span class="label">Indy Clover</span><span class="val">$92K</span></div>
-          <div class="row"><span class="label">Salad House</span><span class="val">$78K</span></div>
-          <div class="row"><span class="label">SRP</span><span class="val">$32K</span></div>
-          <div class="row"><span class="label">FKI 2nd Opinion</span><span class="val">$12K</span></div>
-        </div>
-        <div class="card">
-          <div class="card-hd"><span>Account Balances</span><span style="color:var(--muted);font-weight:400;">Live</span></div>
-          <div class="row"><span class="label">BoFA Operating</span><span class="val">$287K</span></div>
-          <div class="row"><span class="label">BoFA Tax Reserve</span><span class="val">$124K</span></div>
-          <div class="row"><span class="label">Mercury Payroll</span><span class="val">$58K</span></div>
-          <div class="row"><span class="label">Stripe Pending</span><span class="val">$18K</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Revenue -->
-    <section id="revenue" class="section">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">YTD Revenue</div><div class="kpi-val green">$1.04M</div><div class="kpi-sub">+18% vs YTD '25</div></div>
-        <div class="kpi"><div class="kpi-label">MRR Run Rate</div><div class="kpi-val accent">$220K</div><div class="kpi-sub">Trailing 30-day avg</div></div>
-        <div class="kpi"><div class="kpi-label">Best Month</div><div class="kpi-val purple">Mar '26</div><div class="kpi-sub">$268K · franchise deal close</div></div>
-        <div class="kpi"><div class="kpi-label">Avg Deal Size</div><div class="kpi-val yellow">$31K</div><div class="kpi-sub">Up from $28K Q1</div></div>
-      </div>
-      <div class="card">
-        <div class="card-hd"><span>Monthly Revenue · Last 6 Months</span></div>
-        <table>
-          <thead><tr><th>Month</th><th>Indy Clover</th><th>Salad House</th><th>SRP</th><th>FKI 2nd</th><th class="num">Total</th></tr></thead>
-          <tbody>
-            <tr><td>Nov '25</td><td>$74K</td><td>$62K</td><td>$28K</td><td>$8K</td><td class="num">$172K</td></tr>
-            <tr><td>Dec '25</td><td>$81K</td><td>$71K</td><td>$31K</td><td>$10K</td><td class="num">$193K</td></tr>
-            <tr><td>Jan '26</td><td>$78K</td><td>$68K</td><td>$24K</td><td>$11K</td><td class="num">$181K</td></tr>
-            <tr><td>Feb '26</td><td>$84K</td><td>$74K</td><td>$28K</td><td>$12K</td><td class="num">$198K</td></tr>
-            <tr><td>Mar '26</td><td>$108K</td><td>$92K</td><td>$48K</td><td>$20K</td><td class="num">$268K</td></tr>
-            <tr><td>Apr '26</td><td>$92K</td><td>$78K</td><td>$32K</td><td>$12K</td><td class="num">$214K</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Cash -->
-    <section id="cash" class="section">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Total Cash</div><div class="kpi-val green">$487K</div><div class="kpi-sub">All accounts</div></div>
-        <div class="kpi"><div class="kpi-label">Burn / Mo</div><div class="kpi-val yellow">$78K</div><div class="kpi-sub">Trailing 3-mo avg</div></div>
-        <div class="kpi"><div class="kpi-label">Runway</div><div class="kpi-val accent">6.2 mo</div><div class="kpi-sub">At current burn</div></div>
-        <div class="kpi"><div class="kpi-label">Tax Reserve</div><div class="kpi-val purple">$124K</div><div class="kpi-sub">~110% of Q1 estimate</div></div>
-      </div>
-      <div class="card">
-        <div class="card-hd">Account Detail</div>
-        <table>
-          <thead><tr><th>Account</th><th>Bank</th><th>Purpose</th><th class="num">Balance</th><th class="num">% of Total</th></tr></thead>
-          <tbody>
-            <tr><td>Operating</td><td>BoFA</td><td>Day-to-day</td><td class="num">$287K</td><td class="num">59%</td></tr>
-            <tr><td>Tax Reserve</td><td>BoFA</td><td>Quarterly tax</td><td class="num">$124K</td><td class="num">25%</td></tr>
-            <tr><td>Payroll</td><td>Mercury</td><td>Bi-weekly run</td><td class="num">$58K</td><td class="num">12%</td></tr>
-            <tr><td>Pending</td><td>Stripe</td><td>2-day rolling</td><td class="num">$18K</td><td class="num">4%</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- P&L -->
-    <section id="pnl" class="section">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Apr Revenue</div><div class="kpi-val green">$214K</div></div>
-        <div class="kpi"><div class="kpi-label">Apr COGS</div><div class="kpi-val red">$48K</div><div class="kpi-sub">22% of rev</div></div>
-        <div class="kpi"><div class="kpi-label">Apr OpEx</div><div class="kpi-val yellow">$130K</div><div class="kpi-sub">61% of rev</div></div>
-        <div class="kpi"><div class="kpi-label">Apr Net</div><div class="kpi-val purple">$36K</div><div class="kpi-sub">17% margin</div></div>
-      </div>
-      <div class="card">
-        <div class="card-hd">P&amp;L · April 2026</div>
-        <table>
-          <thead><tr><th>Line</th><th class="num">Amount</th><th class="num">% of Rev</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Revenue</strong></td><td class="num"><strong>$214,000</strong></td><td class="num">100%</td></tr>
-            <tr><td style="padding-left:24px;">— Franchise Fees</td><td class="num">$148,000</td><td class="num">69%</td></tr>
-            <tr><td style="padding-left:24px;">— Royalties</td><td class="num">$54,000</td><td class="num">25%</td></tr>
-            <tr><td style="padding-left:24px;">— Consulting</td><td class="num">$12,000</td><td class="num">6%</td></tr>
-            <tr><td><strong>COGS</strong></td><td class="num"><strong>$48,000</strong></td><td class="num">22%</td></tr>
-            <tr><td><strong>Operating Expenses</strong></td><td class="num"><strong>$130,000</strong></td><td class="num">61%</td></tr>
-            <tr><td style="padding-left:24px;">— Salaries</td><td class="num">$72,000</td><td class="num">34%</td></tr>
-            <tr><td style="padding-left:24px;">— Ad Spend (Meta)</td><td class="num">$28,000</td><td class="num">13%</td></tr>
-            <tr><td style="padding-left:24px;">— Tech &amp; SaaS</td><td class="num">$11,000</td><td class="num">5%</td></tr>
-            <tr><td style="padding-left:24px;">— Legal &amp; Pro Fees</td><td class="num">$8,000</td><td class="num">4%</td></tr>
-            <tr><td style="padding-left:24px;">— Other</td><td class="num">$11,000</td><td class="num">5%</td></tr>
-            <tr><td><strong>Net Income</strong></td><td class="num"><strong style="color:var(--green);">$36,000</strong></td><td class="num"><strong>17%</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Pipeline -->
-    <section id="pipeline" class="section">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Total Pipeline</div><div class="kpi-val purple">$612K</div><div class="kpi-sub">14 deals</div></div>
-        <div class="kpi"><div class="kpi-label">Weighted</div><div class="kpi-val accent">$248K</div><div class="kpi-sub">Probability-weighted</div></div>
-        <div class="kpi"><div class="kpi-label">In Negotiation</div><div class="kpi-val yellow">5 deals</div><div class="kpi-sub">$235K combined</div></div>
-        <div class="kpi"><div class="kpi-label">Avg Days to Close</div><div class="kpi-val">42</div><div class="kpi-sub">Lead → contract</div></div>
-      </div>
-      <div class="card">
-        <div class="card-hd">Active Deals</div>
-        <table>
-          <thead><tr><th>Deal</th><th>Brand</th><th>Stage</th><th class="num">Value</th><th class="num">Prob</th></tr></thead>
-          <tbody>
-            <tr><td>Salt Lake — SH franchise</td><td>SH</td><td><span class="badge yellow">Negotiation</span></td><td class="num">$48K</td><td class="num">75%</td></tr>
-            <tr><td>Phoenix — IC location 3</td><td>IC</td><td><span class="badge yellow">Negotiation</span></td><td class="num">$62K</td><td class="num">60%</td></tr>
-            <tr><td>Denver — multi-unit deal</td><td>SH</td><td><span class="badge green">Verbal Yes</span></td><td class="num">$184K</td><td class="num">85%</td></tr>
-            <tr><td>Boise — SRP single-op</td><td>SRP</td><td><span class="badge yellow">Negotiation</span></td><td class="num">$38K</td><td class="num">50%</td></tr>
-            <tr><td>Vegas — IC reservation</td><td>IC</td><td><span class="badge">Discovery</span></td><td class="num">$54K</td><td class="num">25%</td></tr>
-            <tr><td>Seattle — SH territory</td><td>SH</td><td><span class="badge">Discovery</span></td><td class="num">$98K</td><td class="num">30%</td></tr>
-            <tr><td>Tucson — SRP family deal</td><td>SRP</td><td><span class="badge yellow">Negotiation</span></td><td class="num">$28K</td><td class="num">55%</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Ad Spend -->
-    <section id="adspend" class="section">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Apr Spend</div><div class="kpi-val red">$28K</div><div class="kpi-sub">Meta + Google combined</div></div>
-        <div class="kpi"><div class="kpi-label">Blended CPL</div><div class="kpi-val yellow">$18.20</div><div class="kpi-sub">Down from $22.40 Mar</div></div>
-        <div class="kpi"><div class="kpi-label">Apr Leads</div><div class="kpi-val accent">1,538</div><div class="kpi-sub">+12% vs Mar</div></div>
-        <div class="kpi"><div class="kpi-label">CAC</div><div class="kpi-val green">$1,840</div><div class="kpi-sub">Per closed franchise</div></div>
-      </div>
-      <div class="card">
-        <div class="card-hd">Spend by Campaign</div>
-        <table>
-          <thead><tr><th>Campaign</th><th>Brand</th><th class="num">Spend</th><th class="num">Leads</th><th class="num">CPL</th><th class="num">Bookings</th></tr></thead>
-          <tbody>
-            <tr><td>IC — Western US territory</td><td>IC</td><td class="num">$11,400</td><td class="num">719</td><td class="num">$15.85</td><td class="num">38</td></tr>
-            <tr><td>SH — Mountain West</td><td>SH</td><td class="num">$8,200</td><td class="num">422</td><td class="num">$19.42</td><td class="num">22</td></tr>
-            <tr><td>SRP — National family</td><td>SRP</td><td class="num">$5,100</td><td class="num">281</td><td class="num">$18.15</td><td class="num">14</td></tr>
-            <tr><td>FKI 2nd — info request</td><td>FKI</td><td class="num">$3,300</td><td class="num">116</td><td class="num">$28.45</td><td class="num">6</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-</div>
+  <div class="error-msg" id="errMsg">Incorrect password. Try again.</div>
+  <button class="submit" id="submitBtn" onclick="handleSubmit()">Unlock Finance</button>
+  <a class="manual-link" id="manualLink" href="https://openclaws-imac.tail503ee0.ts.net:8732" rel="noreferrer">Open Live Finance Dashboard</a>
+  <div class="status" id="statusMsg">After unlock, this opens the live finance server directly. No second dashboard password is used here.</div>
+  <a class="back-link" href="../hub/">Back to Command Center</a>
+</main>
 
 <script>
-  const GATE_VERSION = '2026-05-01-v3-inline';
-  const VERSION_KEY = 'fki_finance_gate_version';
+  const TARGET = 'cffc8ccab05b3b222a00a5c865e5f0edb37dcd9a61bfcd06e63ba00372fbf411';
+  const FINANCE_URL = 'https://openclaws-imac.tail503ee0.ts.net:8732';
   const SESSION_KEY = 'fki_finance_auth';
-  const TARGET = '79be51d4d1fdf8514b206fb5eb08a386a7867ff075de818042a9eaafbb6bf7cd'; // SHA-256("finance2026")
-
-  // Wipe stale auth on version change
-  if (sessionStorage.getItem(VERSION_KEY) !== GATE_VERSION) {
-    sessionStorage.removeItem(SESSION_KEY);
-    sessionStorage.setItem(VERSION_KEY, GATE_VERSION);
-  }
 
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
-    reveal();
+    unlock(false);
   }
 
   async function sha256(str) {
@@ -392,12 +129,12 @@
 
   async function handleSubmit() {
     const input = document.getElementById('pw');
-    const pw = input.value;
-    if (!pw) return;
+    const password = input.value;
+    if (!password) return;
     document.getElementById('submitBtn').disabled = true;
-    if (await sha256(pw) === TARGET) {
+    if (await sha256(password) === TARGET) {
       sessionStorage.setItem(SESSION_KEY, 'ok');
-      reveal();
+      unlock(true);
     } else {
       input.classList.add('error');
       input.value = '';
@@ -408,26 +145,12 @@
     }
   }
 
-  function reveal() {
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').classList.add('active');
-    loadData();
-  }
-
-  function lock() {
-    sessionStorage.removeItem(SESSION_KEY);
-    location.reload();
-  }
-
-  function show(id) {
-    const section = document.getElementById(id);
-    if (!section) return;
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    section.classList.add('active');
-    const btns = document.querySelectorAll('.nav-btn');
-    const idx = ['overview','revenue','cash','pnl','pipeline','adspend'].indexOf(id);
-    if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+  function unlock(autoOpen) {
+    document.getElementById('errMsg').classList.remove('show');
+    document.getElementById('manualLink').classList.add('show');
+    document.getElementById('submitBtn').style.display = 'none';
+    document.getElementById('statusMsg').textContent = 'Unlocked. Opening the live finance dashboard now.';
+    if (autoOpen) setTimeout(() => { window.location.href = FINANCE_URL; }, 350);
   }
 
   function togglePw() {
@@ -437,33 +160,9 @@
     button.textContent = input.type === 'password' ? 'Show' : 'Hide';
   }
 
-  document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') handleSubmit(); });
-
-  // Live data: fetch finance-data.json (Ivan publishes via cron). Fall back to embedded sample data.
-  async function loadData() {
-    try {
-      const r = await fetch('finance-data.json?t=' + Date.now(), { signal: AbortSignal.timeout(5000) });
-      if (!r.ok) throw new Error('no data file');
-      const d = await r.json();
-      applyData(d);
-      const ds = document.getElementById('dataStatus');
-      ds.className = 'data-status live';
-      ds.textContent = '✓ LIVE — last updated ' + (d.generated || 'unknown');
-    } catch (e) {
-      // demo data already in place; just stamp time
-      document.getElementById('updatedTs').textContent = 'Demo data · ' + new Date().toLocaleString();
-    }
-  }
-
-  function applyData(d) {
-    if (d.kpis) {
-      if (d.kpis.cash) document.getElementById('kpi-cash').textContent = d.kpis.cash;
-      if (d.kpis.revenue_mtd) document.getElementById('kpi-rev').textContent = d.kpis.revenue_mtd;
-      if (d.kpis.burn_mtd) document.getElementById('kpi-burn').textContent = d.kpis.burn_mtd;
-      if (d.kpis.pipeline) document.getElementById('kpi-pipe').textContent = d.kpis.pipeline;
-    }
-    if (d.generated) document.getElementById('updatedTs').textContent = 'Live · updated ' + d.generated;
-  }
+  document.getElementById('pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubmit();
+  });
 </script>
 </body>
 </html>
