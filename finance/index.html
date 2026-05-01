@@ -108,14 +108,14 @@
 
   <div class="error-msg" id="errMsg">Incorrect password. Try again.</div>
   <button class="submit" id="submitBtn" onclick="handleSubmit()">Unlock Finance</button>
-  <a class="manual-link" id="manualLink" href="https://openclaws-imac.tail503ee0.ts.net:8732" rel="noreferrer">Open Live Finance Dashboard</a>
+  <a class="manual-link" id="manualLink" href="http://openclaws-imac.tail503ee0.ts.net:8732" rel="noreferrer">Open Live Finance Dashboard</a>
   <div class="status" id="statusMsg">After unlock, this opens the live finance server directly. No second dashboard password is used here.</div>
   <a class="back-link" href="../hub/">Back to Command Center</a>
 </main>
 
 <script>
   const TARGET = '79be51d4d1fdf8514b206fb5eb08a386a7867ff075de818042a9eaafbb6bf7cd';
-  const FINANCE_URL = 'https://openclaws-imac.tail503ee0.ts.net:8732';
+  const FINANCE_URL = 'http://openclaws-imac.tail503ee0.ts.net:8732';
   const SESSION_KEY = 'fki_finance_auth';
 
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
