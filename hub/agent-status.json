@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-01T10:45:02Z",
+  "updated": "2026-05-01T11:00:01Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "12h ago",
-      "memory_updated_rel": "12h ago",
+      "last_active_rel": "13h ago",
+      "memory_updated_rel": "13h ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -48,7 +48,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "13 LaunchAgents active \u00b7 4 cloudflared \u00b7 13 python3 procs",
+      "current_task": "14 LaunchAgents active \u00b7 4 cloudflared \u00b7 17 python3 procs",
       "current_skill": "autopilot-skill v7",
       "last_active_rel": "just now",
       "memory_updated_rel": "15 min ago",
@@ -66,7 +66,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #130 \u00b7 45389 uploaded \u00b7 disk 473GB",
+      "current_task": "FDD extractor \u00b7 run #133 \u00b7 45389 uploaded \u00b7 disk 473GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -104,8 +104,8 @@
       "tasks_max": 5,
       "current_task": "Call detector pulse \u00b7 0 trigger(s) last run",
       "current_skill": "reed-call-detector",
-      "last_active_rel": "8h ago",
-      "memory_updated_rel": "8h ago",
+      "last_active_rel": "9h ago",
+      "memory_updated_rel": "9h ago",
       "notion_project": "LinkedIn \u2192 GHL Pipeline",
       "color_class": "reed-color",
       "text_class": "reed-color-text"
@@ -133,8 +133,8 @@
       "briefing-sdk"
     ],
     "tiffany_ollama_status": "offline",
-    "ivan_launchagents_active": 13,
-    "ivan_python_procs": 13,
+    "ivan_launchagents_active": 14,
+    "ivan_python_procs": 17,
     "ivan_cloudflared_procs": 4,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
