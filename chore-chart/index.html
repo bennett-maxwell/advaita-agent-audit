@@ -92,6 +92,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .next-reward-bar{background:rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;margin-top:6px;font-size:10px;color:rgba(255,255,255,.9);text-align:center}
 .next-reward-progress{height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:4px;overflow:hidden}
 .next-reward-fill{height:4px;background:#fff;border-radius:2px;transition:width .4s}
+.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 10px;background:rgba(255,255,255,.78);backdrop-filter:blur(14px);border-bottom:1px solid #F3F4F6;position:sticky;top:0;z-index:11}
+.quick-action{border:none;border-radius:12px;background:#fff;color:#111827;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:10px 8px;min-height:48px;font-size:12px;font-weight:800;cursor:pointer}
+.quick-action span{display:block;font-size:16px;margin-bottom:2px}
+.quick-action:active{transform:scale(.96)}
 /* Badges */
 .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
 .badge-card{background:#fff;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:2px solid #F3F4F6;transition:all .2s}
@@ -159,6 +163,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pt-row{display:flex;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #F3F4F6;font-size:13px}
 .pt-row:last-child{border-bottom:none}
 .pt-key{color:#7C3AED;font-weight:700}
+@media (max-width:480px){
+  .key-bar,.tab,.intro,.section-h,.week-badge,.kpc-name,.kpc-streak,.kpc-next,.kid-chip .ka,.card-sub,.kb-lbl,.pay-meta,.diff-badge,.who-chip,.pay-word,.group-section-lbl,.ga-thresh,.ga-cost,.ga-done-count,.team-box p,.log-date,.store-section,.store-item-sub,.store-item-times,.next-reward-bar,.badge-name,.badge-cond,.sel-card .sc-sub,.modal-sub,.modal-balance,.cta-box p,.bonus-tag,.bonus-log-reason,.challenge-meta,[style*="font-size:9px"],[style*="font-size:10px"],[style*="font-size:11px"]{font-size:12px!important}
+  .tab,.kid-pts-chip,.kb,.ga-done-btn,.store-kid-tab,.buy-btn,.sel-card,.submit-btn,.challenge-set-btn,.modal-confirm-btn,.modal-cancel-btn{min-height:44px}
+  .tabs{top:68px}
+}
 </style>
 </head>
 <body>
@@ -168,6 +177,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="subtitle">Harvey 🦁 · Lila 🦋 · Mia ⭐</div>
   <div class="key-bar"><span>⏱ 2 min = 5 pts</span><span>•</span><span>💎 5 pts ≈ $1</span><span>•</span><span>📱 20 pts = 15 min tablet</span></div>
   <div class="kid-pts-row" id="header-pts"></div>
+</div>
+
+<div class="quick-actions" aria-label="Quick actions">
+  <button class="quick-action" onclick="switchTab('addpts')"><span>➕</span>Add Pts</button>
+  <button class="quick-action" onclick="switchTab('store')"><span>🛍️</span>Store</button>
+  <button class="quick-action" onclick="switchTab('group')"><span>🏆</span>Rewards</button>
 </div>
 
 <div class="tabs">

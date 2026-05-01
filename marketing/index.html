@@ -430,6 +430,48 @@
     .roi-cost { font-weight: 700; font-size: 13px; color: var(--yellow); text-align: center; }
     .roi-output { color: var(--muted); }
     .roi-verdict { text-align: right; }
+    /* Mobile audit hardening: dashboard-skill requires 44px taps and readable text. */
+    .nav-btn,
+    .back-link,
+    .priority-link,
+    .ql-btn,
+    .login-btn,
+    .chevron {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chevron { min-width: 44px; }
+    @media (max-width: 480px) {
+      .badge,
+      .header-sub,
+      .card-title,
+      .kpi-label,
+      .kpi-sub,
+      .tbl th,
+      .priority-num,
+      .priority-board-title,
+      .priority-sub,
+      .priority-link,
+      .quick-links-title,
+      .queue-brand,
+      .pipe-label,
+      .tool-card-role,
+      .tool-card-cost,
+      .login-btn,
+      .detail-label,
+      .pill,
+      .task-item,
+      .ts,
+      [style*="font-size:10px"],
+      [style*="font-size:11px"] {
+        font-size: 12px !important;
+      }
+      .nav-btn { padding: 12px 16px; }
+      .ql-btn { padding: 10px 12px; }
+      .priority-link { padding: 10px 12px; }
+    }
     @media (max-width: 440px) {
       .roi-row { grid-template-columns: 1fr 1fr; gap: 4px; }
       .roi-cost { text-align: left; }
