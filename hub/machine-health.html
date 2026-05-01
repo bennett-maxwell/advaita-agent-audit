@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="data:,">
 <title>Machine Health · FKI</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -466,13 +467,11 @@ const MACHINE_OWNER = {
   tiffany: "Tiffany"
 };
 
-// ── Fetch URLs — primary (8800), CF Tunnel, Tailscale ─────────────────────
+// ── Fetch URLs — public HTTPS only. Direct machine actions need backend auth.
 const DATA_URLS = [
   "machine-health.json",
   "/hub/machine-health.json",
-  "http://openclaws-imac.tail503ee0.ts.net:8800/machine-health.json",
-  "https://fkicommand.com/machine-health.json",
-  "http://100.103.51.12:8800/machine-health.json"
+  "https://fkicommand.com/machine-health.json"
 ];
 
 let isDemo = false;
