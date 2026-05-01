@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link rel="icon" href="data:,">
 <title>Finance Dashboard · FKI</title>
 <style>
@@ -114,9 +117,19 @@
 </main>
 
 <script>
+  // Bump GATE_VERSION whenever you change TARGET, FINANCE_URL, or session semantics.
+  // On version change, stale sessionStorage is wiped so a returning device doesn't
+  // auto-act on the previous gate's state (e.g. cached old destination URL).
+  const GATE_VERSION = '2026-05-01-http';
+  const VERSION_KEY = 'fki_finance_gate_version';
+  const SESSION_KEY = 'fki_finance_auth';
+  if (sessionStorage.getItem(VERSION_KEY) !== GATE_VERSION) {
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.setItem(VERSION_KEY, GATE_VERSION);
+  }
+
   const TARGET = '79be51d4d1fdf8514b206fb5eb08a386a7867ff075de818042a9eaafbb6bf7cd';
   const FINANCE_URL = 'http://openclaws-imac.tail503ee0.ts.net:8732';
-  const SESSION_KEY = 'fki_finance_auth';
 
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
     unlock(false);
