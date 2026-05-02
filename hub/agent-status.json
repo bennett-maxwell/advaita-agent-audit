@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-02T14:45:01Z",
+  "updated": "2026-05-02T15:00:01Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "14h ago",
-      "memory_updated_rel": "14h ago",
+      "last_active_rel": "15h ago",
+      "memory_updated_rel": "15h ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": "Socket bridge heartbeat \u00b7 $0.2540/day spend",
+      "current_task": "Socket bridge heartbeat \u00b7 $0.2707/day spend",
       "current_skill": "leo-socket-bridge (socket-bridge)",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -48,7 +48,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "14 LaunchAgents active \u00b7 3 cloudflared \u00b7 21 python3 procs",
+      "current_task": "13 LaunchAgents active \u00b7 3 cloudflared \u00b7 23 python3 procs",
       "current_skill": "autopilot-skill v7",
       "last_active_rel": "just now",
       "memory_updated_rel": "15 min ago",
@@ -66,7 +66,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #202 \u00b7 45389 uploaded \u00b7 disk 470GB",
+      "current_task": "FDD extractor \u00b7 run #205 \u00b7 45389 uploaded \u00b7 disk 470GB [portal blocked]",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -104,8 +104,8 @@
       "tasks_max": 5,
       "current_task": "Call detector pulse \u00b7 0 trigger(s) last run",
       "current_skill": "reed-call-detector",
-      "last_active_rel": "12h ago",
-      "memory_updated_rel": "12h ago",
+      "last_active_rel": "13h ago",
+      "memory_updated_rel": "13h ago",
       "notion_project": "LinkedIn \u2192 GHL Pipeline",
       "color_class": "reed-color",
       "text_class": "reed-color-text"
@@ -113,8 +113,8 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 60,
-    "ivan_ram_pct": 49,
+    "ivan_cpu_pct": 71,
+    "ivan_ram_pct": 47,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
     "active_crons": 51,
@@ -133,8 +133,8 @@
       "briefing-sdk"
     ],
     "tiffany_ollama_status": "offline",
-    "ivan_launchagents_active": 14,
-    "ivan_python_procs": 21,
+    "ivan_launchagents_active": 13,
+    "ivan_python_procs": 23,
     "ivan_cloudflared_procs": 3,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
