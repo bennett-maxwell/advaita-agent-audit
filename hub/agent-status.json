@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-02T01:45:02Z",
+  "updated": "2026-05-02T02:00:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "1h ago",
-      "memory_updated_rel": "1h ago",
+      "last_active_rel": "2h ago",
+      "memory_updated_rel": "2h ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -48,7 +48,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "13 LaunchAgents active \u00b7 3 cloudflared \u00b7 19 python3 procs",
+      "current_task": "15 LaunchAgents active \u00b7 3 cloudflared \u00b7 24 python3 procs",
       "current_skill": "autopilot-skill v7",
       "last_active_rel": "just now",
       "memory_updated_rel": "15 min ago",
@@ -66,7 +66,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #47 \u00b7 45389 uploaded \u00b7 disk 473GB [portal blocked]",
+      "current_task": "FDD extractor \u00b7 run #50 \u00b7 45389 uploaded \u00b7 disk 473GB [portal blocked]",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -104,8 +104,8 @@
       "tasks_max": 5,
       "current_task": "Call detector pulse \u00b7 0 trigger(s) last run",
       "current_skill": "reed-call-detector",
-      "last_active_rel": "4m ago",
-      "memory_updated_rel": "4m ago",
+      "last_active_rel": "9m ago",
+      "memory_updated_rel": "9m ago",
       "notion_project": "LinkedIn \u2192 GHL Pipeline",
       "color_class": "reed-color",
       "text_class": "reed-color-text"
@@ -113,7 +113,7 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 69,
+    "ivan_cpu_pct": 93,
     "ivan_ram_pct": 45,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
@@ -133,8 +133,8 @@
       "briefing-sdk"
     ],
     "tiffany_ollama_status": "ok:16 models",
-    "ivan_launchagents_active": 13,
-    "ivan_python_procs": 19,
+    "ivan_launchagents_active": 15,
+    "ivan_python_procs": 24,
     "ivan_cloudflared_procs": 3,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
