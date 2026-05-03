@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-03T02:30:02Z",
+  "updated": "2026-05-03T02:45:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -48,7 +48,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "13 LaunchAgents active \u00b7 3 cloudflared \u00b7 21 python3 procs",
+      "current_task": "14 LaunchAgents active \u00b7 3 cloudflared \u00b7 21 python3 procs",
       "current_skill": "autopilot-skill v7",
       "last_active_rel": "just now",
       "memory_updated_rel": "15 min ago",
@@ -66,7 +66,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #343 \u00b7 45389 uploaded \u00b7 disk 468GB",
+      "current_task": "FDD extractor \u00b7 run #346 \u00b7 45389 uploaded \u00b7 disk 470GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -82,9 +82,9 @@
       "model": "o3 / GPT-5",
       "machine": "Ivan iMac (ghl-mcp)",
       "status": "active",
-      "tasks_running": 2,
+      "tasks_running": 3,
       "tasks_max": 5,
-      "current_task": "2 GHL MCP worker(s) running",
+      "current_task": "3 GHL MCP worker(s) running",
       "current_skill": "ghl-mcp",
       "last_active_rel": "just now",
       "memory_updated_rel": "live",
@@ -113,8 +113,8 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 69,
-    "ivan_ram_pct": 49,
+    "ivan_cpu_pct": 94,
+    "ivan_ram_pct": 53,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
     "active_crons": 52,
@@ -133,7 +133,7 @@
       "briefing-sdk"
     ],
     "tiffany_ollama_status": "offline",
-    "ivan_launchagents_active": 13,
+    "ivan_launchagents_active": 14,
     "ivan_python_procs": 21,
     "ivan_cloudflared_procs": 3,
     "claude_sessions_mack": 0,
