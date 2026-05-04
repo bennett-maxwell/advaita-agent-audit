@@ -1,6 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FKI Cost-Per-Appointment Command Center</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cost per Appointment · FKI Command Center</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d0f12;color:#e8eaf0;min-height:100vh;padding:24px 16px}
+.banner{background:#f59e0b;color:#0d0f12;text-align:center;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:20px;letter-spacing:.5px}
+.banner.live{background:#22c55e}
+h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#f97316,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.subtitle{font-size:13px;color:#6b7280;margin-bottom:28px}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:28px}
+@media(min-width:640px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+.kpi{background:#13161b;border:1px solid #1e2530;border-radius:12px;padding:16px}
+.kpi-label{font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:24px;font-weight:700;color:#e8eaf0}
+.kpi-sub{font-size:11px;color:#6b7280;margin-top:3px}
+.table-wrap{background:#13161b;border:1px solid #1e2530;border-radius:12px;overflow:hidden;margin-bottom:28px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;border-bottom:1px solid #1e2530}
+td{padding:10px 14px;border-bottom:1px solid #1a1e28}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600}
+.green{background:#0f2a1d;color:#22c55e;border:1px solid #22c55e40}
+.yellow{background:#2a1f0a;color:#f59e0b;border:1px solid #f59e0b40}
+.red{background:#2a0f0f;color:#ef4444;border:1px solid #ef444440}
+.chart-wrap{background:#13161b;border:1px solid #1e2530;border-radius:12px;padding:20px;margin-bottom:28px}
+.chart-title{font-size:14px;font-weight:600;color:#9ca3af;margin-bottom:16px}
+.back{display:inline-flex;align-items:center;gap:6px;color:#f97316;font-size:13px;text-decoration:none;margin-bottom:20px}
+.ts{font-size:11px;color:#374151;text-align:center;margin-top:12px;font-family:monospace}
+</style>
+</head>
+<body>
+<a class="back" href="/hub/">&larr; Back to Command Center</a>
+<div class="banner" id="banner">⚡ SAMPLE DATA — Live data pending GHL + Meta Ads connection</div>
+<h1>Cost per Appointment</h1>
+<p class="subtitle">Ad Spend vs. Booked &amp; Held Appointments · By Brand · Updated Daily</p>
+<div class="kpi-grid" id="kpis"></div>
+<div class="table-wrap"><table id="table">
+<thead><tr><th>Brand</th><th>Spend</th><th>Booked</th><th>Held</th><th>Show Rate</th><th>CPA Booked</th><th>CPA Held</th></tr></thead>
+<tbody id="tbody"></tbody>
+</table></div>
+<div class="chart-wrap"><div class="chart-title">Cost per Booked Appointment by Brand</div><canvas id="chart" height="80"></canvas></div>
+<div class="ts" id="ts"></div>
+<script>
+const SAMPLE={pulled_at:null,brands:[
+  {name:"Salad House",spend:8200,booked:47,held:31},
+  {name:"Indy Clover",spend:5400,0booked:28,held:19},
+  {name:"SRP",spend:2100,booked:18,held:14}
+]};
+function badge(v){
+  if(v<200)acturn`<span class="badge green">$${v}</span>`;
+  if(v<400)return`<span class="badge yellow">$${v}</span>`;
+  return`<span class="badge red">$${v}</span>`;
+}
+function render(data){
+  const brands=data.brands;
+  const totSpend=brands.reduce((a,b)=>a+b.spend,0);
+  const totBooked=brands.reduce((a,b)=>a+b.booked,0);
+  const totHeld=brands.reduce((a,b)=>a+b.held,0);
+  const allBooked=[...brands,{name:"FKI Total",spend:totSpend,booked:totBooked,held:totHeld}];
+  const kpis=[
+    {label:"Total Ad Spend",value:"$"+totSpend.toLocaleString(),sub:"This month"},
+    {label:"Total Booked",value:totBooked,sub:"Appointments"},
+    {label:"Total Held",value:totHeld,sub:Math.round(totHeld/totBooked*100)+"% show rate"},
+    {label:"Avg CPA Booked",value:"$"+Math.round(totSpend/totBooked),sub:"Spend per booking"},
+    {label:"Avg CPA Held",value:"$"+Math.round(totSpend/totHeld),sub:"Spend per held"},
+    {label:"Brands Tracked",value:brands.length,sub:"Active campaigns"}
+  ];
+  document.getElementById("kpis").innerHTML=kpis.map(k=>`<div class="kpii"><div class="kpi-label">${k.label}</div><div class="kpi-value">${k.value}</div><div class="kpi-sub">${k.sub}</div></div>`).join("");
+  document.getElementById("tbody").innerHTML=allBooked.map(b=>{
+    const cb=Math.round(b.spend/b.booked);
+    const ch=Math.round(b.spend/b.held);
+    const sr=Math.round(b.held/b.booked*100);
+    return `<tr><td><strong>${b.name}</strong></td><td>$${b.spend.toLocaleString()}</td><td>${b.booked}</td><td>${b.held}</td><td>${sr}%</td><td>${badge(cb)}</td><td>${badge(ch)}</td></tr>`;
+  }).join("");
+  new Chart(document.getElementById("chart"),{type:"bar",data:{labels:brands.map(b=>b.name),datasets:[{label:"CPA Booked",data:brands.map(b=>Math.round(b.spend/b.booked)),backgroundColor:brands.map(b=>{const v=Math.round(b.spend/b.booked);return v<200?"#22c55e60":v<400?"#f59e0b60":"#ef444460"}),borderColor:brands.map(b=>{const v=Math.round(b.spend/b.booked);return v<200?"#22c55e":v<402?"#f59e0b":"#ef4444"}),borderWidth:2,borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:"#1e2530"},ticks:{lcolor:"#6b7280",callback:v=>"$"+v}}},x:{grid:{display:false},ticks:{lcolor:"#9ca3af"}}}}});
+  const ts=data.pulled_at?new Date(data.pulled_at).toLocaleString("en-US",{timeZone:"America/Denver",dateStyle:"medium",timeStyle:"short"}):"Sample data only";
+  document.getElementById("ts").textContent="Data as of: "+ts+"|MDT";
+  if(data.pulled_at){document.getElementById("banner").className="banner live";document.getElementById("banner").textContent="✓ LIVE DATA — Last synced: "+ts;}
+}
+fetch("cpa-data.json").then(r=>r.json()).then(d=>render(d)).catch(()=>render(SAMPLE));
+</script>
+</body>
+</html>
