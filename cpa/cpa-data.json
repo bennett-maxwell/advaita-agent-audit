@@ -1,9 +1,100 @@
 {
-  "pulled_at": null,
-  "note": "Sample data \u2014 live data pending Leo GHL+Meta pull",
-  "brands": [
-    { "name": "Salad House", "spend": 8200, "booked": 47, "held": 31 },
-    { "name": "Indy Clover", "spend": 5400, "booked": 28, "held": 19 },
-    { "name": "SRP", "spend": 2100, "booked": 18, "held": 14 }
-  ]
+  "lastUpdated": "2026-05-04T23:20:00Z",
+  "dataSource": "Meta Ads API — Squirrel direct pull ✅ | GHL — Leo sync pending ⏳",
+  "period": "Apr 4 – May 3, 2026 (30 days)",
+  "totalMetaSpend": 8894.13,
+  "summary": {
+    "totalLeads": 199,
+    "blendedCPL": 44.70,
+    "apptSet": null,
+    "qualifiedAppts": null,
+    "dealsSigned": null,
+    "costPerAppt": null,
+    "costPerQualifiedAppt": null,
+    "costPerSignedDeal": null
+  },
+  "campaigns": [
+    {
+      "name": "[SH] Leadform – FNL",
+      "brand": "Salad House",
+      "color": "#22c55e",
+      "spend": 3891.94,
+      "leads": 101,
+      "cpl": 38.53,
+      "impressions": 36673,
+      "clicks": 1036,
+      "ctr": 2.82,
+      "cpc": 3.76,
+      "apptSet": null,
+      "cpa": null,
+      "dealsSigned": null,
+      "costPerDeal": null
+    },
+    {
+      "name": "[IC] Leadform – FNL",
+      "brand": "Indy Clover",
+      "color": "#8b5cf6",
+      "spend": 4180.44,
+      "leads": 98,
+      "cpl": 42.66,
+      "impressions": 45360,
+      "clicks": 1766,
+      "ctr": 3.89,
+      "cpc": 2.37,
+      "apptSet": null,
+      "cpa": null,
+      "dealsSigned": null,
+      "costPerDeal": null
+    },
+    {
+      "name": "[SH] Video Series",
+      "brand": "Salad House",
+      "color": "#22c55e",
+      "spend": 319.34,
+      "leads": 8,
+      "cpl": 39.92,
+      "impressions": 2614,
+      "clicks": 250,
+      "ctr": 9.56,
+      "cpc": 1.28,
+      "apptSet": null,
+      "cpa": null,
+      "dealsSigned": null,
+      "costPerDeal": null
+    },
+    {
+      "name": "[FKI] 2nd Opinion",
+      "brand": "FKI",
+      "color": "#f97316",
+      "spend": 502.41,
+      "leads": 0,
+      "cpl": null,
+      "impressions": 5640,
+      "clicks": 246,
+      "ctr": 4.36,
+      "cpc": 2.04,
+      "apptSet": null,
+      "cpa": null,
+      "dealsSigned": null,
+      "costPerDeal": null,
+      "note": "Awareness/content campaign — no lead conversion tracked"
+    }
+  ],
+  "funnelStages": [
+    { "stage": "Lead", "count": 199, "source": "Meta Ads API ✅", "verified": true },
+    { "stage": "Appt Set", "count": null, "source": "GHL ⏳", "verified": false },
+    { "stage": "Qualified", "count": null, "source": "GHL ⏳", "verified": false },
+    { "stage": "Discovery Call", "count": null, "source": "GHL ⏳", "verified": false },
+    { "stage": "Signed Deal", "count": null, "source": "GHL ⏳", "verified": false }
+  ],
+  "gloTanning": {
+    "status": "pending",
+    "note": "Glo Tanning benchmark deal — pull from GHL won opportunities. Leo WO dispatched 2026-05-04."
+  },
+  "pipelineSnapshot": {
+    "total": 684,
+    "stuckInNewLead": 520,
+    "unassigned": 506,
+    "source": "GHL — Viktor March 2026 analysis (unverified by Squirrel direct API)"
+  }
 }
