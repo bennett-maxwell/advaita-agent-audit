@@ -2,87 +2,270 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cost per Appointment · FKI Command Center</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FKI — Cost Per Appointment Command Center</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d0f12;color:#e8eaf0;min-height:100vh;padding:24px 16px}
-.banner{background:#f59e0b;color:#0d0f12;text-align:center;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:20px;letter-spacing:.5px}
-.banner.live{background:#22c55e}
-h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#f97316,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
-.subtitle{font-size:13px;color:#6b7280;margin-bottom:28px}
-.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:28px}
-@media(min-width:640px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
-.kpi{background:#13161b;border:1px solid #1e2530;border-radius:12px;padding:16px}
-.kpi-label{font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.kpi-value{font-size:24px;font-weight:700;color:#e8eaf0}
-.kpi-sub{font-size:11px;color:#6b7280;margin-top:3px}
-.table-wrap{background:#13161b;border:1px solid #1e2530;border-radius:12px;overflow:hidden;margin-bottom:28px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;border-bottom:1px solid #1e2530}
-td{padding:10px 14px;border-bottom:1px solid #1a1e28}
-tr:last-child td{border-bottom:none}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600}
-.green{background:#0f2a1d;color:#22c55e;border:1px solid #22c55e40}
-.yellow{background:#2a1f0a;color:#f59e0b;border:1px solid #f59e0b40}
-.red{background:#2a0f0f;color:#ef4444;border:1px solid #ef444440}
-.chart-wrap{background:#13161b;border:1px solid #1e2530;border-radius:12px;padding:20px;margin-bottom:28px}
-.chart-title{font-size:14px;font-weight:600;color:#9ca3af;margin-bottom:16px}
-.back{display:inline-flex;align-items:center;gap:6px;color:#f97316;font-size:13px;text-decoration:none;margin-bottom:20px}
-.ts{font-size:11px;color:#374151;text-align:center;margin-top:12px;font-family:monospace}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f0f11;color:#e2e8f0;min-height:100vh}
+.header{background:linear-gradient(135deg,#f97316,#ea580c);padding:20px 28px;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:1.35rem;font-weight:700;letter-spacing:-.3px}
+.header .sub{font-size:.75rem;opacity:.85;margin-top:3px}
+.badge{background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:.7rem;font-weight:600}
+.container{max-width:1100px;margin:0 auto;padding:24px 20px}
+.alert-bar{background:#1e293b;border-left:4px solid #f97316;border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:.8rem;color:#94a3b8}
+.alert-bar strong{color:#f97316}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.kpi{background:#1e293b;border-radius:10px;padding:18px 16px;border:1px solid #334155}
+.kpi .label{font-size:.68rem;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi .value{font-size:1.75rem;font-weight:700;color:#f1f5f9}
+.kpi .value.pending{font-size:1rem;color:#475569;font-weight:500}
+.kpi .source{font-size:.62rem;margin-top:5px}
+.kpi .source.verified{color:#22c55e}
+.kpi .source.pending-src{color:#f59e0b}
+.section-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#64748b;margin-bottom:12px;margin-top:28px}
+.funnel{display:flex;align-items:center;gap:0;margin-bottom:24px;overflow-x:auto;padding-bottom:8px}
+.funnel-step{flex:1;min-width:140px;text-align:center;position:relative}
+.funnel-step:not(:last-child)::after{content:'→';position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:#475569;font-size:1.1rem;z-index:2}
+.funnel-box{background:#1e293b;border-radius:8px;padding:14px 10px;border:1px solid #334155;margin:0 8px}
+.funnel-box.active{border-color:#f97316;background:#1c1917}
+.funnel-box .stage-name{font-size:.7rem;color:#94a3b8;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.funnel-box .stage-val{font-size:1.4rem;font-weight:700;color:#f1f5f9}
+.funnel-box .stage-val.pend{font-size:.8rem;color:#f59e0b;font-weight:500}
+.funnel-box .stage-cost{font-size:.7rem;color:#64748b;margin-top:3px}
+.funnel-box .stage-src{font-size:.58rem;margin-top:4px}
+.table-wrap{background:#1e293b;border-radius:10px;overflow:hidden;border:1px solid #334155;margin-bottom:24px}
+table{width:100%;border-collapse:collapse}
+th{background:#0f172a;padding:10px 14px;text-align:left;font-size:.67rem;color:#64748b;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+td{padding:12px 14px;border-top:1px solid #1e293b;font-size:.82rem}
+tr:hover td{background:rgba(249,115,22,.04)}
+.brand-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:600;color:#fff}
+.sh{background:#16a34a}
+.ic{background:#7c3aed}
+.fki{background:#ea580c}
+.val-ok{color:#22c55e;font-weight:600}
+.val-warn{color:#f59e0b}
+.val-pend{color:#475569;font-style:italic}
+.glo-box{background:#1e293b;border-radius:10px;padding:20px;border:1px solid #f97316;margin-bottom:24px}
+.glo-box .glo-title{font-size:1rem;font-weight:700;color:#f97316;margin-bottom:8px}
+.glo-box .glo-body{font-size:.8rem;color:#94a3b8;line-height:1.6}
+.glo-box .glo-meta{font-size:.68rem;color:#64748b;margin-top:10px}
+.pipeline-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px}
+.pipe-card{background:#1e293b;border-radius:8px;padding:14px 12px;border:1px solid #334155;text-align:center}
+.pipe-card .p-val{font-size:1.5rem;font-weight:700;margin-bottom:3px}
+.pipe-card .p-val.warn{color:#ef4444}
+.pipe-card .p-val.ok{color:#22c55e}
+.pipe-card .p-val.amber{color:#f59e0b}
+.pipe-card .p-label{font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px}
+.pipe-card .p-src{font-size:.58rem;color:#475569;margin-top:4px}
+.footer{text-align:center;font-size:.65rem;color:#334155;padding:20px;margin-top:10px}
+.leo-badge{background:#f59e0b22;border:1px solid #f59e0b44;border-radius:20px;padding:3px 10px;font-size:.62rem;color:#f59e0b;display:inline-block;margin-left:6px}
+.verified-badge{background:#22c55e22;border:1px solid #22c55e44;border-radius:20px;padding:3px 10px;font-size:.62rem;color:#22c55e;display:inline-block;margin-left:6px}
+.metric-meta{font-size:.62rem;color:#475569;margin-top:2px}
 </style>
 </head>
 <body>
-<a class="back" href="/hub/">&larr; Back to Command Center</a>
-<div class="banner" id="banner">⚡ SAMPLE DATA — Live data pending GHL + Meta Ads connection</div>
-<h1>Cost per Appointment</h1>
-<p class="subtitle">Ad Spend vs. Booked &amp; Held Appointments · By Brand · Updated Daily</p>
-<div class="kpi-grid" id="kpis"></div>
-<div class="table-wrap"><table id="table">
-<thead><tr><th>Brand</th><th>Spend</th><th>Booked</th><th>Held</th><th>Show Rate</th><th>CPA Booked</th><th>CPA Held</th></tr></thead>
-<tbody id="tbody"></tbody>
-</table></div>
-<div class="chart-wrap"><div class="chart-title">Cost per Booked Appointment by Brand</div><canvas id="chart" height="80"></canvas></div>
-<div class="ts" id="ts"></div>
+
+<div class="header">
+  <div>
+    <div class="sub">FKI Command Center</div>
+    <h1>📊 Cost Per Appointment</h1>
+  </div>
+  <div>
+    <div class="badge" id="sync-time">Loading...</div>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="alert-bar">
+  <strong>Data Status:</strong> Meta Ads spend &amp; CPL = <strong style="color:#22c55e">✅ VERIFIED</strong> (Squirrel direct API pull, 2026-05-04).
+  GHL appointment, qualified, &amp; deal data = <strong style="color:#f59e0b">⏳ LEO SYNC PENDING</strong> — work order dispatched.
+  Cost Per Appointment and Cost Per Signed Deal will auto-populate when GHL sync completes.
+</div>
+
+<!-- TOP KPIs -->
+<div class="section-title">30-Day Summary — Apr 4 to May 3, 2026</div>
+<div class="kpi-grid" id="kpi-grid">
+  <div class="kpi">
+    <div class="label">Total Meta Spend</div>
+    <div class="value" id="kpi-spend">—</div>
+    <div class="source verified">✅ Meta Ads API</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Total Leads</div>
+    <div class="value" id="kpi-leads">—</div>
+    <div class="source verified">✅ Meta Ads API</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Blended CPL</div>
+    <div class="value" id="kpi-cpl">—</div>
+    <div class="source verified">✅ Verified</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Cost Per Appt</div>
+    <div class="value pending" id="kpi-cpa">GHL sync pending</div>
+    <div class="source pending-src">⏳ Leo WO dispatched</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Cost Per Qualified Appt</div>
+    <div class="value pending" id="kpi-cpqa">GHL sync pending</div>
+    <div class="source pending-src">⏳ Leo WO dispatched</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Cost Per Signed Deal</div>
+    <div class="value pending" id="kpi-cpsd">GHL sync pending</div>
+    <div class="source pending-src">⏳ Leo WO dispatched</div>
+  </div>
+</div>
+
+<!-- FUNNEL -->
+<div class="section-title">Lead → Deal Funnel</div>
+<div class="funnel" id="funnel-row"></div>
+
+<!-- CAMPAIGN TABLE -->
+<div class="section-title">Campaign Breakdown — Verified Meta Data</div>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Campaign</th>
+        <th>Brand</th>
+        <th>Spend</th>
+        <th>Leads</th>
+        <th>CPL</th>
+        <th>CTR</th>
+        <th>Appts Set</th>
+        <th>Cost/Appt</th>
+        <th>Deals</th>
+      </tr>
+    </thead>
+    <tbody id="campaign-tbody"></tbody>
+  </table>
+</div>
+
+<!-- GLO TANNING BENCHMARK -->
+<div class="section-title">🎯 Glo Tanning — Deal Benchmark</div>
+<div class="glo-box">
+  <div class="glo-title">Glo Tanning — Signed Deal Analysis</div>
+  <div class="glo-body" id="glo-content">
+    Work order dispatched to Leo to pull the Glo Tanning opportunity from GHL. Once retrieved, this section will show:<br><br>
+    • <strong>Lead source</strong> — which campaign/channel generated this contact<br>
+    • <strong>Total ad spend attributed</strong> to that lead source at deal time<br>
+    • <strong>Cost per signed deal</strong> — the metric we replicate<br>
+    • <strong>Funnel stages &amp; days to close</strong> — time between each stage<br>
+    • <strong>Replication strategy</strong> — which audiences/creatives to scale based on this blueprint
+  </div>
+  <div class="glo-meta" id="glo-meta">⏳ GHL Leo WO dispatched 2026-05-04 — data will populate here on next sync</div>
+</div>
+
+<!-- GHL PIPELINE SNAPSHOT -->
+<div class="section-title">GHL Pipeline Snapshot <span class="leo-badge">⏳ Unverified — from Viktor March 2026</span></div>
+<div class="pipeline-grid" id="pipeline-grid">
+  <div class="pipe-card"><div class="p-val ok">684</div><div class="p-label">Total Opps</div><div class="p-src">Viktor analysis</div></div>
+  <div class="pipe-card"><div class="p-val warn">520</div><div class="p-label">Stuck New Lead</div><div class="p-src">76% of pipeline</div></div>
+  <div class="pipe-card"><div class="p-val warn">506</div><div class="p-label">Unassigned</div><div class="p-src">Going cold</div></div>
+  <div class="pipe-card"><div class="p-val amber">—</div><div class="p-label">Appt Set</div><div class="p-src">⏳ Leo sync</div></div>
+  <div class="pipe-card"><div class="p-val amber">—</div><div class="p-label">Qualified</div><div class="p-src">⏳ Leo sync</div></div>
+  <div class="pipe-card"><div class="p-val amber">—</div><div class="p-label">Deals Won</div><div class="p-src">⏳ Leo sync</div></div>
+</div>
+
+<!-- INSIGHTS -->
+<div class="section-title">📌 Immediate Insights (Verified Data)</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Finding</th><th>Data</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>SH Leadform CPL is strongest</td>
+        <td class="val-ok">$38.53 CPL</td>
+        <td>Hold — verify appt rate before scaling</td>
+      </tr>
+      <tr>
+        <td>IC Leadform CPL acceptable</td>
+        <td class="val-warn">$42.66 CPL</td>
+        <td>Hold — need CPQA to compare vs SH</td>
+      </tr>
+      <tr>
+        <td>SH Video CPL comparable, high CTR</td>
+        <td class="val-ok">$39.92 CPL, 9.56% CTR</td>
+        <td>Small budget — monitor for appt quality</td>
+      </tr>
+      <tr>
+        <td>FKI 2nd Opinion = zero leads tracked</td>
+        <td class="val-warn">$502 spend, 0 leads</td>
+        <td>Awareness only — exclude from CPL math</td>
+      </tr>
+      <tr>
+        <td>CRITICAL GAP: No appt attribution in Meta</td>
+        <td class="val-pend">GHL needed</td>
+        <td>Leo WO: pull GHL appts by lead source</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<div class="footer">FKI Cost Per Appointment Command Center · Squirrel 🐿️ · dashboard.franchiseki.com/cpa · Meta data verified via Composio API 2026-05-04</div>
+
 <script>
-const SAMPLE={pulled_at:null,brands:[
-  {name:"Salad House",spend:8200,booked:47,held:31},
-  {name:"Indy Clover",spend:5400,0booked:28,held:19},
-  {name:"SRP",spend:2100,booked:18,held:14}
-]};
-function badge(v){
-  if(v<200)acturn`<span class="badge green">$${v}</span>`;
-  if(v<400)return`<span class="badge yellow">$${v}</span>`;
-  return`<span class="badge red">$${v}</span>`;
+async function loadData() {
+  let d;
+  try {
+    const r = await fetch('cpa-data.json?v=' + Date.now());
+    d = await r.json();
+  } catch(e) {
+    document.getElementById('sync-time').textContent = 'Data load error';
+    return;
+  }
+
+  // Sync time
+  const dt = new Date(d.lastUpdated);
+  document.getElementById('sync-time').textContent = 'Synced ' + dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' ' + dt.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+
+  // KPIs
+  document.getElementById('kpi-spend').textContent = '$' + d.totalMetaSpend.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  document.getElementById('kpi-leads').textContent = d.summary.totalLeads;
+  document.getElementById('kpi-cpl').textContent = '$' + d.summary.blendedCPL.toFixed(2);
+  if(d.summary.costPerAppt) document.getElementById('kpi-cpa').textContent = '$' + d.summary.costPerAppt.toFixed(0);
+  if(d.summary.costPerQualifiedAppt) document.getElementById('kpi-cpqa').textContent = '$' + d.summary.costPerQualifiedAppt.toFixed(0);
+  if(d.summary.costPerSignedDeal) document.getElementById('kpi-cpsd').textContent = '$' + d.summary.costPerSignedDeal.toFixed(0);
+
+  // Funnel
+  const funnel = document.getElementById('funnel-row');
+  const costs = [null, d.summary.costPerAppt, d.summary.costPerQualifiedAppt, null, d.summary.costPerSignedDeal];
+  d.funnelStages.forEach((s,i) => {
+    const div = document.createElement('div');
+    div.className = 'funnel-step';
+    const isActive = s.verified;
+    div.innerHTML = `<div class="funnel-box ${isActive?'active':''}">
+      <div class="stage-name">${s.stage}</div>
+      <div class="stage-val ${s.count===null?'pend':''}">${s.count!==null?s.count:'⏳'}</div>
+      <div class="stage-cost">${costs[i]?'$'+costs[i].toFixed(0)+' / deal':''}</div>
+      <div class="stage-src ${s.verified?'verified-badge':'leo-badge'}" style="font-size:.58rem;margin-top:4px">${s.source}</div>
+    </div>`;
+    funnel.appendChild(div);
+  });
+
+  // Campaigns
+  const tbody = document.getElementById('campaign-tbody');
+  d.campaigns.forEach(c => {
+    const brand = c.brand==='Salad House'?'sh':c.brand==='Indy Clover'?'ic':'fki';
+    const cplClass = c.cpl===null?'val-pend':c.cpl<40?'val-ok':c.cpl<50?'val-warn':'';
+    tbody.innerHTML += `<tr>
+      <td>${c.name}${c.note?`<div class="metric-meta">${c.note}</div>`:''}</td>
+      <td><span class="brand-tag ${brand}">${c.brand}</span></td>
+      <td>$${c.spend.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td>${c.leads||'—'}</td>
+      <td class="${cplClass}">${c.cpl?'$'+c.cpl.toFixed(2):'—'}</td>
+      <td>${c.ctr?c.ctr.toFixed(2)+'%':'—'}</td>
+      <td class="val-pend">⏳</td>
+      <td class="val-pend">⏳</td>
+      <td class="val-pend">⏳</td>
+    </tr>`;
+  });
 }
-function render(data){
-  const brands=data.brands;
-  const totSpend=brands.reduce((a,b)=>a+b.spend,0);
-  const totBooked=brands.reduce((a,b)=>a+b.booked,0);
-  const totHeld=brands.reduce((a,b)=>a+b.held,0);
-  const allBooked=[...brands,{name:"FKI Total",spend:totSpend,booked:totBooked,held:totHeld}];
-  const kpis=[
-    {label:"Total Ad Spend",value:"$"+totSpend.toLocaleString(),sub:"This month"},
-    {label:"Total Booked",value:totBooked,sub:"Appointments"},
-    {label:"Total Held",value:totHeld,sub:Math.round(totHeld/totBooked*100)+"% show rate"},
-    {label:"Avg CPA Booked",value:"$"+Math.round(totSpend/totBooked),sub:"Spend per booking"},
-    {label:"Avg CPA Held",value:"$"+Math.round(totSpend/totHeld),sub:"Spend per held"},
-    {label:"Brands Tracked",value:brands.length,sub:"Active campaigns"}
-  ];
-  document.getElementById("kpis").innerHTML=kpis.map(k=>`<div class="kpii"><div class="kpi-label">${k.label}</div><div class="kpi-value">${k.value}</div><div class="kpi-sub">${k.sub}</div></div>`).join("");
-  document.getElementById("tbody").innerHTML=allBooked.map(b=>{
-    const cb=Math.round(b.spend/b.booked);
-    const ch=Math.round(b.spend/b.held);
-    const sr=Math.round(b.held/b.booked*100);
-    return `<tr><td><strong>${b.name}</strong></td><td>$${b.spend.toLocaleString()}</td><td>${b.booked}</td><td>${b.held}</td><td>${sr}%</td><td>${badge(cb)}</td><td>${badge(ch)}</td></tr>`;
-  }).join("");
-  new Chart(document.getElementById("chart"),{type:"bar",data:{labels:brands.map(b=>b.name),datasets:[{label:"CPA Booked",data:brands.map(b=>Math.round(b.spend/b.booked)),backgroundColor:brands.map(b=>{const v=Math.round(b.spend/b.booked);return v<200?"#22c55e60":v<400?"#f59e0b60":"#ef444460"}),borderColor:brands.map(b=>{const v=Math.round(b.spend/b.booked);return v<200?"#22c55e":v<402?"#f59e0b":"#ef4444"}),borderWidth:2,borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:"#1e2530"},ticks:{lcolor:"#6b7280",callback:v=>"$"+v}}},x:{grid:{display:false},ticks:{lcolor:"#9ca3af"}}}}});
-  const ts=data.pulled_at?new Date(data.pulled_at).toLocaleString("en-US",{timeZone:"America/Denver",dateStyle:"medium",timeStyle:"short"}):"Sample data only";
-  document.getElementById("ts").textContent="Data as of: "+ts+"|MDT";
-  if(data.pulled_at){document.getElementById("banner").className="banner live";document.getElementById("banner").textContent="✓ LIVE DATA — Last synced: "+ts;}
-}
-fetch("cpa-data.json").then(r=>r.json()).then(d=>render(d)).catch(()=>render(SAMPLE));
+loadData();
 </script>
 </body>
 </html>
