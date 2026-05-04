@@ -1,0 +1,9 @@
+{
+  "pulled_at": null,
+  "note": "Sample data \u2014 live data pending Leo GHL+Meta pull",
+  "brands": [
+    { "name": "Salad House", "spend": 8200, "booked": 47, "held": 31 },
+    { "name": "Indy Clover", "spend": 5400, "booked": 28, "held": 19 },
+    { "name": "SRP", "spend": 2100, "booked": 18, "held": 14 }
+  ]
+}
