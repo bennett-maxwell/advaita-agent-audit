@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-05T06:30:02Z",
+  "updated": "2026-05-05T06:45:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "5m ago",
-      "memory_updated_rel": "5m ago",
+      "last_active_rel": "20m ago",
+      "memory_updated_rel": "20m ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": "[LIVENESS-PROBE-1777962600] <@U0AG6G4BEM9> reply 'ACK' \u2014 automated health check",
+      "current_task": ":warning: *IMAC RAM low: 0.9GB free* (avail 20.7GB). v2 is read-only \u2014 no auto-k",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -56,7 +56,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "16 LaunchAgents \u00b7 5 cloudflared \u00b7 26 python3 procs",
+      "current_task": "15 LaunchAgents \u00b7 5 cloudflared \u00b7 24 python3 procs",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "15m ago",
@@ -74,7 +74,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #208 \u00b7 45389 uploaded \u00b7 disk 470GB",
+      "current_task": "FDD extractor \u00b7 run #211 \u00b7 45389 uploaded \u00b7 disk 470GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -110,7 +110,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 4,
-      "current_task": "PUSH HARDER Wave A [Squirrel Sprint 4 \u2014 Check-In]",
+      "current_task": "Squirrel AliveMode 2026-05-05 | GHL-TOKEN-DELIVERED confirmed (fileId 1MTnsCIY9f",
       "current_skill": null,
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -121,8 +121,8 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 85,
-    "ivan_ram_pct": 42,
+    "ivan_cpu_pct": 80,
+    "ivan_ram_pct": 43,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
     "active_crons": 65,
@@ -140,8 +140,8 @@
       "agent-status"
     ],
     "tiffany_ollama_status": "offline",
-    "ivan_launchagents_active": 16,
-    "ivan_python_procs": 26,
+    "ivan_launchagents_active": 15,
+    "ivan_python_procs": 24,
     "ivan_cloudflared_procs": 5,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
