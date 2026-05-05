@@ -3,593 +3,1078 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agent Command Center · FKI Leo AI</title>
+<link rel="icon" href="data:,">
+<title>Leo AI Agent Board Command Center</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #0a0a0f; color: #e0e0e6; min-height: 100vh; padding: 20px 16px 48px;
+:root {
+  --bg: #0d0f14;
+  --surface: #161922;
+  --card: #1e2230;
+  --card-soft: #171b27;
+  --border: #2a2f3e;
+  --text: #eef2f7;
+  --muted: #9aa5b5;
+  --dim: #667085;
+  --accent: #4f8ef7;
+  --green: #22c55e;
+  --red: #ef4444;
+  --yellow: #f59e0b;
+  --purple: #a855f7;
+  --cyan: #14b8a6;
+  --shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
 }
-.page { max-width: 1100px; margin: 0 auto; }
 
-/* Header */
-.header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
-.header-left h1 { font-size: 21px; font-weight: 700; letter-spacing: -0.4px; background: linear-gradient(135deg, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.header-left p { font-size: 11px; color: #4b5563; margin-top: 2px; }
-.header-right { display: flex; align-items: center; gap: 8px; }
-.refresh-btn { background: #1e1e2e; border: 1px solid #2d2d3e; color: #9ca3af; border-radius: 8px; padding: 7px 14px; font-size: 12px; cursor: pointer; transition: background 0.15s; }
-.refresh-btn:hover { background: #2d2d3e; color: #e0e0e6; }
-.back-link { font-size: 12px; color: #4b5563; text-decoration: none; }
-.back-link:hover { color: #9ca3af; }
-.last-updated { font-size: 11px; color: #374151; font-family: 'SF Mono', monospace; }
+* { box-sizing: border-box; }
 
-/* Priority Board */
-.priority-board { background: linear-gradient(135deg, rgba(79,142,247,0.07), rgba(168,85,247,0.04)); border: 1px solid rgba(79,142,247,0.2); border-radius: 14px; padding: 14px; margin-bottom: 6px; }
-.priority-board-title { font-size: 10px; font-weight: 700; color: #4b5563; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
-.priority-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(42,47,62,0.5); }
-.priority-item:last-child { border-bottom: none; }
-.priority-num { width: 22px; height: 22px; border-radius: 50%; background: #4f8ef7; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-.priority-urgent .priority-num { background: #ef4444; }
-.priority-info .priority-num { background: #22c55e; }
-.priority-title { font-size: 13px; font-weight: 600; }
-.priority-sub { font-size: 11px; color: #4b5563; margin-top: 2px; }
-.priority-all-clear { font-size: 13px; color: #22c55e; text-align: center; padding: 8px; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(79, 142, 247, 0.18), transparent 34rem),
+    radial-gradient(circle at 82% 10%, rgba(20, 184, 166, 0.12), transparent 28rem),
+    linear-gradient(180deg, #0d0f14 0%, #11151e 52%, #0d0f14 100%);
+  color: var(--text);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.45;
+}
 
-/* Section label */
-.section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: #4b5563; margin-bottom: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px; }
-.section-label::after { content: ''; flex: 1; height: 1px; background: #1e1e2e; }
+a { color: inherit; }
 
-/* Agent Grid */
-.agent-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-@media (min-width: 600px) { .agent-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 900px) { .agent-grid { grid-template-columns: repeat(3, 1fr); } }
+.shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 16px;
+}
 
-/* Agent Card */
-.agent-card { background: #14141f; border: 1px solid #1e1e2e; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 11px; transition: border-color 0.2s; }
-.agent-card.active  { border-color: rgba(34,197,94,0.2); }
-.agent-card.idle    { border-color: rgba(245,158,11,0.15); }
-.agent-card.offline { border-color: rgba(239,68,68,0.2); }
-.agent-card.unknown { border-color: rgba(107,114,128,0.15); }
-.agent-top { display: flex; align-items: flex-start; gap: 10px; }
-.agent-avatar { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.mack-color    { background: rgba(124,58,237,0.12); }
-.leo-color     { background: rgba(8,145,178,0.12); }
-.ivan-color    { background: rgba(22,163,74,0.12); }
-.tiffany-color { background: rgba(219,39,119,0.12); }
-.chad-color    { background: rgba(234,88,12,0.12); }
-.reed-color    { background: rgba(13,148,136,0.12); }
-.hyper-color   { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.2); }
-.mack-color-text    { color: #a78bfa; }
-.leo-color-text     { color: #22d3ee; }
-.ivan-color-text    { color: #4ade80; }
-.tiffany-color-text { color: #f472b6; }
-.chad-color-text    { color: #fb923c; }
-.reed-color-text    { color: #2dd4bf; }
-.hyper-color-text   { color: #c084fc; }
-.agent-meta { flex: 1; min-width: 0; }
-.agent-name { font-size: 14px; font-weight: 700; }
-.agent-model { font-size: 10px; color: #4b5563; font-family: 'SF Mono', monospace; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.status-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 20px; flex-shrink: 0; }
-.badge-active  { background: rgba(34,197,94,0.08); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
-.badge-idle    { background: rgba(245,158,11,0.08); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
-.badge-offline { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
-.badge-unknown { background: rgba(107,114,128,0.08); color: #9ca3af; border: 1px solid rgba(107,114,128,0.2); }
-.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
 
-/* Task slots */
-.task-slots-row { display: flex; align-items: center; gap: 8px; }
-.slots-label { font-size: 10px; color: #374151; white-space: nowrap; }
-.slots { display: flex; gap: 4px; flex: 1; }
-.slot { height: 5px; flex: 1; border-radius: 3px; background: #1e1e2e; }
-.slot.used.active-agent  { background: rgba(34,197,94,0.5); }
-.slot.used.idle-agent    { background: rgba(245,158,11,0.4); }
-.slot.used.offline-agent { background: rgba(239,68,68,0.4); }
-.slot.used.unknown-agent { background: rgba(107,114,128,0.4); }
-.slots-count { font-size: 10px; color: #374151; font-family: 'SF Mono', monospace; }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 9px;
+  border: 1px solid rgba(79, 142, 247, 0.28);
+  border-radius: 999px;
+  color: #bcd5ff;
+  background: rgba(79, 142, 247, 0.12);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
 
-/* Current task */
-.current-task { font-size: 12px; line-height: 1.5; color: #4b5563; padding: 8px 10px; background: #1a1a28; border-radius: 8px; min-height: 34px; }
-.current-task .task-label { font-size: 9px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 3px; }
-.current-task.has-task { color: #9ca3af; }
+h1 {
+  margin: 8px 0 4px;
+  font-size: clamp(28px, 7vw, 54px);
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+}
 
-/* Info rows */
-.info-rows { display: flex; flex-direction: column; gap: 4px; }
-.info-row { display: flex; gap: 6px; align-items: baseline; font-size: 11px; }
-.info-key { font-size: 10px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; min-width: 70px; flex-shrink: 0; }
-.info-val { color: #9ca3af; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
-.info-val.active-text { color: #a78bfa; }
-.info-val.highlight { color: #60a5fa; }
+.subtitle {
+  margin: 0;
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 15px;
+}
 
-/* Panel row */
-.panel-row { display: flex; gap: 6px; }
-.panel-btn { flex: 1; background: #1a1a28; border: 1px solid #252535; color: #6b7280; border-radius: 8px; padding: 7px 10px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.15s, border-color 0.15s, color 0.15s; min-height: 34px; }
-.panel-btn:hover { background: #252535; color: #e0e0e6; border-color: #2d2d3e; }
-.panel-btn.open { background: #252535; border-color: rgba(79,142,247,0.3); color: #e0e0e6; }
-.panel-btn .chevron { font-size: 9px; color: #374151; transition: transform 0.2s; }
-.panel-btn.open .chevron { transform: rotate(180deg); }
+.header-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 180px;
+}
 
-/* Panel body */
-.panel-body { display: none; padding-top: 10px; }
-.panel-body.visible { display: block; }
+.clock {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
 
-/* Task list */
-.task-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 8px; }
-.task-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: #1a1a28; border: 1px solid #252535; border-radius: 8px; font-size: 12px; }
-.task-item.done { opacity: 0.45; }
-.task-item.done .task-item-title { text-decoration: line-through; color: #374151; }
-.task-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.task-dot.pending { background: #f59e0b; }
-.task-dot.active  { background: #22c55e; animation: pulse 2s infinite; }
-.task-dot.done    { background: #374151; }
-.task-item-title { flex: 1; color: #d1d5db; line-height: 1.4; word-break: break-word; }
-.task-action { background: none; border: none; cursor: pointer; color: #374151; font-size: 13px; padding: 2px 5px; border-radius: 4px; flex-shrink: 0; transition: color 0.15s, background 0.15s; }
-.task-action:hover { background: #252535; }
-.task-action.complete:hover { color: #22c55e; }
-.task-action.delete:hover   { color: #ef4444; }
-.task-empty { font-size: 11px; color: #374151; text-align: center; padding: 8px 0; font-style: italic; }
+.badge, .pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
 
-/* Add task */
-.add-task-row { display: flex; gap: 6px; }
-.add-task-row input { flex: 1; background: #1a1a28; border: 1px solid #252535; color: #e0e0e6; border-radius: 8px; padding: 7px 10px; font-size: 12px; outline: none; font-family: inherit; }
-.add-task-row input::placeholder { color: #374151; }
-.add-task-row input:focus { border-color: rgba(79,142,247,0.4); }
-.add-btn { background: rgba(79,142,247,0.12); border: 1px solid rgba(79,142,247,0.25); color: #60a5fa; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; transition: background 0.15s; }
-.add-btn:hover { background: rgba(79,142,247,0.22); }
-.add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.badge.green { border-color: rgba(34, 197, 94, 0.28); color: #8ef0b3; background: rgba(34, 197, 94, 0.12); }
+.badge.yellow { border-color: rgba(245, 158, 11, 0.30); color: #ffd28a; background: rgba(245, 158, 11, 0.12); }
+.badge.red { border-color: rgba(239, 68, 68, 0.34); color: #ffaaa5; background: rgba(239, 68, 68, 0.12); }
+.badge.blue { border-color: rgba(79, 142, 247, 0.30); color: #bcd5ff; background: rgba(79, 142, 247, 0.12); }
+.badge.purple { border-color: rgba(168, 85, 247, 0.35); color: #dec2ff; background: rgba(168, 85, 247, 0.12); }
 
-/* Command panel */
-.cmd-textarea { width: 100%; background: #1a1a28; border: 1px solid #252535; color: #e0e0e6; border-radius: 8px; padding: 9px 10px; font-size: 12px; font-family: inherit; outline: none; resize: vertical; min-height: 72px; margin-bottom: 8px; }
-.cmd-textarea::placeholder { color: #374151; }
-.cmd-textarea:focus { border-color: rgba(79,142,247,0.4); }
-.cmd-footer { display: flex; align-items: center; gap: 8px; }
-.cmd-note { font-size: 10px; color: #374151; flex: 1; }
-.cmd-sent { font-size: 10px; color: #22c55e; display: none; }
-.send-btn { background: rgba(79,142,247,0.12); border: 1px solid rgba(79,142,247,0.25); color: #60a5fa; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; white-space: nowrap; }
-.send-btn:hover { background: rgba(79,142,247,0.22); }
-.send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.hyper-note { font-size: 10px; color: #374151; margin-top: 6px; padding: 6px 8px; background: rgba(124,58,237,0.06); border-radius: 6px; border: 1px solid rgba(124,58,237,0.1); }
+.status-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
 
-/* Command Log */
-.cmd-log-list { display: flex; flex-direction: column; gap: 8px; }
-.cmd-log-item { display: flex; gap: 10px; padding: 10px 12px; background: #14141f; border: 1px solid #1e1e2e; border-radius: 10px; align-items: flex-start; }
-.cmd-log-emoji { font-size: 17px; flex-shrink: 0; width: 24px; text-align: center; margin-top: 1px; }
-.cmd-log-body { flex: 1; min-width: 0; }
-.cmd-log-hdr { display: flex; gap: 8px; align-items: baseline; margin-bottom: 3px; }
-.cmd-log-agent { font-size: 12px; font-weight: 600; color: #9ca3af; }
-.cmd-log-time { font-size: 10px; color: #374151; font-family: 'SF Mono', monospace; }
-.cmd-log-msg { font-size: 12px; color: #6b7280; line-height: 1.5; word-break: break-word; }
-.cmd-log-empty { font-size: 12px; color: #374151; font-style: italic; padding: 12px; text-align: center; background: #14141f; border: 1px solid #1e1e2e; border-radius: 10px; }
+.mini-card, .card, .priority-board, .quick-links {
+  background: rgba(30, 34, 48, 0.88);
+  border: 1px solid rgba(42, 47, 62, 0.92);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
 
-/* Handoff table */
-.handoff-table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th { text-align: left; padding: 8px 12px; font-size: 10px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #1e1e2e; }
-td { padding: 10px 12px; border-bottom: 1px solid #1a1a28; color: #9ca3af; }
-.dir-arrow { color: #374151; }
-.empty-row td { text-align: center; color: #374151; font-style: italic; padding: 16px; }
+.mini-card {
+  padding: 12px;
+  min-height: 72px;
+}
 
-/* Health */
-.health-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-@media (min-width: 600px) { .health-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 900px) { .health-grid { grid-template-columns: repeat(6, 1fr); } }
-.health-tile { background: #14141f; border: 1px solid #1e1e2e; border-radius: 12px; padding: 14px 12px; text-align: center; }
-.health-label { font-size: 9px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
-.health-val { font-size: 22px; font-weight: 800; font-family: 'SF Mono', monospace; margin-bottom: 4px; }
-.health-sub { font-size: 10px; color: #374151; }
-.green-text  { color: #4ade80; }
-.amber-text  { color: #fbbf24; }
-.red-text    { color: #f87171; }
-.blue-text   { color: #60a5fa; }
-.purple-text { color: #a78bfa; }
-.cron-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
-.cron-pill { font-size: 10px; background: #1e1e2e; border: 1px solid #2d2d3e; border-radius: 5px; padding: 2px 7px; color: #9ca3af; }
-.health-wide { grid-column: 1 / -1; }
+.mini-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
-.data-note { font-size: 10px; color: #374151; text-align: center; margin-top: 24px; font-family: 'SF Mono', monospace; }
-.data-note a { color: #4b5563; }
-.demo-badge { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 700; }
+.mini-value {
+  margin-top: 5px;
+  font-size: 20px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+.mini-note {
+  margin-top: 2px;
+  color: var(--dim);
+  font-size: 12px;
+}
+
+.priority-board {
+  padding: 14px;
+  margin-bottom: 12px;
+  background:
+    linear-gradient(135deg, rgba(79, 142, 247, 0.12), rgba(20, 184, 166, 0.06)),
+    rgba(30, 34, 48, 0.92);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.section-hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.priority-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.priority-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 174px;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.58);
+}
+
+.priority-item.urgent { border-left-color: var(--red); }
+.priority-item.warning { border-left-color: var(--yellow); }
+.priority-item.info { border-left-color: var(--accent); }
+
+.priority-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--accent);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.priority-item.urgent .priority-num { background: var(--red); }
+.priority-item.warning .priority-num { background: var(--yellow); color: #1f1600; }
+
+.priority-title {
+  font-size: 16px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.priority-sub {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.action-link, .link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid rgba(79, 142, 247, 0.32);
+  border-radius: 8px;
+  color: #d9e8ff;
+  background: rgba(79, 142, 247, 0.13);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.action-link:hover, .link-btn:hover {
+  border-color: rgba(79, 142, 247, 0.72);
+  background: rgba(79, 142, 247, 0.20);
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.9fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card {
+  padding: 14px;
+}
+
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.agent-card {
+  min-height: 104px;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  background: var(--card-soft);
+}
+
+.agent-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.agent-name {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dim);
+  box-shadow: 0 0 0 3px rgba(102, 112, 133, 0.12);
+  flex: 0 0 auto;
+}
+
+.dot.green { background: var(--green); box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12), 0 0 12px rgba(34, 197, 94, 0.35); }
+.dot.yellow { background: var(--yellow); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12), 0 0 12px rgba(245, 158, 11, 0.32); }
+.dot.red { background: var(--red); box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12), 0 0 12px rgba(239, 68, 68, 0.32); }
+.dot.blue { background: var(--accent); box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.12), 0 0 12px rgba(79, 142, 247, 0.32); }
+
+.agent-state, .agent-detail {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agent-detail { color: var(--dim); }
+
+.agent-card .action-link {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.work-board {
+  margin: 12px 0;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.work-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.48);
+}
+
+.work-name {
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.work-line {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.work-links {
+  display: grid;
+  gap: 6px;
+}
+
+.message-board {
+  margin: 12px 0;
+}
+
+.message-form {
+  display: grid;
+  gap: 10px;
+}
+
+.message-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 8px;
+}
+
+.message-form select,
+.message-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.72);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  padding: 11px;
+}
+
+.message-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.message-output {
+  display: none;
+  border: 1px solid rgba(79, 142, 247, 0.22);
+  border-radius: 8px;
+  background: rgba(79, 142, 247, 0.08);
+  padding: 10px;
+  color: #d9e8ff;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.message-output.visible { display: block; }
+
+.approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.approval-btn {
+  min-height: 38px;
+  border: 1px solid rgba(79, 142, 247, 0.32);
+  border-radius: 8px;
+  background: rgba(79, 142, 247, 0.13);
+  color: #d9e8ff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 8px 10px;
+}
+.approval-btn-send {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.18);
+  color: #86efac;
+}
+
+.side-stack {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.queue-list, .system-list, .roi-list {
+  display: grid;
+  gap: 8px;
+}
+
+.queue-item, .system-item, .roi-row {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border-left: 4px solid var(--purple);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.48);
+}
+
+.queue-item.red, .system-item.red { border-left-color: var(--red); }
+.queue-item.yellow, .system-item.yellow, .roi-row.yellow { border-left-color: var(--yellow); }
+.queue-item.blue, .system-item.blue, .roi-row.blue { border-left-color: var(--accent); }
+.queue-item.green, .system-item.green, .roi-row.green { border-left-color: var(--green); }
+
+.item-title {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.item-sub {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.quick-links {
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.link-btn {
+  justify-content: flex-start;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.wide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+details {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(13, 15, 22, 0.40);
+  overflow: hidden;
+}
+
+summary {
+  min-height: 48px;
+  padding: 13px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 850;
+  list-style: none;
+}
+
+summary::-webkit-details-marker { display: none; }
+
+summary::after {
+  content: "+";
+  float: right;
+  color: var(--muted);
+}
+
+details[open] summary::after { content: "-"; }
+
+.detail-body {
+  display: grid;
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+
+.source-note {
+  margin-top: 12px;
+  color: var(--dim);
+  font-size: 12px;
+}
+
+.demo {
+  display: none;
+}
+
+.demo.visible {
+  display: inline-flex;
+}
+
+@media (max-width: 880px) {
+  .topbar { flex-direction: column; }
+  .header-status { align-items: flex-start; min-width: 0; }
+  .status-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .priority-grid, .main-grid, .wide-grid, .details-grid { grid-template-columns: 1fr; }
+  .agent-grid, .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .message-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 430px) {
+  .shell { padding: 12px; }
+  .status-strip { grid-template-columns: 1fr 1fr; }
+  .agent-grid, .links-grid { grid-template-columns: 1fr; }
+  .work-grid { grid-template-columns: 1fr; }
+  .section-head { align-items: flex-start; flex-direction: column; }
+  .priority-item { min-height: auto; }
+}
 </style>
 </head>
 <body>
-<div class="page">
+<main class="shell">
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">Agents Board</span>
+      <h1>Leo AI Command Center</h1>
+      <p class="subtitle">The action board for agents, approvals, live status, and the system gaps that block Bennett from only making decisions.</p>
+    </div>
+    <div class="header-status">
+      <div id="clock" class="clock">Loading time</div>
+      <span id="systemBadge" class="badge yellow">Checking live data</span>
+      <span id="demoBadge" class="badge red demo">DEMO DATA</span>
+    </div>
+  </header>
 
-<div class="header">
-  <div class="header-left">
-    <h1>🤖 Agent Command Center</h1>
-    <p id="agentSubtitle">FKI AI Fleet · Loading...</p>
-  </div>
-  <div class="header-right">
-    <a class="back-link" href="index.html">← HQ</a>
-    <span class="last-updated" id="lastUpdated">—</span>
-    <button class="refresh-btn" id="refreshBtn" onclick="loadData()">↻ Refresh</button>
-  </div>
-</div>
+  <section class="status-strip" aria-label="Status at a glance">
+    <div class="mini-card">
+      <div class="mini-label">Agent Feed</div>
+      <div id="agentFeedValue" class="mini-value">Checking</div>
+      <div id="agentFeedNote" class="mini-note">agent-status.json</div>
+    </div>
+    <div class="mini-card">
+      <div class="mini-label">Approvals</div>
+      <div class="mini-value">5</div>
+      <div class="mini-note">Bennett-gated items</div>
+    </div>
+    <div class="mini-card">
+      <div class="mini-label">Broken</div>
+      <div class="mini-value">7</div>
+      <div class="mini-note">Known system breaks</div>
+    </div>
+    <div class="mini-card">
+      <div class="mini-label">Incomplete</div>
+      <div class="mini-value">7</div>
+      <div class="mini-note">Needs ownership or data</div>
+    </div>
+  </section>
 
-<div class="section-label">⭐ Attention</div>
-<div class="priority-board" id="priorityBoard"><div class="priority-all-clear">Loading...</div></div>
+  <section class="priority-board" aria-label="Priority Board">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Priority Board</div>
+        <div class="section-hint">Top actions Bennett can make progress on today.</div>
+      </div>
+      <span class="badge blue">Above fold</span>
+    </div>
+    <div class="priority-grid">
+      <article class="priority-item urgent">
+        <span class="priority-num">1</span>
+        <div>
+          <div class="priority-title">Reconnect mapki Vercel repo</div>
+          <div class="priority-sub">Broken since Apr 20. Bennett gate: open Vercel, reconnect Git repo, confirm build.</div>
+        </div>
+        <a class="action-link" href="https://vercel.com/" target="_blank" rel="noreferrer">Open Vercel</a>
+      </article>
+      <article class="priority-item urgent">
+        <span class="priority-num">2</span>
+        <div>
+          <div class="priority-title">Generate Mack Slack app token</div>
+          <div class="priority-sub">Mack socket bridge is blocked on SLACK_MACK_APP_TOKEN for app A0B03UVET17.</div>
+        </div>
+        <a class="action-link" href="https://api.slack.com/apps/A0B03UVET17" target="_blank" rel="noreferrer">Open Slack App</a>
+      </article>
+      <article class="priority-item warning">
+        <span class="priority-num">3</span>
+        <div>
+          <div class="priority-title">Promote Chad role definition</div>
+          <div class="priority-sub">Chad has an AGENTS.md, but no canonical master prompt entry. Approval then upload through Ivan.</div>
+        </div>
+        <a class="action-link" href="https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd" target="_blank" rel="noreferrer">Open Master Prompt</a>
+      </article>
+    </div>
+  </section>
 
-<div class="section-label">Agents</div>
-<div class="agent-grid" id="agentGrid"></div>
+  <section class="quick-links" aria-label="Quick Links">
+    <div class="section-head">
+      <div class="section-title">Quick Links</div>
+      <div class="section-hint">One tap into the systems that unblock action.</div>
+    </div>
+    <div class="links-grid">
+      <a class="link-btn" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Sprint Board</a>
+      <a class="link-btn" href="https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY" target="_blank" rel="noreferrer">Skills Master</a>
+      <a class="link-btn" href="https://app.crmx.app" target="_blank" rel="noreferrer">GHL / CRMX</a>
+      <a class="link-btn" href="https://dashboard.franchiseki.com/" target="_blank" rel="noreferrer">Master Hub</a>
+      <a class="link-btn" href="https://dashboard.franchiseki.com/hub/agent-monitor.html" target="_blank" rel="noreferrer">Agent Monitor</a>
+      <a class="link-btn" href="https://dashboard.franchiseki.com/hub/machine-health.html" target="_blank" rel="noreferrer">Machine Health</a>
+      <a class="link-btn" href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/" target="_blank" rel="noreferrer">Finance</a>
+      <a class="link-btn" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank" rel="noreferrer">Marketing</a>
+    </div>
+  </section>
 
-<div class="section-label">Command Log</div>
-<div class="cmd-log-list" id="cmdLog"></div>
+  <section class="card message-board" aria-label="Agent message composer">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Command Dispatch</div>
+        <div class="section-hint">Sends directly to #leo-coaches via CF Worker — one tap.</div>
+      </div>
+      <span class="badge green">Live</span>
+    </div>
+    <div class="message-form">
+      <div class="message-row">
+        <select id="agentTarget" aria-label="Agent target">
+          <option value="ivan">Ivan / iMac</option>
+          <option value="mack">Mack / MacBook</option>
+          <option value="chad">Chad Codex</option>
+          <option value="leo">Leo</option>
+          <option value="tiffany">Tiffany / HP Omen</option>
+          <option value="squirrel">Squirrel Hyper</option>
+        </select>
+        <select id="messageIntent" aria-label="Message intent">
+          <option value="Keep going on your current task. Report proof and next action.">Keep going</option>
+          <option value="Approved. Proceed with the proposed action and report proof.">Approve</option>
+          <option value="Pause. Do not continue until the next instruction.">Pause</option>
+          <option value="Run health cleanup, identify the top cause, and report proof.">Run cleanup</option>
+        </select>
+      </div>
+      <textarea id="agentMessage" placeholder="Optional extra instruction"></textarea>
+      <div class="approval-actions">
+        <button class="approval-btn approval-btn-send" type="button" onclick="sendDispatch()">Send ⚡</button>
+        <button class="approval-btn" type="button" onclick="copyDispatch()">Copy text</button>
+        <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Open Sprint Board</a>
+      </div>
+      <div id="dispatchOutput" class="message-output"></div>
+    </div>
+  </section>
 
-<div class="section-label">Handoff Queue</div>
-<div class="handoff-table-wrap">
-  <table>
-    <thead><tr><th>From</th><th></th><th>To</th><th>Task</th><th>Status</th><th>Time</th></tr></thead>
-    <tbody id="handoffBody"><tr class="empty-row"><td colspan="6">No pending handoffs</td></tr></tbody>
-  </table>
-</div>
+  <section class="main-grid">
+    <div class="card">
+      <div class="section-head">
+        <div>
+          <div class="section-title">Main Agent Status</div>
+          <div id="statusUpdated" class="section-hint">Fetching live status... sub-agents are rolled up under their owner.</div>
+        </div>
+        <span id="agentCountBadge" class="badge yellow">Loading</span>
+      </div>
+      <div id="agentGrid" class="agent-grid"></div>
+    </div>
 
-<div class="section-label">System Health · Ivan iMac</div>
-<div class="health-grid" id="healthGrid"></div>
+    <aside class="side-stack">
+      <div class="card">
+        <div class="section-head">
+          <div class="section-title">Approval Queue</div>
+          <span class="badge red">5 waiting</span>
+        </div>
+          <div class="queue-list">
+          <div class="queue-item red"><div class="item-title">Vercel reconnect</div><div class="item-sub">mapki repo. Bennett must approve/login.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Vercel reconnect')">Approve text</button><a class="action-link" href="https://vercel.com/" target="_blank" rel="noreferrer">Open</a></div></div>
+          <div class="queue-item red"><div class="item-title">Slack app token</div><div class="item-sub">A0B03UVET17. One Slack app action.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Slack app token')">Approve text</button><a class="action-link" href="https://api.slack.com/apps/A0B03UVET17" target="_blank" rel="noreferrer">Open</a></div></div>
+          <div class="queue-item yellow"><div class="item-title">GHL funnel pixels</div><div class="item-sub">Four funnels. IAM block means Bennett Required.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('GHL funnel pixels')">Approve text</button><a class="action-link" href="https://app.crmx.app" target="_blank" rel="noreferrer">Open</a></div></div>
+          <div class="queue-item yellow"><div class="item-title">EOD briefing format</div><div class="item-sub">Cron can run after final format choice.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('EOD briefing format')">Approve text</button></div></div>
+          <div class="queue-item blue"><div class="item-title">Chad master prompt</div><div class="item-sub">Role definition needs canonical promotion.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Chad master prompt')">Approve text</button><a class="action-link" href="https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd" target="_blank" rel="noreferrer">Open</a></div></div>
+        </div>
+      </div>
+    </aside>
+  </section>
 
-<div class="data-note" id="dataNote">Connecting...</div>
+  <section class="card work-board" aria-label="Recent work by main agent">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Clickable Work History</div>
+        <div class="section-hint">Main agents only. Today/yesterday history should be fed by Notion Sprint rows next.</div>
+      </div>
+      <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Open Sprint Board</a>
+    </div>
+    <div id="workGrid" class="work-grid"></div>
+  </section>
 
-</div>
+  <section class="wide-grid">
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">Status at a Glance</div>
+        <span class="badge blue">Workstreams</span>
+      </div>
+      <div class="system-list">
+        <div class="system-item green"><div class="item-title">Dashboard hub</div><div class="item-sub">Live at dashboard.franchiseki.com. This draft targets Agents Board, not hub replacement.</div></div>
+        <div class="system-item green"><div class="item-title">Agent runtime</div><div class="item-sub">Leo, Ivan, Mack, Tiffany, Reed reported as working from corrected brief.</div></div>
+        <div class="system-item yellow"><div class="item-title">Google Drive skills</div><div class="item-sub">Canonical root is Drive. Manifest is stale and needs Ivan validator.</div></div>
+        <div class="system-item yellow"><div class="item-title">GHL data</div><div class="item-sub">Working tools are partial. Three MCP tools return 422 and funnel API is IAM-blocked.</div></div>
+        <div class="system-item red"><div class="item-title">QuickBooks savings</div><div class="item-sub">Do not report phantom savings balance. Bank feed was never connected.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">Budget / ROI Tracker</div>
+        <span class="badge yellow">Data feeds pending</span>
+      </div>
+      <div class="roi-list">
+        <div class="roi-row green"><div class="item-title">Agent automation</div><div class="item-sub">Runtime and briefings are working. ROI proof should come from completed tasks and reduced Bennett handoffs.</div></div>
+        <div class="roi-row yellow"><div class="item-title">Marketing data</div><div class="item-sub">Meta and GHL live feeds are not yet wired into this board. Link out for action until collectors exist.</div></div>
+        <div class="roi-row yellow"><div class="item-title">Finance data</div><div class="item-sub">No sensitive finance figures in public JSON. Use gated finance dashboard for actual numbers.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="details-grid" aria-label="System gaps">
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">Broken Items</div>
+        <span class="badge red">Fix first</span>
+      </div>
+      <details open>
+        <summary>Infrastructure and connector breaks</summary>
+        <div class="detail-body">
+          <div class="queue-item red"><div class="item-title">GHL search_opportunities</div><div class="item-sub">422 MCP bug. Do not retry until tool is fixed.</div></div>
+          <div class="queue-item red"><div class="item-title">GHL get_appointments</div><div class="item-sub">422 MCP bug. Use manual/app fallback.</div></div>
+          <div class="queue-item red"><div class="item-title">GHL funnel API</div><div class="item-sub">401 IAM block. Bennett Required for funnel work.</div></div>
+          <div class="queue-item red"><div class="item-title">mapki Vercel</div><div class="item-sub">Repo disconnected since Apr 20.</div></div>
+          <div class="queue-item red"><div class="item-title">Port 8801 machine health</div><div class="item-sub">Standalone server dead; placeholder prevents 404.</div></div>
+          <div class="queue-item red"><div class="item-title">Mack socket bridge</div><div class="item-sub">SLACK_MACK_APP_TOKEN missing.</div></div>
+          <div class="queue-item red"><div class="item-title">QB savings balance</div><div class="item-sub">Phantom value. Never report it as real.</div></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">Incomplete Items</div>
+        <span class="badge yellow">Build next</span>
+      </div>
+      <details open>
+        <summary>System work that needs ownership</summary>
+        <div class="detail-body">
+          <div class="queue-item yellow"><div class="item-title">Chad role and master prompt</div><div class="item-sub">AGENTS.md exists; canonical system prompt entry still pending.</div></div>
+          <div class="queue-item yellow"><div class="item-title">Dashboard live data feeds</div><div class="item-sub">GHL, Meta, QB, and Notion counts are not live here yet.</div></div>
+          <div class="queue-item yellow"><div class="item-title">EOD briefing cron</div><div class="item-sub">Format approval pending before activation.</div></div>
+          <div class="queue-item yellow"><div class="item-title">Skills manifest</div><div class="item-sub">Stale count. Ivan validator is the next proof step.</div></div>
+          <div class="queue-item yellow"><div class="item-title">cases.json legal layer</div><div class="item-sub">Needed for durable legal dashboard data.</div></div>
+          <div class="queue-item yellow"><div class="item-title">DD Withdrawal Letters</div><div class="item-sub">Sky compiling; Ron reviewing.</div></div>
+          <div class="queue-item yellow"><div class="item-title">Parker 1099 correction</div><div class="item-sub">Awaiting corrected 1099-NEC from Wendy.</div></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <p class="source-note">Source: dashboard-skill v4 from Drive file 190SfToAiKGMUc0Iqp5QiCvLsmHFEV6On plus Bennett corrected master brief dated 2026-04-30. Deployment owner: Ivan. This draft contains no plaintext passwords and no sensitive finance values.</p>
+</main>
+
 <script>
-const API_BASE = (window.location.hostname === 'dashboard.franchiseki.com' ||
-                  window.location.hostname === 'localhost' ||
-                  window.location.hostname === '127.0.0.1')
-  ? '' : 'https://dashboard.franchiseki.com';
-
-const STATUS_URLS = [
-  'https://dashboard.franchiseki.com/hub/agent-status.json',
-  'https://bennett-maxwell.github.io/advaita-agent-audit/hub/agent-status.json',
-  'http://openclaws-imac.tail503ee0.ts.net:8800/hub/agent-status.json'
+const STATUS_FETCH_URLS = [
+  "https://dashboard.franchiseki.com/hub/agent-status.json",
+  "https://bennett-maxwell.github.io/advaita-agent-audit/hub/agent-status.json"
 ];
 
-const EMOJIS = { mack:'💻', leo:'🦁', ivan:'🖥️', tiffany:'🔮', chad:'⚡', squirrel:'🐿️' };
-
-const SQUIRREL_FALLBACK = {
-  id:'squirrel', name:'Squirrel', emoji:'🐿️', role:'Web Agent · External', model:'Squirrel AI',
-  machine:'External · #leo-auto', status:'unknown', tasks_running:0, tasks_max:4,
-  current_task:null, current_skill:null, last_active_rel:'manual', memory_updated_rel:'manual',
-  notion_project:null, color_class:'hyper-color', text_class:'hyper-color-text', tasks:[]
-};
-
 const FALLBACK_DATA = {
-  updated: new Date().toISOString(), demo_mode: true,
-  agents: [
-    {id:'mack',name:'Mack',emoji:'💻',role:'Claude Code Desktop · MacBook',model:'claude-sonnet-4-6',machine:'MacBook (temp@100.112.24.104)',status:'idle',tasks_running:0,tasks_max:5,current_task:null,current_skill:null,last_active_rel:'unknown',memory_updated_rel:'unknown',notion_project:null,color_class:'mack-color',text_class:'mack-color-text',tasks:[]},
-    {id:'leo',name:'Leo',emoji:'🦁',role:'Claude Code Desktop · Autonomous',model:'claude-haiku-4-5',machine:'Ivan iMac',status:'idle',tasks_running:0,tasks_max:5,current_task:null,current_skill:null,last_active_rel:'unknown',memory_updated_rel:'unknown',notion_project:null,color_class:'leo-color',text_class:'leo-color-text',tasks:[]},
-    {id:'ivan',name:'Ivan',emoji:'🖥️',role:'Claude Code Desktop · iMac Persistent Host',model:'claude-sonnet-4-6',machine:'iMac 100.103.51.12 (openclaw)',status:'active',tasks_running:3,tasks_max:5,current_task:'Crons active',current_skill:'autopilot-skill v8',last_active_rel:'just now',memory_updated_rel:'15m ago',notion_project:'Sprint Board',color_class:'ivan-color',text_class:'ivan-color-text',tasks:[]},
-    {id:'tiffany',name:'Tiffany',emoji:'🔮',role:'Ollama · HP Omen',model:'gemini-2.5-flash',machine:'HP Omen · http://100.91.17.106:11434',status:'offline',tasks_running:0,tasks_max:5,current_task:null,current_skill:'tiffany-fdd-supervisor',last_active_rel:'offline',memory_updated_rel:'unknown',notion_project:'Demi Territory Engine',color_class:'tiffany-color',text_class:'tiffany-color-text',tasks:[]},
-    {id:'chad',name:'Chad',emoji:'⚡',role:'ChatGPT / Codex · External',model:'o3 / GPT-4o',machine:'External (desktop app)',status:'offline',tasks_running:0,tasks_max:5,current_task:null,current_skill:null,last_active_rel:'offline',memory_updated_rel:'manual',notion_project:null,color_class:'chad-color',text_class:'chad-color-text',tasks:[]},
-
-    SQUIRREL_FALLBACK
-  ],
-  handoffs:[], command_log:[],
-  system:{ivan_cpu_pct:0,ivan_ram_pct:0,ivan_disk_pct:0,mack_swap_gb:0,active_crons:0,active_cron_names:[],tiffany_ollama_status:'offline',ivan_launchagents_active:0,ivan_python_procs:0,ivan_cloudflared_procs:0,claude_sessions_mack:0,claude_sessions_ivan:0}
+  generated_at: "2026-04-30T19:43:23Z",
+  agents: {
+    leo: { status: "active", detail: "Routing and advisor escalation" },
+    ivan: { status: "active", detail: "Runtime, crons, deployments" },
+    mack: { status: "active", detail: "Drive, Notion, Slack, desktop tools" },
+    chad: { status: "active", detail: "Codex strategy, dashboard work, closeout" },
+    tiffany: { status: "offline", detail: "Local Ollama compute node" }
+  },
+  machine_health: {
+    cpu: "Live on Machine Health",
+    ram: "Live on Machine Health",
+    disk: "Live on Machine Health"
+  }
 };
 
-let autoTimer = null;
+const MAIN_AGENT_ORDER = ["ivan", "mack", "chad", "leo", "tiffany"];
 
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function relTime(iso) {
-  try {
-    const s = Math.floor((Date.now() - new Date(iso)) / 1000);
-    if (s < 0)    return 'just now';
-    if (s < 60)   return 'just now';
-    if (s < 3600) return `${Math.floor(s/60)}m ago`;
-    if (s < 86400) return `${Math.floor(s/3600)}h ago`;
-    return `${Math.floor(s/86400)}d ago`;
-  } catch { return '—'; }
-}
-function badge(status) {
-  const m = { active:['badge-active','Active'], idle:['badge-idle','Idle'], offline:['badge-offline','Offline'], unknown:['badge-unknown','External'] };
-  const [cls, lbl] = m[status] || m.unknown;
-  return `<span class="status-badge ${cls}"><span class="badge-dot"></span>${lbl}</span>`;
-}
-function slots(running, max, status) {
-  let h = '';
-  for (let i=0; i<max; i++) h += `<div class="slot ${i<running ? 'used '+status+'-agent' : ''}"></div>`;
-  return h;
-}
+const AGENT_LABELS = {
+  leo: "Leo",
+  ivan: "Ivan / iMac",
+  mack: "Mack / MacBook",
+  tiffany: "Tiffany / HP Omen",
+  chad: "Chad Codex"
+};
 
-function renderPriority(data) {
-  const el = document.getElementById('priorityBoard');
-  const items = [];
-  const sys = data.system || {};
-
-  const offlineAgents = (data.agents||[]).filter(a => a.status === 'offline');
-  if (offlineAgents.length)
-    items.push({ urgent:true, title:`${offlineAgents.map(a=>a.name).join(', ')} offline`, sub:'Agent(s) not responding — check machine or restart' });
-
-  if ((sys.ivan_cpu_pct||0) > 80)
-    items.push({ urgent:true, title:`Ivan CPU at ${sys.ivan_cpu_pct}%`, sub:'High load — check active crons or kill runaway process' });
-
-  if ((sys.mack_swap_gb||0) > 6)
-    items.push({ urgent:true, title:`Mack swap at ${sys.mack_swap_gb}GB`, sub:'Memory pressure — close sessions if needed' });
-
-  const withTasks = (data.agents||[]).filter(a => (a.tasks||[]).filter(t=>t.status!=='done').length > 0);
-  if (withTasks.length) {
-    const total = withTasks.reduce((n,a) => n + (a.tasks||[]).filter(t=>t.status!=='done').length, 0);
-    items.push({ urgent:false, title:`${total} task(s) tracked in command center`, sub:withTasks.map(a=>`${a.name} (${(a.tasks||[]).filter(t=>t.status!=='done').length})`).join(', ') });
+const AGENT_WORK = {
+  ivan: {
+    owner: "iMac runtime",
+    current: "Persistent jobs, dashboard deploy path, machine health collector.",
+    recent: "Dashboard and data collector infrastructure.",
+    links: [
+      ["Machine Health", "https://dashboard.franchiseki.com/hub/machine-health.html"],
+      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"]
+    ]
+  },
+  mack: {
+    owner: "MacBook desktop tools",
+    current: "Drive, Notion, Slack, browser/computer control tasks.",
+    recent: "Skill reads, Notion rows, desktop relay work.",
+    links: [
+      ["Skills Master", "https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY"],
+      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"]
+    ]
+  },
+  chad: {
+    owner: "Codex / ChatGPT",
+    current: "Dashboard repairs, system design, closeout proof.",
+    recent: "Machine Health and Agents Board fixes.",
+    links: [
+      ["This dashboard", "https://dashboard.franchiseki.com/hub/agent-monitor.html"],
+      ["Master Hub", "https://dashboard.franchiseki.com/"]
+    ]
+  },
+  leo: {
+    owner: "Main orchestrator",
+    current: "Routes agent work and escalates advisor questions.",
+    recent: "Sub-agent activity is rolled up here instead of shown as separate main agents.",
+    links: [
+      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"],
+      ["Master Prompt", "https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd"]
+    ]
+  },
+  tiffany: {
+    owner: "Local AI compute",
+    current: "Ollama endpoint check and batch AI compute when online.",
+    recent: "Currently checked by HTTP; dashboard marks offline if Ollama does not answer.",
+    links: [
+      ["Machine Health", "https://dashboard.franchiseki.com/hub/machine-health.html"],
+      ["Skills Master", "https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY"]
+    ]
   }
+};
 
-  if ((sys.active_crons||0) > 0)
-    items.push({ urgent:false, title:`${sys.active_crons} crons active on Ivan`, sub:(sys.active_cron_names||[]).slice(0,6).join(', ') + ((sys.active_cron_names||[]).length>6 ? '...' : '') });
-
-  if (!items.length) {
-    el.innerHTML = '<div class="priority-all-clear">✅ All systems nominal</div>';
-    return;
-  }
-  el.innerHTML = '<div class="priority-board-title">⭐ Needs Attention</div>' +
-    items.slice(0,4).map((it,i) => `
-      <div class="priority-item ${it.urgent ? 'priority-urgent' : 'priority-info'}">
-        <div class="priority-num">${i+1}</div>
-        <div><div class="priority-title">${esc(it.title)}</div><div class="priority-sub">${esc(it.sub)}</div></div>
-      </div>`).join('');
+function updateClock() {
+  const now = new Date();
+  document.getElementById("clock").textContent = now.toLocaleString("en-US", {
+    timeZone: "America/Denver",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  }) + " MT";
 }
 
-function renderAgents(agents) {
-  document.getElementById('agentSubtitle').textContent = 'FKI AI Fleet · ' + agents.map(a=>a.name).join(' · ');
-  const grid = document.getElementById('agentGrid');
-  grid.innerHTML = agents.map(a => {
-    const tasks = a.tasks || [];
-    const activeTasks = tasks.filter(t => t.status !== 'done');
-    const taskCountStr = `(${activeTasks.length}/4)`;
+function dotClass(status) {
+  const s = String(status || "").toLowerCase();
+  if (s.includes("active") || s.includes("running") || s.includes("live")) return "green";
+  if (s.includes("draft") || s.includes("idle") || s.includes("standby") || s.includes("pending")) return "yellow";
+  if (s.includes("error") || s.includes("down") || s.includes("broken") || s.includes("blocked")) return "red";
+  if (s.includes("chad")) return "blue";
+  return "blue";
+}
 
-    const taskListHtml = tasks.length === 0
-      ? '<div class="task-empty">No tasks assigned</div>'
-      : tasks.map(t => `
-          <div class="task-item ${esc(t.status)}" id="ti-${esc(t.id)}">
-            <div class="task-dot ${esc(t.status)}"></div>
-            <div class="task-item-title">${esc(t.title)}</div>
-            ${t.status !== 'done' ? `<button class="task-action complete" title="Mark done" onclick="completeTask('${esc(a.id)}','${esc(t.id)}')">✓</button>` : ''}
-            <button class="task-action delete" title="Remove" onclick="deleteTask('${esc(a.id)}','${esc(t.id)}')">✕</button>
-          </div>`).join('');
+function normalizeAgents(rawAgents) {
+  const byId = {};
+  if (Array.isArray(rawAgents)) {
+    rawAgents.forEach((agent, index) => {
+      const id = String(agent.id || agent.name || `agent_${index}`).toLowerCase();
+      byId[id] = agent;
+    });
+  } else {
+    Object.entries(rawAgents || {}).forEach(([key, agent]) => {
+      byId[String(key).toLowerCase()] = agent;
+    });
+  }
+  return MAIN_AGENT_ORDER.map(id => [id, byId[id] || FALLBACK_DATA.agents[id] || { status: "unknown", detail: "No live feed yet" }]);
+}
 
-    const taskText = a.current_task
-      ? `<span class="task-label">Current task</span>${esc(a.current_task)}`
-      : `<span class="task-label">Current task</span><span style="color:#374151;font-style:italic;">Idle</span>`;
+async function fetchStatusData() {
+  for (const url of STATUS_FETCH_URLS) {
+    try {
+      const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(5000) });
+      if (response.ok) {
+        const data = await response.json();
+        return { data, source: url, fallback: false };
+      }
+    } catch (_) {
+      // Continue to the next status URL.
+    }
+  }
+  return { data: FALLBACK_DATA, source: "FALLBACK_DATA", fallback: true };
+}
 
-    const skillVal = a.current_skill
-      ? `<span class="info-val active-text">${esc(a.current_skill)}</span>`
-      : `<span class="info-val" style="font-style:italic;color:#374151;">—</span>`;
+function renderAgents(data, source, fallback) {
+  const grid = document.getElementById("agentGrid");
+  const entries = normalizeAgents(data.agents);
+  const activeCount = entries.filter(([, agent]) => dotClass(agent.status || agent.state) === "green").length;
 
-    const notionVal = a.notion_project
-      ? `<span class="info-val highlight">${esc(a.notion_project)}</span>`
-      : `<span class="info-val" style="font-style:italic;color:#374151;">—</span>`;
-
+  grid.innerHTML = entries.map(([key, agent]) => {
+    const status = agent.status || agent.state || "unknown";
+    const work = AGENT_WORK[String(key).toLowerCase()] || {};
+    const detail = agent.detail || agent.task || agent.current_task || work.current || "No task detail";
+    const seen = agent.last_seen || agent.updated || agent.timestamp || "";
+    const label = AGENT_LABELS[String(key).toLowerCase()] || agent.name || key;
+    const seenText = seen ? String(seen).slice(11, 16) + " UTC" : "No timestamp";
     return `
-      <div class="agent-card ${esc(a.status)}" id="acard-${esc(a.id)}">
+      <article class="agent-card">
         <div class="agent-top">
-          <div class="agent-avatar ${esc(a.color_class)}">${a.emoji}</div>
-          <div class="agent-meta">
-            <div class="agent-name ${esc(a.text_class)}">${esc(a.name)}</div>
-            <div class="agent-model">${esc(a.model)}</div>
-          </div>
-          ${badge(a.status)}
+          <span class="dot ${dotClass(status)}"></span>
+          <div class="agent-name">${escapeHtml(label)}</div>
         </div>
-        <div class="task-slots-row">
-          <span class="slots-label">Tasks (${a.tasks_running}/${a.tasks_max})</span>
-          <div class="slots">${slots(a.tasks_running, a.tasks_max, a.status)}</div>
-          <span class="slots-count">${a.tasks_running}/${a.tasks_max}</span>
-        </div>
-        <div class="current-task ${a.current_task ? 'has-task' : ''}">${taskText}</div>
-        <div class="info-rows">
-          <div class="info-row"><span class="info-key">Skill</span>${skillVal}</div>
-          <div class="info-row"><span class="info-key">Notion</span>${notionVal}</div>
-          <div class="info-row"><span class="info-key">Last active</span><span class="info-val">${esc(a.last_active_rel)}</span></div>
-          <div class="info-row"><span class="info-key">Memory</span><span class="info-val">${esc(a.memory_updated_rel)}</span></div>
-          <div class="info-row"><span class="info-key">Machine</span><span class="info-val" style="color:#4b5563;">${esc(a.machine)}</span></div>
-        </div>
-        <div class="panel-row">
-          <button class="panel-btn" id="pb-tasks-${esc(a.id)}" onclick="togglePanel('${esc(a.id)}','tasks')">
-            <span>📋 Tasks ${taskCountStr}</span><span class="chevron">▼</span>
-          </button>
-          <button class="panel-btn" id="pb-cmd-${esc(a.id)}" onclick="togglePanel('${esc(a.id)}','cmd')">
-            <span>📤 Send</span><span class="chevron">▼</span>
-          </button>
-        </div>
-        <div class="panel-body" id="panel-tasks-${esc(a.id)}">
-          <div class="task-list" id="tl-${esc(a.id)}">${taskListHtml}</div>
-          <div class="add-task-row">
-            <input type="text" id="ti-input-${esc(a.id)}" placeholder="Add task for ${esc(a.name)}..." maxlength="200"
-              onkeydown="if(event.key==='Enter')addTask('${esc(a.id)}')" />
-            <button class="add-btn" id="ti-btn-${esc(a.id)}" onclick="addTask('${esc(a.id)}')">+ Add</button>
-          </div>
-          ${a.id === 'squirrel' ? '<div class="hyper-note">Squirrel is an external web agent — status updated manually or via webhook. Use Send → to dispatch a command.</div>' : ''}
-        </div>
-        <div class="panel-body" id="panel-cmd-${esc(a.id)}">
-          <textarea class="cmd-textarea" id="cmd-ta-${esc(a.id)}"
-            placeholder="Command for ${esc(a.name)} via #leo-coaches..."></textarea>
-          <div class="cmd-footer">
-            <span class="cmd-note">→ Posts to #leo-coaches · Slack ts logged</span>
-            <span class="cmd-sent" id="cmd-sent-${esc(a.id)}">✓ Sent to Slack</span>
-            <button class="send-btn" id="cmd-btn-${esc(a.id)}" onclick="sendCommand('${esc(a.id)}')">Send →</button>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
-}
+        <div class="agent-state">${escapeHtml(status)}</div>
+        <div class="agent-detail">${escapeHtml(detail)}</div>
+        <div class="agent-detail">${escapeHtml(seenText)}</div>
+        <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">View work log</a>
+      </article>
+    `;
+  }).join("");
 
-function renderCommandLog(log) {
-  const el = document.getElementById('cmdLog');
-  if (!log || !log.length) {
-    el.innerHTML = '<div class="cmd-log-empty">No commands sent yet — use "Send →" on any agent card</div>';
-    return;
+  renderWorkBoard(entries);
+
+  document.getElementById("agentCountBadge").textContent = `${activeCount}/${entries.length} active`;
+  document.getElementById("agentCountBadge").className = `badge ${activeCount >= Math.max(entries.length - 1, 1) ? "green" : activeCount > 0 ? "yellow" : "red"}`;
+  document.getElementById("agentFeedValue").textContent = fallback ? "Fallback" : "Live";
+  document.getElementById("agentFeedNote").textContent = fallback ? "using safe demo data" : source.replace("https://", "");
+
+  const generated = data.generated_at || data.timestamp || "";
+  if (generated) {
+    const age = Math.max(0, Math.round((Date.now() - new Date(generated).getTime()) / 60000));
+    document.getElementById("statusUpdated").textContent = fallback ? "Offline fallback data loaded" : `Updated ${age}m ago`;
+  } else {
+    document.getElementById("statusUpdated").textContent = fallback ? "Offline fallback data loaded" : "Live data loaded";
   }
-  el.innerHTML = log.slice(0,10).map(e => `
-    <div class="cmd-log-item">
-      <div class="cmd-log-emoji">${EMOJIS[e.agent_id] || '🤖'}</div>
-      <div class="cmd-log-body">
-        <div class="cmd-log-hdr">
-          <span class="cmd-log-agent">${esc((e.agent_id||'').charAt(0).toUpperCase()+(e.agent_id||'').slice(1))}</span>
-          <span class="cmd-log-time">${relTime(e.sent_at)}</span>
-        </div>
-        <div class="cmd-log-msg">${esc(e.message||'')}</div>
-      </div>
-    </div>`).join('');
+
+  document.getElementById("demoBadge").classList.toggle("visible", fallback);
+  const systemBadge = document.getElementById("systemBadge");
+  systemBadge.textContent = fallback ? "Live feed unreachable" : "Live feed connected";
+  systemBadge.className = `badge ${fallback ? "red" : "green"}`;
 }
 
-function renderHandoffs(handoffs) {
-  const tbody = document.getElementById('handoffBody');
-  if (!handoffs || !handoffs.length) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No pending handoffs</td></tr>';
-    return;
+function renderWorkBoard(entries) {
+  const grid = document.getElementById("workGrid");
+  const statusById = Object.fromEntries(entries.map(([key, agent]) => [key, agent]));
+  grid.innerHTML = MAIN_AGENT_ORDER.map(id => {
+    const work = AGENT_WORK[id];
+    const agent = statusById[id] || {};
+    const status = agent.status || agent.state || "unknown";
+    const links = work.links.map(([label, href]) => `<a class="link-btn" href="${href}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`).join("");
+    return `
+      <article class="work-card">
+        <div class="work-name">${escapeHtml(AGENT_LABELS[id])}</div>
+        <span class="badge ${dotClass(status)}">${escapeHtml(status)}</span>
+        <div class="work-line"><strong>Current:</strong> ${escapeHtml(work.current)}</div>
+        <div class="work-line"><strong>Recent:</strong> ${escapeHtml(work.recent)}</div>
+        <div class="work-links">${links}</div>
+      </article>
+    `;
+  }).join("");
+}
+
+const DISPATCH_URL = "https://fki-dispatch.bennett-238.workers.dev/api/dispatch";
+
+function buildDispatchText() {
+  const target = document.getElementById("agentTarget").value;
+  const intent = document.getElementById("messageIntent").value;
+  const extra = document.getElementById("agentMessage").value.trim();
+  return [
+    intent,
+    extra ? `Extra: ${extra}` : "",
+    "Return concrete proof, blocker if any, and next action."
+  ].filter(Boolean).join("\n");
+}
+
+async function sendDispatch() {
+  const agent_id = document.getElementById("agentTarget").value;
+  const message = buildDispatchText();
+  const out = document.getElementById("dispatchOutput");
+  out.textContent = "Sending…";
+  out.classList.add("visible");
+  try {
+    const res = await fetch(DISPATCH_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ agent_id, message })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      out.textContent = `✅ Sent to #leo-coaches (ts: ${data.ts})`;
+    } else {
+      out.textContent = `⚠️ Worker error: ${JSON.stringify(data)}`;
+    }
+  } catch (e) {
+    out.textContent = `❌ Network error: ${e.message}`;
   }
-  tbody.innerHTML = handoffs.map(h => `
-    <tr>
-      <td>${esc(h.from)}</td><td class="dir-arrow">→</td><td>${esc(h.to)}</td>
-      <td>${esc(h.task)}</td>
-      <td><span class="status-badge ${h.status==='pending'?'badge-idle':'badge-active'}">${esc(h.status)}</span></td>
-      <td style="font-family:monospace;font-size:10px;color:#4b5563;">${esc(h.time_rel)}</td>
-    </tr>`).join('');
 }
 
-function renderHealth(sys) {
-  if (!sys) return;
-  const g = document.getElementById('healthGrid');
-  const cpuC  = sys.ivan_cpu_pct>80?'red-text':sys.ivan_cpu_pct>50?'amber-text':'green-text';
-  const ramC  = sys.ivan_ram_pct>85?'red-text':sys.ivan_ram_pct>65?'amber-text':'blue-text';
-  const diskC = sys.ivan_disk_pct>85?'red-text':sys.ivan_disk_pct>70?'amber-text':'green-text';
-  const swapC = sys.mack_swap_gb>8?'red-text':sys.mack_swap_gb>4?'amber-text':'green-text';
-  const pills = (sys.active_cron_names||[]).map(c=>`<span class="cron-pill">${esc(c)}</span>`).join('');
-  g.innerHTML = `
-    <div class="health-tile"><div class="health-label">Ivan CPU</div><div class="health-val ${cpuC}">${sys.ivan_cpu_pct}%</div><div class="health-sub">iMac</div></div>
-    <div class="health-tile"><div class="health-label">Ivan RAM</div><div class="health-val ${ramC}">${sys.ivan_ram_pct}%</div><div class="health-sub">Used</div></div>
-    <div class="health-tile"><div class="health-label">Ivan Disk</div><div class="health-val ${diskC}">${sys.ivan_disk_pct}%</div><div class="health-sub">Used</div></div>
-    <div class="health-tile"><div class="health-label">Mack Swap</div><div class="health-val ${swapC}">${sys.mack_swap_gb}G</div><div class="health-sub">MacBook</div></div>
-    <div class="health-tile"><div class="health-label">Crons</div><div class="health-val purple-text">${sys.active_crons}</div><div class="health-sub">Active</div></div>
-    <div class="health-tile"><div class="health-label">Sessions</div><div class="health-val blue-text">${(sys.claude_sessions_mack||0)+(sys.claude_sessions_ivan||0)}</div><div class="health-sub">M:${sys.claude_sessions_mack||0} I:${sys.claude_sessions_ivan||0}</div></div>
-    <div class="health-tile health-wide"><div class="health-label">Cron Roster</div><div class="cron-list">${pills||'<span style="color:#374151;font-style:italic;font-size:11px;">No crons listed</span>'}</div></div>`;
+function quickApprove(item) {
+  document.getElementById("agentTarget").value = "leo";
+  document.getElementById("messageIntent").value = "Approved. Proceed with the proposed action and report proof.";
+  document.getElementById("agentMessage").value = `Approval: ${item}`;
+  document.querySelector(".message-board").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function togglePanel(agentId, section) {
-  const p = document.getElementById(`panel-${section}-${agentId}`);
-  const b = document.getElementById(`pb-${section}-${agentId}`);
-  if (!p || !b) return;
-  const open = p.classList.contains('visible');
-  p.classList.toggle('visible', !open);
-  b.classList.toggle('open', !open);
-}
-
-async function apiPost(path, body) {
-  const r = await fetch(API_BASE + path, {
-    method: 'POST', headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body), signal: AbortSignal.timeout(8000)
-  });
-  return r.json();
-}
-
-async function addTask(agentId) {
-  const input = document.getElementById(`ti-input-${agentId}`);
-  const btn   = document.getElementById(`ti-btn-${agentId}`);
-  const title = (input?.value||'').trim();
-  if (!title) return;
-  btn.disabled = input.disabled = true;
+async function copyDispatch() {
+  const text = buildDispatchText();
+  const out = document.getElementById("dispatchOutput");
+  out.textContent = text;
+  out.classList.add("visible");
   try {
-    const r = await apiPost('/api/task/add', {agent_id:agentId, title});
-    if (r.ok) {
-      input.value = '';
-      await loadData();
-      const p = document.getElementById(`panel-tasks-${agentId}`);
-      const b = document.getElementById(`pb-tasks-${agentId}`);
-      if (p && !p.classList.contains('visible')) { p.classList.add('visible'); b?.classList.add('open'); }
-    } else alert(r.error || 'Failed to add task');
-  } catch { alert('Cannot reach Ivan API — check Tailscale or CF Tunnel'); }
-  finally { btn.disabled = input.disabled = false; input?.focus(); }
+    await navigator.clipboard.writeText(text);
+    out.textContent = text + "\n\nCopied.";
+  } catch (_) {
+    out.textContent = text + "\n\nCopy failed on this browser. Select this text manually.";
+  }
 }
 
-async function completeTask(agentId, taskId) {
-  try {
-    await apiPost('/api/task/complete', {agent_id:agentId, task_id:taskId});
-    await loadData();
-    const p = document.getElementById(`panel-tasks-${agentId}`);
-    const b = document.getElementById(`pb-tasks-${agentId}`);
-    if (p && !p.classList.contains('visible')) { p.classList.add('visible'); b?.classList.add('open'); }
-  } catch { alert('Cannot reach Ivan API'); }
-}
-
-async function deleteTask(agentId, taskId) {
-  try {
-    await apiPost('/api/task/delete', {agent_id:agentId, task_id:taskId});
-    await loadData();
-  } catch { alert('Cannot reach Ivan API'); }
-}
-
-async function sendCommand(agentId) {
-  const ta   = document.getElementById(`cmd-ta-${agentId}`);
-  const btn  = document.getElementById(`cmd-btn-${agentId}`);
-  const sent = document.getElementById(`cmd-sent-${agentId}`);
-  const msg  = (ta?.value||'').trim();
-  if (!msg) return;
-  btn.disabled = true; btn.textContent = 'Sending...';
-  try {
-    const r = await apiPost('/api/dispatch', {agent_id:agentId, message:msg});
-    if (r.ok) {
-      ta.value = ''; sent.style.display = 'inline';
-      setTimeout(() => { sent.style.display = 'none'; }, 3500);
-      await loadData();
-    } else alert('Slack error: ' + (r.error || 'Unknown'));
-  } catch { alert('Cannot reach Ivan API — check CF Tunnel'); }
-  finally { btn.disabled = false; btn.textContent = 'Send →'; }
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 async function loadData() {
-  const btn = document.getElementById('refreshBtn');
-  btn.textContent = '↻ Loading...';
-
-  // Preserve open panels
-  const open = {};
-  document.querySelectorAll('.panel-body.visible').forEach(el => { open[el.id] = true; });
-
-  let data = null, usedUrl = null;
-  for (const url of STATUS_URLS) {
-    try {
-      const r = await fetch(url + '?t=' + Date.now(), {signal: AbortSignal.timeout(5000)});
-      if (r.ok) { data = await r.json(); usedUrl = url; break; }
-    } catch {}
-  }
-
-  if (!data) {
-    data = {...FALLBACK_DATA, updated: new Date().toISOString()};
-    document.getElementById('dataNote').innerHTML =
-      '<span class="demo-badge">DEMO</span> Ivan unreachable — showing fallback data. Check Tailscale or <a href="https://dashboard.franchiseki.com">dashboard.franchiseki.com</a>';
-  } else {
-    if (!(data.agents||[]).some(a => a.id === 'squirrel')) data.agents = [...(data.agents||[]), SQUIRREL_FALLBACK];
-    const src = usedUrl.includes('franchiseki.com') ? 'dashboard.franchiseki.com' : usedUrl.includes('github.io') ? 'GitHub Pages' : 'Tailscale';
-    document.getElementById('dataNote').innerHTML =
-      `✓ Live · <a href="${usedUrl}">${src}</a> · auto-refresh 30s · updated ${relTime(data.updated)}`;
-  }
-
-  renderPriority(data);
-  renderAgents(data.agents || []);
-  renderCommandLog(data.command_log || []);
-  renderHandoffs(data.handoffs || []);
-  renderHealth(data.system || null);
-
-  const lu = document.getElementById('lastUpdated');
-  try {
-    const dt = new Date(data.updated);
-    lu.textContent = (data.demo_mode ? '⚠ ' : '✓ ') + dt.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',timeZone:'America/Denver',timeZoneName:'short'});
-    lu.style.color = data.demo_mode ? '#f59e0b' : '#22c55e';
-  } catch { lu.textContent = '—'; }
-
-  // Restore open panels
-  Object.keys(open).forEach(id => {
-    const el = document.getElementById(id); if (!el) return;
-    el.classList.add('visible');
-    const parts = id.split('-');
-    if (parts.length >= 3) {
-      const btnId = `pb-${parts[1]}-${parts.slice(2).join('-')}`;
-      document.getElementById(btnId)?.classList.add('open');
-    }
-  });
-
-  btn.textContent = '↻ Refresh';
-  clearTimeout(autoTimer);
-  autoTimer = setTimeout(loadData, 30000);
+  const result = await fetchStatusData();
+  renderAgents(result.data, result.source, result.fallback);
 }
 
+updateClock();
+setInterval(updateClock, 1000);
 loadData();
+setInterval(loadData, 60000);
 </script>
 </body>
 </html>
