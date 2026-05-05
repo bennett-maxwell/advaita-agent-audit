@@ -1,0 +1,46 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Franchise Ki?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Franchise Ki (FKI) is an AI-powered franchise consulting firm that matches qualified buyers with vetted franchise opportunities. We use proprietary AI scoring to surface the right brands for your goals, capital, and lifestyle in minutes — not weeks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Franchise Ki different from a traditional franchise broker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Traditional brokers earn commission only from a narrow brand portfolio, creating bias. Franchise Ki uses AI to analyze 800+ franchise brands across all industries, producing unbiased matches based on your actual financial profile and personal goals. Our consulting is free to buyers — funded by transparent placement fees from franchisors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Franchise Ki free for franchise buyers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. There is no cost to franchise buyers. Franchise Ki is compensated by franchisors only when a successful match is made — and our AI ensures matches are transparent, not commission-driven."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to find a franchise through Franchise Ki?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most buyers receive their initial AI-generated franchise shortlist within 24 hours. From first conversation to franchise selection typically takes 30 to 90 days, depending on due diligence pace and discovery day scheduling."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What franchise brands does Franchise Ki work with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Franchise Ki works with 800+ vetted franchise brands across home services, food, fitness, automotive, education, senior care, and emerging categories. Our AI continuously evaluates brand performance, FDD red flags, and franchisee satisfaction to maintain quality."
+      }
+    }
+  ]
+}

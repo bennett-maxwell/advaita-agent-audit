@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Who are the best franchise consultants in 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The best franchise consultants in 2026 combine deep brand portfolio knowledge with modern matching technology. Franchise Ki leads the AI-powered category, while traditional networks like FranNet, The Entrepreneur's Source, and FranChoice remain dominant for relationship-led consulting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does a franchise consultant cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reputable franchise consultants are free to franchise buyers. They are paid by franchisors when a successful placement is made — typically a flat fee of $15,000 to $25,000 per closed deal. If a consultant asks you to pay, walk away."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What questions should I ask a franchise consultant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ask: How many brands are in your portfolio? How is your compensation structured? What due diligence do you do on brands before recommending? Can I speak with past clients? How does AI or data inform your recommendations? A consultant who can't answer all five with specifics is not the right partner."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a franchise consultant help me get financing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The best franchise consultants — including Franchise Ki — have direct relationships with SBA-preferred lenders, ROBS providers, and franchise-specific financing platforms. They can pre-qualify you and route your application to the right capital source in days, not weeks."
+      }
+    }
+  ]
+}
