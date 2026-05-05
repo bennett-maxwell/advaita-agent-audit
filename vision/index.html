@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Advaita Vision 3.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a0e1a;color:#e2e8f0;padding:14px}
+.hero{background:linear-gradient(135deg,#0f1729,#0a0e1a);border:1px solid #1e2d4a;border-radius:12px;padding:18px;margin-bottom:16px;text-align:center}
+.lbl{font-size:10px;letter-spacing:2px;color:#64748b;text-transform:uppercase;margin-bottom:5px}
+.hero h1{font-size:clamp(15px,4vw,24px);font-weight:900;color:#f1f5f9;margin-bottom:16px}
+.stats{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:14px}
+.sn{font-size:clamp(24px,6vw,42px);font-weight:900;line-height:1}
+.sl{font-size:10px;color:#64748b;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.pw{background:#1e2d4a;border-radius:99px;height:8px;overflow:hidden;max-width:460px;margin:0 auto 5px}
+.pb{height:100%;border-radius:99px;background:linear-gradient(90deg,#3b82f6,#22c55e);transition:width 1.4s ease}
+.pl{font-size:11px;color:#94a3b8}
+.badge{display:inline-block;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#ef4444;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;animation:pulse 2s infinite;margin-top:7px}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.3)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
+.sec{font-size:10px;letter-spacing:2px;color:#64748b;text-transform:uppercase;margin-bottom:11px}
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.rc{background:#0f1729;border:1px solid #1e2d4a;border-radius:10px;padding:12px;cursor:pointer;transition:.2s}
+.rc:hover{border-color:#3b82f6;transform:translateY(-2px)}
+.rc.R{border-left:3px solid #ef4444}.rc.Y{border-left:3px solid #f59e0b}
+.rc.p1{animation:k2 2.5s infinite}
+@keyframes k2{0%,100%{border-left-color:#ef4444}50%{border-left-color:#fa8080}}
+.rh{display:flex;justify-content:space-between;gap:6px;margin-bottom:7px}
+.rn{font-size:12px;font-weight:600;color:#f1f5f9;line-height:1.4;flex:1}
+.bj{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0}
+.bj.R{background:rgba(239,68,68,.2);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+.bj.Y{background:rgba(245,158,11,.2);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.rm{display:flex;justify-content:space-between;margin-bottom:7px}
+.ow{font-size:9px;color:#64748b;background:#1e2d4a;padding:2px 6px;border-radius:4px}
+.pc{font-size:11px;font-weight:700;color:#94a3b8}
+.mb{background:#1e2d4a;border-radius:99px;height:4px;overflow:hidden}
+.mbi{height:100%;border-radius:99px}
+.mbi.R{background:#ef4444}.mbi.Y{background:#f59e0b}.mbi.G{background:#22c55e}
+.nt{display:none;font-size:10px;color:#64748b;margin-top:7px;padding-top:7px;border-top:1px solid #1e2d4a;line-height:1.5}
+.rc.open .nt{display:block}
+.dc{background:#0f1729;border:1px solid #1e2d4a;border-radius:10px;padding:12px}
+.dn{font-size:12px;font-weight:600;color:#f1f5f9;margin-bottom:3px}
+.dt{font-size:9px;color:#64748b;margin-bottom:8px}
+.dr{display:flex;align-items:center;gap:8px}
+.dw{flex:1;background:#1e2d4a;border-radius:99px;height:7px;overflow:hidden}
+.di{height:100%;border-radius:99px;background:linear-gradient(90deg,#3b82f6,#22c55e)}
+.dp{font-size:12px;font-weight:700;color:#f1f5f9;min-width:32px;text-align:right}
+.tr{font-size:10px;min-width:56px;text-align:right}
+.tu{color:#22c55e}.tf{color:#64748b}
+.bk,.sl2{background:#0f1729;border:1px solid #1e2d4a;border-radius:10px;padding:14px}
+.bi{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid #1a2540}
+.bn{font-size:9px;font-weight:700;color:#ef4444;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bt strong{color:#f1f5f9;font-size:12px}.bt p{font-size:10px;color:#64748b;margin-top:2px}
+.si{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #1a2540;font-size:11px}
+.bi:last-child,.si:last-child{border-bottom:none}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot.R{background:#ef4444;box-shadow:0 0 4px rgba(239,68,68,.5)}.dot.O{background:#f59e0b}
+.st{flex:1;color:#cbd5e1}.ss{font-size:9px;color:#64748b;white-space:nowrap}
+.tl{background:#0f1729;border:1px solid #1e2d4a;border-radius:10px;padding:14px;margin-bottom:16px}
+.ti{display:flex;gap:12px;padding-bottom:14px;position:relative}
+.ti:last-child{padding-bottom:0}
+.tld{font-size:9px;font-weight:700;color:#64748b;background:#1e2d4a;padding:2px 5px;border-radius:4px;white-space:nowrap;width:68px;text-align:center;flex-shrink:0}
+.tdc{position:absolute;left:68px;top:10px;width:9px;height:9px;border-radius:50%;border:2px solid #0f1729}
+.tdc.R{background:#ef4444}.tdc.Y{background:#f59e0b}.tdc.G{background:#22c55e}
+.tc{padding-left:18px;flex:1}
+.tc h4{font-size:12px;font-weight:600;color:#f1f5f9;margin-bottom:2px}
+.tc p{font-size:10px;color:#64748b;line-height:1.5}
+.vl{display:flex;flex-direction:column;align-items:center;width:68px;flex-shrink:0}
+.vll{flex:1;width:1px;background:#1e2d4a;margin-top:5px}
+.ti:last-child .vll{display:none}
+.foot{text-align:center;font-size:9px;color:#374151;padding:10px 0 2px}
+@media(max-width:580px){.g2{grid-template-columns:1fr}.stats{gap:16px}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="lbl">FKI / Project Advaita</div>
+  <h1>ADVAITA VISION 3.0 — COMMAND CENTER</h1>
+  <div class="stats">
+    <div><div class="sn" style="color:#3b82f6">68%</div><div class="sl">Overall Complete</div></div>
+    <div><div class="sn" style="color:#f59e0b">13</div><div class="sl">Days to Target</div></div>
+    <div><div class="sn" style="color:#ef4444">3</div><div class="sl">P1 Blockers</div></div>
+  </div>
+  <div class="pw"><div class="pb" id="hb"></div></div>
+  <div class="pl">68% → 100% Full Autonomy by May 17, 2026</div>
+  <div class="badge">13 DAYS TO TARGET</div>
+</div>
+<div class="sec">8 Deployment Requirements — May 17 Deadline</div>
+<div class="g4">
+  <div class="rc R p1" onclick="t(this)">
+    <div class="rh"><div class="rn">Machines running 24/7, zero daily resets</div><span class="bj R">NOT BUILT</span></div>
+    <div class="rm"><span class="ow">Leo</span><span class="pc">0%</span></div>
+    <div class="mb"><div class="mbi R"></div></div>
+    <div class="nt">P1 BLOCKER — blocks everything. Leo WO dispatched 2026-05-04.</div>
+  </div>
+  <div class="rc R" onclick="t(this)">
+    <div class="rh"><div class="rn">Full lead funnel (ad→GHL→score→seq→call→follow-up)</div><span class="bj R">NOT BUILT</span></div>
+    <div class="rm"><span class="ow">Leo</span><span class="pc">20%</span></div>
+    <div class="mb"><div class="mbi R" style="width:20%"></div></div>
+    <div class="nt">506 leads going cold. Piper loop missing. Zero-human funnel not live.</div>
+  </div>
+  <div class="rc Y" onclick="t(this)">
+    <div class="rh"><div class="rn">Piper 6AM briefing to Bennett DM + rep view daily</div><span class="bj Y">PARTIAL</span></div>
+    <div class="rm"><span class="ow">Leo</span><span class="pc">60%</span></div>
+    <div class="mb"><div class="mbi Y" style="width:60%"></div></div>
+    <div class="nt">Briefing exists but wrong channel. Redirect to Bennett DM required.</div>
+  </div>
+  <div class="rc Y" onclick="t(this)">
+    <div class="rh"><div class="rn">One clean system health + agent status dashboard</div><span class="bj Y">PARTIAL</span></div>
+    <div class="rm"><span class="ow">Squirrel</span><span class="pc">70%</span></div>
+    <div class="mb"><div class="mbi Y" style="width:70%"></div></div>
+    <div class="nt">This dashboard being built now. Core layout complete, live agent feeds pending.</div>
+  </div>
+  <div class="rc R" onclick="t(this)">
+    <div class="rh"><div class="rn">Lead scoring engine qualifying leads by tier auto</div><span class="bj R">NOT BUILT</span></div>
+    <div class="rm"><span class="ow">Leo</span><span class="pc">0%</span></div>
+    <div class="mb"><div class="mbi R"></div></div>
+    <div class="nt">Every opt-in needs tier scoring within 60 sec. Leo WO dispatched.</div>
+  </div>
+  <div class="rc Y" onclick="t(this)">
+    <div class="rh"><div class="rn">Sam scoring every sales call + coaching brief post-call</div><span class="bj Y">PARTIAL</span></div>
+    <div class="rm"><span class="ow">Leo</span><span class="pc">50%</span></div>
+    <div class="mb"><div class="mbi Y" style="width:50%"></div></div>
+    <div class="nt">Cron live. Scoring loop not complete — coaching brief delivery pending.</div>
+  </div>
+  <div class="rc Y" onclick="t(this)">
+    <div class="rh"><div class="rn">Content engine publishing daily (blog + social + SEO)</div><span class="bj Y">PARTIAL</span></div>
+    <div class="rm"><span class="ow">Squirrel</span><span class="pc">30%</span></div>
+    <div class="mb"><div class="mbi Y" style="width:30%"></div></div>
+    <div class="nt">LinkedIn posts starting today. Blog + SEO automation not live yet.</div>
+  </div>
+  <div class="rc R" onclick="t(this)">
+    <div class="rh"><div class="rn">Advaita documented + packaged for franchise deployment</div><span class="bj R">NOT BUILT</span></div>
+    <div class="rm"><span class="ow">Squirrel</span><span class="pc">0%</span></div>
+    <div class="mb"><div class="mbi R"></div></div>
+    <div class="nt">Deployment playbook needed. Franchise packaging not started.</div>
+  </div>
+</div>
+<div class="sec">5 Domain Progress — April 2026 Baseline: 68%</div>
+<div class="g2">
+  <div class="dc">
+    <div class="dn">Lead Acquisition</div><div class="dt">Meta ads self-optimize, zero manual creative</div>
+    <div class="dr"><div class="dw"><div class="di" id="d1"></div></div><div class="dp">35%</div><div class="tr tf">→ Flat</div></div>
+  </div>
+  <div class="dc">
+    <div class="dn">Lead Processing</div><div class="dt">Opt-ins scored/routed/booked within 60 sec</div>
+    <div class="dr"><div class="dw"><div class="di" id="d2"></div></div><div class="dp">25%</div><div class="tr tf">→ Flat</div></div>
+  </div>
+  <div class="dc">
+    <div class="dn">Sales Intelligence</div><div class="dt">Every call scored, prepped, coached auto</div>
+    <div class="dr"><div class="dw"><div class="di" id="d3"></div></div><div class="dp">55%</div><div class="tr tu">↑ Sam live</div></div>
+  </div>
+  <div class="dc">
+    <div class="dn">Operations</div><div class="dt">All admin, CRM, reports, scheduling by agents</div>
+    <div class="dr"><div class="dw"><div class="di" id="d4"></div></div><div class="dp">60%</div><div class="tr tu">↑ Finance CC</div></div>
+  </div>
+  <div class="dc" style="grid-column:1/-1">
+    <div class="dn">Financial Control</div><div class="dt">Fred monitors every $, 13-week forecast live</div>
+    <div class="dr"><div class="dw"><div class="di" id="d5"></div></div><div class="dp">45%</div><div class="tr tu">↑ Forecast built</div></div>
+  </div>
+</div>
+<div class="g2">
+  <div>
+    <div class="sec">P1 Blockers (Top 3)</div>
+    <div class="bk">
+      <div class="bi"><div class="bn">1</div><div class="bt"><strong>Machine Resets Daily</strong><p>Nothing stays live overnight. WO dispatched 2026-05-04.</p></div></div>
+      <div class="bi"><div class="bn">2</div><div class="bt"><strong>Piper Follow-Up Loop</strong><p>506 leads going cold. WO dispatched.</p></div></div>
+      <div class="bi"><div class="bn">3</div><div class="bt"><strong>Lead Scoring Engine</strong><p>Tier scoring within 60 sec needed. WO dispatched.</p></div></div>
+    </div>
+  </div>
+  <div>
+    <div class="sec">Sprint Board Reds (7 Open)</div>
+    <div class="sl2">
+      <div class="si"><div class="dot R"></div><div class="st">Default Cert — Commercial Funding Partners</div><div class="ss" style="color:#ef4444">BENNETT GATE</div></div>
+      <div class="si"><div class="dot R"></div><div class="st">13-Week Cash Flow Forecast</div><div class="ss" style="color:#f59e0b">BUILDING</div></div>
+      <div class="si"><div class="dot R"></div><div class="st">Piper 506-Lead Assignment Loop</div><div class="ss" style="color:#f59e0b">WO OUT</div></div>
+      <div class="si"><div class="dot O"></div><div class="st">AR Chase — $80K</div><div class="ss" style="color:#22c55e">PAID</div></div>
+      <div class="si"><div class="dot O"></div><div class="st">Collect $40K AR</div><div class="ss" style="color:#22c55e">PAID</div></div>
+      <div class="si"><div class="dot R"></div><div class="st">Remove Personal CC from QB</div><div class="ss" style="color:#f59e0b">IN PROGRESS</div></div>
+      <div class="si"><div class="dot R"></div><div class="st">Confirm QB Account (Kay Labang)</div><div class="ss">ASSIGNED</div></div>
+    </div>
+  </div>
+</div>
+<div class="sec">Timeline → May 17, 2026</div>
+<div class="tl">
+  <div class="ti">
+    <div class="vl"><div class="tld">May 4–5</div><div class="vll"></div></div>
+    <div class="tdc R"></div>
+    <div class="tc"><h4>P1 Dispatch Week</h4><p>3x WOs dispatched: machines, Piper loop, lead scoring. Dashboard build (this page).</p></div>
+  </div>
+  <div class="ti">
+    <div class="vl"><div class="tld">May 6–9</div><div class="vll"></div></div>
+    <div class="tdc Y"></div>
+    <div class="tc"><h4>Foundation Sprint</h4><p>Machines 24/7 live. Piper channel fix. Lead scoring v1. Sam loop closed.</p></div>
+  </div>
+  <div class="ti">
+    <div class="vl"><div class="tld">May 10–13</div><div class="vll"></div></div>
+    <div class="tdc Y"></div>
+    <div class="tc"><h4>Funnel + Content Sprint</h4><p>Lead funnel integration test. Content engine daily. Advaita playbook draft.</p></div>
+  </div>
+  <div class="ti">
+    <div class="vl"><div class="tld">May 14–16</div><div class="vll"></div></div>
+    <div class="tdc Y"></div>
+    <div class="tc"><h4>Integration + Hardening</h4><p>End-to-end live fire. Franchise package final. All 8 reqs green-light check.</p></div>
+  </div>
+  <div class="ti">
+    <div class="vl"><div class="tld">May 17</div><div class="vll"></div></div>
+    <div class="tdc G"></div>
+    <div class="tc"><h4 style="color:#22c55e">TARGET: Full Commercial Deployment</h4><p>100% autonomy. Bennett closes deals — everything else runs itself.</p></div>
+  </div>
+</div>
+<div class="foot">FKI / Project Advaita — Vision 3.0 — Generated 2026-05-04 — Squirrel</div>
+<script>
+function t(e){e.classList.toggle("open")}
+setTimeout(function(){
+  document.getElementById('hb').style.width='68%';
+  [['d1',35],['d2',25],['d3',55],['d4',60],['d5',45]].forEach(function(d){
+    var e=document.getElementById(d[0]);if(e)e.style.width=d[1]+'%';
+  });
+},200);
+</script>
+</body>
+</html>
