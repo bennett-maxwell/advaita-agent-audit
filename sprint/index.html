@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprint Command Center — FKI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif; background: #FFFFFF; color: #1D1D1F; min-height: 100vh; }
+  .header { background: #1D1D1F; color: #fff; padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-icon { width: 36px; height: 36px; background: #AF52DE; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .header-title { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .header-sub { font-size: 12px; color: #8E8E93; margin-top: 2px; }
+  .status-badge { background: #AF52DE; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.3px; }
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid #F2F2F7; }
+  .kpi { padding: 16px 20px; border-right: 1px solid #F2F2F7; }
+  .kpi:last-child { border-right: none; }
+  .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
+  .kpi-label { font-size: 11px; color: #6E6E73; font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-sub { font-size: 12px; color: #8E8E93; margin-top: 2px; }
+  .green { color: #34C759; }
+  .amber { color: #FF9F0A; }
+  .red { color: #FF3B30; }
+  .blue { color: #0071E3; }
+  .purple { color: #AF52DE; }
+  .section { border-bottom: 1px solid #F2F2F7; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; user-select: none; }
+  .section-header:hover { background: #FAFAFA; }
+  .section-title { font-size: 14px; font-weight: 600; color: #1D1D1F; display: flex; align-items: center; gap: 8px; }
+  .section-pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: #F2F2F7; color: #6E6E73; }
+  .section-pill.green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .section-pill.amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .section-pill.red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .section-pill.purple { background: rgba(175,82,222,0.12); color: #AF52DE; }
+  .section-chevron { font-size: 12px; color: #8E8E93; transition: transform 0.2s; }
+  .section-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .section-content.open { max-height: 2000px; }
+  .section-chevron.open { transform: rotate(180deg); }
+  .section-body { padding: 0 20px 16px; }
+  .row-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #F9F9FB; }
+  .row-item:last-child { border-bottom: none; }
+  .row-label { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .row-value { font-size: 13px; color: #6E6E73; }
+  .row-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .badge-green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .badge-amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .badge-red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .badge-blue { background: rgba(0,113,227,0.12); color: #0071E3; }
+  .badge-purple { background: rgba(175,82,222,0.12); color: #AF52DE; }
+  .badge-gray { background: #F2F2F7; color: #6E6E73; }
+
+  /* Domain progress bars */
+  .domain-bar { margin-bottom: 12px; }
+  .domain-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .domain-name { font-size: 13px; font-weight: 600; color: #1D1D1F; }
+  .domain-pct { font-size: 13px; font-weight: 700; }
+  .bar-track { height: 6px; background: #F2F2F7; border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+
+  /* Sprint task items */
+  .task-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F9F9FB; }
+  .task-item:last-child { border-bottom: none; }
+  .task-status { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; }
+  .ts-red { background: #FF3B30; }
+  .ts-amber { background: #FF9F0A; }
+  .ts-green { background: #34C759; }
+  .ts-blue { background: #0071E3; }
+  .ts-purple { background: #AF52DE; }
+  .task-text { font-size: 12px; color: #1D1D1F; line-height: 1.5; }
+  .task-owner { font-size: 11px; color: #8E8E93; }
+
+  /* WO items */
+  .wo-item { background: #F9F9FB; border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+  .wo-ts { font-size: 11px; color: #0071E3; font-weight: 600; }
+  .wo-desc { font-size: 13px; color: #1D1D1F; margin-top: 3px; font-weight: 500; }
+  .wo-status { font-size: 11px; color: #FF9F0A; margin-top: 2px; }
+
+  .alert-banner { background: #FFF3F0; border-left: 4px solid #FF3B30; padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
+  .alert-banner span { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .alert-badge { background: #FF3B30; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+
+  .cta-row { display: flex; gap: 10px; padding: 14px 20px; background: #FAFAFA; }
+  .cta-btn { padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; text-align: center; display: inline-block; }
+  .cta-primary { background: #AF52DE; color: #fff; }
+  .cta-secondary { background: #F2F2F7; color: #1D1D1F; }
+
+  .footer { padding: 14px 20px; background: #FAFAFA; display: flex; align-items: center; justify-content: space-between; }
+  .footer-text { font-size: 11px; color: #8E8E93; }
+  .footer-link { font-size: 12px; color: #0071E3; text-decoration: none; font-weight: 500; }
+
+  @media (max-width: 640px) {
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-icon">🏃</div>
+    <div>
+      <div class="header-title">Sprint Command Center</div>
+      <div class="header-sub">Sprint Board · CEO OS progress · FKI CEO Day 3</div>
+    </div>
+  </div>
+  <div class="status-badge">Day 3 / May 5</div>
+</div>
+
+<!-- Alert: Legal Gate -->
+<div class="alert-banner">
+  <span class="alert-badge">🔴 LEGAL</span>
+  <span>IronCreek R15 due <strong>May 18</strong> (13 days) · CFP Default Certificate due <strong>May 27</strong> (22 days) · Bennett gate on both.</span>
+</div>
+
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <div class="kpi-value red">8+</div>
+    <div class="kpi-label">Red / Blocked</div>
+    <div class="kpi-sub">Needs attention</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value amber">12+</div>
+    <div class="kpi-label">In Progress</div>
+    <div class="kpi-sub">Active / Yellow</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value green">40+</div>
+    <div class="kpi-label">Diamond Done</div>
+    <div class="kpi-sub">Verified complete</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value purple">68</div>
+    <div class="kpi-label">Health Score</div>
+    <div class="kpi-sub">Target 85 by May 17</div>
+  </div>
+</div>
+
+<!-- Domain Progress -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">📊 Domain Autonomy Progress <span class="section-pill amber">Avg 48%</span></div>
+    <div class="section-chevron open">▼</div>
+  </div>
+  <div class="section-content open">
+    <div class="section-body">
+      <div class="domain-bar">
+        <div class="domain-header"><div class="domain-name">Lead Acquisition</div><div class="domain-pct red">15%</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:15%;background:#FF3B30;"></div></div>
+        <div style="font-size:11px;color:#8E8E93;margin-top:3px;">Meta blind · FACEBOOKACCESSTOKEN missing · Google Ads May 7</div>
+      </div>
+      <div class="domain-bar">
+        <div class="domain-header"><div class="domain-name">Lead Processing</div><div class="domain-pct amber">28%</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:28%;background:#FF9F0A;"></div></div>
+        <div style="font-size:11px;color:#8E8E93;margin-top:3px;">speed-to-lead.py LIVE · SynthFlow LP-02 pending · 506 unassigned</div>
+      </div>
+      <div class="domain-bar">
+        <div class="domain-header"><div class="domain-name">Sales Intelligence</div><div class="domain-pct amber">58%</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:58%;background:#FF9F0A;"></div></div>
+        <div style="font-size:11px;color:#8E8E93;margin-top:3px;">sam-auto-prep.sh LIVE · Sales Meeting Prep v5 LIVE</div>
+      </div>
+      <div class="domain-bar">
+        <div class="domain-header"><div class="domain-name">Operations</div><div class="domain-pct amber">65%</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:65%;background:#FF9F0A;"></div></div>
+        <div style="font-size:11px;color:#8E8E93;margin-top:3px;">15 CCs live · /pulse/ + /sprint/ added today</div>
+      </div>
+      <div class="domain-bar">
+        <div class="domain-header"><div class="domain-name">Financial Control</div><div class="domain-pct green">72%</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:72%;background:#34C759;"></div></div>
+        <div style="font-size:11px;color:#8E8E93;margin-top:3px;">fred-auto-kill.sh LIVE · QB synced 3x/day · Finance Hub live</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Live CCs -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">🖥️ Live Command Centers <span class="section-pill green">15 Live</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div class="row-item"><div class="row-label">/hub/</div><div class="row-badge badge-green">Health Score 68/100</div></div>
+      <div class="row-item"><div class="row-label">/finance-hub/</div><div class="row-badge badge-amber">CC Debt 74%/80%</div></div>
+      <div class="row-item"><div class="row-label">/marketing/</div><div class="row-badge badge-amber">Google Ads May 13</div></div>
+      <div class="row-item"><div class="row-label">/meeting-prep/</div><div class="row-badge badge-green">Sales Pipeline</div></div>
+      <div class="row-item"><div class="row-label">/social/</div><div class="row-badge badge-green">LinkedIn May 7 ✓</div></div>
+      <div class="row-item"><div class="row-label">/autonomy/</div><div class="row-badge badge-amber">62% → 68%</div></div>
+      <div class="row-item"><div class="row-label">/seo/</div><div class="row-badge badge-amber">89 articles → 100</div></div>
+      <div class="row-item"><div class="row-label">/mapki/</div><div class="row-badge badge-green">FranchiseScore live</div></div>
+      <div class="row-item"><div class="row-label">/cpa/</div><div class="row-badge badge-gray">Cost Per Appt</div></div>
+      <div class="row-item"><div class="row-label">/legal/</div><div class="row-badge badge-red">May 18 + May 27</div></div>
+      <div class="row-item"><div class="row-label">/lead-funnel/</div><div class="row-badge badge-amber">SynthFlow pending</div></div>
+      <div class="row-item"><div class="row-label">/advaita/</div><div class="row-badge badge-green">8-req deployment</div></div>
+      <div class="row-item"><div class="row-label">/content-engine/</div><div class="row-badge badge-green">Day 2 built ✓</div></div>
+      <div class="row-item"><div class="row-label">/daily-digest/</div><div class="row-badge badge-amber">2 items queued</div></div>
+      <div class="row-item"><div class="row-label">/skills-registry/</div><div class="row-badge badge-green">23 skills ✓</div></div>
+      <div class="row-item"><div class="row-label">/pulse/</div><div class="row-badge badge-green">Day 3 NEW ✓</div></div>
+      <div class="row-item"><div class="row-label">/sprint/</div><div class="row-badge badge-green">Day 3 NEW ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Day 3 Open Items -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">📋 Day 3 Open Items <span class="section-pill amber">26 Remaining</span></div>
+    <div class="section-chevron open">▼</div>
+  </div>
+  <div class="section-content open">
+    <div class="section-body">
+      <div style="font-size:12px;color:#6E6E73;margin-bottom:8px;">Top priority items for Day 3 sprint</div>
+      <div class="task-item">
+        <div class="task-status ts-red">!</div>
+        <div><div class="task-text"><strong>Google Ads May 7</strong> — $500 credit + advertiser verify. Leo Browser-Use WO dispatched ts 1778022054.</div><div class="task-owner">→ Leo (in-flight)</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-red">!</div>
+        <div><div class="task-text"><strong>FACEBOOKACCESSTOKEN</strong> — Meta blind 5 days. Leo Browser-Use path. Daily digest.</div><div class="task-owner">→ daily-digest · Leo</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-amber">~</div>
+        <div><div class="task-text">SynthFlow LP-02 — connect to GHL Location 14RD8K. Leo WO ts 1778019989 in-flight.</div><div class="task-owner">→ Leo CLI</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-amber">~</div>
+        <div><div class="task-text">506 unassigned leads LP-07 — bulk-assign Bailey/Keith rotation. Leo WO ts 1778019989.</div><div class="task-owner">→ Leo CLI</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-green">✓</div>
+        <div><div class="task-text"><strong>/pulse/ CC built</strong> — Day 3 Day 3 artifact ✓</div><div class="task-owner">→ Squirrel SANDBOX</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-green">✓</div>
+        <div><div class="task-text"><strong>/sprint/ CC built</strong> — Day 3 artifact ✓</div><div class="task-owner">→ Squirrel SANDBOX</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-amber">~</div>
+        <div><div class="task-text">SEO articles 89→92 — 3 new articles in progress</div><div class="task-owner">→ Squirrel SANDBOX</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-amber">~</div>
+        <div><div class="task-text">hub-data.json v4 — Day 3 KPI refresh + /pulse/ + /sprint/ cards</div><div class="task-owner">→ Squirrel SANDBOX</div></div>
+      </div>
+      <div class="task-item">
+        <div class="task-status ts-blue">↗</div>
+        <div><div class="task-text">AGENT-MEMORY.md patch — IronCreek R15 + Day 3 artifacts. Leo WO in-flight.</div><div class="task-owner">→ Leo CLI</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Leo WOs In Flight -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">🚀 Leo WOs In Flight <span class="section-pill blue">4 Active</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div class="wo-item">
+        <div class="wo-ts">ts 1778019989</div>
+        <div class="wo-desc">Lead Processing 16 CLI tasks (LP-01 to LP-23) — SynthFlow, 506 leads, 3-touch reminders</div>
+        <div class="wo-status">⏳ In-flight — dispatched Day 2</div>
+      </div>
+      <div class="wo-item">
+        <div class="wo-ts">ts 1778020732</div>
+        <div class="wo-desc">council-log.json + AGENT-MEMORY.md patch</div>
+        <div class="wo-status">⏳ In-flight — dispatched Day 2</div>
+      </div>
+      <div class="wo-item">
+        <div class="wo-ts">ts 1778022054</div>
+        <div class="wo-desc">Google Ads May 7 Browser-Use + subfolder moves + status check</div>
+        <div class="wo-status">⏳ In-flight — dispatched Day 2</div>
+      </div>
+      <div class="wo-item">
+        <div class="wo-ts">ts 1778024179</div>
+        <div class="wo-desc">Meta FACEBOOKACCESSTOKEN — Browser-Use → Meta Business Manager → System Users</div>
+        <div class="wo-status">⏳ In-flight — dispatched Day 3 handoff</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-row">
+  <a href="https://notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" class="cta-btn cta-primary">Open Sprint Board in Notion →</a>
+  <a href="/hub/" class="cta-btn cta-secondary">← Hub</a>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-text">Sprint Board DB: 335cf5514fd3813488dec82a68622d7b · FKI CEO OS Day 3 · 2026-05-05</div>
+  <a href="/hub/" class="footer-link">← Hub</a>
+</div>
+
+<script>
+function toggle(header) {
+  const content = header.nextElementSibling;
+  const chevron = header.querySelector('.section-chevron');
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>

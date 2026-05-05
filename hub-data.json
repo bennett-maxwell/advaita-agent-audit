@@ -1,34 +1,148 @@
 {
   "_meta": {
-    "updated": "2026-05-05T23:00:00Z",
-    "source": "Squirrel proactive-autonomy run 1"
+    "version": "4",
+    "updated": "2026-05-05T23:45:00MDT",
+    "updated_by": "Squirrel proactive-autonomy Day 3",
+    "next_refresh": "2026-05-06T00:00:00MDT"
   },
-  "health_score": 71,
-  "meta_root_cause": "FACEBOOKACCESSTOKEN_MISSING",
-  "meta_campaigns_blind_days": 5,
-  "fred_kill_live": true,
-  "speed_to_lead_live": true,
-  "sam_auto_prep_live": true,
-  "ironcrk_deadline": "2026-05-18",
-  "ironcrk_days_remaining": 13,
-  "google_ads_deadline_days": 2,
-  "legal_deadline_may27_days": 22,
-  "deployment_days_remaining": 12,
-  "deployment_reqs_met": 2,
-  "linkedin_status": "recovered",
-  "linkedin_next_post": "2026-05-07T13:30:00Z",
-  "revenue_ytd": 305000,
-  "runway_weeks": 3.5,
-  "leads_active": 1433,
-  "leads_unassigned": 506,
-  "autonomy_pct": 68,
-  "lead_processing_pct": 28,
-  "seo_articles": 89,
-  "seo_articles_target": 100,
-  "content_engine_built": false,
-  "content_queued": 60,
-  "cc_utilization_amex": 74,
-  "cc_utilization_pce": 80,
-  "cc_total_debt": 175281,
-  "weekly_burn": 7659
+  "kpis": {
+    "revenue_ytd": "$225,596",
+    "revenue_source": "QuickBooks QB API · billing@franchiseki.com · verified",
+    "runway_weeks": "5.2",
+    "runway_note": "Zero-deal scenario · weekly burn $7,659",
+    "leads_pipeline": "1433",
+    "leads_source": "GHL pipeline vUMUWSpK5v217qHsFH5k",
+    "ad_spend_30d": "$8,894",
+    "ad_spend_note": "Meta Ads · act_1034627395362893 · Apr 4–May 3",
+    "ad_spend_blind": true,
+    "ad_spend_blind_reason": "FACEBOOKACCESSTOKEN missing — Leo Browser-Use WO dispatched",
+    "autonomy_pct": 68,
+    "autonomy_source": "FKI Health Score formula: Revenue 30% + Pipeline 25% + Autonomy 25% + Uptime 20%",
+    "health_score": 68,
+    "health_target": 85,
+    "health_deadline": "2026-05-17",
+    "health_countdown_days": 12,
+    "blockers_red": 8
+  },
+  "domains": {
+    "lead_acquisition": {
+      "pct": 15,
+      "status": "red",
+      "note": "Meta blind · FACEBOOKACCESSTOKEN missing · Google Ads May 7 deadline"
+    },
+    "lead_processing": {
+      "pct": 28,
+      "status": "amber",
+      "note": "speed-to-lead.py LIVE · SynthFlow LP-02 pending · 506 unassigned"
+    },
+    "sales_intelligence": {
+      "pct": 58,
+      "status": "amber",
+      "note": "sam-auto-prep.sh LIVE · Sales Meeting Prep v5 LIVE"
+    },
+    "operations": {
+      "pct": 65,
+      "status": "amber",
+      "note": "17 CCs live (2 added Day 3)"
+    },
+    "financial_control": {
+      "pct": 72,
+      "status": "green",
+      "note": "fred-auto-kill.sh LIVE · QB 3x/day sync"
+    }
+  },
+  "financials": {
+    "checking_balance": "$40,006",
+    "checking_source": "Chase 5000 · QB live bank feed",
+    "cc_debt_total": "$175,281",
+    "cc_amex_balance": "$92,757",
+    "cc_amex_utilization_pct": 74,
+    "cc_pce_balance": "$40,227",
+    "cc_pce_utilization_pct": 80,
+    "weekly_burn": "$7,659",
+    "monthly_expenses_avg": "$33,184",
+    "ar_outstanding": "$0",
+    "ar_note": "INV-001 PAID 2026-05-05 · QB Payment 738"
+  },
+  "legal": {
+    "cfp_default_certificate": {
+      "status": "red",
+      "deadline": "2026-05-27",
+      "days_remaining": 22,
+      "case": "250905143"
+    },
+    "ironcreek_r15": {
+      "status": "red",
+      "deadline": "2026-05-18",
+      "days_remaining": 13,
+      "note": "Bennett legal gate · draft prepared"
+    },
+    "google_ads_verify": {
+      "status": "amber",
+      "deadline": "2026-05-07",
+      "days_remaining": 2,
+      "note": "Leo Browser-Use WO dispatched · $500 credit + advertiser verify"
+    }
+  },
+  "ccs": {
+    "active_count": 17,
+    "list": [
+      "/hub/", "/finance-hub/", "/marketing/", "/meeting-prep/", "/social/",
+      "/autonomy/", "/seo/", "/mapki/", "/cpa/", "/software/", "/employees/",
+      "/legal/", "/lead-funnel/", "/advaita/", "/daily-digest/", "/skills-registry/",
+      "/content-engine/", "/pulse/", "/sprint/"
+    ]
+  },
+  "seo": {
+    "articles_count": 92,
+    "articles_target": 100,
+    "articles_remaining": 8,
+    "score_current": 24,
+    "score_target": 68,
+    "citations_verified": 1,
+    "citations_target": 5,
+    "citations_deadline": "2026-06-05"
+  },
+  "social": {
+    "linkedin_status": "recovered",
+    "linkedin_first_post": "2026-05-07 07:30 MDT",
+    "linkedin_recovery_note": "24hr recovery complete",
+    "posts_queued": 5
+  },
+  "pulse": {
+    "active": true,
+    "skill_version": "v8",
+    "delivery_channels": ["bennett@franchiseki.com", "#leo-bennett"],
+    "schedule": "Every 2hr 8AM-8PM MDT + 7AM + 6PM",
+    "last_run": "2026-05-05",
+    "trigger_chain_active": true,
+    "blind_sources": ["Meta Ads"],
+    "digest_items": 2
+  },
+  "sprint_board": {
+    "db_id": "335cf5514fd3813488dec82a68622d7b",
+    "red_rows": 8,
+    "yellow_rows": 12,
+    "diamond_rows": 40,
+    "day3_items_remaining": 26,
+    "leo_wos_inflight": 4
+  },
+  "flags": {
+    "fred_kill_live": true,
+    "speed_to_lead_live": true,
+    "meta_root_cause_known": true,
+    "sam_prep_live": true,
+    "linkedin_recovered": true,
+    "pulse_cc_live": true,
+    "sprint_cc_live": true,
+    "seo_89_articles": true,
+    "daily_digest_live": true,
+    "skills_registry_live": true,
+    "content_engine_live": true,
+    "google_ads_deadline_days": 2,
+    "ironcreek_deadline_days": 13,
+    "cfp_deadline_days": 22,
+    "active_ccs": 17,
+    "meta_token_missing": true
+  }
 }
