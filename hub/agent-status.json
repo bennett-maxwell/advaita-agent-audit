@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-05T02:15:03Z",
+  "updated": "2026-05-05T02:30:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "9m ago",
-      "memory_updated_rel": "9m ago",
+      "last_active_rel": "6m ago",
+      "memory_updated_rel": "6m ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": "[LIVENESS-PROBE-1777947300] <@U0AG6G4BEM9> reply 'ACK' \u2014 automated health check",
+      "current_task": "[LIVENESS-PROBE-1777948200] <@U0AG6G4BEM9> reply 'ACK' \u2014 automated health check",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -74,7 +74,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #157 \u00b7 45389 uploaded \u00b7 disk 470GB",
+      "current_task": "FDD extractor \u00b7 run #160 \u00b7 45389 uploaded \u00b7 disk 470GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -110,10 +110,10 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 4,
-      "current_task": "&lt;key&gt;StandardErrorPath&lt;/key&gt;",
+      "current_task": "AUTOPILOT [02:15 MDT] Pulse Skill full cycle complete. Completed: design-skill v",
       "current_skill": null,
-      "last_active_rel": "6m ago",
-      "memory_updated_rel": "6m ago",
+      "last_active_rel": "12m ago",
+      "memory_updated_rel": "12m ago",
       "notion_project": null,
       "color_class": "hyper-color",
       "text_class": "hyper-color-text"
@@ -121,7 +121,7 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 92,
+    "ivan_cpu_pct": 88,
     "ivan_ram_pct": 39,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
