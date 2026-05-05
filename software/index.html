@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software & Tools — FranchiseKI</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;background:#F5F5F7;color:#1D1D1F}
+    .header{background:#FFF;padding:16px 24px;border-bottom:1px solid #E5E5EA;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+    .header h1{font-size:17px;font-weight:700}.back{font-size:12px;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 12px;border-radius:8px}
+    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E5E5EA;border-bottom:1px solid #E5E5EA}
+    .kpi-card{background:#FFF;padding:22px 18px;cursor:pointer;transition:background .15s;user-select:none;position:relative}
+    .kpi-card:hover{background:#F9F9FB}.kpi-card.active{background:#F0F7FF}
+    .kpi-card.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#0071E3}
+    .kpi-label{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .kpi-value{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:4px}.kpi-sub{font-size:11px;color:#8E8E93}
+    .kpi-hint{font-size:10px;color:#0071E3;margin-top:8px;opacity:0;transition:opacity .2s}
+    .kpi-card:hover .kpi-hint,.kpi-card.active .kpi-hint{opacity:1}
+    .l2-panel{display:none;background:#FAFAFA;border-bottom:1px solid #E5E5EA;padding:20px 24px}
+    .l2-panel.open{display:block;animation:slideDown .2s ease}@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .l2-title{font-size:13px;font-weight:700;color:#1D1D1F;margin-bottom:14px}
+    .sync-line{font-size:11px;color:#8E8E93;margin-top:14px;display:flex;align-items:center;gap:8px}
+    .l3{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 11px;border-radius:8px}
+    .main{max-width:900px;margin:0 auto;padding:16px 20px}
+    .section-label{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;margin-top:16px}
+    /* Tool table */
+    .tool-row{background:#FFF;border-radius:10px;padding:12px 16px;margin-bottom:6px;display:grid;grid-template-columns:1fr auto auto auto;gap:12px;align-items:center}
+    .tool-name{font-size:13px;font-weight:600;color:#1D1D1F}
+    .tool-role{font-size:11px;color:#8E8E93;margin-top:2px}
+    .tool-status{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;text-align:center}
+    .ts-live{background:rgba(52,199,89,.1);color:#34C759}
+    .ts-warn{background:rgba(255,159,10,.1);color:#FF9F0A}
+    .ts-dead{background:rgba(255,59,48,.1);color:#FF3B30}
+    .ts-pending{background:rgba(0,113,227,.1);color:#0071E3}
+    .tool-cost{font-size:12px;font-weight:700;text-align:right;white-space:nowrap}
+    .tool-link{font-size:11px;color:#0071E3;text-decoration:none;white-space:nowrap}
+    .cost-total{background:#FFF;border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-left:3px solid #0071E3}
+    .l2-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0F0F0}
+    .l2-row:last-of-type{border-bottom:none}.l2-label{font-size:13px;color:#1D1D1F}.l2-val{font-size:13px;font-weight:700}
+    footer{padding:10px 24px;text-align:center;font-size:10px;color:#C7C7CC;border-top:1px solid #E5E5EA}
+    @media(max-width:600px){.kpi-value{font-size:28px}.tool-row{grid-template-columns:1fr auto auto}.tool-cost{display:none}.main{padding:12px 14px}}
+  </style>
+</head>
+<body>
+<div class="header"><h1>🔧 Software & Tools</h1><a href="../hub/" class="back">← Hub</a></div>
+
+<div class="kpi-row">
+  <div class="kpi-card" onclick="toggle('l2-connected',this)">
+    <div class="kpi-label">Connected Tools</div>
+    <div class="kpi-value" style="color:#34C759;">11</div>
+    <div class="kpi-sub">Composio integrations live</div>
+    <div class="kpi-hint">▼ Tap for list</div>
+  </div>
+  <div class="kpi-card" onclick="toggle('l2-costs',this)">
+    <div class="kpi-label">Monthly SaaS Cost</div>
+    <div class="kpi-value" style="color:#FF9F0A;">~$398</div>
+    <div class="kpi-sub">Est. · excludes ad spend</div>
+    <div class="kpi-hint">▼ Tap for breakdown</div>
+  </div>
+  <div class="kpi-card" onclick="toggle('l2-alerts',this)">
+    <div class="kpi-label">Alerts</div>
+    <div class="kpi-value" style="color:#FF3B30;">3</div>
+    <div class="kpi-sub">Expired / not connected</div>
+    <div class="kpi-hint">▼ Tap for alert details</div>
+  </div>
+</div>
+
+<div id="l2-connected" class="l2-panel">
+  <div class="l2-title">Composio Integrations (Squirrel)</div>
+  <div class="l2-row"><div class="l2-label">Google Drive</div><div class="l2-val" style="color:#34C759;">✅ Connected</div></div>
+  <div class="l2-row"><div class="l2-label">Gmail</div><div class="l2-val" style="color:#34C759;">✅ Connected · 45K msgs</div></div>
+  <div class="l2-row"><div class="l2-label">Notion</div><div class="l2-val" style="color:#34C759;">✅ Connected</div></div>
+  <div class="l2-row"><div class="l2-label">GitHub</div><div class="l2-val" style="color:#34C759;">✅ Connected</div></div>
+  <div class="l2-row"><div class="l2-label">Slack</div><div class="l2-val" style="color:#34C759;">✅ Connected · 35 channels</div></div>
+  <div class="l2-row"><div class="l2-label">LinkedIn</div><div class="l2-val" style="color:#34C759;">✅ Connected · Bennett personal</div></div>
+  <div class="l2-row"><div class="l2-label">QuickBooks</div><div class="l2-val" style="color:#34C759;">✅ Connected · billing@</div></div>
+  <div class="l2-row"><div class="l2-label">Meta Ads</div><div class="l2-val" style="color:#FF3B30;">⚠️ Token expired Apr 30</div></div>
+  <div class="l2-row"><div class="l2-label">Google Calendar</div><div class="l2-val" style="color:#34C759;">✅ Connected</div></div>
+  <div class="l2-row"><div class="l2-label">Google Docs</div><div class="l2-val" style="color:#34C759;">✅ Connected</div></div>
+  <div class="l2-row"><div class="l2-label">GHL / HighLevel</div><div class="l2-val" style="color:#FF3B30;">⚠️ Session restricted</div></div>
+  <div class="sync-line">Composio account ca_oasM5xmuAEKA · <a href="https://app.composio.dev" class="l3" target="_blank">Manage →</a></div>
+</div>
+
+<div id="l2-costs" class="l2-panel">
+  <div class="l2-title">Monthly SaaS Cost Estimate</div>
+  <div class="l2-row"><div class="l2-label">Hyperagent (PAYG)</div><div class="l2-val" style="color:#FF9F0A;">~$150-200/mo</div></div>
+  <div class="l2-row"><div class="l2-label">Apollo</div><div class="l2-val">$49/mo</div></div>
+  <div class="l2-row"><div class="l2-label">Instantly</div><div class="l2-val">$97/mo</div></div>
+  <div class="l2-row"><div class="l2-label">Plaud.ai</div><div class="l2-val">~$20/mo</div></div>
+  <div class="l2-row"><div class="l2-label">QuickBooks Online</div><div class="l2-val">~$50/mo</div></div>
+  <div class="l2-row"><div class="l2-label">Metricool Standard</div><div class="l2-val" style="color:#FF9F0A;">$22/mo (Kay upgrading)</div></div>
+  <div class="l2-row"><div class="l2-label">HeyGen + ElevenLabs</div><div class="l2-val">~$50/mo est.</div></div>
+  <div class="l2-row"><div class="l2-label">Gong</div><div class="l2-val" style="color:#FF3B30;">$0 DEAD · $15.7K debt, do NOT pay</div></div>
+  <div class="l2-row" style="border-top:2px solid #E5E5EA;margin-top:4px;padding-top:12px;"><div class="l2-label" style="font-weight:700;">Total Est. Monthly</div><div class="l2-val" style="color:#0071E3;">~$438-488/mo</div></div>
+  <div class="sync-line">QB expenses category Software $2.3K/mo (Q1 avg) · <a href="https://app.qbo.intuit.com" class="l3" target="_blank">Open QB →</a></div>
+</div>
+
+<div id="l2-alerts" class="l2-panel">
+  <div class="l2-title">Active Alerts</div>
+  <div class="l2-row"><div class="l2-label" style="color:#FF3B30;">Meta Ads token expired Apr 30</div><div class="l2-val" style="color:#FF3B30;">Campaigns blind</div></div>
+  <div class="l2-row"><div class="l2-label" style="color:#FF3B30;">GHL session restricted (Squirrel sandbox)</div><div class="l2-val" style="color:#FF9F0A;">Route via Leo</div></div>
+  <div class="l2-row"><div class="l2-label" style="color:#FF9F0A;">Metricool not upgraded</div><div class="l2-val" style="color:#FF9F0A;">Kay task · $22/mo</div></div>
+  <div class="l2-row"><div class="l2-label" style="color:#FF9F0A;">SynthFlow not connected</div><div class="l2-val" style="color:#FF9F0A;">Leo WO in flight</div></div>
+  <div class="l2-row"><div class="l2-label" style="color:#34C759;">Gong cancelled</div><div class="l2-val" style="color:#34C759;">Replaced by Sam (internal)</div></div>
+  <div class="sync-line">Last audit 2026-05-05 · <a href="https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY" class="l3" target="_blank">Tools skill in Drive →</a></div>
+</div>
+
+<div class="main">
+  <div class="section-label">All Tools Inventory</div>
+
+  <div class="section-label" style="margin-top:8px;margin-bottom:6px;font-size:9px;">AI INFRASTRUCTURE</div>
+  <div class="tool-row"><div><div class="tool-name">Hyperagent</div><div class="tool-role">Squirrel sandbox · memory · invocations</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">~$200/mo</span><a href="https://hyperagent.com" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Composio</div><div class="tool-role">11 API integrations · Slack/GitHub/Notion/etc.</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">~$50/mo</span><a href="https://app.composio.dev" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Plaud.ai</div><div class="tool-role">100+ voice memos · content mining source</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">~$20/mo</span><a href="https://plaud.ai" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">HeyGen</div><div class="tool-role">Bennett Bot avatar · UGC video production</div></div><span class="tool-status ts-warn">⚠️ Sandbox limit</span><span class="tool-cost">~$25/mo</span><a href="https://app.heygen.com" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">ElevenLabs</div><div class="tool-role">Voice clone W2qLLfPvONwTEm2AyN4W</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">~$25/mo</span><a href="https://elevenlabs.io" class="tool-link" target="_blank">Open →</a></div>
+
+  <div class="section-label" style="margin-top:12px;margin-bottom:6px;font-size:9px;">SALES & MARKETING</div>
+  <div class="tool-row"><div><div class="tool-name">GoHighLevel</div><div class="tool-role">CRM · GHL Location 14RD8KklxR9G4e0Rf7v2</div></div><span class="tool-status ts-warn">⚠️ Token expired</span><span class="tool-cost">~$97/mo</span><a href="https://app.gohighlevel.com" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Meta Ads</div><div class="tool-role">IC/SH/FKI campaigns · act_1034627395362893</div></div><span class="tool-status ts-dead">❌ Token expired</span><span class="tool-cost">$8.9K/mo</span><a href="https://business.facebook.com/adsmanager" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Apollo.io</div><div class="tool-role">B2B prospecting · AI Franchise Kit outreach</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">$49/mo</span><a href="https://app.apollo.io" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Instantly.ai</div><div class="tool-role">Cold email · lead routing</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">$97/mo</span><a href="https://app.instantly.ai" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Metricool</div><div class="tool-role">Social scheduling · Christelle coordinates</div></div><span class="tool-status ts-pending">⏳ Upgrading</span><span class="tool-cost">$22/mo</span><a href="https://metricool.com" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">SynthFlow</div><div class="tool-role">AI voice calls · GHL integration</div></div><span class="tool-status ts-dead">❌ Not connected</span><span class="tool-cost">TBD</span><a href="https://app.synthflow.ai" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Google Ads</div><div class="tool-role">CID 340-719-9643 · verify by May 13</div></div><span class="tool-status ts-warn">⚠️ Verify needed</span><span class="tool-cost">Variable</span><a href="https://ads.google.com" class="tool-link" target="_blank">Open →</a></div>
+
+  <div class="section-label" style="margin-top:12px;margin-bottom:6px;font-size:9px;">FINANCE & OPS</div>
+  <div class="tool-row"><div><div class="tool-name">QuickBooks Online</div><div class="tool-role">billing@franchiseki.com · Chase bank feed live</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">~$50/mo</span><a href="https://app.qbo.intuit.com" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">1Password</div><div class="tool-role">FKI-Production vault · all API keys stored</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">~$5/mo</span><a href="https://1password.com" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Gong</div><div class="tool-role">Sales call recording — CANCELLED</div></div><span class="tool-status ts-dead">❌ DEAD · $15.7K debt</span><span class="tool-cost">$0 — do NOT pay</span><span style="font-size:11px;color:#FF3B30;">Do not reconnect</span></div>
+
+  <div class="section-label" style="margin-top:12px;margin-bottom:6px;font-size:9px;">INFRASTRUCTURE</div>
+  <div class="tool-row"><div><div class="tool-name">GitHub</div><div class="tool-role">bennett-maxwell/advaita-agent-audit · all CCs</div></div><span class="tool-status ts-live">✅ Free</span><span class="tool-cost">$0</span><a href="https://github.com/bennett-maxwell/advaita-agent-audit" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Cloudflare</div><div class="tool-role">CDN for dashboard.franchiseki.com</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">Free</span><a href="https://cloudflare.com" class="tool-link" target="_blank">Open →</a></div>
+  <div class="tool-row"><div><div class="tool-name">Convex</div><div class="tool-role">MapKi backend · polished-salamander-762</div></div><span class="tool-status ts-live">✅ Live</span><span class="tool-cost">~$10/mo</span><a href="https://mapki.franchiseki.com" class="tool-link" target="_blank">Open →</a></div>
+</div>
+
+<footer>Tools verified May 5, 2026 · Est. $438/mo SaaS (excl. ad spend)</footer>
+
+<script>
+function toggle(id,card){const p=document.getElementById(id);const o=p.classList.contains('open');document.querySelectorAll('.l2-panel').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));if(!o){p.classList.add('open');card.classList.add('active');}}
+</script>
+</body>
+</html>
