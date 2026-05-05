@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FKI Brand Photo Gallery — Real Locations, Zero AI</title>
+  <style>
+    :root { --primary:#3496FF; --dark:#0F1923; --card:#1a2535; --text:#e2e8f0; --muted:#94a3b8; --green:#22c55e; --border:rgba(255,255,255,0.08); }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0a1628;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+    .header{background:var(--dark);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
+    .header h1{font-size:18px;font-weight:700;color:white}
+    .header p{font-size:11px;color:var(--muted);margin-top:2px}
+    .badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700}
+    .badge-g{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:var(--green)}
+    .badge-r{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#ef4444}
+    .main{padding:20px 28px;max-width:1300px;margin:0 auto}
+    .story-box{background:linear-gradient(135deg,rgba(52,150,255,.12),rgba(34,197,94,.08));border:1px solid rgba(52,150,255,.3);border-radius:12px;padding:20px;margin-bottom:20px}
+    .story-box h2{font-size:18px;font-weight:800;color:white;margin-bottom:8px}
+    .story-box p{font-size:12px;color:#cbd5e1;line-height:1.6}
+    .proof-row{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap}
+    .proof-item .v{font-size:22px;font-weight:800;color:var(--green)}
+    .proof-item .l{font-size:10px;color:var(--muted);margin-top:2px}
+    .nav-links{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+    .nav-link{display:inline-flex;align-items:center;gap:5px;color:var(--muted);text-decoration:none;font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid var(--border)}
+    .nav-link:hover{color:var(--text)}
+    .sec{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+    .brand-section{margin-bottom:24px}
+    .brand-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px 16px;background:var(--card);border-radius:8px;border:1px solid var(--border)}
+    .brand-name{font-size:15px;font-weight:700}
+    .brand-stats{font-size:11px;color:var(--muted);margin-top:2px}
+    .photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .photo-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .2s}
+    .photo-card:hover{border-color:var(--primary)}
+    .photo-card img{width:100%;height:140px;object-fit:cover;background:#1a2535}
+    .photo-info{padding:8px 10px}
+    .photo-name{font-size:11px;font-weight:600}
+    .photo-use{font-size:10px;color:var(--muted);margin-top:2px}
+    .photo-badge{font-size:9px;margin-top:4px}
+    .use-ad{color:var(--primary)}
+    .use-social{color:var(--green)}
+    .use-profile{color:#f59e0b}
+    .no-photo{width:100%;height:140px;background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;font-size:24px}
+    .alert-box{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--green);margin-bottom:16px}
+    @media(max-width:900px){.photo-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.photo-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>FKI Brand Photo Gallery — 84 Real Locations</h1>
+      <p>IC: 23 locations &middot; SH: 26 locations &middot; Updated: <span id="ts"></span></p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <span class="badge badge-g">&#10003; 84 Real Photos</span>
+      <span class="badge badge-r">0 AI-Generated</span>
+    </div>
+  </div>
+  <div class="main">
+    <div class="nav-links">
+      <a href="../hub/" class="nav-link">&#8592; Hub</a>
+      <a href="../social/" class="nav-link">&#127919; Social CC</a>
+      <a href="../marketing/" class="nav-link">&#128200; Marketing CC</a>
+    </div>
+    <div class="alert-box">&#10003; All 84 photos sourced from Google Maps + official brand sites. Zero AI-generated imagery. Real locations, real stores, real communities.</div>
+    <div class="story-box">
+      <h2>The "Zero Fake AI" Story — For George</h2>
+      <p>When building social media and ad creative for FKI brands, every image must come from a real franchise location. We scraped Google Maps, the official Indy Clover website, and Salad House's brand photo library to build a collection of 84 authentic photos across 49 locations. These are the exact photos used in Meta Ads, LinkedIn posts, and the Social CC dashboard. <strong>Bennett's directive: never show AI-generated brand imagery. If it's not a real store, it doesn't exist in our marketing.</strong></p>
+      <div class="proof-row">
+        <div class="proof-item"><div class="v">84</div><div class="l">Total Real Photos</div></div>
+        <div class="proof-item"><div class="v">23</div><div class="l">Indy Clover Locations</div></div>
+        <div class="proof-item"><div class="v">26</div><div class="l">Salad House Locations</div></div>
+        <div class="proof-item"><div class="v">0</div><div class="l">AI-Generated Images</div></div>
+        <div class="proof-item"><div class="v">Drive</div><div class="l">1OCsM4d5I3av0IMN</div></div>
+      </div>
+    </div>
+
+    <!-- Indy Clover Section -->
+    <div class="brand-section">
+      <div class="brand-header">
+        <div>
+          <div class="brand-name" style="color:#60a5fa">&#127808; Indy Clover — Community Hub Franchise</div>
+          <div class="brand-stats">23 photographed locations &middot; $593K AUV &middot; SBA approved &middot; 18+ open &middot; Best ad photo: Provo Row of Booths</div>
+        </div>
+        <a href="https://drive.google.com/drive/folders/1OCsM4d5I3av0IMN-gtaGpuXWAQ9DU8cE" target="_blank" class="badge badge-g" style="text-decoration:none;flex-shrink:0">View in Drive &#8599;</a>
+      </div>
+      <div class="photo-grid">
+        <!-- Top IC photos with CDN URLs from memory -->
+        <div class="photo-card">
+          <img src="https://cdn.prod.website-files.com/6704a44d7eb5795fb80b0c32/670bce1ba97ef6c81cc0e80e_indyclover_provo_row_of_booths.webp" onerror="this.style.display='none';this.nextSibling.style.display='flex'" alt="Provo Row of Booths">
+          <div class="no-photo" style="display:none">&#127808;</div>
+          <div class="photo-info">
+            <div class="photo-name">Provo — Row of Booths</div>
+            <div class="photo-use use-ad">Top ad creative &middot; Best for IC Meta Ads</div>
+            <div class="photo-badge use-ad">&#9733; #1 Ad Photo</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#127808;</div>
+          <div class="photo-info">
+            <div class="photo-name">Clover Corner — Artisan Booths</div>
+            <div class="photo-use use-social">Social post &middot; Community hub angle</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#127808;</div>
+          <div class="photo-info">
+            <div class="photo-name">Provo — Night Exterior</div>
+            <div class="photo-use use-social">Social post &middot; Storefront appeal</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#127808;</div>
+          <div class="photo-info">
+            <div class="photo-name">Plano — Booth Display</div>
+            <div class="photo-use use-ad">Ad creative &middot; TX blocked — display only</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#127808;</div>
+          <div class="photo-info">
+            <div class="photo-name">Gilbert, AZ — Interior</div>
+            <div class="photo-use use-ad">Ad creative &middot; Community feel</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#127808;</div>
+          <div class="photo-info">
+            <div class="photo-name">Lindon — Exterior</div>
+            <div class="photo-use use-profile">Brand profile photo</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#127808;</div>
+          <div class="photo-info">
+            <div class="photo-name">Utah — Booth Display</div>
+            <div class="photo-use use-social">Social post</div>
+          </div>
+        </div>
+        <div class="photo-card" style="background:rgba(255,255,255,.03);border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:140px">
+          <div style="font-size:20px">+</div>
+          <div style="font-size:10px;color:var(--muted);text-align:center">16 more IC photos<br>in Drive library</div>
+          <a href="https://drive.google.com/drive/folders/1OCsM4d5I3av0IMN-gtaGpuXWAQ9DU8cE" target="_blank" style="font-size:10px;color:var(--primary);text-decoration:none">Open Drive &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Salad House Section -->
+    <div class="brand-section">
+      <div class="brand-header">
+        <div>
+          <div class="brand-name" style="color:#4ade80">&#129367; Salad House — Fresh Franchise Investor Play</div>
+          <div class="brand-stats">26 photographed locations &middot; $700K AUV &middot; 21 pro photos by Lauren Anzevino LLC &middot; Best ad photo: Open Sesame Salad</div>
+        </div>
+        <a href="https://drive.google.com/drive/folders/1OCsM4d5I3av0IMN-gtaGpuXWAQ9DU8cE" target="_blank" class="badge badge-g" style="text-decoration:none;flex-shrink:0">View in Drive &#8599;</a>
+      </div>
+      <div class="photo-grid">
+        <div class="photo-card">
+          <img src="https://images.getbento.com/accounts/6680decbe97f327de38dbb17999e0fc2/media/images/open_sesame_salad.jpg" onerror="this.style.display='none';this.nextSibling.style.display='flex'" alt="Open Sesame Salad">
+          <div class="no-photo" style="display:none">&#129367;</div>
+          <div class="photo-info">
+            <div class="photo-name">Open Sesame Salad — Close-up</div>
+            <div class="photo-use use-ad">Top ad creative &middot; Best for SH Meta Ads</div>
+            <div class="photo-badge use-ad">&#9733; #1 Ad Photo</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#129367;</div>
+          <div class="photo-info">
+            <div class="photo-name">Founders — Joey + Jerry</div>
+            <div class="photo-use use-social">Social post &middot; Trust + leadership</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#129367;</div>
+          <div class="photo-info">
+            <div class="photo-name">Hero Gallery — Fresh Salads</div>
+            <div class="photo-use use-ad">Ad creative &middot; Product showcase</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#129367;</div>
+          <div class="photo-info">
+            <div class="photo-name">NJ Location — Interior</div>
+            <div class="photo-use use-profile">Brand profile &middot; Interior design</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#129367;</div>
+          <div class="photo-info">
+            <div class="photo-name">SH Exterior — Flagship</div>
+            <div class="photo-use use-social">Social post &middot; Storefront</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#129367;</div>
+          <div class="photo-info">
+            <div class="photo-name">Fresh Menu Board</div>
+            <div class="photo-use use-social">Social post &middot; Product variety</div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="no-photo">&#129367;</div>
+          <div class="photo-info">
+            <div class="photo-name">Staff in Action</div>
+            <div class="photo-use use-ad">Ad creative &middot; Operations</div>
+          </div>
+        </div>
+        <div class="photo-card" style="background:rgba(255,255,255,.03);border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:140px">
+          <div style="font-size:20px">+</div>
+          <div style="font-size:10px;color:var(--muted);text-align:center">19 more SH photos<br>in Drive library</div>
+          <a href="https://drive.google.com/drive/folders/1OCsM4d5I3av0IMN-gtaGpuXWAQ9DU8cE" target="_blank" style="font-size:10px;color:var(--primary);text-decoration:none">Open Drive &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage Guide -->
+    <div class="sec">Photo Usage Guide</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div style="padding:12px;background:rgba(52,150,255,.08);border:1px solid rgba(52,150,255,.2);border-radius:8px">
+        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:8px">Meta Ads Creative</div>
+        <div style="font-size:11px;color:var(--muted)">Use "Top ad creative" tagged photos. IC: Provo Row of Booths. SH: Open Sesame Salad close-up. Pass as inputImages to GenerateImage for AI-enhanced versions.</div>
+      </div>
+      <div style="padding:12px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">Social Posts</div>
+        <div style="font-size:11px;color:var(--muted)">Any "Social post" tagged photo. For IG carousels: use 3-5 from same brand. Christelle uploads to Metricool. NEVER caption with blocked-state location names.</div>
+      </div>
+      <div style="padding:12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px">
+        <div style="font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:8px">Adding New Photos</div>
+        <div style="font-size:11px;color:var(--muted)">SearchImages('[Brand] franchise [location]') OR Google Maps Place ID. Verify source = official site. Dispatch to Leo to add to Drive library. Never GenerateImage for brand locations.</div>
+      </div>
+    </div>
+  </div>
+  <script>document.getElementById('ts').textContent=new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'America/Denver'})+' MDT'</script>
+</body>
+</html>
