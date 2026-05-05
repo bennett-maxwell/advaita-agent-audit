@@ -5,7 +5,14 @@
   "spend": "$8,894",
   "autonomy": "68%",
   "blockers": "31",
-  "updated": "May 5, 2026 — 7:17 PM MDT",
-  "source": "QB + Meta Ads + Sprint Board",
-  "note": "Refreshed every 2hr by Squirrel Pulse"
+  "updated": "May 5, 2026 — Pulse cached",
+  "ccs": {
+    "finance": {"kpi": "$40K cash", "status": "warning"},
+    "marketing": {"kpi": "IC CPL $76 crisis", "status": "critical"},
+    "sales": {"kpi": "26% show rate", "status": "critical"},
+    "social": {"kpi": "60 posts queued", "status": "good"},
+    "seo": {"kpi": "24/100 score", "status": "warning"},
+    "mapki": {"kpi": "3,239 brands", "status": "good"},
+    "autonomy": {"kpi": "68% overall", "status": "warning"}
+  }
 }
