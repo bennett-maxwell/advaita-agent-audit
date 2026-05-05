@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKI Mission Control</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #fff; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; color: #1D1D1F; min-height: 100vh; }
+header { background: #0F1923; color: #fff; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; }
+header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+header .badge { background: rgba(52,196,89,0.2); color: #34C759; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+.kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: #f2f2f7; border-bottom: 1px solid #f2f2f7; }
+.kpi { background: #fff; padding: 20px 24px; }
+.kpi .num { font-size: 32px; font-weight: 700; letter-spacing: -1px; color: #1D1D1F; }
+.kpi .label { font-size: 11px; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.kpi .delta { font-size: 12px; margin-top: 4px; }
+.green { color: #34C759; }
+.amber { color: #FF9F0A; }
+.red { color: #FF3B30; }
+.blue { color: #0071E3; }
+.main { padding: 24px 32px; }
+.section { margin-bottom: 24px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f2f2f7; margin-bottom: 12px; cursor: pointer; }
+.section-header h2 { font-size: 14px; font-weight: 600; color: #1D1D1F; }
+.pill { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.pill-green { background: rgba(52,196,89,0.12); color: #34C759; }
+.pill-amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+.pill-red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+.pill-blue { background: rgba(0,113,227,0.12); color: #0071E3; }
+.domain-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+.domain-card { background: #f9f9fb; border-radius: 10px; padding: 16px; border-top: 3px solid #e5e5ea; }
+.domain-card.red-domain { border-top-color: #FF3B30; }
+.domain-card.amber-domain { border-top-color: #FF9F0A; }
+.domain-card.green-domain { border-top-color: #34C759; }
+.domain-card h3 { font-size: 12px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.domain-card .score { font-size: 28px; font-weight: 700; }
+.agent-list { display: flex; flex-direction: column; gap: 8px; }
+.agent-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f9f9fb; border-radius: 8px; }
+.agent-row .name { font-size: 13px; font-weight: 500; }
+.agent-row .status { font-size: 12px; color: #6E6E73; }
+.gap-list { display: flex; flex-direction: column; gap: 6px; }
+.gap-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; border-left: 3px solid; }
+.gap-item.critical { background: rgba(255,59,48,0.06); border-left-color: #FF3B30; }
+.gap-item.warning { background: rgba(255,159,10,0.06); border-left-color: #FF9F0A; }
+.gap-item .gap-text { font-size: 13px; }
+.gap-item .domain-tag { font-size: 10px; font-weight: 600; color: #6E6E73; background: #f2f2f7; padding: 2px 8px; border-radius: 10px; margin-left: auto; }
+footer { text-align: center; padding: 16px; font-size: 11px; color: #6E6E73; border-top: 1px solid #f2f2f7; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎯 FKI Mission Control</h1>
+  <span class="badge">Live</span>
+</header>
+
+<div class="kpi-strip">
+  <div class="kpi"><div class="num" style="color:#FF3B30">22%</div><div class="label">Lead Processing</div><div class="delta red">🔴 CRITICAL</div></div>
+  <div class="kpi"><div class="num" style="color:#FF9F0A">62%</div><div class="label">Overall Autonomy</div><div class="delta amber">↓ from 68%</div></div>
+  <div class="kpi"><div class="num">506</div><div class="label">Unassigned Leads</div><div class="delta red red">Going cold daily</div></div>
+  <div class="kpi"><div class="num green">3,239</div><div class="label">MapKi Brands</div><div class="delta green">40x vs FranchiseStack</div></div>
+  <div class="kpi"><div class="num amber">5.2w</div><div class="label">Cash Runway</div><div class="delta amber">Zero-deal scenario</div></div>
+</div>
+
+<div class="main">
+  <div class="section-header" style="cursor:default;padding-bottom:8px;margin-bottom:16px">
+    <h2>📊 ADVAITA VISION — 5 DOMAIN PROGRESS</h2>
+    <span class="pill pill-amber">62% Total</span>
+  </div>
+
+  <div class="domain-grid">
+    <div class="domain-card red-domain"><h3>Lead Acquisition</h3><div class="score red">20%</div><div style="font-size:11px;color:#6E6E73;margin-top:4px">FranchiseScore not deployed · Meta token expired</div></div>
+    <div class="domain-card red-domain"><h3>Lead Processing</h3><div class="score red">22%</div><div style="font-size:11px;color:#6E6E73;margin-top:4px">506 unassigned · SynthFlow not connected</div></div>
+    <div class="domain-card amber-domain"><h3>Sales Intelligence</h3><div class="score amber">60%</div><div style="font-size:11px;color:#6E6E73;margin-top:4px">Sam ✅ · Pre-call ✅ · Pattern loop 🔴</div></div>
+    <div class="domain-card amber-domain"><h3>Operations</h3><div class="score amber">55%</div><div style="font-size:11px;color:#6E6E73;margin-top:4px">Dan blocked · Eric no SOUL · Pam wrong role</div></div>
+    <div class="domain-card amber-domain"><h3>Financial Control</h3><div class="score amber">70%</div><div style="font-size:11px;color:#6E6E73;margin-top:4px">QB connected · Fred auth gap · CC blind</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2>🔴 TOP ENGINE STALLS — What's Killing Full Autonomy</h2>
+      <span class="pill pill-red">10 Critical</span>
+    </div>
+    <div class="gap-list">
+      <div class="gap-item critical"><span class="gap-text">Lead Scorer GHL webhook NOT wired → every lead goes cold manually</span><span class="domain-tag">Lead Processing</span></div>
+      <div class="gap-item critical"><span class="gap-text">SynthFlow NOT connected to GHL → no voice AI qualification/booking</span><span class="domain-tag">Lead Processing</span></div>
+      <div class="gap-item critical"><span class="gap-text">506 leads unassigned → $20M+ annual commission opportunity going cold</span><span class="domain-tag">Lead Processing</span></div>
+      <div class="gap-item critical"><span class="gap-text">FranchiseScore on 0 brand pages → no discovery engine, no Zestimate</span><span class="domain-tag">Lead Acquisition</span></div>
+      <div class="gap-item critical"><span class="gap-text">Meta Ads token expired since April 30 → campaigns running blind</span><span class="domain-tag">Lead Acquisition</span></div>
+      <div class="gap-item warning"><span class="gap-text">Reed→Piper→Calendar chain broken → transcripts don't auto-schedule next meetings</span><span class="domain-tag">Lead Processing</span></div>
+      <div class="gap-item warning"><span class="gap-text">Evolver not wired in openclaw.json → system doesn't self-improve</span><span class="domain-tag">Operations</span></div>
+      <div class="gap-item warning"><span class="gap-text">Dan Mission Control dashboard blocked 60+ days → operational blindspot</span><span class="domain-tag">Operations</span></div>
+      <div class="gap-item warning"><span class="gap-text">Pulse not triggering downstream → Piper/Sam/Fred chains completely dead</span><span class="domain-tag">Operations</span></div>
+      <div class="gap-item warning"><span class="gap-text">Fred has no QB auth → CFO blind to all spending beyond AI cost</span><span class="domain-tag">Financial Control</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2>🤖 AGENT FLEET STATUS (15 Agents)</h2>
+      <span class="pill pill-blue">8 ✅ | 5 🟡 | 2 🔴</span>
+    </div>
+    <div class="agent-list">
+      <div class="agent-row"><div class="name">Sam 🧠 Sales Analyst</div><div class="status">✅ Cron live · Klaff/Voss/Belfort scoring</div><span class="pill pill-green">Operational</span></div>
+      <div class="agent-row"><div class="name">Piper 📋 Pipeline Manager</div><div class="status">✅ CRM R/W · Stage auto-update</div><span class="pill pill-green">Operational</span></div>
+      <div class="agent-row"><div class="name">Reed 📁 Transcript Agent</div><div class="status">✅ Cron live · Synthesis 🔴</div><span class="pill pill-amber">Partial</span></div>
+      <div class="agent-row"><div class="name">Fred 💰 CFO Agent</div><div class="status">✅ AI cost monitoring · QB auth gap</div><span class="pill pill-amber">Partial</span></div>
+      <div class="agent-row"><div class="name">Leo 🎯 Orchestrator</div><div class="status">✅ BUG-006 resolved · Operational</div><span class="pill pill-green">Operational</span></div>
+      <div class="agent-row"><div class="name">Ali 👁 Watchdog</div><div class="status">✅ Every 5 min · On-demand live</div><span class="pill pill-green">Operational</span></div>
+      <div class="agent-row"><div class="name">Roger ⚖️ Compliance</div><div class="status">✅ Sweep active</div><span class="pill pill-green">Operational</span></div>
+      <div class="agent-row"><div class="name">Connie 📧 Email Triage</div><div class="status">🟡 DWD verify blocked</div><span class="pill pill-amber">Partial</span></div>
+      <div class="agent-row"><div class="name">Harry 📋 Meeting Prep</div><div class="status">✅ v5 daily 6AM · Legal skill gap</div><span class="pill pill-green">Operational</span></div>
+      <div class="agent-row"><div class="name">Dan 🖥 General Ops</div><div class="status">🔴 Dashboard blocked 60+ days</div><span class="pill pill-red">Blocked</span></div>
+      <div class="agent-row"><div class="name">Demi 🗺 Territory Intel</div><div class="status">🟡 Score qualitative not 0-100</div><span class="pill pill-amber">Partial</span></div>
+      <div class="agent-row"><div class="name">Eric 🔍 QA Reviewer</div><div class="status">🔴 No SOUL.md · Ad-hoc only</div><span class="pill pill-red">Needs fix</span></div>
+      <div class="agent-row"><div class="name">Pam 📝 Prompt Optimizer</div><div class="status">🟡 Role mismatch — acting as project tracker</div><span class="pill pill-amber">Role fixed today</span></div>
+      <div class="agent-row"><div class="name">Mack 💻 Coding Agent</div><div class="status">✅ Operational</div><span class="pill pill-green">Operational</span></div>
+      <div class="agent-row"><div class="name">Cody 🔧 Executor</div><div class="status">✅ Lightweight executor</div><span class="pill pill-green">Operational</span></div>
+    </div>
+  </div>
+</div>
+<footer>FKI Mission Control · Built by Squirrel 🐿️ · 2026-05-05 · Audit: business-audit-skill v2.0</footer>
+</body>
+</html>
