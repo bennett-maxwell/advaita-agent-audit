@@ -204,5 +204,35 @@ function switchTab(v, btn) {
   btn.classList.add('active');
 }
 </script>
+
+<!-- CC Utilization Alerts - Day 2 R2 upgrade -->
+<style>
+.cc-alert-strip{background:#FFF;border-radius:10px;padding:14px 18px;margin:16px 0;border-left:4px solid #FF3B30}
+.cc-alert-strip.warn{border-left-color:#FF9F0A}
+.cc-alert-hd{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.cc-row{display:flex;align-items:center;gap:12px;padding:6px 0;font-size:13px;border-bottom:1px solid #F2F2F7}
+.cc-row:last-child{border-bottom:none}
+.cc-bar{flex:1;height:6px;background:#E5E5EA;border-radius:3px;overflow:hidden}
+.cc-fill{height:100%;border-radius:3px}
+.cc-pct{font-size:12px;font-weight:700;min-width:36px;text-align:right}
+</style>
+<div style="padding:0 16px">
+<div class="cc-alert-strip">
+  <div class="cc-alert-hd">💳 Credit Card Utilization Alerts</div>
+  <div class="cc-row"><span style="flex:0 0 140px;font-size:12px">Amex Blue Bus Plus 1005</span><div class="cc-bar"><div class="cc-fill" style="width:74%;background:#FF3B30"></div></div><span class="cc-pct" style="color:#FF3B30">74%</span><span style="font-size:11px;color:#8E8E93;min-width:80px">$92,757 / $125K</span></div>
+  <div class="cc-row"><span style="flex:0 0 140px;font-size:12px">PCE Credit 0864</span><div class="cc-bar"><div class="cc-fill" style="width:80%;background:#FF3B30"></div></div><span class="cc-pct" style="color:#FF3B30">80%</span><span style="font-size:11px;color:#8E8E93;min-width:80px">$40,227 / $50K est</span></div>
+  <div class="cc-row"><span style="flex:0 0 140px;font-size:12px">Liam Chase 9705</span><div class="cc-bar"><div class="cc-fill" style="width:48%;background:#FF9F0A"></div></div><span class="cc-pct" style="color:#FF9F0A">48%</span><span style="font-size:11px;color:#8E8E93;min-width:80px">$19,109 / $40K est</span></div>
+  <div class="cc-row"><span style="flex:0 0 140px;font-size:12px">Divvy</span><div class="cc-bar"><div class="cc-fill" style="width:32%;background:#FF9F0A"></div></div><span class="cc-pct" style="color:#FF9F0A">32%</span><span style="font-size:11px;color:#8E8E93;min-width:80px">$9,438 / $30K est</span></div>
+  <div style="font-size:11px;color:#8E8E93;margin-top:8px">⚠️ Amex + PCE above 70% threshold · Total CC debt: $175,281 · Source: QB live bank feed</div>
+</div>
+
+<!-- Weekly Burn Rate -->
+<div class="cc-alert-strip warn">
+  <div class="cc-alert-hd">🔥 Weekly Burn Rate</div>
+  <div class="cc-row"><span style="flex:1;font-size:13px">This week (estimated)</span><span style="font-weight:700;font-size:22px;color:#FF9F0A">$7,659</span></div>
+  <div class="cc-row"><span style="font-size:12px;color:#6E6E73">Monthly avg: $33,184 · Contract Labor $12K · Payroll $11K · Ads ~$6K · Software $2.3K</span></div>
+  <div class="cc-row"><span style="font-size:12px;color:#6E6E73">13-week forecast: <a href="https://www.notion.so/357cf5514fd381a3be79e82aad15e1dc" style="color:#0071E3" target="_blank">Open in Notion →</a></span></div>
+</div>
+</div>
 </body>
 </html>
