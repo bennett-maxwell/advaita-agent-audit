@@ -1,21 +1,22 @@
 {
   "_meta": {
-    "version": "4",
+    "version": "4.1",
     "updated": "2026-05-05T23:45:00MDT",
     "updated_by": "Squirrel proactive-autonomy Day 3",
-    "next_refresh": "2026-05-06T00:00:00MDT"
+    "next_refresh": "2026-05-06T00:00:00MDT",
+    "note": "Corrected: SEO 114 articles (target 100 MET), CCs 19 active"
   },
   "kpis": {
     "revenue_ytd": "$225,596",
-    "revenue_source": "QuickBooks QB API · billing@franchiseki.com · verified",
+    "revenue_source": "QuickBooks QB API \u00b7 billing@franchiseki.com \u00b7 verified",
     "runway_weeks": "5.2",
-    "runway_note": "Zero-deal scenario · weekly burn $7,659",
+    "runway_note": "Zero-deal scenario \u00b7 weekly burn $7,659",
     "leads_pipeline": "1433",
     "leads_source": "GHL pipeline vUMUWSpK5v217qHsFH5k",
     "ad_spend_30d": "$8,894",
-    "ad_spend_note": "Meta Ads · act_1034627395362893 · Apr 4–May 3",
+    "ad_spend_note": "Meta Ads \u00b7 act_1034627395362893 \u00b7 Apr 4\u2013May 3",
     "ad_spend_blind": true,
-    "ad_spend_blind_reason": "FACEBOOKACCESSTOKEN missing — Leo Browser-Use WO dispatched",
+    "ad_spend_blind_reason": "FACEBOOKACCESSTOKEN missing \u2014 Leo Browser-Use WO dispatched",
     "autonomy_pct": 68,
     "autonomy_source": "FKI Health Score formula: Revenue 30% + Pipeline 25% + Autonomy 25% + Uptime 20%",
     "health_score": 68,
@@ -28,17 +29,17 @@
     "lead_acquisition": {
       "pct": 15,
       "status": "red",
-      "note": "Meta blind · FACEBOOKACCESSTOKEN missing · Google Ads May 7 deadline"
+      "note": "Meta blind \u00b7 FACEBOOKACCESSTOKEN missing \u00b7 Google Ads May 7 deadline"
     },
     "lead_processing": {
       "pct": 28,
       "status": "amber",
-      "note": "speed-to-lead.py LIVE · SynthFlow LP-02 pending · 506 unassigned"
+      "note": "speed-to-lead.py LIVE \u00b7 SynthFlow LP-02 pending \u00b7 506 unassigned"
     },
     "sales_intelligence": {
       "pct": 58,
       "status": "amber",
-      "note": "sam-auto-prep.sh LIVE · Sales Meeting Prep v5 LIVE"
+      "note": "sam-auto-prep.sh LIVE \u00b7 Sales Meeting Prep v5 LIVE"
     },
     "operations": {
       "pct": 65,
@@ -48,12 +49,12 @@
     "financial_control": {
       "pct": 72,
       "status": "green",
-      "note": "fred-auto-kill.sh LIVE · QB 3x/day sync"
+      "note": "fred-auto-kill.sh LIVE \u00b7 QB 3x/day sync"
     }
   },
   "financials": {
     "checking_balance": "$40,006",
-    "checking_source": "Chase 5000 · QB live bank feed",
+    "checking_source": "Chase 5000 \u00b7 QB live bank feed",
     "cc_debt_total": "$175,281",
     "cc_amex_balance": "$92,757",
     "cc_amex_utilization_pct": 74,
@@ -62,7 +63,7 @@
     "weekly_burn": "$7,659",
     "monthly_expenses_avg": "$33,184",
     "ar_outstanding": "$0",
-    "ar_note": "INV-001 PAID 2026-05-05 · QB Payment 738"
+    "ar_note": "INV-001 PAID 2026-05-05 \u00b7 QB Payment 738"
   },
   "legal": {
     "cfp_default_certificate": {
@@ -75,33 +76,51 @@
       "status": "red",
       "deadline": "2026-05-18",
       "days_remaining": 13,
-      "note": "Bennett legal gate · draft prepared"
+      "note": "Bennett legal gate \u00b7 draft prepared"
     },
     "google_ads_verify": {
       "status": "amber",
       "deadline": "2026-05-07",
       "days_remaining": 2,
-      "note": "Leo Browser-Use WO dispatched · $500 credit + advertiser verify"
+      "note": "Leo Browser-Use WO dispatched \u00b7 $500 credit + advertiser verify"
     }
   },
   "ccs": {
-    "active_count": 17,
+    "active_count": 19,
     "list": [
-      "/hub/", "/finance-hub/", "/marketing/", "/meeting-prep/", "/social/",
-      "/autonomy/", "/seo/", "/mapki/", "/cpa/", "/software/", "/employees/",
-      "/legal/", "/lead-funnel/", "/advaita/", "/daily-digest/", "/skills-registry/",
-      "/content-engine/", "/pulse/", "/sprint/"
+      "/hub/",
+      "/finance-hub/",
+      "/marketing/",
+      "/meeting-prep/",
+      "/social/",
+      "/autonomy/",
+      "/seo/",
+      "/mapki/",
+      "/cpa/",
+      "/software/",
+      "/employees/",
+      "/legal/",
+      "/lead-funnel/",
+      "/advaita/",
+      "/daily-digest/",
+      "/skills-registry/",
+      "/content-engine/",
+      "/pulse/",
+      "/sprint/",
+      "/pulse/",
+      "/sprint/"
     ]
   },
   "seo": {
-    "articles_count": 92,
+    "articles_count": 114,
     "articles_target": 100,
-    "articles_remaining": 8,
+    "articles_remaining": 0,
     "score_current": 24,
     "score_target": 68,
     "citations_verified": 1,
     "citations_target": 5,
-    "citations_deadline": "2026-06-05"
+    "citations_deadline": "2026-06-05",
+    "note": "TARGET MET: 114 articles (100 target exceeded). SEO article sprint complete."
   },
   "social": {
     "linkedin_status": "recovered",
@@ -112,11 +131,16 @@
   "pulse": {
     "active": true,
     "skill_version": "v8",
-    "delivery_channels": ["bennett@franchiseki.com", "#leo-bennett"],
+    "delivery_channels": [
+      "bennett@franchiseki.com",
+      "#leo-bennett"
+    ],
     "schedule": "Every 2hr 8AM-8PM MDT + 7AM + 6PM",
     "last_run": "2026-05-05",
     "trigger_chain_active": true,
-    "blind_sources": ["Meta Ads"],
+    "blind_sources": [
+      "Meta Ads"
+    ],
     "digest_items": 2
   },
   "sprint_board": {
@@ -143,6 +167,8 @@
     "ironcreek_deadline_days": 13,
     "cfp_deadline_days": 22,
     "active_ccs": 17,
-    "meta_token_missing": true
+    "meta_token_missing": true,
+    "seo_100_target_met": true,
+    "seo_article_count_actual": 114
   }
 }
