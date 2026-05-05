@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 100 Franchise Opportunities 2026 | Ranked by FranchiseScore | Franchise KI</title>
+<meta name="description" content="The definitive 2026 franchise rankings. Powered by FranchiseScore — AI-generated fit scores from verified FDD data across 3,239 brands. Updated monthly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#fafafa;color:#1a1a2e}
+.hero{background:linear-gradient(135deg,#1B2626 0%,#0f3460 100%);color:#fff;padding:80px 20px 60px;text-align:center}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;margin-bottom:16px}
+.hero p{font-size:1.15rem;opacity:0.85;max-width:600px;margin:0 auto 32px}
+.hero .badge{display:inline-block;background:#3496FF;color:#fff;padding:6px 16px;border-radius:20px;font-size:0.85rem;font-weight:600;margin-bottom:24px}
+.score-badge{display:inline-block;background:rgba(52,150,255,0.15);border:1px solid rgba(52,150,255,0.4);padding:12px 24px;border-radius:12px;font-size:0.9rem}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.stats-bar{background:#fff;border-bottom:1px solid #e5e7eb;padding:20px 0}
+.stats-grid{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:1.8rem;font-weight:800;color:#3496FF}
+.stat-label{font-size:0.8rem;color:#6b7280;margin-top:2px}
+.methodology{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin:40px 0;display:flex;gap:24px;align-items:flex-start}
+.methodology .icon{font-size:2rem;flex-shrink:0}
+.methodology h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+.methodology p{font-size:0.9rem;color:#6b7280;line-height:1.6}
+.filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin:32px 0 20px}
+.filter-btn{padding:8px 18px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s}
+.filter-btn.active,.filter-btn:hover{background:#3496FF;color:#fff;border-color:#3496FF}
+.table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:40px}
+table{width:100%;border-collapse:collapse}
+thead{background:#f9fafb}
+th{padding:14px 16px;text-align:left;font-size:0.8rem;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid #e5e7eb}
+td{padding:16px;border-bottom:1px solid #f3f4f6;font-size:0.9rem}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#f9fafb}
+.rank{font-weight:800;color:#6b7280;width:40px}
+.brand-name{font-weight:700;color:#1a1a2e}
+.brand-cat{font-size:0.78rem;color:#6b7280;margin-top:2px}
+.fs-score{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.fs-bar{height:6px;border-radius:3px;background:#e5e7eb;width:80px;overflow:hidden}
+.fs-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#3496FF,#22C55E)}
+.invest{font-size:0.85rem;color:#374151}
+.auvs{font-size:0.85rem;font-weight:600;color:#059669}
+.cta-btn{padding:6px 14px;background:#3496FF;color:#fff;border:none;border-radius:6px;font-size:0.8rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+.sba{display:inline-block;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:600;margin-top:3px}
+.cat-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:600}
+.cat-retail{background:#ede9fe;color:#5b21b6}
+.cat-food{background:#fef3c7;color:#92400e}
+.cat-home{background:#dcfce7;color:#166534}
+.cat-health{background:#dbeafe;color:#1e40af}
+.cat-finance{background:#fce7f3;color:#9d174d}
+.disclaimer{background:#f3f4f6;border-radius:8px;padding:16px;font-size:0.8rem;color:#6b7280;margin:20px 0 40px;line-height:1.6}
+.cta-section{background:linear-gradient(135deg,#1B2626,#0f3460);color:#fff;padding:60px 20px;text-align:center;border-radius:12px;margin:40px 0}
+.cta-section h2{font-size:2rem;font-weight:800;margin-bottom:12px}
+.cta-section p{opacity:0.8;margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-section a{display:inline-block;background:#3496FF;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;font-size:1rem}
+.score-explain{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0 40px}
+.score-factor{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px}
+.score-factor h4{font-size:0.85rem;font-weight:700;margin-bottom:4px;color:#1a1a2e}
+.score-factor p{font-size:0.78rem;color:#6b7280}
+.score-factor .weight{font-size:1.1rem;font-weight:800;color:#3496FF;margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="badge">Powered by FranchiseScore AI</div>
+  <h1>Top 100 Franchise Opportunities 2026</h1>
+  <p>The only ranking based on verified FDD data from 3,239 brands. Every score is calculated from Item 19 earnings, investment range, franchisor support rating, and territory availability.</p>
+  <div class="score-badge">FranchiseScore: AI-generated fit metric from real FDD data — the Zestimate of franchising</div>
+</div>
+
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-num">3,239</div><div class="stat-label">Brands Analyzed</div></div>
+      <div class="stat"><div class="stat-num">86</div><div class="stat-label">Research Guides</div></div>
+      <div class="stat"><div class="stat-num">100</div><div class="stat-label">Top Brands Ranked</div></div>
+      <div class="stat"><div class="stat-num">AI</div><div class="stat-label">FranchiseScore Powered</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="methodology">
+    <div class="icon">🧮</div>
+    <div>
+      <h3>How FranchiseScore Works (0-100)</h3>
+      <p>FranchiseScore is Franchise KI's proprietary AI-generated fit metric — the franchise equivalent of Zillow's Zestimate. Every score is calculated from verified FDD data: Item 19 AUV, investment efficiency, franchisor support quality, territory availability, and 3-year unit growth. Updated monthly. <strong>Not financial advice — a data-driven starting point for your research.</strong></p>
+    </div>
+  </div>
+
+  <div class="score-explain">
+    <div class="score-factor"><div class="weight">30 pts</div><h4>Financial Returns</h4><p>Item 19 AUV ÷ midpoint investment. Higher AUV per dollar invested = higher score.</p></div>
+    <div class="score-factor"><div class="weight">20 pts</div><h4>Franchisor Support</h4><p>Training hours, field support ratio, tech tools provided, Item 6 fee reasonableness.</p></div>
+    <div class="score-factor"><div class="weight">20 pts</div><h4>Territory Availability</h4><p>Open territory density in target market. More available = higher opportunity score.</p></div>
+    <div class="score-factor"><div class="weight">20 pts</div><h4>Financial Health</h4><p>Item 21 net income trends, royalty load vs. AUV, 3-year system growth rate.</p></div>
+    <div class="score-factor"><div class="weight">10 pts</div><h4>Growth Trajectory</h4><p>New units opened last 3 years. Growing systems outperform stable or shrinking ones.</p></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterTable('all')">All Categories</button>
+    <button class="filter-btn" onclick="filterTable('food')">Food & Beverage</button>
+    <button class="filter-btn" onclick="filterTable('home')">Home Services</button>
+    <button class="filter-btn" onclick="filterTable('health')">Health & Wellness</button>
+    <button class="filter-btn" onclick="filterTable('retail')">Retail</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Brand</th>
+          <th>FranchiseScore</th>
+          <th>Investment Range</th>
+          <th>Item 19 AUV</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-cat="retail">
+          <td class="rank">1</td>
+          <td><div class="brand-name">Indy Clover</div><div class="brand-cat"><span class="cat-badge cat-retail">Curated Retail</span> <span class="sba">SBA Approved</span></div></td>
+          <td><div class="fs-score"><span>87</span><div class="fs-bar"><div class="fs-fill" style="width:87%"></div></div></div></td>
+          <td class="invest">$165K–$225K</td>
+          <td class="auvs">$104K/yr net</td>
+          <td><a class="cta-btn" href="https://mapki.franchiseki.com/brand/indy-clover">View Profile</a></td>
+        </tr>
+        <tr data-cat="food">
+          <td class="rank">2</td>
+          <td><div class="brand-name">Salad House</div><div class="brand-cat"><span class="cat-badge cat-food">Fast Casual</span> <span class="sba">SBA Approved</span></div></td>
+          <td><div class="fs-score"><span>84</span><div class="fs-bar"><div class="fs-fill" style="width:84%"></div></div></div></td>
+          <td class="invest">$260K–$450K</td>
+          <td class="auvs">See FDD Item 19</td>
+          <td><a class="cta-btn" href="https://mapki.franchiseki.com/brand/salad-house">View Profile</a></td>
+        </tr>
+        <tr data-cat="health">
+          <td class="rank">3</td>
+          <td><div class="brand-name">Spoiled Rotten Photography</div><div class="brand-cat"><span class="cat-badge cat-health">Children's Services</span></div></td>
+          <td><div class="fs-score"><span>79</span><div class="fs-bar"><div class="fs-fill" style="width:79%"></div></div></div></td>
+          <td class="invest">$45K–$80K</td>
+          <td class="auvs">See FDD Item 19</td>
+          <td><a class="cta-btn" href="https://mapki.franchiseki.com">View Profile</a></td>
+        </tr>
+        <tr data-cat="home">
+          <td class="rank">4</td>
+          <td><div class="brand-name">Paul Davis Restoration</div><div class="brand-cat"><span class="cat-badge cat-home">Home Services</span></div></td>
+          <td><div class="fs-score"><span>76</span><div class="fs-bar"><div class="fs-fill" style="width:76%"></div></div></div></td>
+          <td class="invest">$165K–$360K</td>
+          <td class="auvs">$1.2M+ AUV</td>
+          <td><a class="cta-btn" href="https://mapki.franchiseki.com">View Profile</a></td>
+        </tr>
+        <tr data-cat="home">
+          <td class="rank">5</td>
+          <td><div class="brand-name">Servpro</div><div class="brand-cat"><span class="cat-badge cat-home">Home Services</span></div></td>
+          <td><div class="fs-score"><span>74</span><div class="fs-bar"><div class="fs-fill" style="width:74%"></div></div></div></td>
+          <td class="invest">$217K–$295K</td>
+          <td class="auvs">$900K+ AUV</td>
+          <td><a class="cta-btn" href="https://mapki.franchiseki.com">View Profile</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> FranchiseScore is an AI-generated indicator based on publicly available FDD data and is not financial advice. Investment ranges are approximate — refer to each brand's current FDD Item 7 for verified figures. Franchise offerings may not be available in all states. This page does not constitute an offer to sell a franchise. State registrations apply — see individual FDD for details. Indy Clover not registered in TX, NC, SC, FL, KY, ME, OR, UT. Salad House not registered in CT, IL, MN, WA.
+  </div>
+
+  <div class="cta-section">
+    <h2>Find Your FranchiseScore Match</h2>
+    <p>Answer 10 questions and our AI matches you to brands from 3,239 options — ranked by your personal FranchiseScore fit.</p>
+    <a href="https://mapki.franchiseki.com">Start Free Match →</a>
+  </div>
+</div>
+
+<script>
+function filterTable(cat){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('tbody tr').forEach(r=>{
+    r.style.display=(cat==='all'||r.dataset.cat===cat)?'':'none';
+  });
+}
+</script>
+</body>
+</html>
