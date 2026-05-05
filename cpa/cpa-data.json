@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-05-04T23:20:00Z",
-  "dataSource": "Meta Ads API — Squirrel direct pull ✅ | GHL — Leo sync pending ⏳",
+  "lastUpdated": "2026-05-05T00:30:00Z",
+  "dataSource": "Meta Ads API — Squirrel direct pull ✅ | GHL — Ivan CC direct API pull ✅",
   "period": "Apr 4 – May 3, 2026 (30 days)",
   "totalMetaSpend": 8894.13,
   "summary": {
@@ -82,19 +82,49 @@
   ],
   "funnelStages": [
     { "stage": "Lead", "count": 199, "source": "Meta Ads API ✅", "verified": true },
-    { "stage": "Appt Set", "count": null, "source": "GHL ⏳", "verified": false },
-    { "stage": "Qualified", "count": null, "source": "GHL ⏳", "verified": false },
-    { "stage": "Discovery Call", "count": null, "source": "GHL ⏳", "verified": false },
-    { "stage": "Signed Deal", "count": null, "source": "GHL ⏳", "verified": false }
+    { "stage": "Appt Set", "count": null, "source": "GHL stage ID mapping pending", "verified": false },
+    { "stage": "Qualified", "count": null, "source": "GHL stage ID mapping pending", "verified": false },
+    { "stage": "Discovery Call", "count": null, "source": "GHL stage ID mapping pending", "verified": false },
+    { "stage": "Signed Deal", "count": null, "source": "GHL stage ID mapping pending", "verified": false }
   ],
   "gloTanning": {
-    "status": "pending",
-    "note": "Glo Tanning benchmark deal — pull from GHL won opportunities. Leo WO dispatched 2026-05-04."
+    "status": "verified",
+    "count": 1,
+    "note": "1 Glo Tanning record confirmed: Will Futrell | Reactivated Lead (open). Verified via Ivan CC direct GHL API pull 2026-05-05.",
+    "records": [
+      {
+        "id": "9SWq9Y10wsjhhi40CZ7F",
+        "name": "Will Futrell | Reactivated Lead",
+        "status": "open",
+        "source": "Old Glo Lead"
+      }
+    ]
   },
   "pipelineSnapshot": {
-    "total": 684,
-    "stuckInNewLead": 520,
-    "unassigned": 506,
-    "source": "GHL — Viktor March 2026 analysis (unverified by Squirrel direct API)"
+    "total": 1433,
+    "byStage": {
+      "d10a1c5b-66bd-430a-9e95-29f05797679a": 1064,
+      "9757cf8a-91ad-478e-9756-f6937ac6ab9c": 139,
+      "ba21ea66-38eb-4053-a3ff-28090b1cf75e": 125,
+      "083b38b6-0fa8-4d12-b57a-e050bd4ca442": 58,
+      "4393a866-48da-4f6e-b21b-b4177e15d894": 21,
+      "640fc779-ddfa-4c3f-b6bc-2d846bf86ef4": 12,
+      "7625445f-a69c-476c-bc42-a69d9d56d779": 11,
+      "a38349cd-6028-4444-96bd-7115ae4a22f1": 3
+    },
+    "bySource": {
+      "Facebook": 804,
+      "Meta lead ads": 268,
+      "FORM": 215,
+      "IC Booking Survey - Organic/Brand Managed": 35,
+      "IC Booking Survey - paid traffic": 58,
+      "SH Booking - Survey": 11,
+      "Salad House Discovery Request Form": 8,
+      "other": 34
+    },
+    "unassigned": 0,
+    "pipeline": "BkDsA5sIzgsEon9ikJVW",
+    "source": "Ivan CC direct GHL API pull ✅ 2026-05-05T00:23:02Z",
+    "note": "Previous Viktor March 2026 estimate (684 total / 520 stuck) was outdated. 0 unassigned — Piper ran successfully."
   }
 }
