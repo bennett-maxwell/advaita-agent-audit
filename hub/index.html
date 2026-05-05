@@ -1,451 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FKI Command Center</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0a0f;
-    color: #e0e0e6;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 32px 16px;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 48px;
-    width: 100%;
-    max-width: 960px;
-  }
-  .header h1 {
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 8px;
-  }
-  .header p {
-    font-size: 14px;
-    color: #6b7280;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    width: 100%;
-    max-width: 960px;
-  }
-  @media (min-width: 640px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  .card {
-    background: #14141f;
-    border: 1px solid #1e1e2e;
-    border-radius: 16px;
-    padding: 28px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-  }
-  .card.finance   { border-color: #22c55e33; }
-  .card.finance:hover   { border-color: #22c55e; box-shadow: 0 12px 40px rgba(34,197,94,0.15); }
-  .card.legal     { border-color: #3b82f633; }
-  .card.legal:hover     { border-color: #3b82f6; box-shadow: 0 12px 40px rgba(59,130,246,0.15); }
-  .card.agents    { border-color: #a78bfa33; }
-  .card.agents:hover    { border-color: #a78bfa; box-shadow: 0 12px 40px rgba(167,139,250,0.15); }
-  .card.health    { border-color: #f59e0b33; }
-  .card.health:hover    { border-color: #f59e0b; box-shadow: 0 12px 40px rgba(245,158,11,0.15); }
-  .card.marketing { border-color: #ec489933; }
-  .card.marketing:hover { border-color: #ec4899; box-shadow: 0 12px 40px rgba(236,72,153,0.15); }
-  .card.chores    { border-color: #06b6d433; }
-  .card.chores:hover    { border-color: #06b6d4; box-shadow: 0 12px 40px rgba(6,182,212,0.15); }
-  .cpa      { border-color: #f9731633; }
-  .cpa:hover    { border-color: #f97316; box-shadow: 0 12px 40px rgba(249,115,22,0.15); }
-  .funnel   { border-color: #14b8a633; }
-  .funnel:hover { border-color: #14b8a6; box-shadow: 0 12px 40px rgba(20,184,166,0.15); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FKI Command Center</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background: #F5F5F7; color: #1D1D1F; min-height: 100vh; }
 
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .card-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-  }
-  .finance   .card-icon  { background: #22c55e1a; }
-  .legal     .card-icon  { background: #3b82f61a; }
-  .agents    .card-icon  { background: #a78bfa1a; }
-  .health    .card-icon  { background: #f59e0b1a; }
-  .marketing .card-icon  { background: #ec48991a; }
-  .chores    .card-icon  { background: #06b6d41a; }
-  .cpa      .card-icon  { background: #f973161a; }
-  .funnel   .card-icon  { background: #14b8a61a; }
+    /* HEADER */
+    .page-header { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 28px 40px 24px; }
+    .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+    .header-top h1 { font-size: 24px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.3px; }
+    .header-top .sub { font-size: 13px; color: #6E6E73; margin-top: 4px; }
+    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .stat-pill { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
+    .sp-b { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.25); }
+    .sp-g { background: rgba(52,199,89,0.08); color: #34C759; border-color: rgba(52,199,89,0.25); }
+    .sp-a { background: rgba(255,159,10,0.08); color: #FF9F0A; border-color: rgba(255,159,10,0.25); }
+    .sp-r { background: rgba(255,59,48,0.08); color: #FF3B30; border-color: rgba(255,59,48,0.25); }
+    .sp-gray { background: rgba(142,142,147,0.08); color: #8E8E93; border-color: rgba(142,142,147,0.25); }
 
-  .lock-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-  .finance   .lock-badge { background: #22c55e15; color: #4ade80;  border: 1px solid #22c55e30; }
-  .legal     .lock-badge { background: #3b82f615; color: #60a5fa;  border: 1px solid #3b82f630; }
-  .agents    .lock-badge { background: #a78bfa15; color: #c4b5fd;  border: 1px solid #a78bfa30; }
-  .health    .lock-badge { background: #f59e0b15; color: #fbbf24;  border: 1px solid #f59e0b30; }
-  .marketing .lock-badge { background: #ec489915; color: #f9a8d4;  border: 1px solid #ec489930; }
-  .chores    .lock-badge { background: #06b6d415; color: #67e8f9;  border: 1px solid #06b6d430; }
-  .cpa      .lock-badge { background: #f9731615; color: #fb923c;  border: 1px solid #f9731630; }
-  .funnel   .lock-badge { background: #14b8a615; color: #2dd4bf;  border: 1px solid #14b8a630; }
+    /* MAIN */
+    .main { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
 
-  .card-title { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
-  .finance   .card-title { color: #4ade80; }
-  .legal     .card-title { color: #60a5fa; }
-  .agents    .card-title { color: #c4b5fd; }
-  .health    .card-title { color: #fbbf24; }
-  .marketing .card-title { color: #f9a8d4; }
-  .chores    .card-title { color: #67e8f9; }
-  .cpa      .card-title { color: #fb923c; }
-  .funnel   .card-title { color: #2dd4bf; }
+    /* GEORGE DEMO BANNER */
+    .demo-banner { background: #FFFFFF; border: 1px solid #E5E5EA; border-left: 4px solid #0071E3; border-radius: 0 10px 10px 0; padding: 20px 24px; margin-bottom: 20px; }
+    .demo-banner .dlbl { font-size: 11px; font-weight: 700; color: #0071E3; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .demo-banner .dtitle { font-size: 15px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+    .demo-banner .dsub { font-size: 13px; color: #6E6E73; margin-bottom: 14px; }
+    .demo-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .demo-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid; transition: opacity 0.15s; }
+    .demo-btn:hover { opacity: 0.85; }
+    .db-primary { background: #0071E3; color: #FFFFFF; border-color: #0071E3; }
+    .db-secondary { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.3); }
 
-  .card-desc {
-    font-size: 13px;
-    color: #9ca3af;
-    line-height: 1.6;
-    flex: 1;
-  }
-  .card-footer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 9px 14px;
-    border-radius: 8px;
-  }
-  .finance   .card-footer { color: #4ade80; background: #22c55e0d; }
-  .legal     .card-footer { color: #60a5fa; background: #3b82f60d; }
-  .agents    .card-footer { color: #c4b5fd; background: #a78bfa0d; }
-  .health    .card-footer { color: #fbbf24; background: #f59e0b0d; }
-  .marketing .card-footer { color: #f9a8d4; background: #ec48990d; }
-  .chores    .card-footer { color: #67e8f9; background: #06b6d40d; }
-  .cpa      .card-footer { color: #fb923c; background: #f973160d; }
-  .funnel   .card-footer { color: #2dd4bf; background: #14b8a60d; }
+    /* ALERT BAR */
+    .alert-bar { background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); border-radius: 10px; padding: 12px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .ab-left .al { font-size: 11px; font-weight: 700; color: #FF3B30; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+    .ab-left .at { font-size: 13px; color: #1D1D1F; }
+    .ab-badges { display: flex; gap: 6px; flex-shrink: 0; }
+    .ab-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(255,59,48,0.1); color: #FF3B30; white-space: nowrap; }
 
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    animation: pulse 2s infinite;
-  }
-  .live    { background: #22c55e; }
-  .pending { background: #f59e0b; }
-  .new     { background: #a78bfa; }
-  .active  { background: #22c55e; }
+    /* CATEGORY LABEL */
+    .cat-label { font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.06em; margin: 24px 0 10px; padding-bottom: 8px; border-bottom: 1px solid #E5E5EA; }
+    .cat-label:first-of-type { margin-top: 0; }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-  }
-  .arrow-icon {
-    width: 14px;
-    height: 14px;
-    fill: currentColor;
-    margin-left: auto;
-  }
-  .footer {
-    margin-top: 48px;
-    text-align: center;
-    font-size: 11px;
-    color: #374151;
-  }
-  .footer .ts {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    color: #4b5563;
-  }
+    /* CARD GRID */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
 
-  .card.forecast { border-color: #14b8a633; }
-  .card.forecast:hover { border-color: #14b8a6; box-shadow: 0 12px 40px rgba(20,184,166,0.15); }
-  .forecast .card-icon  { background: #14b8a61a; }
-  .forecast .lock-badge { background: #14b8a615; color: #2dd4bf; border: 1px solid #14b8a630; }
-  .forecast .card-title { color: #2dd4bf; }
-  .forecast .card-footer { color: #2dd4bf; background: #14b8a60d; }
-  .card.vision { border-color: #8b5cf633; }
-  .card.vision:hover { border-color: #8b5cf6; box-shadow: 0 12px 40px rgba(139,92,246,0.15); }
-  .vision .card-icon  { background: #8b5cf61a; }
-  .vision .lock-badge { background: #8b5cf615; color: #a78bfa; border: 1px solid #8b5cf630; }
-  .vision .card-title { color: #a78bfa; }
-  .vision .card-footer { color: #a78bfa; background: #8b5cf60d; }
-  .card.seo { border-color: #10b98133; }
-  .card.seo:hover { border-color: #10b981; box-shadow: 0 12px 40px rgba(16,185,129,0.15); }
-  .seo .card-icon  { background: #10b9811a; }
-  .seo .lock-badge { background: #10b98115; color: #34d399; border: 1px solid #10b98130; }
-  .seo .card-title { color: #34d399; }
-  .seo .card-footer { color: #34d399; background: #10b9810d; }
-  .card.sales-prep { border-color: #f59e0b33; }
-  .card.sales-prep:hover { border-color: #f59e0b; box-shadow: 0 12px 40px rgba(245,158,11,0.15); }
-  .sales-prep .card-icon  { background: #f59e0b1a; }
-  .sales-prep .lock-badge { background: #f59e0b15; color: #fbbf24; border: 1px solid #f59e0b30; }
-  .sales-prep .card-title { color: #fbbf24; }
-  .sales-prep .card-footer { color: #fbbf24; background: #f59e0b0d; }
+    /* CARD */
+    .card { background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 10px; padding: 18px 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: box-shadow 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+    .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 
-  .card.social { border-color: #3496FF33; }
-  .card.social:hover { border-color: #3496FF; box-shadow: 0 12px 40px rgba(52,150,255,0.15); }
-  .social .card-icon  { background: #3496FF1a; }
-  .social .lock-badge { background: #3496FF15; color: #60a5fa; border: 1px solid #3496FF30; }
-  .social .card-title { color: #60a5fa; }
-  .social .card-footer { color: #60a5fa; background: #3496FF0d; }
-</style>
+    /* Card accent colors */
+    .c-social::before { background: #0071E3; } .c-social:hover { border-color: rgba(0,113,227,0.3); }
+    .c-marketing::before { background: #EC4899; } .c-marketing:hover { border-color: rgba(236,72,153,0.3); }
+    .c-cpa::before { background: #F97316; } .c-cpa:hover { border-color: rgba(249,115,22,0.3); }
+    .c-sales-prep::before { background: #F59E0B; } .c-sales-prep:hover { border-color: rgba(245,158,11,0.3); }
+    .c-funnel::before { background: #14B8A6; } .c-funnel:hover { border-color: rgba(20,184,166,0.3); }
+    .c-finance::before { background: #34C759; } .c-finance:hover { border-color: rgba(52,199,89,0.3); }
+    .c-legal::before { background: #3B82F6; } .c-legal:hover { border-color: rgba(59,130,246,0.3); }
+    .c-agents::before { background: #A78BFA; } .c-agents:hover { border-color: rgba(167,139,250,0.3); }
+    .c-health::before { background: #F59E0B; } .c-health:hover { border-color: rgba(245,158,11,0.3); }
+    .c-vision::before { background: #8B5CF6; } .c-vision:hover { border-color: rgba(139,92,246,0.3); }
+    .c-seo::before { background: #10B981; } .c-seo:hover { border-color: rgba(16,185,129,0.3); }
+    .c-chores::before { background: #06B6D4; } .c-chores:hover { border-color: rgba(6,182,212,0.3); }
+
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+    .card-name { font-size: 14px; font-weight: 700; color: #1D1D1F; }
+    .badge { padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+    .b-live { background: rgba(52,199,89,0.1); color: #34C759; }
+    .b-protected { background: rgba(142,142,147,0.1); color: #8E8E93; }
+    .b-new { background: rgba(0,113,227,0.1); color: #0071E3; }
+    .b-daily { background: rgba(52,199,89,0.1); color: #34C759; }
+    .b-pending { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .b-weekly { background: rgba(0,113,227,0.1); color: #0071E3; }
+    .b-crisis { background: rgba(255,59,48,0.1); color: #FF3B30; }
+
+    .card-desc { font-size: 12px; color: #6E6E73; line-height: 1.5; flex: 1; }
+    .card-open { font-size: 12px; font-weight: 600; color: #0071E3; margin-top: 14px; display: flex; align-items: center; gap: 4px; }
+
+    /* Accent color for "Open" text per card type */
+    .c-social .card-open { color: #0071E3; }
+    .c-marketing .card-open { color: #EC4899; }
+    .c-cpa .card-open { color: #F97316; }
+    .c-sales-prep .card-open { color: #F59E0B; }
+    .c-funnel .card-open { color: #14B8A6; }
+    .c-finance .card-open { color: #34C759; }
+    .c-legal .card-open { color: #3B82F6; }
+    .c-agents .card-open { color: #A78BFA; }
+    .c-health .card-open { color: #F59E0B; }
+    .c-vision .card-open { color: #8B5CF6; }
+    .c-seo .card-open { color: #10B981; }
+    .c-chores .card-open { color: #06B6D4; }
+
+    /* FOOTER */
+    .footer { text-align: center; padding: 28px 20px; font-size: 12px; color: #8E8E93; }
+    a.fl { color: #0071E3; text-decoration: none; }
+    a.fl:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .page-header { padding: 20px 20px 16px; }
+      .header-top { flex-direction: column; gap: 12px; }
+      .main { padding: 20px 12px; }
+      .grid { grid-template-columns: 1fr; }
+      .demo-links { flex-direction: column; }
+      .alert-bar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>FKI Command Center</h1>
-  <p>Franchise KI · All Systems</p>
-</div>
+  <div class="page-header">
+    <div class="header-top">
+      <div>
+        <h1>FKI Command Center</h1>
+        <div class="sub">CEO Design Skill v1 &middot; 12 systems &middot; <span id="ts"></span></div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-pill sp-b">12 Systems</span>
+        <span class="stat-pill sp-g">8 Live</span>
+        <span class="stat-pill sp-gray">2 Protected</span>
+        <span class="stat-pill sp-b">2 CEO Design v2</span>
+      </div>
+    </div>
+  </div>
 
-<div class="grid">
+  <div class="main">
 
-  <!-- Finance — GitHub Pages StatiCrypt (works anywhere, no Tailscale required) -->
-  <a class="card finance" href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/">
-    <div class="card-header">
-      <div class="card-icon">💰</div>
-      <span class="lock-badge">🔒 Protected</span>
+    <!-- GEORGE DEMO BANNER -->
+    <div class="demo-banner">
+      <div class="dlbl">George Meeting &mdash; May 5, 2026</div>
+      <div class="dtitle">Start here for the demo</div>
+      <div class="dsub">Open Social Media CC first &mdash; Story for George is auto-expanded. Then switch to Marketing CC to show the IC CPL crisis being fixed in real time.</div>
+      <div class="demo-links">
+        <a href="../social/" target="_blank" class="demo-btn db-primary">&#127919; Social Media CC &rarr;</a>
+        <a href="../marketing/" target="_blank" class="demo-btn db-secondary">&#128202; Marketing CC &rarr;</a>
+      </div>
     </div>
-    <div class="card-title">Finance Dashboard</div>
-    <div class="card-desc">
-      <span class="status-dot live"></span>AES-256 encrypted · Works anywhere<br><br>
-      P&amp;L, cash position, QB sync status, Meta-to-bank attribution. <strong>13-week cash flow forecast is Tab 2</strong> (3 scenarios, CC debt tracker). Password-protected static snapshot. Live data available via Tailscale (port 8732).
-    </div>
-    <div class="card-footer">
-      Open Finance
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
 
-  <!-- Legal — GitHub Pages StatiCrypt (works anywhere, no Tailscale required) -->
-  <a class="card legal" href="https://bennett-maxwell.github.io/advaita-agent-audit/legal/">
-    <div class="card-header">
-      <div class="card-icon">⚖️</div>
-      <span class="lock-badge">🔒 Protected</span>
+    <!-- URGENT ACTIONS -->
+    <div class="alert-bar">
+      <div class="ab-left">
+        <div class="al">Urgent &mdash; Before Full Automation</div>
+        <div class="at">Meta Ads token expired April 30 &middot; Google Ads verify deadline May 13 &middot; Metricool upgrade ($22/mo, Kay task)</div>
+      </div>
+      <div class="ab-badges">
+        <span class="ab-badge">2 Bennett Gates</span>
+        <span class="ab-badge">1 Kay Task</span>
+      </div>
     </div>
-    <div class="card-title">Legal Dashboard</div>
-    <div class="card-desc">
-      <span class="status-dot live"></span>AES-256 encrypted · Works anywhere<br><br>
-      Entity tracker, compliance status, case roster. IronCreek / CFP / AFG / Temppoint matters. Attorney-client privileged.
-    </div>
-    <div class="card-footer">
-      Open Legal
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
 
-  <!-- Agent Monitor — Cloudflare Tunnel, no Tailscale needed -->
-  <a class="card agents" href="agent-monitor.html">
-    <div class="card-header">
-      <div class="card-icon">🤖</div>
-      <span class="lock-badge">✨ Live</span>
-    </div>
-    <div class="card-title">Agent Monitor</div>
-    <div class="card-desc">
-      <span class="status-dot new"></span>Internal ops · No financial data · Auto-refresh 60s<br><br>
-      Real-time view of Mack, Leo, Ivan, Tiffany, and Chad. Tasks running (0–5), active skills, memory updates, handoff queue.
-    </div>
-    <div class="card-footer">
-      Open Agent Monitor
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
+    <!-- MARKETING & REVENUE -->
+    <div class="cat-label">Marketing &amp; Revenue</div>
+    <div class="grid">
 
-  <!-- Machine Health — live -->
-  <a class="card health" href="machine-health.html">
-    <div class="card-header">
-      <div class="card-icon">💻</div>
-      <span class="lock-badge">✨ Live</span>
-    </div>
-    <div class="card-title">Machine Health</div>
-    <div class="card-desc">
-      <span class="status-dot active"></span>Internal ops · No financial data · Refreshes every 5 min<br><br>
-      iMac, MacBook, and Tiffany metrics: CPU, memory, disk, uptime. Auto-refresh 60s.
-    </div>
-    <div class="card-footer">
-      Live
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
+      <a class="card c-social" href="https://bennett-maxwell.github.io/advaita-agent-audit/social/" target="_blank">
+        <div class="card-top">
+          <div class="card-name">Social Media CC</div>
+          <span class="badge b-new">CEO Design v2</span>
+        </div>
+        <div class="card-desc">Bennett personal + IC/SH/SRP/FKI. 60 posts queued. LinkedIn resumes May 7. AI writes everything in Bennett&rsquo;s voice. Story for George auto-expanded.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
 
-  <!-- Marketing — GitHub Pages, no password -->
-  <a class="card marketing" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank">
-    <div class="card-header">
-      <div class="card-icon">📣</div>
-      <span class="lock-badge">🌐 Public</span>
-    </div>
-    <div class="card-title">Marketing</div>
-    <div class="card-desc">
-      <span class="status-dot active"></span>Live · GitHub Pages · No password<br><br>
-      Creative tools monitor, organic outreach tracker (10 strategies), PR playbook, Meta paid snapshot, content pipeline.
-    </div>
-    <div class="card-footer">
-      Open Dashboard →
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
+      <a class="card c-marketing" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank">
+        <div class="card-top">
+          <div class="card-name">Marketing CC</div>
+          <span class="badge b-crisis">IC CPL $76 Crisis</span>
+        </div>
+        <div class="card-desc">Meta Ads verified data: $8,894 spend / 199 leads / $44.70 CPL. IC Investor Headlines at $76 vs $45 target. SH healthy at $38.53. Glo Tanning $974K benchmark.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
 
-  <!-- Kids' Chores — GitHub Pages, live -->
-  <a class="card chores" href="https://bennett-maxwell.github.io/advaita-agent-audit/chore-chart/" target="_blank">
-    <div class="card-header">
-      <div class="card-icon">⭐</div>
-      <span class="lock-badge">🌐 Public</span>
-    </div>
-    <div class="card-title">Kids' Chores</div>
-    <div class="card-desc">
-      <span class="status-dot active"></span>Live · GitHub Pages · No password<br><br>
-      Chore tracker by kid. Completion status, points, streaks, and rewards. Shareable with the family — no login required.
-    </div>
-    <div class="card-footer">
-      Open Chores →
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
+      <a class="card c-cpa" href="https://bennett-maxwell.github.io/advaita-agent-audit/cpa/" target="_blank">
+        <div class="card-top">
+          <div class="card-name">Cost per Appointment</div>
+          <span class="badge b-live">Live</span>
+        </div>
+        <div class="card-desc">CPAB: SH $114 / IC $67. CPAH: SH $357 / IC $330. Show rates: SH 31.9% / IC 20.3% vs 70% target. Ad spend vs pipeline by brand.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
 
-  <!-- Cost per Appointment — GitHub Pages, sample data (live data via Leo) -->
-  <a class="card cpa" href="https://bennett-maxwell.github.io/advaita-agent-audit/cpa/" target="_blank">
-    <div class="card-header">
-      <div class="card-icon">📊</div>
-      <span class="lock-badge">🌐 Live</span>
-    </div>
-    <div class="card-title">Cost per Appointment</div>
-    <div class="card-desc">
-      <span class="status-dot pending"></span>Sample data · Live data pending GHL+Meta sync<br><br>
-      Cost per booked &amp; held appointment by brand (Salad House, Indy Clover, SRP). Ad spend vs. pipeline. Green &lt;$200 · Yellow $200–400 · Red &gt;$400.
-    </div>
-    <div class="card-footer">
-      Open CPA Center
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
+      <a class="card c-sales-prep" href="https://bennett-maxwell.github.io/advaita-agent-audit/meeting-prep/" target="_blank" rel="noopener noreferrer">
+        <div class="card-top">
+          <div class="card-name">Sales Meeting Prep</div>
+          <span class="badge b-daily">Daily 6 AM</span>
+        </div>
+        <div class="card-desc">Today&rsquo;s calls + battle cards. Hot leads with signal scoring. FDD review pipeline. Rep accountability (Bailey + Keith). Show rate tracker.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
 
+    </div>
 
-<!-- Sales Funnel Snapshot -->
-  <a class="card funnel" href="funnel.html">
-    <div class="card-header">
-      <div class="card-icon">🔽</div>
-      <span class="lock-badge">📅 Weekly</span>
-    </div>
-    <div class="card-title">Sales Funnel</div>
-    <div class="card-desc">
-      <span class="status-dot active"></span>Live · Updated every Monday 7am MDT<br><br>
-      00-Sales pipeline stage counts with week-over-week delta. New Lead → Interested → Intro Call → Territory Review.
-    </div>
-    <div class="card-footer">
-      Open Funnel →
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
+    <!-- SALES & PIPELINE -->
+    <div class="cat-label">Sales &amp; Pipeline</div>
+    <div class="grid">
 
-<!-- Vision Status -->
-  <a class="card vision" href="../vision/" target="_blank">
-    <div class="card-header"><div class="card-icon">🎯</div><span class="lock-badge">⚡ 68%</span></div>
-    <div class="card-title">Vision 3.0 Status</div>
-    <div class="card-desc"><span class="status-dot pending"></span>13 days to May 17 · 8 requirements tracked<br><br>Advaita Vision 3.0 deployment tracker. 5 domains, P1 blockers, timeline to 100% autonomy.</div>
-    <div class="card-footer">Open Vision Status <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg></div>
-  </a>
+      <a class="card c-funnel" href="funnel.html">
+        <div class="card-top">
+          <div class="card-name">Sales Funnel</div>
+          <span class="badge b-weekly">Weekly Mon 7 AM</span>
+        </div>
+        <div class="card-desc">1,433 open opps. 0.28% end-to-end conversion vs 2.3% industry. New Lead &rarr; Interested (88% drop). 506 leads unassigned.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
 
-  <!-- SEO Command Center — Score 24/100, council 4.4/5 -->
-  <a class="card seo" href="../seo/" target="_blank">
-    <div class="card-header">
-      <div class="card-icon">🔍</div>
-      <span class="lock-badge">📊 24/100</span>
-    </div>
-    <div class="card-title">SEO Command Center</div>
-    <div class="card-desc">
-      <span class="status-dot pending"></span>Audited May 5, 2026 · council 4.4/5<br><br>
-      AI search infrastructure live (12 articles, JSON-LD, robots.txt). 0 AI citations verified. GA4 missing — blind to traffic. Council plan: 24→62 score in 30 days. Phase 1 executing now.
-    </div>
-    <div class="card-footer">
-      Open SEO Center
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
+      <a class="card c-finance" href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/">
+        <div class="card-top">
+          <div class="card-name">Finance Dashboard</div>
+          <span class="badge b-protected">Password Protected</span>
+        </div>
+        <div class="card-desc">P&amp;L, cash position, QB sync. 13-week cash flow forecast. CC debt tracker. AES-256 encrypted. Password: finance 2026.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
 
+      <a class="card c-legal" href="https://bennett-maxwell.github.io/advaita-agent-audit/legal/">
+        <div class="card-top">
+          <div class="card-name">Legal Dashboard</div>
+          <span class="badge b-protected">Password Protected</span>
+        </div>
+        <div class="card-desc">Entity tracker, compliance status, case roster. CFP case deadline May 27. Attorney-client privileged. AES-256 encrypted.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
 
-  <!-- Sales Meeting Prep Command Center -->
-  <a class="card sales-prep" href="https://bennett-maxwell.github.io/advaita-agent-audit/meeting-prep/" target="_blank" rel="noopener noreferrer">
-    <div class="card-header">
-      <div class="card-icon">🎯</div>
-      <span class="lock-badge">🔄 Daily 6AM</span>
     </div>
-    <div class="card-title">Sales Meeting Prep</div>
-    <div class="card-desc">
-      <span class="status-dot active"></span>Live · Auto-refreshed daily at 6 AM MDT<br><br>
-      Today's calls + battle cards, hot leads with ✅/❌/⚠️ signal scoring, FDD review pipeline, rep accountability (Bailey + Keith), drift alerts, show rate tracker. Bennett's daily franchise sales war room.
+
+    <!-- AI INFRASTRUCTURE -->
+    <div class="cat-label">AI Infrastructure</div>
+    <div class="grid">
+
+      <a class="card c-agents" href="agent-monitor.html">
+        <div class="card-top">
+          <div class="card-name">Agent Monitor</div>
+          <span class="badge b-live">Live &middot; 60s refresh</span>
+        </div>
+        <div class="card-desc">Real-time view of Mack, Leo, Ivan, Tiffany, and Chad. Tasks running, active skills, memory updates, handoff queue.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
+
+      <a class="card c-health" href="machine-health.html">
+        <div class="card-top">
+          <div class="card-name">Machine Health</div>
+          <span class="badge b-live">Live &middot; 5 min refresh</span>
+        </div>
+        <div class="card-desc">iMac, MacBook, and Tiffany: CPU, memory, disk, uptime. Auto-refresh every 60 seconds.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
+
+      <a class="card c-vision" href="../vision/" target="_blank">
+        <div class="card-top">
+          <div class="card-name">Vision 3.0 Status</div>
+          <span class="badge b-pending">68% Complete</span>
+        </div>
+        <div class="card-desc">Advaita Vision 3.0 deployment tracker. 5 domains, P1 blockers, timeline to 100% autonomy. 13 days to May 17 milestone.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
+
+      <a class="card c-seo" href="../seo/" target="_blank">
+        <div class="card-top">
+          <div class="card-name">SEO Command Center</div>
+          <span class="badge b-pending">Score 24/100</span>
+        </div>
+        <div class="card-desc">60+ franchise-guide articles. 50 keywords tracked. Target: 24 &rarr; 68 in 30 days. 0 AI citations verified. GA4 pending.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
+
     </div>
-    <div class="card-footer">
-      Open Prep
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
+
+    <!-- PERSONAL -->
+    <div class="cat-label">Personal</div>
+    <div class="grid">
+
+      <a class="card c-chores" href="https://bennett-maxwell.github.io/advaita-agent-audit/chore-chart/" target="_blank">
+        <div class="card-top">
+          <div class="card-name">Kids&rsquo; Chores</div>
+          <span class="badge b-live">Public</span>
+        </div>
+        <div class="card-desc">Chore tracker by kid. Completion status, points, streaks, and rewards. Shareable with family &mdash; no login required.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
+
     </div>
-  </a>
 
-
-  <!-- Social Media Command Center - business-audit council 4.46/5 -->
-  <a class="card social" href="https://bennett-maxwell.github.io/advaita-agent-audit/social/" target="_blank" rel="noopener noreferrer">
-    <div class="card-header">
-      <div class="card-icon">&#128226;</div>
-      <span class="lock-badge">&#9889; New#9989; v2 LIVE</span>
+    <div class="footer">
+      <div>FKI Command Center Hub &middot; CEO Design Skill v1 &middot; Franchise KI AI Fleet</div>
+      <div style="margin-top:6px">12 systems &middot; GitHub Pages &middot; <a href="https://github.com/bennett-maxwell/advaita-agent-audit" target="_blank" class="fl">bennett-maxwell/advaita-agent-audit</a></div>
     </div>
-    <div class="card-title">Social Media Center</div>
-    <div class="card-desc">
-      <span class="status-dot active"></span>v2 LIVE <span class="status-dot pending"></span>27% operational &middot; LinkedIn Recovery to May 7<br><br>middot; George Demo Ready <span class="status-dot pending"></span>27% operational &middot; LinkedIn Recovery to May 7<br><br>middot; council 4.48/5<br><br>
-      Bennett personal + IC/SH/SRP/FKI brands. 60 posts queued. LinkedIn resumes May 7. George Demo Banner + AdStellar tracker + voice authenticity + council daily automation. Audit: business-audit-skill v2 + council 4.48/5.
-    </div>
-    <div class="card-footer">
-      Open Social Center
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
-    </div>
-  </a>
 
+  </div>
 
-</div>
-
-<div class="footer">
-  <p>Last loaded: <span class="ts" id="ts"></span></p>
-  <p style="margin-top:4px;">GitHub Pages · Cloudflare Tunnel · Ivan iMac</p>
-</div>
-
-<script>
-  document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
-    timeZone: 'America/Denver',
-    year: 'numeric', month: 'short', day: 'numeric',
-    hour: '2-digit', minute: '2-digit', second: '2-digit',
-    timeZoneName: 'short'
-  });
-</script>
+  <script>
+    document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', timeZone: 'America/Denver'
+    }) + ' MDT';
+  </script>
 
 </body>
 </html>
