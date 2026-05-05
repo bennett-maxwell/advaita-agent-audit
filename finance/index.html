@@ -13,6 +13,7 @@
     color: #e0e0e6;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 24px;
@@ -93,6 +94,47 @@
   .error-msg.show { display: block; }
   .status { color: #8b8b9f; font-size: 12px; line-height: 1.5; min-height: 18px; }
   .back-link { color: #6b7280; font-size: 12px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  /* 13-week forecast teaser */
+  .forecast-teaser {
+    width: min(480px, 100%);
+    margin: 24px auto 0;
+    background: #0d1a2e;
+    border: 1px solid #1e3a5f;
+    border-radius: 16px;
+    padding: 20px 22px;
+    text-align: left;
+  }
+  .forecast-teaser .ft-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .forecast-teaser .ft-title {
+    font-size: 12px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: .7px;
+  }
+  .forecast-teaser .ft-badge {
+    font-size: 10px; color: #475569; background: #0a1525; border: 1px solid #1e2d4a;
+    border-radius: 5px; padding: 3px 8px;
+  }
+  .forecast-teaser .ft-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;
+  }
+  .ft-cell { background: #0a1525; border-radius: 8px; padding: 10px 12px; }
+  .ft-cell .fc-lbl { font-size: 9px; color: #475569; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 4px; }
+  .ft-cell .fc-val { font-size: 16px; font-weight: 700; }
+  .fc-val.green { color: #22c55e; }
+  .fc-val.amber { color: #f59e0b; }
+  .ft-risk {
+    background: #120808; border-left: 3px solid #ef4444; border-radius: 0 6px 6px 0;
+    padding: 8px 11px; font-size: 11px; color: #94a3b8; margin-bottom: 14px;
+  }
+  .ft-risk strong { color: #ef4444; font-size: 10px; display: block; margin-bottom: 2px; }
+  .ft-link {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; min-height: 40px; border-radius: 8px;
+    background: #0a1a2e; border: 1px solid #1e3a5f; color: #38bdf8;
+    font-size: 12px; font-weight: 600; text-decoration: none;
+  }
+  .ft-link:hover { background: #0d2137; border-color: #38bdf8; }
 </style>
 </head>
 <body>
@@ -112,6 +154,45 @@
   <div class="status" id="statusMsg">After unlock, this opens the live finance server directly. No second dashboard password is used here.</div>
   <a class="back-link" href="../hub/">Back to Command Center</a>
 </main>
+
+<!-- 13WEEK_FORECAST -->
+<div class="forecast-teaser">
+  <div class="ft-head">
+    <span class="ft-title">📈 13-Week Cash Flow Forecast</span>
+    <span class="ft-badge">QB · Jan–May 4, 2026</span>
+  </div>
+  <div class="ft-grid">
+    <div class="ft-cell">
+      <div class="fc-lbl">Current Cash</div>
+      <div class="fc-val green">$228K</div>
+    </div>
+    <div class="ft-cell">
+      <div class="fc-lbl">Conservative End (Aug 2)</div>
+      <div class="fc-val green">$361K</div>
+    </div>
+    <div class="ft-cell">
+      <div class="fc-lbl">Upside w/ $80K AR</div>
+      <div class="fc-val green">$441K</div>
+    </div>
+    <div class="ft-cell">
+      <div class="fc-lbl">Weekly Burn</div>
+      <div class="fc-val amber">$5,071</div>
+    </div>
+    <div class="ft-cell">
+      <div class="fc-lbl">Weekly Revenue Avg</div>
+      <div class="fc-val green">$15,323</div>
+    </div>
+    <div class="ft-cell">
+      <div class="fc-lbl">Weekly Net</div>
+      <div class="fc-val green">+$10,252</div>
+    </div>
+  </div>
+  <div class="ft-risk">
+    <strong>⚠ March Anomaly — Watch Q3</strong>
+    March 2026: $41.9K expense spike (contractor). If repeated in Q3, a single month can erase $20K+ cash. Monitor contractor invoices weekly.
+  </div>
+  <a class="ft-link" href="../forecast/">View Full 13-Week Forecast →</a>
+</div>
 
 <script>
   const TARGET = 'cffc8ccab05b3b222a00a5c865e5f0edb37dcd9a61bfcd06e63ba00372fbf411';
@@ -166,3 +247,4 @@
 </script>
 </body>
 </html>
+
