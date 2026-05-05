@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-05T18:15:02Z",
+  "updated": "2026-05-05T18:30:03Z",
   "demo_mode": false,
   "agents": [
     {
@@ -9,13 +9,13 @@
       "role": "Claude Code Desktop \u00b7 MacBook",
       "model": "claude-sonnet-4-6",
       "machine": "MacBook (temp@100.112.24.104)",
-      "status": "active",
+      "status": "idle",
       "tasks_running": 0,
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "1m ago",
-      "memory_updated_rel": "1m ago",
+      "last_active_rel": "5m ago",
+      "memory_updated_rel": "5m ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": ":warning: *IMAC RAM low: 1.3GB free* (avail 18.9GB). v2 is read-only \u2014 no auto-k",
+      "current_task": ":arrows_counterclockwise: [monitor] Extractor down \u2014 restarting",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -56,7 +56,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "17 LaunchAgents \u00b7 4 cloudflared \u00b7 25 python3 procs",
+      "current_task": "18 LaunchAgents \u00b7 4 cloudflared \u00b7 33 python3 procs",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "15m ago",
@@ -74,7 +74,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #65 \u00b7 45389 uploaded \u00b7 disk 469GB",
+      "current_task": "FDD extractor \u00b7 run #68 \u00b7 45389 uploaded \u00b7 disk 469GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -112,8 +112,8 @@
       "tasks_max": 4,
       "current_task": ":repeat: WORK ORDER @Leo -- PATCH AGENT-MEMORY.md (Step 5c Fleet Sync)",
       "current_skill": null,
-      "last_active_rel": "just now",
-      "memory_updated_rel": "just now",
+      "last_active_rel": "15m ago",
+      "memory_updated_rel": "15m ago",
       "notion_project": null,
       "color_class": "hyper-color",
       "text_class": "hyper-color-text"
@@ -121,8 +121,8 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 89,
-    "ivan_ram_pct": 53,
+    "ivan_cpu_pct": 96,
+    "ivan_ram_pct": 49,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
     "active_crons": 71,
@@ -140,8 +140,8 @@
       "agent-status"
     ],
     "tiffany_ollama_status": "offline",
-    "ivan_launchagents_active": 17,
-    "ivan_python_procs": 25,
+    "ivan_launchagents_active": 18,
+    "ivan_python_procs": 33,
     "ivan_cloudflared_procs": 4,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
