@@ -7,114 +7,62 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif; background: #FFFFFF; color: #1D1D1F; }
-    .header { padding: 20px 32px; border-bottom: 1px solid #E5E5EA; display: flex; justify-content: space-between; align-items: center; }
-    .header h1 { font-size: 20px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.3px; }
-    .tabs { display: flex; gap: 4px; padding: 12px 32px; background: #F5F5F7; border-bottom: 1px solid #E5E5EA; }
-    .tab { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: #6E6E73; transition: all 0.15s; }
-    .tab.active { background: #1D1D1F; color: #FFFFFF; }
-    .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #E5E5EA; border-bottom: 1px solid #E5E5EA; }
-    .kpi { background: #FFFFFF; padding: 18px 22px; }
-    .kpi-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
-    .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.8px; }
-    .kpi-sub { font-size: 11px; color: #8E8E93; margin-top: 3px; }
-    .green { color: #34C759; } .amber { color: #FF9F0A; } .red { color: #FF3B30; } .blue { color: #0071E3; }
-    .main { max-width: 960px; margin: 0 auto; padding: 20px 28px; }
-    .runway-wrap { background: #FFF5F5; border: 1px solid rgba(255,59,48,0.2); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
-    .runway-num { font-size: 40px; font-weight: 800; color: #FF3B30; letter-spacing: -1.5px; }
-    .runway-bar-bg { height: 8px; background: #E5E5EA; border-radius: 4px; overflow: hidden; margin: 12px 0 6px; }
-    .runway-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #FF3B30, #FF9F0A); width: 22%; }
-    .runway-labels { display: flex; justify-content: space-between; font-size: 11px; color: #8E8E93; }
-    .runway-insight { margin-top: 12px; padding: 10px 14px; background: rgba(255,59,48,0.06); border-radius: 8px; border-left: 3px solid #FF3B30; font-size: 13px; color: #1D1D1F; }
-    .chart-wrap { background: #F5F5F7; border-radius: 12px; padding: 18px 22px; margin-bottom: 20px; }
-    .section-title-sm { font-size: 11px; font-weight: 700; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
-    .bar-chart { display: flex; align-items: flex-end; gap: 14px; height: 80px; margin-bottom: 14px; }
-    .bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-    .bar { width: 100%; border-radius: 4px 4px 0 0; }
-    .bar.pos { background: #34C759; }
-    .bar.neg { background: #FF3B30; border-radius: 0 0 4px 4px; align-self: flex-start; margin-top: auto; }
-    .bar-label { font-size: 10px; color: #8E8E93; }
-    .bar-val { font-size: 11px; font-weight: 700; }
-    .pl-totals { display: flex; gap: 20px; padding-top: 12px; border-top: 1px solid #E5E5EA; }
-    .pl-tot { display: flex; flex-direction: column; gap: 2px; }
-    .pl-tot-label { font-size: 10px; color: #8E8E93; }
-    .pl-tot-val { font-size: 16px; font-weight: 700; }
-    .section { border: 1px solid #E5E5EA; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
-    .section-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; background: #FFFFFF; transition: background 0.15s; }
-    .section-header:hover { background: #F5F5F7; }
-    .sh-title { font-size: 14px; font-weight: 600; color: #1D1D1F; display: flex; align-items: center; gap: 10px; }
-    .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
-    .br { background: rgba(255,59,48,0.1); color: #FF3B30; }
-    .bg { background: rgba(52,199,89,0.1); color: #34C759; }
-    .ba { background: rgba(255,159,10,0.1); color: #FF9F0A; }
-    .bb { background: rgba(0,113,227,0.1); color: #0071E3; }
-    .chev { font-size: 11px; color: #8E8E93; transition: transform 0.2s; }
-    .chev.open { transform: rotate(180deg); }
-    .section-body { display: none; border-top: 1px solid #E5E5EA; }
-    .section-body.open { display: block; }
-    .arow { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #F5F5F7; }
-    .arow:last-child { border-bottom: none; }
-    .arow-name { font-size: 14px; font-weight: 500; color: #1D1D1F; }
-    .arow-meta { font-size: 11px; color: #8E8E93; margin-top: 2px; }
-    .alink { font-size: 12px; color: #0071E3; text-decoration: none; padding: 4px 10px; background: rgba(0,113,227,0.08); border-radius: 6px; white-space: nowrap; }
-    .pill { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-    .pg { background: rgba(52,199,89,0.1); color: #34C759; }
-    .pr { background: rgba(255,59,48,0.1); color: #FF3B30; }
-    .pa { background: rgba(255,159,10,0.1); color: #FF9F0A; }
-    .pb { background: rgba(0,113,227,0.1); color: #0071E3; }
-    .block-row { padding: 12px 18px; border-bottom: 1px solid #F5F5F7; border-left: 3px solid #FF3B30; }
-    .block-row:last-child { border-bottom: none; }
-    .block-title { font-size: 14px; font-weight: 600; color: #1D1D1F; }
-    .block-meta { font-size: 11px; color: #8E8E93; margin-top: 2px; }
-    .block-tag { display: inline-block; font-size: 10px; font-weight: 700; background: rgba(255,59,48,0.1); color: #FF3B30; padding: 2px 8px; border-radius: 6px; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
-    .prog-row { padding: 12px 18px; border-bottom: 1px solid #F5F5F7; border-left: 3px solid #FF9F0A; }
-    .prog-row:last-child { border-bottom: none; }
-    .ddgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 14px 18px; }
-    .ddcard { border: 1px solid #E5E5EA; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.15s; text-decoration: none; display: block; }
-    .ddcard:hover { border-color: #0071E3; background: rgba(0,113,227,0.02); }
-    .ddcard-title { font-size: 13px; font-weight: 600; color: #1D1D1F; margin-bottom: 3px; }
-    .ddcard-sub { font-size: 11px; color: #8E8E93; }
-    .res-row { display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-bottom: 1px solid #F5F5F7; }
-    .res-row:last-child { border-bottom: none; }
-    .res-icon { font-size: 15px; width: 24px; flex-shrink: 0; }
-    .res-name { font-size: 13px; font-weight: 500; color: #1D1D1F; }
-    .res-sub { font-size: 11px; color: #8E8E93; }
+    .header { padding: 16px 24px; border-bottom: 1px solid #E5E5EA; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 17px; font-weight: 700; color: #1D1D1F; }
+    .back { font-size: 12px; color: #0071E3; text-decoration: none; background: rgba(0,113,227,0.08); padding: 5px 12px; border-radius: 8px; }
+    .tabs { display: flex; gap: 4px; padding: 10px 24px; background: #F5F5F7; border-bottom: 1px solid #E5E5EA; }
+    .tab { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: #6E6E73; transition: all 0.15s; }
+    .tab.active { background: #1D1D1F; color: #FFF; }
+    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #E5E5EA; border-bottom: 1px solid #E5E5EA; }
+    .kpi-card { background: #FFF; padding: 22px 18px; cursor: pointer; transition: background 0.15s; user-select: none; position: relative; }
+    .kpi-card:hover { background: #F9F9FB; }
+    .kpi-card.active { background: #F0F7FF; }
+    .kpi-card.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: #0071E3; }
+    .kpi-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .kpi-value { font-size: 38px; font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
+    .kpi-sub { font-size: 11px; color: #8E8E93; }
+    .kpi-hint { font-size: 10px; color: #0071E3; margin-top: 8px; opacity: 0; transition: opacity 0.2s; }
+    .kpi-card:hover .kpi-hint, .kpi-card.active .kpi-hint { opacity: 1; }
+    .l2-panel { display: none; padding: 20px 24px; border-bottom: 1px solid #E5E5EA; background: #FAFAFA; }
+    .l2-panel.open { display: block; animation: slideDown 0.2s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    .l2-title { font-size: 13px; font-weight: 700; color: #1D1D1F; margin-bottom: 14px; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #F0F0F0; }
+    .row:last-of-type { border-bottom: none; }
+    .row-label { font-size: 13px; color: #1D1D1F; }
+    .row-val { font-size: 13px; font-weight: 700; }
+    .bar-mini { height: 4px; border-radius: 2px; margin-top: 6px; }
+    .sync-line { font-size: 11px; color: #8E8E93; margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .l3 { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #0071E3; text-decoration: none; background: rgba(0,113,227,0.08); padding: 5px 11px; border-radius: 8px; }
+    .insight { background: rgba(255,59,48,0.06); border-left: 3px solid #FF3B30; border-radius: 0 8px 8px 0; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; color: #1D1D1F; }
+    .months { display: flex; align-items: flex-end; gap: 10px; height: 60px; margin: 10px 0 6px; }
+    .month-bar { flex: 1; border-radius: 4px 4px 0 0; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .month-bar.neg { border-radius: 0 0 4px 4px; align-self: flex-start; margin-top: auto; }
+    .month-bar-val { font-size: 10px; font-weight: 700; }
+    .month-bar-bg { width: 100%; border-radius: 4px 4px 0 0; }
+    .month-bar-bg.neg { border-radius: 0 0 4px 4px; }
+    .month-label { font-size: 10px; color: #8E8E93; }
+    .blocked-item { padding: 10px 14px; border-left: 3px solid #FF3B30; background: rgba(255,59,48,0.04); border-radius: 0 8px 8px 0; margin-bottom: 8px; }
+    .blocked-item:last-child { margin-bottom: 0; }
+    .blocked-title { font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .blocked-tag { font-size: 10px; font-weight: 700; color: #FF3B30; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 3px; }
     .audience-view { display: none; }
     .audience-view.active { display: block; }
-    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-    .team-card { background: #F5F5F7; border-radius: 10px; padding: 14px; }
-    .team-card-label { font-size: 10px; color: #8E8E93; margin-bottom: 4px; }
-    .team-card-val { font-size: 20px; font-weight: 700; }
-    .team-card-sub { font-size: 10px; color: #8E8E93; margin-top: 3px; }
-    .exp-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-    .exp-label { width: 100px; font-size: 12px; color: #1D1D1F; }
-    .exp-track { flex: 1; height: 7px; background: #E5E5EA; border-radius: 4px; overflow: hidden; }
-    .exp-fill { height: 100%; border-radius: 4px; }
-    .exp-val { font-size: 12px; font-weight: 600; width: 44px; text-align: right; }
-    .inv-card { background: #F5F5F7; border-radius: 10px; padding: 16px; margin-bottom: 10px; }
-    .inv-row { display: flex; justify-content: space-between; align-items: center; background: #FFFFFF; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 16px 24px; }
+    .team-kpi { background: #F5F5F7; border-radius: 10px; padding: 14px; }
+    .inv-section { padding: 20px 24px; }
+    .inv-card { background: #F5F5F7; border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+    .inv-row { display: flex; justify-content: space-between; align-items: center; background: #FFF; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
     .inv-row:last-child { margin-bottom: 0; }
-    .inv-row-title { font-size: 13px; font-weight: 600; color: #1D1D1F; }
-    .inv-row-sub { font-size: 11px; color: #8E8E93; margin-top: 2px; }
-    .inv-row-val { font-size: 18px; font-weight: 700; }
-    footer { padding: 14px 32px; border-top: 1px solid #E5E5EA; text-align: center; font-size: 11px; color: #8E8E93; }
-    @media (max-width: 600px) {
-      .kpi-strip { grid-template-columns: repeat(2, 1fr); }
-      .ddgrid { grid-template-columns: 1fr; }
-      .team-grid { grid-template-columns: 1fr; }
-      .main { padding: 14px; }
-      .tabs { padding: 10px 14px; }
-      .header { padding: 14px; }
-    }
+    .footer { padding: 10px 24px; text-align: center; font-size: 10px; color: #C7C7CC; border-top: 1px solid #E5E5EA; }
+    @media (max-width: 480px) { .kpi-value { font-size: 28px; } .header { padding: 12px 16px; } .l2-panel { padding: 14px 16px; } .team-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <h1>💰 Finance Command Center</h1>
-    <div style="font-size:11px;color:#8E8E93;margin-top:3px;">FranchiseKI LLC &middot; QB Live &middot; Cached every 2hr via Squirrel Pulse</div>
-  </div>
-  <a href="../hub/" style="font-size:12px;color:#0071E3;text-decoration:none;background:rgba(0,113,227,0.08);padding:5px 12px;border-radius:8px;">← Hub</a>
+  <h1>💰 Finance Command Center</h1>
+  <a href="../hub/" class="back">← Hub</a>
 </div>
 
 <div class="tabs">
@@ -123,212 +71,138 @@
   <button class="tab" onclick="switchTab('investor', this)">Investor</button>
 </div>
 
-<div class="kpi-strip">
-  <div class="kpi">
-    <div class="kpi-label">YTD Revenue</div>
-    <div class="kpi-value green">$305K</div>
-    <div class="kpi-sub">QB verified &middot; Jan–May 2026</div>
+<!-- BENNETT VIEW -->
+<div id="view-bennett" class="audience-view active">
+
+  <!-- L1: 3 KPIs only -->
+  <div class="kpi-row">
+    <div class="kpi-card" onclick="toggle('l2-runway', this)">
+      <div class="kpi-label">Cash Runway</div>
+      <div class="kpi-value" style="color:#FF3B30;">3.5<span style="font-size:18px;font-weight:600;"> wks</span></div>
+      <div class="kpi-sub">⚠️ Zero-deal scenario</div>
+      <div class="kpi-hint">▼ Tap for 13-week forecast</div>
+    </div>
+    <div class="kpi-card" onclick="toggle('l2-revenue', this)">
+      <div class="kpi-label">YTD Revenue</div>
+      <div class="kpi-value" style="color:#34C759;">$305<span style="font-size:18px;font-weight:600;">K</span></div>
+      <div class="kpi-sub">41% margin · cash basis</div>
+      <div class="kpi-hint">▼ Tap for P&amp;L trend</div>
+    </div>
+    <div class="kpi-card" onclick="toggle('l2-cash', this)">
+      <div class="kpi-label">Cash Position</div>
+      <div class="kpi-value" style="color:#FF9F0A;">$40<span style="font-size:18px;font-weight:600;">K</span></div>
+      <div class="kpi-sub">Checking ·5000 · live</div>
+      <div class="kpi-hint">▼ Tap for QB sync</div>
+    </div>
   </div>
-  <div class="kpi">
-    <div class="kpi-label">Cash (Checking)</div>
-    <div class="kpi-value amber">$40K</div>
-    <div class="kpi-sub">Chase &middot;5000 &middot; bank feed</div>
+
+  <!-- L2: Runway -->
+  <div id="l2-runway" class="l2-panel">
+    <div class="l2-title">13-Week Cash Runway</div>
+    <div class="insight">1 deal ($40K) = +5.2 weeks · $80K undeposited pending reconciliation = +10 weeks</div>
+    <div class="row"><div class="row-label">Week 1 (now)</div><div class="row-val" style="color:#FF3B30;">$40K</div></div>
+    <div class="row"><div class="row-label">Week 2</div><div class="row-val amber">$32K</div></div>
+    <div class="row"><div class="row-label">Week 3</div><div class="row-val amber">$25K</div></div>
+    <div class="row"><div class="row-label">Week 4 (end)</div><div class="row-val" style="color:#FF3B30;">$17K</div></div>
+    <div class="row"><div class="row-label">Burn rate</div><div class="row-val">$7,659/wk</div></div>
+    <div class="row"><div class="row-label">Monthly avg</div><div class="row-val">$33,184</div></div>
+    <div class="sync-line">
+      Notion forecast built 2026-05-05 ·
+      <a href="https://www.notion.so/357cf5514fd381a3be79e82aad15e1dc" class="l3" target="_blank">Open Full Forecast →</a>
+    </div>
   </div>
-  <div class="kpi">
-    <div class="kpi-label">Cash Runway</div>
-    <div class="kpi-value red">3.5 wks</div>
-    <div class="kpi-sub">Zero-deal &middot; $7.6K/wk burn</div>
+
+  <!-- L2: Revenue -->
+  <div id="l2-revenue" class="l2-panel">
+    <div class="l2-title">P&amp;L Monthly Trend</div>
+    <div class="months">
+      <div class="month-bar"><div class="month-bar-val" style="color:#34C759;">+21K</div><div class="month-bar-bg" style="height:42px;background:#34C759;"></div><div class="month-label">Jan</div></div>
+      <div class="month-bar"><div class="month-bar-val" style="color:#34C759;">+34K</div><div class="month-bar-bg" style="height:68px;background:#34C759;"></div><div class="month-label">Feb</div></div>
+      <div class="month-bar" style="justify-content:flex-end;"><div class="month-bar-val" style="color:#FF3B30;">-21K</div><div class="month-bar-bg neg" style="height:42px;background:#FF3B30;"></div><div class="month-label">Mar</div></div>
+      <div class="month-bar"><div class="month-bar-val" style="color:#34C759;">+58K</div><div class="month-bar-bg" style="height:80px;background:#34C759;"></div><div class="month-label">Apr</div></div>
+      <div class="month-bar"><div class="month-bar-val" style="color:#8E8E93;">TBD</div><div class="month-bar-bg" style="height:4px;background:#E5E5EA;"></div><div class="month-label">May</div></div>
+    </div>
+    <div class="row"><div class="row-label">Revenue</div><div class="row-val" style="color:#34C759;">$305,595</div></div>
+    <div class="row"><div class="row-label">Expenses</div><div class="row-val" style="color:#FF3B30;">$132,734</div></div>
+    <div class="row"><div class="row-label">Net Income</div><div class="row-val" style="color:#0071E3;">$171,551</div></div>
+    <div class="sync-line">
+      QB cash basis ·
+      <a href="https://app.qbo.intuit.com" class="l3" target="_blank">Open QuickBooks →</a>
+    </div>
   </div>
-  <div class="kpi">
-    <div class="kpi-label">Net Income YTD</div>
-    <div class="kpi-value green">$171K</div>
-    <div class="kpi-sub">41.2% margin &middot; cash basis</div>
+
+  <!-- L2: Cash -->
+  <div id="l2-cash" class="l2-panel">
+    <div class="l2-title">Cash &amp; QB Sync Status</div>
+    <div class="row"><div class="row-label">Checking ·5000</div><div class="row-val" style="color:#34C759;">$40,006</div></div>
+    <div class="row"><div class="row-label">Savings ·8833</div><div class="row-val" style="color:#FF9F0A;">$188K ⚠️ stale</div></div>
+    <div class="row"><div class="row-label">Undeposited Funds</div><div class="row-val" style="color:#FF9F0A;">$80,000</div></div>
+    <div class="row"><div class="row-label">AR (paid)</div><div class="row-val" style="color:#34C759;">$0 (INV-001 closed)</div></div>
+    <div class="row" style="margin-top:4px;"><div class="row-label" style="color:#FF3B30;font-weight:600;">CC Debt Total</div><div class="row-val" style="color:#FF3B30;">$175,281</div></div>
+    <div class="blocked-item" style="margin-top:14px;">
+      <div class="blocked-title">QB Entity: Sole Proprietor → LLC/S-Corp</div>
+      <div class="blocked-tag">Bennett Gate · S-Corp election</div>
+    </div>
+    <div class="blocked-item">
+      <div class="blocked-title">Savings ·8833 last synced Apr 16</div>
+      <div class="blocked-tag">Bennett Gate · refresh in QB</div>
+    </div>
+    <div class="sync-line">
+      QB synced every 2hr via Squirrel Pulse · Chase bank feed live ·
+      <a href="https://app.qbo.intuit.com" class="l3" target="_blank">Open QuickBooks →</a>
+    </div>
+  </div>
+
+</div><!-- /bennett -->
+
+<!-- TEAM VIEW -->
+<div id="view-team" class="audience-view">
+  <div class="team-grid">
+    <div class="team-kpi"><div class="kpi-label">Monthly Burn</div><div style="font-size:22px;font-weight:700;color:#FF3B30;margin:6px 0;">$33,184</div><div class="kpi-sub">Contract $12K · Payroll $11K</div></div>
+    <div class="team-kpi"><div class="kpi-label">Owner Draws YTD</div><div style="font-size:22px;font-weight:700;color:#FF9F0A;margin:6px 0;">$150,042</div><div class="kpi-sub">Jan–May 2026</div></div>
+    <div class="team-kpi"><div class="kpi-label">CC Debt Total</div><div style="font-size:22px;font-weight:700;color:#FF3B30;margin:6px 0;">$175K</div><div class="kpi-sub">5 cards · Amex $92K largest</div></div>
+  </div>
+  <div style="padding:0 24px 20px;">
+    <div class="row"><div class="row-label">Contract Labor</div><div class="row-val" style="color:#0071E3;">$12,000/mo</div></div>
+    <div class="row"><div class="row-label">Payroll</div><div class="row-val" style="color:#34C759;">$11,000/mo</div></div>
+    <div class="row"><div class="row-label">Ads (variable)</div><div class="row-val" style="color:#FF9F0A;">$5,900/mo</div></div>
+    <div class="row"><div class="row-label">Software</div><div class="row-val">$2,300/mo</div></div>
+    <div class="row"><div class="row-label">Rent</div><div class="row-val">$752/mo</div></div>
   </div>
 </div>
 
-<div class="main">
-
-  <!-- BENNETT VIEW -->
-  <div id="view-bennett" class="audience-view active">
-
-    <div class="runway-wrap">
-      <div style="font-size:10px;font-weight:700;color:#FF3B30;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">⚠️ Cash Runway Countdown</div>
-      <div style="display:flex;align-items:baseline;gap:10px;">
-        <div class="runway-num">3.5 weeks</div>
-        <div style="font-size:13px;color:#8E8E93;">zero-deal scenario &middot; $7,659/wk burn</div>
-      </div>
-      <div class="runway-bar-bg"><div class="runway-bar-fill"></div></div>
-      <div class="runway-labels">
-        <span style="color:#FF3B30;font-weight:600;">Now &middot; $40K checking</span>
-        <span>8 wks &middot; zero-deal end</span>
-        <span>16 wks &middot; self-sustaining</span>
-      </div>
-      <div class="runway-insight">
-        <strong style="color:#FF3B30;">1 deal = $40K commission = +5.2 weeks extended</strong><br>
-        <span style="font-size:12px;color:#8E8E93;">$80K undeposited in QB — pending reconciliation — would extend to 14+ weeks</span>
-      </div>
-    </div>
-
-    <div class="chart-wrap">
-      <div class="section-title-sm">P&L Monthly Trend — Jan–Apr 2026</div>
-      <div class="bar-chart">
-        <div class="bar-item"><div class="bar-val green">+$21K</div><div class="bar pos" style="height:42px;"></div><div class="bar-label">Jan</div></div>
-        <div class="bar-item"><div class="bar-val green">+$34K</div><div class="bar pos" style="height:68px;"></div><div class="bar-label">Feb</div></div>
-        <div class="bar-item"><div class="bar-val red">-$21K</div><div class="bar neg" style="height:42px;"></div><div class="bar-label">Mar</div></div>
-        <div class="bar-item"><div class="bar-val green">+$58K</div><div class="bar pos" style="height:80px;"></div><div class="bar-label">Apr</div></div>
-        <div class="bar-item"><div class="bar-val" style="color:#C7C7CC;">TBD</div><div class="bar" style="height:4px;background:#E5E5EA;"></div><div class="bar-label">May</div></div>
-      </div>
-      <div class="pl-totals">
-        <div class="pl-tot"><div class="pl-tot-label">Revenue</div><div class="pl-tot-val green">$305,595</div></div>
-        <div class="pl-tot"><div class="pl-tot-label">Expenses</div><div class="pl-tot-val red">$132,734</div></div>
-        <div class="pl-tot"><div class="pl-tot-label">Net Income</div><div class="pl-tot-val blue">$171,551</div></div>
-        <div class="pl-tot"><div class="pl-tot-label">Avg Burn/Mo</div><div class="pl-tot-val amber">$33,184</div></div>
-      </div>
-    </div>
-
-    <!-- DONE -->
-    <div class="section">
-      <div class="section-header" onclick="tog(this)">
-        <div class="sh-title">✅ Done <span class="badge bg">7 items</span></div>
-        <span class="chev">▼</span>
-      </div>
-      <div class="section-body">
-        <div class="arow"><div><div class="arow-name">INV-001 · $40K Salad House Franchising</div><div class="arow-meta">Arshad Bhutta commission · QB Payment ID 738 · paid 2026-05-04</div></div><span class="pill pg">Paid</span></div>
-        <div class="arow"><div><div class="arow-name">13-Week Cash Flow Forecast</div><div class="arow-meta">Notion · built 2026-05-05 · $80K available + deal scenarios mapped</div></div><a href="https://www.notion.so/357cf5514fd381a3be79e82aad15e1dc" class="alink" target="_blank">Open</a></div>
-        <div class="arow"><div><div class="arow-name">QB 3× Daily Sync Pipeline</div><div class="arow-meta">Squirrel → Drive → Leo → GitHub · 8 AM / 12 PM / 5 PM MT</div></div><span class="pill pg">Live</span></div>
-        <div class="arow"><div><div class="arow-name">CPA Command Center v4</div><div class="arow-meta">dashboard.franchiseki.com/cpa · Meta Ads + GHL appointment data</div></div><a href="../cpa/" class="alink">Open</a></div>
-        <div class="arow"><div><div class="arow-name">Business Audit Skill v2</div><div class="arow-meta">35-dimension audit · council 4.78/5 · Drive 1w7pnvUE...</div></div><span class="pill pg">Diamond</span></div>
-        <div class="arow"><div><div class="arow-name">Duplicate QB Payment Deleted</div><div class="arow-meta">Payment 740 ($40K unapplied) removed via batch · 2026-05-05</div></div><span class="pill pg">Fixed</span></div>
-        <div class="arow"><div><div class="arow-name">Finance CC v1 Deployed</div><div class="arow-meta">dashboard.franchiseki.com/finance · StatiCrypt-protected · live</div></div><span class="pill pg">Live</span></div>
-      </div>
-    </div>
-
-    <!-- BLOCKED (open by default) -->
-    <div class="section">
-      <div class="section-header" onclick="tog(this)">
-        <div class="sh-title">🔴 Blocked <span class="badge br">4 items</span></div>
-        <span class="chev open">▼</span>
-      </div>
-      <div class="section-body open">
-        <div class="block-row"><div class="block-title">QB Entity Type Fix</div><div class="block-meta">Shows "Sole Proprietor" — should be LLC taxed as S-Corp</div><span class="block-tag">Bennett Gate · S-Corp election</span></div>
-        <div class="block-row"><div class="block-title">Savings Account Reconciliation</div><div class="block-meta">Chase ·8833 shows $188K — flagged as incorrect · last synced Apr 16</div><span class="block-tag">Bennett Gate · verify in QB</span></div>
-        <div class="block-row"><div class="block-title">GHL PIT Token Expired</div><div class="block-meta">pit-3987cca6 → 403 Forbidden · attribution-daily.py blind · booked=0 all brands</div><span class="block-tag">Bennett Gate · app.crmx.app → new token</span></div>
-        <div class="block-row"><div class="block-title">Personal CC 1537 Still in QB</div><div class="block-meta">Co-mingling risk · $1,117 balance · Leo WO ts 1777946042 in flight</div><span class="block-tag">Leo WO In Flight</span></div>
-      </div>
-    </div>
-
-    <!-- IN PROGRESS -->
-    <div class="section">
-      <div class="section-header" onclick="tog(this)">
-        <div class="sh-title">🏗️ In Progress <span class="badge ba">3 items</span></div>
-        <span class="chev">▼</span>
-      </div>
-      <div class="section-body">
-        <div class="prog-row"><div class="arow-name">Ben Fellmeth QB Handoff</div><div class="arow-meta">AI team owns accounting · QB Online is canonical · Kay coordinating</div></div>
-        <div class="prog-row"><div class="arow-name">Revenue Categorization</div><div class="arow-meta">Cash basis · needs accrual for ASC 606 franchise fee compliance</div></div>
-        <div class="prog-row"><div class="arow-name">Blue Business Plus 1005 Verification</div><div class="arow-meta">$92,757 shown · flagged potentially incorrect · pending Chase statement</div></div>
-      </div>
-    </div>
-
-    <!-- DRILL-DOWN -->
-    <div class="section">
-      <div class="section-header" onclick="tog(this)">
-        <div class="sh-title">📂 Drill-Down Pages</div>
-        <span class="chev">▼</span>
-      </div>
-      <div class="section-body">
-        <div class="ddgrid">
-          <a href="https://www.notion.so/357cf5514fd381a3be79e82aad15e1dc" class="ddcard" target="_blank"><div class="ddcard-title">📊 13-Week Cash Flow</div><div class="ddcard-sub">$80K available · 3.5 wk runway · deal scenarios</div></a>
-          <a href="../cpa/" class="ddcard"><div class="ddcard-title">💸 CPA Dashboard</div><div class="ddcard-sub">Cost per appointment · Meta Ads · GHL attribution</div></a>
-          <a href="https://www.notion.so/CFO-Audit-356cf5514fd381429c3ac0bc895ab108" class="ddcard" target="_blank"><div class="ddcard-title">🔍 CFO Audit</div><div class="ddcard-sub">35-dimension audit · 20% score · 5 critical fails</div></a>
-          <a href="https://app.qbo.intuit.com" class="ddcard" target="_blank"><div class="ddcard-title">📘 QuickBooks Live</div><div class="ddcard-sub">billing@franchiseki.com · Chase bank feed · live</div></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- RESOURCES -->
-    <div class="section">
-      <div class="section-header" onclick="tog(this)">
-        <div class="sh-title">🔗 Resources</div>
-        <span class="chev">▼</span>
-      </div>
-      <div class="section-body">
-        <div class="res-row"><div class="res-icon">📗</div><div><div class="res-name">QuickBooks Online</div><div class="res-sub">billing@franchiseki.com · Chase + all CCs connected via bank feed</div></div></div>
-        <div class="res-row"><div class="res-icon">📋</div><div><div class="res-name">Sprint Board — Finance Rows</div><div class="res-sub">Notion 335cf5514fd3813488dec82a68622d7b · filter domain = Finance</div></div></div>
-        <div class="res-row"><div class="res-icon">🔧</div><div><div class="res-name">Business Audit Skill v2</div><div class="res-sub">Drive 1w7pnvUEhmHZjRYGRCPJ643OXlFSJ-2r2 · 35 financial dimensions · council 4.78/5</div></div></div>
-        <div class="res-row"><div class="res-icon">💻</div><div><div class="res-name">GitHub — Finance CC Source</div><div class="res-sub">bennett-maxwell/advaita-agent-audit · finance/index.html · StatiCrypt protected</div></div></div>
-        <div class="res-row"><div class="res-icon">📈</div><div><div class="res-name">CPA Command Center</div><div class="res-sub">dashboard.franchiseki.com/cpa · $44.70 blended CPL · Meta Ads verified</div></div></div>
-        <div class="res-row"><div class="res-icon">💰</div><div><div class="res-name">13-Week Cash Flow Forecast</div><div class="res-sub">Notion 357cf5514fd381a3be79e82aad15e1dc · built 2026-05-05 · deal scenarios mapped</div></div></div>
-      </div>
-    </div>
-
-  </div><!-- /bennett -->
-
-  <!-- TEAM VIEW -->
-  <div id="view-team" class="audience-view">
-    <div class="chart-wrap">
-      <div class="section-title-sm">Team Finance Overview</div>
-      <div class="team-grid">
-        <div class="team-card"><div class="team-card-label">Monthly Expenses</div><div class="team-card-val red">$33,184</div><div class="team-card-sub">avg · Contract $12K · Payroll $11K</div></div>
-        <div class="team-card"><div class="team-card-label">Owner Draws YTD</div><div class="team-card-val amber">$150,042</div><div class="team-card-sub">Jan–May 2026</div></div>
-        <div class="team-card"><div class="team-card-label">CC Debt Total</div><div class="team-card-val red">$175K</div><div class="team-card-sub">5 cards · Amex 1005 $92K largest</div></div>
-      </div>
-      <div class="section-title-sm" style="margin-top:12px;">Expense Breakdown</div>
-      <div class="exp-bar"><div class="exp-label">Contract Labor</div><div class="exp-track"><div class="exp-fill" style="width:36%;background:#0071E3;"></div></div><div class="exp-val blue">$12K</div></div>
-      <div class="exp-bar"><div class="exp-label">Payroll</div><div class="exp-track"><div class="exp-fill" style="width:33%;background:#34C759;"></div></div><div class="exp-val green">$11K</div></div>
-      <div class="exp-bar"><div class="exp-label">Ads</div><div class="exp-track"><div class="exp-fill" style="width:18%;background:#FF9F0A;"></div></div><div class="exp-val amber">$5.9K</div></div>
-      <div class="exp-bar"><div class="exp-label">Software</div><div class="exp-track"><div class="exp-fill" style="width:7%;background:#8E8E93;"></div></div><div class="exp-val" style="color:#8E8E93;">$2.3K</div></div>
-      <div class="exp-bar"><div class="exp-label">Rent</div><div class="exp-track"><div class="exp-fill" style="width:2%;background:#AF52DE;"></div></div><div class="exp-val" style="color:#AF52DE;">$752</div></div>
-    </div>
-    <div style="background:#FFF5F5;border:1px solid rgba(255,59,48,0.2);border-radius:12px;padding:16px 20px;">
-      <div class="section-title-sm">Credit Card Summary</div>
-      <div class="arow"><div><div class="arow-name">Amex Blue Business Plus ·1005</div><div class="arow-meta">Largest balance · flagged as potentially incorrect</div></div><span class="pill pr">$92,757</span></div>
-      <div class="arow"><div><div class="arow-name">PCE ·0864</div></div><span class="pill pa">$40,227</span></div>
-      <div class="arow"><div><div class="arow-name">Liam Chase ·9705</div><div class="arow-meta">Needs investigation</div></div><span class="pill pa">$19,109</span></div>
-      <div class="arow"><div><div class="arow-name">Blue Business Plus ·5003</div></div><span class="pill pa">$13,750</span></div>
-      <div class="arow"><div><div class="arow-name">Divvy</div></div><span class="pill pb">$9,438</span></div>
-      <div class="arow" style="border-bottom:none;"><div><div class="arow-name">Personal CC ·1537</div><div class="arow-meta">Co-mingling — removal in progress</div></div><span class="pill pr">Removing</span></div>
-    </div>
-  </div><!-- /team -->
-
-  <!-- INVESTOR VIEW -->
-  <div id="view-investor" class="audience-view">
-    <div class="inv-card" style="margin-bottom:16px;">
-      <div class="section-title-sm">FranchiseKI — Business Overview</div>
-      <p style="font-size:14px;color:#1D1D1F;line-height:1.6;margin-bottom:16px;">FranchiseKI is an AI-augmented franchise brokerage. We match buyers with franchise opportunities and earn ~$40K commission per placement — paid by franchisors, free to buyers. The AI fleet (Squirrel + Leo) runs 80%+ of operations at under $10/week.</p>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
-        <div style="background:#FFFFFF;border-radius:10px;padding:14px;"><div class="team-card-label">Revenue Per Deal</div><div class="team-card-val green">$40K</div><div class="team-card-sub">franchisor commission</div></div>
-        <div style="background:#FFFFFF;border-radius:10px;padding:14px;"><div class="team-card-label">YTD Revenue 2026</div><div class="team-card-val green">$305,595</div><div class="team-card-sub">41.2% net margin</div></div>
-        <div style="background:#FFFFFF;border-radius:10px;padding:14px;"><div class="team-card-label">Active Pipeline</div><div class="team-card-val blue">1,433 leads</div><div class="team-card-sub">3 brands · IC / SH / SRP</div></div>
-        <div style="background:#FFFFFF;border-radius:10px;padding:14px;"><div class="team-card-label">AI Fleet Cost</div><div class="team-card-val green">&lt;$10/week</div><div class="team-card-sub">full autonomous ops</div></div>
-      </div>
-    </div>
+<!-- INVESTOR VIEW -->
+<div id="view-investor" class="audience-view">
+  <div class="inv-section">
     <div class="inv-card">
-      <div class="section-title-sm">90-Day Revenue Scenarios</div>
-      <div class="inv-row"><div><div class="inv-row-title">Conservative (1 deal/mo)</div><div class="inv-row-sub">Current trajectory</div></div><div class="inv-row-val amber">$120K</div></div>
-      <div class="inv-row"><div><div class="inv-row-title">Target (3 deals/mo)</div><div class="inv-row-sub">Speed-to-lead + SynthFlow deployed</div></div><div class="inv-row-val green">$360K</div></div>
-      <div class="inv-row"><div><div class="inv-row-title">Optimistic (5 deals/mo)</div><div class="inv-row-sub">Full autonomy + MapKi lead gen live</div></div><div class="inv-row-val blue">$600K</div></div>
+      <div class="kpi-label" style="margin-bottom:8px;">Business Model</div>
+      <div style="font-size:13px;color:#1D1D1F;line-height:1.6;">Franchise brokerage. Earn ~$40K commission per placement — paid by franchisor, free to buyer. AI fleet runs 80% of ops at &lt;$10/wk.</div>
     </div>
-  </div><!-- /investor -->
+    <div class="kpi-label" style="margin-bottom:10px;margin-top:4px;">90-Day Revenue Scenarios</div>
+    <div class="inv-row"><div><div style="font-size:13px;font-weight:600;">Conservative · 1 deal/mo</div><div style="font-size:11px;color:#8E8E93;">Current trajectory</div></div><div style="font-size:18px;font-weight:700;color:#FF9F0A;">$120K</div></div>
+    <div class="inv-row"><div><div style="font-size:13px;font-weight:600;">Target · 3 deals/mo</div><div style="font-size:11px;color:#8E8E93;">SynthFlow + Speed-to-Lead live</div></div><div style="font-size:18px;font-weight:700;color:#34C759;">$360K</div></div>
+    <div class="inv-row"><div><div style="font-size:13px;font-weight:600;">Optimistic · 5 deals/mo</div><div style="font-size:11px;color:#8E8E93;">Full autonomy + MapKi leads</div></div><div style="font-size:18px;font-weight:700;color:#0071E3;">$600K</div></div>
+  </div>
+</div>
 
-</div><!-- /main -->
-
-<footer>Data: QuickBooks Online (billing@franchiseki.com) · Cached every 2hr via Squirrel Pulse · May 5, 2026 · <a href="../hub/" style="color:#0071E3;text-decoration:none;">← Back to Hub</a></footer>
+<div class="footer">QB · Chase bank feed · Cached 2hr via Pulse · May 5, 2026</div>
 
 <script>
-function tog(header) {
-  const body = header.nextElementSibling;
-  const chev = header.querySelector('.chev');
-  body.classList.toggle('open');
-  chev.classList.toggle('open');
+function toggle(id, card) {
+  const panel = document.getElementById(id);
+  const cards = document.querySelectorAll('.kpi-card');
+  const panels = document.querySelectorAll('.l2-panel');
+  const isOpen = panel.classList.contains('open');
+  panels.forEach(p => p.classList.remove('open'));
+  cards.forEach(c => c.classList.remove('active'));
+  if (!isOpen) { panel.classList.add('open'); card.classList.add('active'); }
 }
-function switchTab(view, btn) {
-  document.querySelectorAll('.audience-view').forEach(v => v.classList.remove('active'));
+function switchTab(v, btn) {
+  document.querySelectorAll('.audience-view').forEach(x => x.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
+  document.getElementById('view-' + v).classList.add('active');
   btn.classList.add('active');
 }
 </script>
-
 </body>
 </html>

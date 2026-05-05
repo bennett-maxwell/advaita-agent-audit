@@ -1,548 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Sales Meeting Prep — FKI Command Center</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --dark: #0F1923;
-    --dark2: #162030;
-    --dark3: #1E2D40;
-    --blue: #3496FF;
-    --green: #22C55E;
-    --amber: #F59E0B;
-    --red: #EF4444;
-    --purple: #8B5CF6;
-    --text: #E2E8F0;
-    --muted: #94A3B8;
-    --border: rgba(255,255,255,0.08);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-serif; max-width: 520px; margin: 0 auto; min-height: 100vh; }
-
-  /* HEADER */
-  .header { background: var(--dark); padding: 20px 16px 16px; border-bottom: 1px solid var(--border); }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .header-date { font-size: 22px; font-weight: 800; color: white; line-height: 1.1; }
-  .header-day { font-size: 13px; color: var(--muted); margin-top: 2px; }
-  .call-badge { background: var(--blue); color: white; border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 700; white-space: nowrap; }
-  .sources-strip { display: flex; gap: 8px; flex-wrap: wrap; }
-  .src-chip { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); background: var(--dark3); border-radius: 6px; padding: 3px 8px; }
-  .src-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .src-dot.green { background: var(--green); }
-  .src-dot.amber { background: var(--amber); }
-  .last-updated { font-size: 11px; color: var(--muted); margin-top: 8px; }
-
-  /* METRICS STRIP */
-  .metrics-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 12px 16px; background: var(--dark2); border-bottom: 1px solid var(--border); }
-  .metric { text-align: center; }
-  .metric-num { font-size: 20px; font-weight: 800; line-height: 1; }
-  .metric-label { font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .m-hot { color: var(--green); }
-  .m-fdd { color: var(--blue); }
-  .m-follow { color: var(--amber); }
-  .m-new { color: var(--purple); }
-  .m-stale { color: var(--red); }
-
-  /* SECTION HEADERS */
-  .section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
-  .section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .section-title { font-size: 13px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.05em; }
-  .section-count { background: var(--dark3); color: var(--muted); border-radius: 10px; padding: 2px 8px; font-size: 11px; }
-
-  /* TODAY'S SCHEDULE - horizontal scroll */
-  .schedule-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
-  .schedule-scroll::-webkit-scrollbar { height: 3px; }
-  .schedule-scroll::-webkit-scrollbar-track { background: var(--dark3); }
-  .schedule-scroll::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
-  .call-card { min-width: 180px; background: var(--dark3); border-radius: 10px; padding: 12px; border-left: 3px solid var(--blue); flex-shrink: 0; }
-  .call-time { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .call-name { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; line-height: 1.2; }
-  .call-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
-  .stage-chip { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
-  .stage-1 { background: rgba(52, 150, 255, 0.2); color: var(--blue); }
-  .stage-2 { background: rgba(139, 92, 246, 0.2); color: var(--purple); }
-  .stage-3 { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
-  .stage-4 { background: rgba(34, 197, 94, 0.2); color: var(--green); }
-  .stage-5 { background: rgba(239, 68, 68, 0.2); color: var(--red); }
-  .brand-chip { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.08); color: var(--muted); }
-
-  /* HOT LEAD CARDS */
-  .hot-card { background: var(--dark3); border-radius: 10px; padding: 12px; margin-bottom: 8px; border-left: 3px solid var(--green); }
-  .hot-card:last-child { margin-bottom: 0; }
-  .hot-name { font-size: 15px; font-weight: 700; color: white; }
-  .hot-meta { display: flex; gap: 6px; align-items: center; margin: 4px 0; flex-wrap: wrap; }
-  .hot-status { font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 4px; }
-  .signals-row { display: flex; gap: 4px; margin: 6px 0; }
-  .signal { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
-  .sig-pass { background: rgba(34,197,94,0.15); color: var(--green); }
-  .sig-warn { background: rgba(245,158,11,0.15); color: var(--amber); }
-  .sig-fail { background: rgba(239,68,68,0.15); color: var(--red); }
-  .hot-action { font-size: 12px; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 6px; padding: 6px 10px; margin-top: 8px; color: var(--green); font-weight: 500; }
-
-  /* FDD CARDS */
-  .fdd-card { background: var(--dark3); border-radius: 10px; padding: 12px; margin-bottom: 8px; border-left: 3px solid var(--blue); }
-  .fdd-card:last-child { margin-bottom: 0; }
-  .fdd-name { font-size: 14px; font-weight: 700; color: white; }
-  .fdd-row { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 12px; }
-  .fdd-waiting { font-size: 12px; color: var(--amber); margin-top: 4px; }
-  .fdd-check { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-  .fdd-item { font-size: 11px; padding: 2px 6px; border-radius: 4px; }
-  .fdd-yes { background: rgba(34,197,94,0.15); color: var(--green); }
-  .fdd-no { background: rgba(239,68,68,0.15); color: var(--red); }
-
-  /* FOLLOW-UP CARDS */
-  .followup-card { background: var(--dark3); border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; border-left: 3px solid var(--amber); display: flex; justify-content: space-between; align-items: flex-start; }
-  .followup-card:last-child { margin-bottom: 0; }
-  .fu-left { flex: 1; }
-  .fu-name { font-size: 13px; font-weight: 700; color: white; }
-  .fu-detail { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .fu-badge { font-size: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(245,158,11,0.15); color: var(--amber); font-weight: 600; white-space: nowrap; }
-
-  /* REP ACCOUNTABILITY */
-  .rep-section { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .rep-col { background: var(--dark3); border-radius: 10px; padding: 10px; }
-  .rep-name { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-  .rep-item { font-size: 12px; color: var(--text); margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-  .rep-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .rep-lead { font-weight: 600; }
-  .rep-action { color: var(--muted); font-size: 11px; margin-top: 1px; }
-  .rep-due { color: var(--amber); font-size: 10px; }
-
-  /* DRIFT ALERTS */
-  .drift-card { display: flex; justify-content: space-between; align-items: center; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 8px 12px; margin-bottom: 6px; }
-  .drift-card:last-child { margin-bottom: 0; }
-  .drift-name { font-size: 13px; font-weight: 600; color: white; }
-  .drift-stage { font-size: 11px; color: var(--muted); }
-  .drift-days { font-size: 12px; font-weight: 700; color: var(--red); }
-
-  /* CASH CONTEXT */
-  .cash-bar { background: var(--dark2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin: 0 16px 16px; display: flex; justify-content: space-between; align-items: center; }
-  .cash-left { font-size: 12px; }
-  .cash-label { color: var(--muted); }
-  .cash-val { color: var(--red); font-weight: 700; }
-  .cash-link { font-size: 11px; color: var(--blue); text-decoration: none; }
-
-  /* PIPELINE BAR */
-  .pipeline-bar { display: flex; gap: 4px; margin-bottom: 10px; }
-  .pb-seg { border-radius: 3px; height: 8px; transition: all 0.3s; }
-  .pb-label { display: flex; gap: 6px; flex-wrap: wrap; }
-  .pb-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); }
-  .pb-dot { width: 8px; height: 8px; border-radius: 2px; }
-
-  /* DATA STATUS BADGE */
-  .data-status { display: flex; align-items: center; gap: 6px; font-size: 11px; padding: 6px 12px; border-radius: 6px; margin: 8px 16px; }
-  .data-status.pending { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); color: var(--amber); }
-  .data-status.live { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); color: var(--green); }
-
-  /* TOMORROW SECTION */
-  .tmrw-card { background: var(--dark3); border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; border-left: 3px solid var(--purple); display: flex; justify-content: space-between; align-items: flex-start; }
-  .tmrw-card:last-child { margin-bottom: 0; }
-  .tmrw-name { font-size: 13px; font-weight: 700; color: white; }
-  .tmrw-detail { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  /* FOOTER */
-  .footer { padding: 16px; font-size: 11px; color: var(--muted); text-align: center; border-top: 1px solid var(--border); margin-top: 8px; }
-  .footer a { color: var(--blue); text-decoration: none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Pipeline — FranchiseKI</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif; background: #FFFFFF; color: #1D1D1F; }
+    .header { padding: 16px 24px; border-bottom: 1px solid #E5E5EA; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 17px; font-weight: 700; }
+    .back { font-size: 12px; color: #0071E3; text-decoration: none; background: rgba(0,113,227,0.08); padding: 5px 12px; border-radius: 8px; }
+    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #E5E5EA; border-bottom: 1px solid #E5E5EA; }
+    .kpi-card { background: #FFF; padding: 22px 18px; cursor: pointer; transition: background 0.15s; user-select: none; position: relative; }
+    .kpi-card:hover { background: #F9F9FB; }
+    .kpi-card.active { background: #F0F7FF; }
+    .kpi-card.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: #0071E3; }
+    .kpi-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .kpi-value { font-size: 38px; font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
+    .kpi-sub { font-size: 11px; color: #8E8E93; }
+    .kpi-hint { font-size: 10px; color: #0071E3; margin-top: 8px; opacity: 0; transition: opacity 0.2s; }
+    .kpi-card:hover .kpi-hint, .kpi-card.active .kpi-hint { opacity: 1; }
+    .l2-panel { display: none; padding: 20px 24px; border-bottom: 1px solid #E5E5EA; background: #FAFAFA; }
+    .l2-panel.open { display: block; animation: slideDown 0.2s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    .l2-title { font-size: 13px; font-weight: 700; color: #1D1D1F; margin-bottom: 14px; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #F0F0F0; }
+    .row:last-of-type { border-bottom: none; }
+    .row-label { font-size: 13px; color: #1D1D1F; }
+    .row-val { font-size: 13px; font-weight: 700; }
+    .sync-line { font-size: 11px; color: #8E8E93; margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .l3 { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #0071E3; text-decoration: none; background: rgba(0,113,227,0.08); padding: 5px 11px; border-radius: 8px; }
+    .crisis { background: rgba(255,59,48,0.06); border-left: 3px solid #FF3B30; border-radius: 0 8px 8px 0; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; }
+    .funnel-stage { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #F5F5F7; }
+    .funnel-label { font-size: 12px; color: #1D1D1F; }
+    .funnel-count { font-size: 13px; font-weight: 700; }
+    .funnel-drop { font-size: 10px; color: #FF3B30; }
+    .footer { padding: 10px 24px; text-align: center; font-size: 10px; color: #C7C7CC; border-top: 1px solid #E5E5EA; }
+    @media (max-width: 480px) { .kpi-value { font-size: 28px; } }
+  </style>
 </head>
 <body>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="header-top">
-    <div>
-      <div class="header-date">Tuesday, May 5</div>
-      <div class="header-day">2026 &nbsp;·&nbsp; Sales Meeting Prep</div>
-    </div>
-    <div class="call-badge">3 calls today</div>
+<div class="header"><h1>📈 Sales Pipeline</h1><a href="../hub/" class="back">← Hub</a></div>
+<div class="kpi-row">
+  <div class="kpi-card" onclick="toggle('l2-showrate', this)">
+    <div class="kpi-label">Show Rate</div>
+    <div class="kpi-value" style="color:#FF3B30;">26<span style="font-size:18px;font-weight:600;">%</span></div>
+    <div class="kpi-sub">⚠️ SH 31.9% / IC 20.3% · vs 70%</div>
+    <div class="kpi-hint">▼ Tap for details</div>
   </div>
-  <div class="sources-strip">
-    <div class="src-chip"><span class="src-dot green"></span> GHL <span style="color:#475569;font-size:9px;">(Leo sync 5:50AM)</span></div>
-    <div class="src-chip"><span class="src-dot green"></span> Calendar</div>
-    <div class="src-chip"><span class="src-dot green"></span> Drive</div>
-    <div class="src-chip"><span class="src-dot amber"></span> Pipeline Data</div>
+  <div class="kpi-card" onclick="toggle('l2-unassigned', this)">
+    <div class="kpi-label">Unassigned Leads</div>
+    <div class="kpi-value" style="color:#FF9F0A;">506</div>
+    <div class="kpi-sub">⚠️ Going cold daily</div>
+    <div class="kpi-hint">▼ Tap for fix</div>
   </div>
-  <div class="last-updated">Last updated: May 5 2026 6:04 AM MDT &nbsp;·&nbsp; <a href="/finance/" style="color:var(--blue);font-size:11px;">Finance</a> &nbsp;·&nbsp; <a href="/hub/" style="color:var(--blue);font-size:11px;">Hub</a></div>
-</div>
-
-<!-- METRICS STRIP -->
-<div class="metrics-strip">
-  <div class="metric">
-    <div class="metric-num m-hot">7</div>
-    <div class="metric-label">🔥 Hot</div>
-  </div>
-  <div class="metric">
-    <div class="metric-num m-fdd">5</div>
-    <div class="metric-label">📄 FDD</div>
-  </div>
-  <div class="metric">
-    <div class="metric-num m-follow">12</div>
-    <div class="metric-label">🟡 Follow</div>
-  </div>
-  <div class="metric">
-    <div class="metric-num m-new">8</div>
-    <div class="metric-label">🆕 New</div>
-  </div>
-  <div class="metric">
-    <div class="metric-num m-stale">14</div>
-    <div class="metric-label">🚨 Stale</div>
+  <div class="kpi-card" onclick="toggle('l2-pipeline', this)">
+    <div class="kpi-label">Pipeline</div>
+    <div class="kpi-value" style="color:#0071E3;">1,433</div>
+    <div class="kpi-sub">0.28% end-to-end · vs 2.3% industry</div>
+    <div class="kpi-hint">▼ Tap for funnel</div>
   </div>
 </div>
-
-<!-- TODAY'S SCHEDULE -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">Today's Calls</div>
-    <div class="section-count">3</div>
-  </div>
-  <div class="schedule-scroll">
-    <div class="call-card" style="border-left-color:#22C55E">
-      <div class="call-time">9:00 AM MDT</div>
-      <div class="call-name">Jay Wilson</div>
-      <div class="call-meta">
-        <span class="stage-chip stage-5">CEO Call</span>
-        <span class="brand-chip">Salad House</span>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px;">Hickory, NC &nbsp;·&nbsp; FA pending</div>
-    </div>
-    <div class="call-card" style="border-left-color:#8B5CF6">
-      <div class="call-time">11:30 AM MDT</div>
-      <div class="call-name">Gurwinder Singh</div>
-      <div class="call-meta">
-        <span class="stage-chip stage-2">Territory Rev</span>
-        <span class="brand-chip">Salad House</span>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px;">Demo report sent ✅</div>
-    </div>
-    <div class="call-card" style="border-left-color:#F59E0B">
-      <div class="call-time">2:00 PM MDT</div>
-      <div class="call-name">Charles Tremonti</div>
-      <div class="call-meta">
-        <span class="stage-chip stage-3">Funding Call</span>
-        <span class="brand-chip">Salad House</span>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px;">Myrtle Beach, SC &nbsp;·&nbsp; ⚠️ No timeline</div>
-    </div>
-    <div class="call-card" style="border-left-color:#3496FF;opacity:0.6">
-      <div class="call-time">+ More via Leo</div>
-      <div class="call-name" style="font-size:12px;color:var(--muted);">GHL calendar syncing…</div>
-      <div style="font-size:10px;color:var(--muted);margin-top:6px;">Refresh when Leo WO completes</div>
-    </div>
-  </div>
+<div id="l2-showrate" class="l2-panel">
+  <div class="l2-title">Show Rate vs 70% Target</div>
+  <div class="crisis"><strong style="color:#FF3B30;">Critical:</strong> SH 31.9% / IC 20.3% vs 70% industry target. Fix: 3-touch reminder workflow (24hr/2hr/1hr pre-call).</div>
+  <div class="row"><div class="row-label">SH show rate</div><div class="row-val" style="color:#FF9F0A;">31.9%</div></div>
+  <div class="row"><div class="row-label">IC show rate</div><div class="row-val" style="color:#FF3B30;">20.3%</div></div>
+  <div class="row"><div class="row-label">Industry target</div><div class="row-val">70%</div></div>
+  <div class="row"><div class="row-label">SynthFlow status</div><div class="row-val" style="color:#FF3B30;">NOT CONNECTED</div></div>
+  <div class="row"><div class="row-label">3-touch reminders</div><div class="row-val" style="color:#FF3B30;">NOT LIVE</div></div>
+  <div class="sync-line">GHL Location 14RD8KklxR9G4e0Rf7v2 · <a href="https://app.gohighlevel.com" class="l3" target="_blank">Open GHL →</a></div>
 </div>
-
-<!-- HOT LEADS -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">🔥 Hot Leads</div>
-    <div class="section-count">7</div>
-  </div>
-
-  <div class="hot-card">
-    <div class="hot-name">Jay Wilson</div>
-    <div class="hot-meta">
-      <span class="stage-chip stage-5">CEO Call Today</span>
-      <span class="brand-chip">Salad House</span>
-      <span style="font-size:11px;color:var(--muted);">Hickory, NC</span>
-    </div>
-    <div class="signals-row">
-      <span class="signal sig-pass">✅ Capital</span>
-      <span class="signal sig-pass">✅ Intent</span>
-      <span class="signal sig-pass">✅ Territory</span>
-      <span class="signal sig-warn">⚠️ Timeline</span>
-      <span class="signal sig-pass">✅ Funding</span>
-    </div>
-    <div class="hot-status">$200K liquid, 880 credit, SBA-ready. Attending Discovery Day Monday. FA ready to send post-close.</div>
-    <div class="hot-action">Next: Send FA immediately if verbal yes on call today</div>
-  </div>
-
-  <div class="hot-card">
-    <div class="hot-name">Dr. Sangit Kaur</div>
-    <div class="hot-meta">
-      <span class="stage-chip stage-3">Funding Call</span>
-      <span class="brand-chip">Salad House</span>
-    </div>
-    <div class="signals-row">
-      <span class="signal sig-pass">✅ Capital</span>
-      <span class="signal sig-pass">✅ Intent</span>
-      <span class="signal sig-pass">✅ Territory</span>
-      <span class="signal sig-pass">✅ Timeline</span>
-      <span class="signal sig-warn">⚠️ Funding</span>
-    </div>
-    <div class="hot-status">Funding call in progress. Strong candidate — MD background, verified liquid.</div>
-    <div class="hot-action">Next: Confirm financing pathway + schedule Business Review</div>
-  </div>
-
-  <div class="hot-card">
-    <div class="hot-name">Mary Ussery</div>
-    <div class="hot-meta">
-      <span class="stage-chip stage-4">Biz Plan</span>
-      <span class="brand-chip">Salad House</span>
-    </div>
-    <div class="signals-row">
-      <span class="signal sig-pass">✅ Capital</span>
-      <span class="signal sig-warn">⚠️ Intent</span>
-      <span class="signal sig-pass">✅ Territory</span>
-      <span class="signal sig-warn">⚠️ Timeline</span>
-      <span class="signal sig-pass">✅ Funding</span>
-    </div>
-    <div class="hot-status">Biz plan form needs completion. Kay connected to Michelle and Riley. Contact saved for Bud.</div>
-    <div class="hot-action">Next: Follow up on biz plan form — check with Kay</div>
-  </div>
-
-  <div class="hot-card">
-    <div class="hot-name">Barry Lubmann</div>
-    <div class="hot-meta">
-      <span class="stage-chip stage-2">Territory Rev</span>
-      <span class="brand-chip">Indy Clover</span>
-    </div>
-    <div class="signals-row">
-      <span class="signal sig-pass">✅ Capital</span>
-      <span class="signal sig-pass">✅ Intent</span>
-      <span class="signal sig-warn">⚠️ Territory</span>
-      <span class="signal sig-warn">⚠️ Timeline</span>
-      <span class="signal sig-warn">⚠️ Funding</span>
-    </div>
-    <div class="hot-status">Need to schedule call with Quinn. Follow-up outstanding.</div>
-    <div class="hot-action">Next: Schedule Quinn call — this week</div>
-  </div>
-
-  <div style="text-align:center;font-size:12px;color:var(--muted);padding:8px 0;">+ 3 more hot leads via GHL sync &nbsp;·&nbsp; <span style="color:var(--blue)">Refresh pending Leo WO</span></div>
+<div id="l2-unassigned" class="l2-panel">
+  <div class="l2-title">506 Unassigned Leads Going Cold</div>
+  <div class="crisis"><strong style="color:#FF3B30;">506 leads unassigned to any rep.</strong> Every minute costs 391% conversion drop. Speed-to-lead target: &lt;60 seconds.</div>
+  <div class="row"><div class="row-label">Unassigned leads</div><div class="row-val" style="color:#FF3B30;">506</div></div>
+  <div class="row"><div class="row-label">Lead Scorer status</div><div class="row-val" style="color:#FF9F0A;">FastAPI :8744 LIVE</div></div>
+  <div class="row"><div class="row-label">GHL webhook</div><div class="row-val" style="color:#FF3B30;">NOT WIRED</div></div>
+  <div class="row"><div class="row-label">Fix: wire :8744 → GHL ContactCreate</div><div class="row-val" style="color:#FF9F0A;">Leo WO in flight</div></div>
+  <div class="sync-line">GHL Pipeline vUMUWSpK5v217qHsFH5k · <a href="https://app.gohighlevel.com" class="l3" target="_blank">Open GHL →</a></div>
 </div>
-
-<!-- FDD REVIEW -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">📄 FDD Review</div>
-    <div class="section-count">5</div>
-  </div>
-
-  <div class="fdd-card">
-    <div class="fdd-name">Philip Sondes</div>
-    <div class="fdd-row">
-      <span style="font-size:12px;color:var(--muted);">Salad House · FDD sent</span>
-      <span style="font-size:12px;color:var(--amber);">Not signed</span>
-    </div>
-    <div class="fdd-check">
-      <span class="fdd-item fdd-yes">✅ FDD sent</span>
-      <span class="fdd-item fdd-yes">✅ Demo report</span>
-      <span class="fdd-item fdd-yes">✅ Frank video sent</span>
-      <span class="fdd-item fdd-no">❌ Signed</span>
-    </div>
-    <div class="fdd-waiting">Waiting on: Prospect to sign — follow up needed</div>
-  </div>
-
-  <div class="fdd-card">
-    <div class="fdd-name">Harinder (MBA)</div>
-    <div class="fdd-row">
-      <span style="font-size:12px;color:var(--muted);">Salad House · Jan 20 call scheduled</span>
-      <span style="font-size:12px;color:var(--green);">In process</span>
-    </div>
-    <div class="fdd-check">
-      <span class="fdd-item fdd-yes">✅ FDD sent</span>
-      <span class="fdd-item fdd-yes">✅ Demo: Modesto/Turlock</span>
-      <span class="fdd-item fdd-yes">✅ Testimonials sent</span>
-      <span class="fdd-item fdd-no">❌ Signed</span>
-    </div>
-    <div class="fdd-waiting">Waiting on: FDD review call (Jan 20). 12-yr mini-market background.</div>
-  </div>
-
-  <div class="fdd-card">
-    <div class="fdd-name">Dee Patel</div>
-    <div class="fdd-row">
-      <span style="font-size:12px;color:var(--muted);">Salad House · $400K-799K liquid</span>
-      <span style="font-size:12px;color:var(--amber);">Not confirmed</span>
-    </div>
-    <div class="fdd-check">
-      <span class="fdd-item fdd-yes">✅ Founder video sent</span>
-      <span class="fdd-item fdd-no">❌ 1:30 PM confirmed</span>
-      <span class="fdd-item fdd-no">❌ FDD signed</span>
-    </div>
-    <div class="fdd-waiting">Atlanta, GA &nbsp;·&nbsp; Spouse involved &nbsp;·&nbsp; Already owns franchise</div>
-  </div>
+<div id="l2-pipeline" class="l2-panel">
+  <div class="l2-title">Sales Funnel (1,433 total)</div>
+  <div class="funnel-stage"><div><div class="funnel-label">New Lead</div><div class="funnel-drop">↓ 88% drop</div></div><div class="funnel-count" style="color:#0071E3;">1,064</div></div>
+  <div class="funnel-stage"><div><div class="funnel-label">Interested</div></div><div class="funnel-count" style="color:#FF9F0A;">125</div></div>
+  <div class="funnel-stage"><div><div class="funnel-label">Intro Call</div></div><div class="funnel-count">139</div></div>
+  <div class="funnel-stage"><div><div class="funnel-label">Territory Review</div></div><div class="funnel-count">58</div></div>
+  <div class="funnel-stage"><div><div class="funnel-label">Financial Review</div></div><div class="funnel-count">21</div></div>
+  <div class="funnel-stage"><div><div class="funnel-label">Discovery Day</div></div><div class="funnel-count">11</div></div>
+  <div class="funnel-stage"><div><div class="funnel-label">Signed</div></div><div class="funnel-count" style="color:#34C759;">3</div></div>
+  <div class="row" style="margin-top:8px;"><div class="row-label" style="font-weight:600;">End-to-end conversion</div><div class="row-val" style="color:#FF3B30;">0.28% vs 2.3% industry</div></div>
+  <div class="sync-line">GHL verified May 2026 · <a href="https://app.gohighlevel.com" class="l3" target="_blank">Open GHL →</a></div>
 </div>
-
-<!-- FOLLOW-UPS -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">🟡 Follow-Ups Needed</div>
-    <div class="section-count">12</div>
-  </div>
-
-  <div class="followup-card">
-    <div class="fu-left">
-      <div class="fu-name">Akos (FDD renewal)</div>
-      <div class="fu-detail">Salad House · Holding off until FDD renewed (22nd)</div>
-    </div>
-    <div class="fu-badge">Next: Apr 22</div>
-  </div>
-
-  <div class="followup-card">
-    <div class="fu-left">
-      <div class="fu-name">Liam (Nick Patel updates)</div>
-      <div class="fu-detail">Salad House · Waiting on reports that aren't viable — Madison managing</div>
-    </div>
-    <div class="fu-badge">Text today</div>
-  </div>
-
-  <div class="followup-card">
-    <div class="fu-left">
-      <div class="fu-name">Charles Tremonti</div>
-      <div class="fu-detail">Salad House · Myrtle Beach SC · 2 PM call today · No timeline</div>
-    </div>
-    <div class="fu-badge">Call 2PM</div>
-  </div>
-
-  <div class="followup-card">
-    <div class="fu-left">
-      <div class="fu-name">Michelle Cole (Glo - cancelled)</div>
-      <div class="fu-detail">Colorado · $750K+ liquid · Cancelled — rebook needed</div>
-    </div>
-    <div class="fu-badge">Reschedule</div>
-  </div>
-
-  <div style="text-align:center;font-size:12px;color:var(--muted);padding:8px 0;">+ 8 more follow-ups &nbsp;·&nbsp; <span style="color:var(--blue)">Full list pending Leo GHL sync</span></div>
-</div>
-
-<!-- REP ACCOUNTABILITY -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">Rep Accountability</div>
-  </div>
-  <div class="rep-section">
-    <div class="rep-col">
-      <div class="rep-name">Bailey Maxwell</div>
-      <div class="rep-item">
-        <div class="rep-lead">Jay Wilson</div>
-        <div class="rep-action">Confirm Discovery Day attendance</div>
-        <div class="rep-due">Due: Today</div>
-      </div>
-      <div class="rep-item">
-        <div class="rep-lead">New IC leads (3)</div>
-        <div class="rep-action">Initial outreach within 60s</div>
-        <div class="rep-due">Due: Today</div>
-      </div>
-    </div>
-    <div class="rep-col">
-      <div class="rep-name">Keith Kern</div>
-      <div class="rep-item">
-        <div class="rep-lead">Morning prep review</div>
-        <div class="rep-action">Review + customize Leo report</div>
-        <div class="rep-due">Due: Today</div>
-      </div>
-      <div class="rep-item">
-        <div class="rep-lead">Update SOP links</div>
-        <div class="rep-action">Confirm broken IC video links</div>
-        <div class="rep-due">Due: EOW</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- DRIFT ALERTS -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">🚨 Drift Alerts</div>
-    <div class="section-count">14</div>
-  </div>
-
-  <div class="drift-card">
-    <div>
-      <div class="drift-name">Tasha Wallace</div>
-      <div class="drift-stage">Indy Clover · Franchise Fit · Liquid $0-49K</div>
-    </div>
-    <div class="drift-days">⚠️ LOW CAP</div>
-  </div>
-
-  <div class="drift-card">
-    <div>
-      <div class="drift-name">Sal Ata</div>
-      <div class="drift-stage">Unknown stage · Status unclear</div>
-    </div>
-    <div class="drift-days">21d stale</div>
-  </div>
-
-  <div class="drift-card">
-    <div>
-      <div class="drift-name">Navin Bhutani</div>
-      <div class="drift-stage">Not in CRMX · LinkedIn only</div>
-    </div>
-    <div class="drift-days">Add to GHL</div>
-  </div>
-
-  <div style="text-align:center;font-size:12px;color:var(--muted);padding:8px 0;">+ 11 more drift leads &nbsp;·&nbsp; <span style="color:var(--red)">Action: review in pipeline call today</span></div>
-</div>
-
-<!-- TOMORROW'S CALLS -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">Tomorrow's Calls</div>
-    <div class="section-count">Pending Leo sync</div>
-  </div>
-  <div class="tmrw-card" style="border-left-color:#475569;opacity:0.6">
-    <div class="fu-left">
-      <div class="tmrw-name" style="color:var(--muted);">Loading from GHL…</div>
-      <div class="tmrw-detail">Leo WO dispatched for tomorrow's calendar + GHL cross-check</div>
-    </div>
-  </div>
-</div>
-
-<!-- PIPELINE OVERVIEW -->
-<div class="section">
-  <div class="section-header">
-    <div class="section-title">Pipeline Snapshot</div>
-  </div>
-  <div class="pipeline-bar">
-    <div class="pb-seg" style="background:#3496FF;width:74%;"></div>
-    <div class="pb-seg" style="background:#8B5CF6;width:9.7%;"></div>
-    <div class="pb-seg" style="background:#F59E0B;width:5.8%;"></div>
-    <div class="pb-seg" style="background:#22C55E;width:4.1%;"></div>
-    <div class="pb-seg" style="background:#EF4444;width:6.4%;"></div>
-  </div>
-  <div class="pb-label">
-    <span class="pb-item"><span class="pb-dot" style="background:#3496FF;"></span>New Lead 1064</span>
-    <span class="pb-item"><span class="pb-dot" style="background:#8B5CF6;"></span>Interested 125</span>
-    <span class="pb-item"><span class="pb-dot" style="background:#F59E0B;"></span>Territory 58</span>
-    <span class="pb-item"><span class="pb-dot" style="background:#22C55E;"></span>Financial 21</span>
-    <span class="pb-item"><span class="pb-dot" style="background:#EF4444;"></span>Other 58</span>
-  </div>
-  <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-    <div style="background:var(--dark3);border-radius:8px;padding:8px 10px;">
-      <div style="font-size:18px;font-weight:800;color:var(--amber);">31.9%</div>
-      <div style="font-size:11px;color:var(--muted);">SH Show Rate (target 70%)</div>
-    </div>
-    <div style="background:var(--dark3);border-radius:8px;padding:8px 10px;">
-      <div style="font-size:18px;font-weight:800;color:var(--red);">20.3%</div>
-      <div style="font-size:11px;color:var(--muted);">IC Show Rate (target 70%)</div>
-    </div>
-  </div>
-</div>
-
-<!-- CASH CONTEXT -->
-<div class="cash-bar">
-  <div class="cash-left">
-    <span class="cash-label">Runway (0 deals): </span>
-    <span class="cash-val">5.2 weeks critical</span>
-  </div>
-  <a href="/finance/" class="cash-link">→ Finance CC</a>
-</div>
-
-<div class="data-status pending">
-  <span>⏳</span>
-  <span><strong>GHL Live Sync Pending</strong> — Leo WO dispatched. Full pipeline data refreshes at 5:50 AM daily.</span>
-</div>
-
-<div class="footer">
-  Sales Meeting Prep Command Center &nbsp;·&nbsp; FKI &nbsp;·&nbsp;
-  <a href="/hub/">Hub</a> &nbsp;·&nbsp;
-  <a href="/finance/">Finance</a> &nbsp;·&nbsp;
-  <a href="https://www.notion.so/357cf5514fd38175a976c4fdbf35ad27">Sprint Board</a>
-  <br><br>
-  Bennett Daily Prep v5 &nbsp;·&nbsp; council_verified 4.3/5 &nbsp;·&nbsp; Last rebuild: May 5 2026
-</div>
-
+<div class="footer">GHL Location 14RD8KklxR9G4e0Rf7v2 · Cached 2hr · May 5, 2026</div>
+<script>
+function toggle(id, card) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.l2-panel').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active'));
+  if (!isOpen) { panel.classList.add('open'); card.classList.add('active'); }
+}
+</script>
 </body>
 </html>
