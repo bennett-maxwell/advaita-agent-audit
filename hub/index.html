@@ -34,13 +34,16 @@
     .demo-btn:hover { opacity: 0.85; }
     .db-primary { background: #0071E3; color: #FFFFFF; border-color: #0071E3; }
     .db-secondary { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.3); }
+    .review-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; font-size: 10px; font-weight: 700; background: #FF3B30; color: #FFFFFF; margin-left: 4px; }
 
     /* ALERT BAR */
     .alert-bar { background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); border-radius: 10px; padding: 12px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .ab-left .al { font-size: 11px; font-weight: 700; color: #FF3B30; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
     .ab-left .at { font-size: 13px; color: #1D1D1F; }
     .ab-badges { display: flex; gap: 6px; flex-shrink: 0; }
-    .ab-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(255,59,48,0.1); color: #FF3B30; white-space: nowrap; }
+    .ab-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .ab-badge-r { background: rgba(255,59,48,0.1); color: #FF3B30; }
+    .ab-badge-a { background: rgba(255,159,10,0.1); color: #FF9F0A; }
 
     /* CATEGORY LABEL */
     .cat-label { font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.06em; margin: 24px 0 10px; padding-bottom: 8px; border-bottom: 1px solid #E5E5EA; }
@@ -62,7 +65,7 @@
     .c-funnel::before { background: #14B8A6; } .c-funnel:hover { border-color: rgba(20,184,166,0.3); }
     .c-finance::before { background: #34C759; } .c-finance:hover { border-color: rgba(52,199,89,0.3); }
     .c-legal::before { background: #3B82F6; } .c-legal:hover { border-color: rgba(59,130,246,0.3); }
-    .c-agents::before { background: #A7xBFA; } .c-agents:hover { border-color: rgba(167,139,250,0.3); }
+    .c-agents::before { background: #A78BFA; } .c-agents:hover { border-color: rgba(167,139,250,0.3); }
     .c-health::before { background: #F59E0B; } .c-health:hover { border-color: rgba(245,158,11,0.3); }
     .c-vision::before { background: #8B5CF6; } .c-vision:hover { border-color: rgba(139,92,246,0.3); }
     .c-seo::before { background: #10B981; } .c-seo:hover { border-color: rgba(16,185,129,0.3); }
@@ -78,6 +81,7 @@
     .b-pending { background: rgba(255,159,10,0.1); color: #FF9F0A; }
     .b-weekly { background: rgba(0,113,227,0.1); color: #0071E3; }
     .b-crisis { background: rgba(255,59,48,0.1); color: #FF3B30; }
+    .b-review { background: #FF3B30; color: #FFFFFF; }
 
     .card-desc { font-size: 12px; color: #6E6E73; line-height: 1.5; flex: 1; }
     .card-open { font-size: 12px; font-weight: 600; color: #0071E3; margin-top: 14px; display: flex; align-items: center; gap: 4px; }
@@ -90,7 +94,7 @@
     .c-funnel .card-open { color: #14B8A6; }
     .c-finance .card-open { color: #34C759; }
     .c-legal .card-open { color: #3B82F6; }
-    .c-agents .card-open { color: #A7xBFA; }
+    .c-agents .card-open { color: #A78BFA; }
     .c-health .card-open { color: #F59E0B; }
     .c-vision .card-open { color: #8B5CF6; }
     .c-seo .card-open { color: #10B981; }
@@ -109,8 +113,6 @@
       .demo-links { flex-direction: column; }
       .alert-bar { flex-direction: column; align-items: flex-start; }
     }
-    .c-autonomy::before { background: #F59E0B; } .c-autonomy:hover { border-color: rgba(245,158,11,0.3); }
-    .c-autonomy .card-open { color: #F59E0B; }
   </style>
 </head>
 <body>
@@ -119,13 +121,13 @@
     <div class="header-top">
       <div>
         <h1>FKI Command Center</h1>
-        <div class="sub">CEO Design Skill v1 &middot; 12 systems &middot; <span id="ts"></span></div>
+        <div class="sub">CEO Design v2 &middot; 12 systems &middot; <span id="ts"></span></div>
       </div>
       <div class="stat-row">
+        <span class="stat-pill sp-r">9 Pending George Review</span>
         <span class="stat-pill sp-b">12 Systems</span>
         <span class="stat-pill sp-g">8 Live</span>
         <span class="stat-pill sp-gray">2 Protected</span>
-        <span class="stat-pill sp-b">2 CEO Design v2</span>
       </div>
     </div>
   </div>
@@ -134,12 +136,12 @@
 
     <!-- GEORGE DEMO BANNER -->
     <div class="demo-banner">
-      <div class="dlbl">George Meeting &mdash; May 5, 2026</div>
-      <div class="dtitle">Start here for the demo</div>
-      <div class="dsub">Open Social Media CC first &mdash; Story for George is auto-expanded. Then switch to Marketing CC to show the IC CPL crisis being fixed in real time.</div>
+      <div class="dlbl">George Review Queue &mdash; 9 Items Ready</div>
+      <div class="dtitle">Open a Command Center to review and approve</div>
+      <div class="dsub">George&rsquo;s approval queue is built into each CC. Social has 7 Week 2 posts ready for approval. Marketing has 2 ad decisions (IC creative direction + FKI 2nd Opinion pause/pivot). Each approval sends a pre-filled email to Bennett &mdash; no login required.</div>
       <div class="demo-links">
-        <a href="../social/" target="_blank" class="demo-btn db-primary">&#127919; Social Media CC &rarr;</a>
-        <a href="../marketing/" target="_blank" class="demo-btn db-secondary">&#128202; Marketing CC &rarr;</a>
+        <a href="https://bennett-maxwell.github.io/advaita-agent-audit/social/" target="_blank" class="demo-btn db-primary">&#127919; Social Media CC &rarr; <span class="review-badge">7</span></a>
+        <a href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank" class="demo-btn db-secondary">&#128202; Marketing CC &rarr; <span class="review-badge" style="background:#FF9F0A">2</span></a>
       </div>
     </div>
 
@@ -147,11 +149,12 @@
     <div class="alert-bar">
       <div class="ab-left">
         <div class="al">Urgent &mdash; Before Full Automation</div>
-        <div class="at">Meta Ads token expired April 30 &middot; Google Ads verify deadline May 13 &middot; Metricool upgrade ($22/mo, Kay task)</div>
+        <div class="at">Meta Ads token expired April 30 &middot; Google Ads verify deadline May 13 &middot; 9 items pending George review</div>
       </div>
       <div class="ab-badges">
-        <span class="ab-badge">2 Bennett Gates</span>
-        <span class="ab-badge">1 Kay Task</span>
+        <span class="ab-badge ab-badge-r">9 George Reviews</span>
+        <span class="ab-badge ab-badge-r">2 Bennett Gates</span>
+        <span class="ab-badge ab-badge-a">1 Kay Task</span>
       </div>
     </div>
 
@@ -162,18 +165,18 @@
       <a class="card c-social" href="https://bennett-maxwell.github.io/advaita-agent-audit/social/" target="_blank">
         <div class="card-top">
           <div class="card-name">Social Media CC</div>
-          <span class="badge b-new">CEO Design v2</span>
+          <span class="badge b-review">7 Posts Pending</span>
         </div>
-        <div class="card-desc">Bennett personal + IC/SH/SRP/FKI. 60 posts queued. LinkedIn resumes May 7. AI writes everything in Bennett's voice. Story for George auto-expanded.</div>
+        <div class="card-desc">Week 2 posts (May 14&ndash;18) in George Review tab. Bennett personal + IC/SH/SRP/FKI. 60 posts queued. LinkedIn resumes May 7. AI writes everything in Bennett&rsquo;s voice.</div>
         <div class="card-open">Open &rarr;</div>
       </a>
 
       <a class="card c-marketing" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank">
         <div class="card-top">
           <div class="card-name">Marketing CC</div>
-          <span class="badge b-crisis">IC CPL $76 Crisis</span>
+          <span class="badge b-review">2 Ads Pending</span>
         </div>
-        <div class="card-desc">Meta Ads verified data: $8,894 spend / 199 leads / $44.70 CPL. IC Investor Headlines at $76 vs $45 target. SH healthy at $38.53. Glo Tanning $974K benchmark.</div>
+        <div class="card-desc">IC creative direction + FKI 2nd Opinion in George Review tab. Meta Ads verified data: $8,894 spend / 199 leads / $44.70 CPL. IC Investor Headlines at $76 vs $45 target.</div>
         <div class="card-open">Open &rarr;</div>
       </a>
 
@@ -242,7 +245,7 @@
         <div class="card-desc">Real-time view of Mack, Leo, Ivan, Tiffany, and Chad. Tasks running, active skills, memory updates, handoff queue.</div>
         <div class="card-open">Open &rarr;</div>
       </a>
- 
+
       <a class="card c-health" href="machine-health.html">
         <div class="card-top">
           <div class="card-name">Machine Health</div>
@@ -278,7 +281,7 @@
 
       <a class="card c-chores" href="https://bennett-maxwell.github.io/advaita-agent-audit/chore-chart/" target="_blank">
         <div class="card-top">
-          <div class="card-name">Kids& rsquo;s Chores</div>
+          <div class="card-name">Kids&rsquo; Chores</div>
           <span class="badge b-live">Public</span>
         </div>
         <div class="card-desc">Chore tracker by kid. Completion status, points, streaks, and rewards. Shareable with family &mdash; no login required.</div>
@@ -287,24 +290,8 @@
 
     </div>
 
-
-    <!-- AUTONOMY DASHBOARD -->
-    <div class="cat-label">Autonomy</div>
-    <div class="grid">
-
-      <a class="card c-autonomy" href="../autonomy/">
-        <div class="card-top">
-          <div class="card-name">Autonomy Dashboard</div>
-          <span class="badge b-pending">68% &rarr; 100%</span>
-        </div>
-        <div class="card-desc">30-item full autonomy plan. Lead Processing 22% &rarr; critical. business-audit v2 + council 4.47/5.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
     <div class="footer">
-      <div>FKI Command Center Hub &middot; CEO Design Skill v1 &middot; Franchise KI AI Fleet</div>
+      <div>FKI Command Center Hub &middot; CEO Design v2 &middot; Franchise KI AI Fleet</div>
       <div style="margin-top:6px">12 systems &middot; GitHub Pages &middot; <a href="https://github.com/bennett-maxwell/advaita-agent-audit" target="_blank" class="fl">bennett-maxwell/advaita-agent-audit</a></div>
     </div>
 
