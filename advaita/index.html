@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advaita Deployment CC — FKI CEO OS</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    background: #FFFFFF;
+    color: #1D1D1F;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #1D1D1F;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left { display: flex; flex-direction: column; gap: 4px; }
+  .header-title { font-size: 20px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px; }
+  .header-sub { font-size: 13px; color: #FF3B30; font-weight: 600; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .back-link {
+    color: #0071E3;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: 1px solid #0071E3;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .back-link:hover { background: #0071E3; color: #fff; }
+  .demo-toggle {
+    background: #3A3A3C;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .demo-toggle.active { background: #0071E3; }
+  .demo-toggle:hover { opacity: 0.85; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 32px 64px; }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi-cell {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #FAFAFA;
+  }
+  .kpi-label { font-size: 11px; font-weight: 600; color: #86868B; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+  .kpi-value.green { color: #34C759; }
+  .kpi-value.amber { color: #FF9F0A; }
+  .kpi-value.red { color: #FF3B30; }
+  .kpi-value.blue { color: #0071E3; }
+  .kpi-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .kpi-pill.red { background: #FF3B3015; color: #FF3B30; border: 1px solid #FF3B3030; }
+  .kpi-pill.amber { background: #FF9F0A15; color: #FF9F0A; border: 1px solid #FF9F0A30; }
+  .kpi-pill.green { background: #34C75915; color: #34C759; border: 1px solid #34C75930; }
+
+  /* ── COUNTDOWN BANNER ── */
+  .countdown-banner {
+    background: #1B2626;
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    color: #FFFFFF;
+  }
+  .countdown-days { font-size: 48px; font-weight: 800; letter-spacing: -2px; color: #FFFFFF; line-height: 1; }
+  .countdown-sub { font-size: 14px; color: #A0B0B0; margin-top: 6px; margin-bottom: 20px; }
+  .progress-track {
+    background: #2E3E3E;
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #1B2626;
+    border-radius: 8px;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #2E6B6B, #4A9A9A);
+    border-radius: 8px;
+  }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #6B8080;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    font-size: 11px;
+    font-weight: 700;
+    color: #86868B;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    margin-top: 28px;
+  }
+
+  /* ── REQUIREMENTS ACCORDION ── */
+  .requirements-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+  .req-row {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #FFFFFF;
+    transition: border-color 0.15s;
+  }
+  .req-row:hover { border-color: #C7C7CC; }
+  .req-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .req-num { font-size: 11px; font-weight: 700; color: #86868B; min-width: 20px; }
+  .req-status { font-size: 14px; flex-shrink: 0; }
+  .req-title { font-size: 14px; font-weight: 600; color: #1D1D1F; flex: 1; }
+  .req-chevron {
+    font-size: 11px;
+    color: #86868B;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .req-row.open .req-chevron { transform: rotate(180deg); }
+  .req-body {
+    display: none;
+    padding: 0 16px 14px 46px;
+    border-top: 1px solid #F2F2F7;
+    background: #FAFAFA;
+  }
+  .req-row.open .req-body { display: block; }
+  .req-detail { font-size: 13px; color: #3A3A3C; margin-bottom: 10px; line-height: 1.5; }
+  .req-action {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: opacity 0.15s;
+  }
+  .req-action:hover { opacity: 0.8; }
+  .req-action.blue { background: #0071E315; color: #0071E3; border: 1px solid #0071E330; }
+  .req-action.amber { background: #FF9F0A15; color: #FF9F0A; border: 1px solid #FF9F0A30; }
+
+  /* STATUS PILLS inline */
+  .status-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .status-pill.red { background: #FF3B3015; color: #FF3B30; }
+  .status-pill.amber { background: #FF9F0A15; color: #FF9F0A; }
+  .status-pill.green { background: #34C75915; color: #34C759; }
+
+  /* ── DEMO MODE ── */
+  .demo-overlay { display: none; }
+  body.demo-mode .ops-content { display: none; }
+  body.demo-mode .demo-overlay { display: block; }
+
+  .demo-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .demo-card {
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .demo-card.green { background: #34C75910; border: 1.5px solid #34C75930; }
+  .demo-card.amber { background: #FF9F0A10; border: 1.5px solid #FF9F0A30; }
+  .demo-card.blue { background: #0071E310; border: 1.5px solid #0071E330; }
+  .demo-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .demo-card.green .demo-card-label { color: #34C759; }
+  .demo-card.amber .demo-card-label { color: #FF9F0A; }
+  .demo-card.blue .demo-card-label { color: #0071E3; }
+  .demo-card-title { font-size: 18px; font-weight: 700; color: #1D1D1F; }
+  .demo-card-tasks { font-size: 13px; color: #3A3A3C; }
+
+  .demo-progress-wrap {
+    background: #F5F5F7;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .demo-progress-label { font-size: 13px; font-weight: 600; color: #86868B; margin-bottom: 8px; }
+  .demo-progress-track { background: #E5E5EA; border-radius: 8px; height: 14px; overflow: hidden; }
+  .demo-progress-fill { height: 100%; background: #34C759; border-radius: 8px; width: 12.5%; }
+  .demo-progress-text { font-size: 12px; color: #86868B; margin-top: 6px; }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .story-block {
+    background: #F5F5F7;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .story-block-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #86868B; margin-bottom: 12px; }
+  .story-row { font-size: 13px; color: #1D1D1F; padding: 5px 0; border-bottom: 1px solid #E5E5EA; }
+  .story-row:last-child { border-bottom: none; }
+
+  /* ── HEALTH SCORE BREAKDOWN ── */
+  .breakdown-table { width: 100%; border-collapse: collapse; }
+  .breakdown-table th {
+    font-size: 11px;
+    font-weight: 700;
+    color: #86868B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1.5px solid #E5E5EA;
+  }
+  .breakdown-table td {
+    padding: 12px 12px;
+    font-size: 13px;
+    color: #1D1D1F;
+    border-bottom: 1px solid #F2F2F7;
+    vertical-align: middle;
+  }
+  .breakdown-table tr:last-child td { border-bottom: none; }
+  .breakdown-table tr:last-child { background: #F5F5F7; font-weight: 700; }
+  .score-bar-wrap { width: 120px; background: #E5E5EA; border-radius: 4px; height: 6px; display: inline-block; vertical-align: middle; }
+  .score-bar-fill { height: 6px; border-radius: 4px; }
+
+  /* ── GAP MAP ── */
+  .gap-table { width: 100%; border-collapse: collapse; }
+  .gap-table th {
+    font-size: 11px; font-weight: 700; color: #86868B;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    text-align: left; padding: 8px 12px;
+    border-bottom: 1.5px solid #E5E5EA;
+  }
+  .gap-table td { padding: 11px 12px; font-size: 13px; color: #1D1D1F; border-bottom: 1px solid #F2F2F7; }
+  .gap-table tr:last-child td { border-bottom: none; }
+  .p-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;
+  }
+  .p-tag.p1 { background: #FF3B3015; color: #FF3B30; }
+  .p-tag.p1b { background: #FF3B30; color: #fff; }
+  .p-tag.p2 { background: #FF9F0A15; color: #FF9F0A; }
+  .p-tag.done { background: #34C75915; color: #34C759; }
+
+  /* ── RESOURCES ── */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .resource-card {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .resource-card:hover { border-color: #0071E3; background: #0071E308; }
+  .resource-card-label { font-size: 11px; font-weight: 600; color: #86868B; text-transform: uppercase; letter-spacing: 0.4px; }
+  .resource-card-title { font-size: 13px; font-weight: 600; color: #0071E3; }
+  .resource-card-id { font-size: 11px; color: #86868B; font-family: "SF Mono", monospace; word-break: break-all; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: #F2F2F7; margin: 28px 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-title">⚡ Advaita Deployment CC</div>
+    <div class="header-sub">May 17, 2026 — 12 Days</div>
+  </div>
+  <div class="header-right">
+    <a href="/hub/" class="back-link">← Back to Hub</a>
+    <button class="demo-toggle" id="demoToggle" onclick="toggleDemo()">👁 Demo Mode</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi-cell">
+      <div class="kpi-label">Health Score</div>
+      <div class="kpi-value amber">68</div>
+      <div><span class="kpi-pill amber">/100</span></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Days to Launch</div>
+      <div class="kpi-value red">12</div>
+      <div><span class="kpi-pill red">🔴 URGENT</span></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Requirements Met</div>
+      <div class="kpi-value red">1/8</div>
+      <div><span class="kpi-pill red">12.5%</span></div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Autonomy Overall</div>
+      <div class="kpi-value amber">68%</div>
+      <div><span class="kpi-pill amber">In Progress</span></div>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN BANNER -->
+  <div class="countdown-banner">
+    <div class="countdown-days">12 DAYS REMAINING</div>
+    <div class="countdown-sub">Advaita Commercial Deployment · May 17, 2026</div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 40%;"></div>
+    </div>
+    <div class="progress-labels">
+      <span>Apr 17 · Start</span>
+      <span>Today · May 5 (40% elapsed)</span>
+      <span>May 17 · Launch</span>
+    </div>
+  </div>
+
+  <!-- OPS CONTENT -->
+  <div class="ops-content">
+
+    <!-- 8 REQUIREMENTS -->
+    <div class="section-header">8 Requirements — Vision Doc 2B</div>
+    <div class="requirements-list">
+
+      <!-- 1 -->
+      <div class="req-row open" id="req1">
+        <div class="req-header" onclick="toggleReq('req1')">
+          <span class="req-num">1</span>
+          <span class="req-status">✅</span>
+          <span class="req-title">One Clean Dashboard</span>
+          <span class="status-pill green">DONE</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">CEO OS v4 live · dashboard.franchiseki.com/hub · Updated today</div>
+          <a href="/hub/" class="req-action blue">View →</a>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="req-row" id="req2">
+        <div class="req-header" onclick="toggleReq('req2')">
+          <span class="req-num">2</span>
+          <span class="req-status">🟡</span>
+          <span class="req-title">Lead Scoring Engine</span>
+          <span class="status-pill amber">PARTIAL</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">franchise-score.py built by Ivan · ports :8742/:8743/:8744 live · <strong>Pending:</strong> Convex data model PATCH</div>
+          <button class="req-action amber" onclick="copyDispatch('Lead Scoring Engine — Convex data model PATCH needed. Ports :8742/:8743/:8744 live, not wired to GHL ContactCreate webhook.')">Copy Dispatch →</button>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="req-row" id="req3">
+        <div class="req-header" onclick="toggleReq('req3')">
+          <span class="req-num">3</span>
+          <span class="req-status">🟡</span>
+          <span class="req-title">Sam Scoring Every Call</span>
+          <span class="status-pill amber">PARTIAL</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">Running but not at 6/10 reliability · Reset dependency blocking consistency · Leo WO pending</div>
+          <button class="req-action amber" onclick="copyDispatch('Sam Call Scoring — not at 6/10 reliability target. Reset dependency active. Needs Leo WO to resolve machine stability before Sam can score reliably.')">Copy Dispatch →</button>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="req-row" id="req4">
+        <div class="req-header" onclick="toggleReq('req4')">
+          <span class="req-num">4</span>
+          <span class="req-status">🔴</span>
+          <span class="req-title">Machines 24/7 No Resets</span>
+          <span class="status-pill red">BLOCKER</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">RAM 0.5GB (self-heal WO sent) · Daily resets blocking all agents · <strong>#1 BLOCKER per Vision doc</strong></div>
+          <button class="req-action amber" onclick="copyDispatch('BLOCKER: Machines 24/7 — RAM 0.5GB causing daily resets. WO ts 1778014332 sent for pkill + purge self-heal. All downstream agents affected. Priority escalation needed.')">Copy Dispatch →</button>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="req-row" id="req5">
+        <div class="req-header" onclick="toggleReq('req5')">
+          <span class="req-num">5</span>
+          <span class="req-status">🔴</span>
+          <span class="req-title">Full Lead Funnel</span>
+          <span class="status-pill red">NOT MET</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">SynthFlow not connected · 506 leads unassigned in GHL · Leo WO ts 1777961430 in flight</div>
+          <a href="#lead-funnel" class="req-action blue">View Lead Funnel →</a>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="req-row" id="req6">
+        <div class="req-header" onclick="toggleReq('req6')">
+          <span class="req-num">6</span>
+          <span class="req-status">🔴</span>
+          <span class="req-title">Piper 6AM Briefing</span>
+          <span class="status-pill red">NOT MET</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">Routing to wrong channel · 1h fix queued · Leo WO needed</div>
+          <button class="req-action amber" onclick="copyDispatch('Piper 6AM Briefing — routing to wrong Slack channel. Estimated 1hr fix. Please create Leo WO to correct channel routing for morning briefings.')">Copy Dispatch →</button>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="req-row" id="req7">
+        <div class="req-header" onclick="toggleReq('req7')">
+          <span class="req-num">7</span>
+          <span class="req-status">🔴</span>
+          <span class="req-title">Content Engine Daily</span>
+          <span class="status-pill red">NOT BUILT</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">Not built · Social calendar 60 posts queued but no auto-publish cron · Voice-mining-skill built (foundation ready)</div>
+          <button class="req-action amber" onclick="copyDispatch('Content Engine — not built. 60 posts queued in social calendar with no auto-publish cron. Voice-mining-skill complete. Need auto-publish cron built on top of existing assets.')">Copy Dispatch →</button>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="req-row" id="req8">
+        <div class="req-header" onclick="toggleReq('req8')">
+          <span class="req-num">8</span>
+          <span class="req-status">🔴</span>
+          <span class="req-title">Advaita Packaged</span>
+          <span class="status-pill red">NOT PACKAGED</span>
+          <span class="req-chevron">▼</span>
+        </div>
+        <div class="req-body">
+          <div class="req-detail">Not packaged for franchise owner deployment · This Demo Mode page IS the start of the package</div>
+          <button class="req-action amber" onclick="copyDispatch('Advaita Packaging — not ready for franchise owner deployment. Demo Mode on advaita CC page is Phase 1 of packaging. Need: pitch deck, onboarding flow, pricing page, and deployment checklist.')">Copy Dispatch →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- HEALTH SCORE BREAKDOWN -->
+    <div class="section-header">How 68/100 Is Calculated</div>
+    <table class="breakdown-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Score</th>
+          <th>Detail</th>
+          <th>Weight</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Revenue vs Target</strong></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="color:#FF9F0A;font-weight:700;">70</span>
+              <div class="score-bar-wrap"><div class="score-bar-fill" style="width:70%;background:#FF9F0A;"></div></div>
+            </div>
+          </td>
+          <td style="color:#3A3A3C;">$305K YTD · Target $400K</td>
+          <td>30%</td>
+          <td><strong>21 pts</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Pipeline Health</strong></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="color:#FF3B30;font-weight:700;">55</span>
+              <div class="score-bar-wrap"><div class="score-bar-fill" style="width:55%;background:#FF3B30;"></div></div>
+            </div>
+          </td>
+          <td style="color:#3A3A3C;">0.28% conversion · Target 2.3%</td>
+          <td>25%</td>
+          <td><strong>14 pts</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Autonomy Score</strong></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="color:#FF9F0A;font-weight:700;">68</span>
+              <div class="score-bar-wrap"><div class="score-bar-fill" style="width:68%;background:#FF9F0A;"></div></div>
+            </div>
+          </td>
+          <td style="color:#3A3A3C;">62% complete per audit</td>
+          <td>25%</td>
+          <td><strong>17 pts</strong></td>
+        </tr>
+        <tr>
+          <td><strong>System Uptime</strong></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="color:#FF9F0A;font-weight:700;">75</span>
+              <div class="score-bar-wrap"><div class="score-bar-fill" style="width:75%;background:#FF9F0A;"></div></div>
+            </div>
+          </td>
+          <td style="color:#3A3A3C;">RAM instability · Token expirations</td>
+          <td>20%</td>
+          <td><strong>15 pts</strong></td>
+        </tr>
+        <tr>
+          <td><strong>TOTAL</strong></td>
+          <td><span style="font-size:20px;font-weight:800;color:#FF9F0A;">68</span></td>
+          <td style="color:#86868B;">67/100 → displayed as 68</td>
+          <td>100%</td>
+          <td><strong>67 pts</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <!-- GAP MAP -->
+    <div class="section-header">Gap Map — Vision Doc 2E</div>
+    <table class="gap-table">
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>Gap</th>
+          <th>Priority</th>
+          <th>ETA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Machines</strong></td>
+          <td>Daily resets (RAM 0.5GB)</td>
+          <td><span class="p-tag p1b">P1 · BLOCKER</span></td>
+          <td style="color:#FF3B30;font-weight:600;">Leo WO pending</td>
+        </tr>
+        <tr>
+          <td><strong>Lead Funnel</strong></td>
+          <td>SynthFlow + scorer not connected</td>
+          <td><span class="p-tag p1">P1</span></td>
+          <td>3–5 days</td>
+        </tr>
+        <tr>
+          <td><strong>Sales Coaching</strong></td>
+          <td>Sam at 6/10 reliability</td>
+          <td><span class="p-tag p1">P1</span></td>
+          <td>Leo WO</td>
+        </tr>
+        <tr>
+          <td><strong>Piper</strong></td>
+          <td>Channel routing fix</td>
+          <td><span class="p-tag p2">P2</span></td>
+          <td>1hr Leo</td>
+        </tr>
+        <tr>
+          <td><strong>Content Engine</strong></td>
+          <td>Auto-publish cron not built</td>
+          <td><span class="p-tag p2">P2</span></td>
+          <td>2–3 days</td>
+        </tr>
+        <tr>
+          <td><strong>Dashboard</strong></td>
+          <td>✅ CEO OS v4 live</td>
+          <td><span class="p-tag done">DONE</span></td>
+          <td style="color:#34C759;font-weight:600;">Today</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <!-- RESOURCES -->
+    <div class="section-header">Resources</div>
+    <div class="resources-grid">
+      <a href="https://docs.google.com/document/d/1kmzaX9A0736yzkN-fxZpiBmh624RevLDePM9TaUpCp8" target="_blank" class="resource-card">
+        <div class="resource-card-label">Google Drive</div>
+        <div class="resource-card-title">Vision 3.0 Doc</div>
+        <div class="resource-card-id">1kmzaX9A0736yzkN-fxZpiBmh624RevLDePM9TaUpCp8</div>
+      </a>
+      <a href="https://notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" class="resource-card">
+        <div class="resource-card-label">Notion</div>
+        <div class="resource-card-title">Sprint Board</div>
+        <div class="resource-card-id">335cf5514fd3813488dec82a68622d7b</div>
+      </a>
+      <a href="https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY" target="_blank" class="resource-card">
+        <div class="resource-card-label">Google Drive</div>
+        <div class="resource-card-title">Skills Root</div>
+        <div class="resource-card-id">1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY</div>
+      </a>
+    </div>
+
+  </div><!-- /ops-content -->
+
+  <!-- DEMO OVERLAY -->
+  <div class="demo-overlay">
+
+    <div class="section-header" style="margin-top:0;">The FKI Deployment — For Franchise Owners</div>
+
+    <!-- Role Cards -->
+    <div class="demo-card-grid">
+      <div class="demo-card green">
+        <div class="demo-card-label">AI Fleet</div>
+        <div class="demo-card-title">12–15 Automated Tasks</div>
+        <div class="demo-card-tasks">Lead scoring · Call coaching · Morning briefings · Content queuing · Pulse monitoring · Funnel routing · Audit tracking · Closeout reporting · Mission control · Community hub</div>
+      </div>
+      <div class="demo-card amber">
+        <div class="demo-card-label">Bennett (CEO)</div>
+        <div class="demo-card-title">2–3 Decision Gates</div>
+        <div class="demo-card-tasks">Strategic approvals · WO escalations · Revenue threshold calls · Franchise owner relationships</div>
+      </div>
+      <div class="demo-card blue">
+        <div class="demo-card-label">Team</div>
+        <div class="demo-card-title">2–3 Execution Tasks</div>
+        <div class="demo-card-tasks">Client relationship moments · High-stakes sales closes · Onboarding touch points</div>
+      </div>
+    </div>
+
+    <!-- Progress Story -->
+    <div class="demo-progress-wrap">
+      <div class="demo-progress-label">Deployment Progress — 1 of 8 Requirements Complete</div>
+      <div class="demo-progress-track">
+        <div class="demo-progress-fill"></div>
+      </div>
+      <div class="demo-progress-text">1 complete · 2 in progress · 5 in build · Target: May 17, 2026</div>
+    </div>
+
+    <!-- Story Grid -->
+    <div class="section-header">The Story for Franchise Owners</div>
+    <div class="story-grid">
+      <div class="story-block">
+        <div class="story-block-title">What AI Does</div>
+        <div class="story-row">Scores every inbound lead in real time</div>
+        <div class="story-row">Coaches every sales call automatically</div>
+        <div class="story-row">Sends daily briefings at 6AM</div>
+        <div class="story-row">Routes leads to the right rep instantly</div>
+        <div class="story-row">Publishes content daily without manual work</div>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">What's Automated</div>
+        <div class="story-row">Lead funnel (SynthFlow → GHL → Scorer)</div>
+        <div class="story-row">Pulse monitoring every 2 hours</div>
+        <div class="story-row">Nightly audit reports</div>
+        <div class="story-row">Sprint closeouts</div>
+        <div class="story-row">Mission control updates</div>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">What Bennett Does</div>
+        <div class="story-row">Reviews daily brief (10 min)</div>
+        <div class="story-row">Approves high-stakes decisions</div>
+        <div class="story-row">Manages franchise owner relationships</div>
+        <div class="story-row">Sets strategic direction</div>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">The ROI</div>
+        <div class="story-row">Target: $400K revenue in 2026</div>
+        <div class="story-row">Current: $305K YTD (76% to target)</div>
+        <div class="story-row">Lead conversion target: 2.3%</div>
+        <div class="story-row">Autonomy target: 80%+ by Q3</div>
+        <div class="story-row">Speed to lead: &lt;60 seconds</div>
+      </div>
+    </div>
+
+  </div><!-- /demo-overlay -->
+
+</div><!-- /container -->
+
+<script>
+  function toggleReq(id) {
+    const row = document.getElementById(id);
+    row.classList.toggle('open');
+  }
+
+  function copyDispatch(text) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Dispatch copied to clipboard');
+      });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Dispatch copied to clipboard');
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#1D1D1F;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+  }
+
+  function toggleDemo() {
+    const btn = document.getElementById('demoToggle');
+    document.body.classList.toggle('demo-mode');
+    if (document.body.classList.contains('demo-mode')) {
+      btn.textContent = '📊 Ops Mode';
+      btn.classList.add('active');
+    } else {
+      btn.textContent = '👁 Demo Mode';
+      btn.classList.remove('active');
+    }
+  }
+</script>
+</body>
+</html>

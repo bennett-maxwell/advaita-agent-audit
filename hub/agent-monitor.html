@@ -1,181 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Agent Monitor — FranchiseKI</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;background:#F5F5F7;color:#1D1D1F}
-    .header{background:#FFF;padding:16px 24px;border-bottom:1px solid #E5E5EA;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-    .header h1{font-size:17px;font-weight:700}.back{font-size:12px;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 12px;border-radius:8px}
-    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E5E5EA;border-bottom:1px solid #E5E5EA}
-    .kpi-card{background:#FFF;padding:22px 18px;cursor:pointer;transition:background .15s;user-select:none;position:relative}
-    .kpi-card:hover{background:#F9F9FB}.kpi-card.active{background:#F0F7FF}
-    .kpi-card.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#0071E3}
-    .kpi-label{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-    .kpi-value{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:4px}.kpi-sub{font-size:11px;color:#8E8E93}
-    .kpi-hint{font-size:10px;color:#0071E3;margin-top:8px;opacity:0;transition:opacity .2s}
-    .kpi-card:hover .kpi-hint,.kpi-card.active .kpi-hint{opacity:1}
-    .l2-panel{display:none;background:#FAFAFA;border-bottom:1px solid #E5E5EA;padding:20px 24px}
-    .l2-panel.open{display:block;animation:slideDown .2s ease}@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-    .l2-title{font-size:13px;font-weight:700;color:#1D1D1F;margin-bottom:14px}
-    .row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0F0F0}
-    .row:last-of-type{border-bottom:none}.row-label{font-size:13px;color:#1D1D1F}.row-val{font-size:13px;font-weight:700}
-    .sync-line{font-size:11px;color:#8E8E93;margin-top:14px;display:flex;align-items:center;gap:8px}
-    .l3{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 11px;border-radius:8px}
-    .main{max-width:900px;margin:0 auto;padding:16px 20px}
-    .section-label{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;margin-top:16px}
-    /* Agent cards */
-    .agent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-    .agent-card{background:#FFF;border-radius:10px;padding:14px 16px;border-left:3px solid transparent}
-    .agent-card.online{border-left-color:#34C759}.agent-card.warn{border-left-color:#FF9F0A}.agent-card.offline{border-left-color:#8E8E93}
-    .agent-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-    .agent-name{font-size:14px;font-weight:700;color:#1D1D1F;display:flex;align-items:center;gap:8px}
-    .dot{width:8px;height:8px;border-radius:50%}.dot-g{background:#34C759}.dot-a{background:#FF9F0A}.dot-r{background:#FF3B30}.dot-gr{background:#8E8E93}
-    .status-pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px}
-    .sp-g{background:rgba(52,199,89,.1);color:#34C759}.sp-a{background:rgba(255,159,10,.1);color:#FF9F0A}.sp-r{background:rgba(255,59,48,.1);color:#FF3B30}.sp-gr{background:rgba(142,142,147,.1);color:#8E8E93}
-    .agent-stat{font-size:11px;color:#6E6E73;margin-bottom:4px;display:flex;justify-content:space-between}
-    .agent-stat span{font-weight:600;color:#1D1D1F}
-    /* WO Timeline */
-    .wo-timeline{display:flex;flex-direction:column;gap:0}
-    .wo-entry{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #F5F5F7;align-items:flex-start}
-    .wo-entry:last-child{border-bottom:none}
-    .wo-time{font-size:10px;color:#8E8E93;width:60px;flex-shrink:0;padding-top:2px}
-    .wo-body{flex:1}
-    .wo-title{font-size:13px;font-weight:600;color:#1D1D1F;margin-bottom:2px}
-    .wo-detail{font-size:11px;color:#6E6E73}
-    .wo-status{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;white-space:nowrap}
-    .ws-done{background:rgba(52,199,89,.1);color:#34C759}
-    .ws-flight{background:rgba(255,159,10,.1);color:#FF9F0A}
-    .ws-ack{background:rgba(0,113,227,.1);color:#0071E3}
-    footer{padding:10px 24px;text-align:center;font-size:10px;color:#C7C7CC;border-top:1px solid #E5E5EA}
-    @media(max-width:600px){.kpi-value{font-size:28px}.agent-grid{grid-template-columns:1fr}.main{padding:12px 14px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKI Agent Monitor v3 — Fleet Health + WO Queue</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    background: #FFFFFF;
+    color: #1D1D1F;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #1D1D1F;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left { display: flex; flex-direction: column; gap: 4px; }
+  .header-title { font-size: 20px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px; }
+  .header-sub { font-size: 13px; color: #86868B; }
+  .back-link {
+    color: #0071E3;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: 1px solid #0071E3;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .back-link:hover { background: #0071E3; color: #fff; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 32px 64px; }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi-cell {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #FAFAFA;
+  }
+  .kpi-label { font-size: 11px; font-weight: 600; color: #86868B; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+  .kpi-value.green { color: #34C759; }
+  .kpi-value.amber { color: #FF9F0A; }
+  .kpi-value.red { color: #FF3B30; }
+  .kpi-sub { font-size: 12px; color: #86868B; }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    font-size: 11px;
+    font-weight: 700;
+    color: #86868B;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    margin-top: 28px;
+  }
+  .section-header:first-child { margin-top: 0; }
+
+  /* ── DEPLOYMENT READINESS ROW ── */
+  .deploy-row {
+    background: #1B2626;
+    border-radius: 12px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .deploy-label { font-size: 14px; font-weight: 700; color: #FFFFFF; white-space: nowrap; }
+  .deploy-sep { color: #4A6060; }
+  .deploy-pills { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+  .req-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .req-pill.green { background: #34C75920; color: #34C759; border: 1px solid #34C75940; }
+  .req-pill.amber { background: #FF9F0A20; color: #FF9F0A; border: 1px solid #FF9F0A40; }
+  .req-pill.red { background: #FF3B3020; color: #FF3B30; border: 1px solid #FF3B3040; }
+
+  /* ── FLEET GRID ── */
+  .fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .agent-card {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 16px;
+    background: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color 0.15s;
+  }
+  .agent-card:hover { border-color: #C7C7CC; }
+  .agent-card.border-green { border-color: #34C75940; background: #34C75908; }
+  .agent-card.border-amber { border-color: #FF9F0A40; background: #FF9F0A08; }
+  .agent-card.border-red { border-color: #FF3B3040; background: #FF3B3008; }
+  .agent-top { display: flex; align-items: center; justify-content: space-between; }
+  .agent-name { font-size: 14px; font-weight: 700; color: #1D1D1F; }
+  .agent-role { font-size: 11px; color: #86868B; margin-top: 1px; }
+  .agent-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge-green { background: #34C75915; color: #34C759; border: 1px solid #34C75930; }
+  .badge-amber { background: #FF9F0A15; color: #FF9F0A; border: 1px solid #FF9F0A30; }
+  .badge-red { background: #FF3B3015; color: #FF3B30; border: 1px solid #FF3B3030; }
+  .agent-heartbeat { font-size: 11px; color: #86868B; }
+  .agent-task { font-size: 12px; color: #3A3A3C; line-height: 1.4; }
+
+  /* ── SALES STACK ── */
+  .sales-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .stack-row {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #FAFAFA;
+  }
+  .stack-row.border-green { border-color: #34C75940; background: #34C75908; }
+  .stack-row.border-amber { border-color: #FF9F0A40; background: #FF9F0A08; }
+  .stack-row.border-red { border-color: #FF3B3040; background: #FF3B3008; }
+  .stack-name { font-size: 13px; font-weight: 700; color: #1D1D1F; }
+  .stack-meta { font-size: 12px; color: #3A3A3C; }
+  .stack-alert { font-size: 12px; font-weight: 600; color: #FF3B30; }
+
+  /* ── PULSE SECTION ── */
+  .pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .pulse-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    border: 1.5px solid #E5E5EA;
+    border-radius: 10px;
+    background: #FAFAFA;
+  }
+  .pulse-label { font-size: 11px; font-weight: 600; color: #86868B; text-transform: uppercase; letter-spacing: 0.4px; }
+  .pulse-value { font-size: 13px; font-weight: 600; color: #1D1D1F; }
+  .pulse-sub { font-size: 12px; color: #86868B; }
+
+  /* ── WO TABLE ── */
+  .wo-table { width: 100%; border-collapse: collapse; }
+  .wo-table th {
+    font-size: 11px; font-weight: 700; color: #86868B;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    text-align: left; padding: 8px 12px;
+    border-bottom: 1.5px solid #E5E5EA;
+  }
+  .wo-table td { padding: 11px 12px; font-size: 12px; color: #1D1D1F; border-bottom: 1px solid #F2F2F7; vertical-align: top; }
+  .wo-table tr:last-child td { border-bottom: none; }
+  .wo-table tr:hover td { background: #FAFAFA; }
+  .ts-code { font-family: "SF Mono", "Menlo", monospace; font-size: 11px; color: #86868B; }
+  .wo-status {
+    display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  }
+  .wo-status.sent { background: #0071E315; color: #0071E3; }
+  .wo-status.pending { background: #FF9F0A15; color: #FF9F0A; }
+  .wo-status.inflight { background: #34C75915; color: #34C759; }
+  .wo-status.dispatched { background: #86868B15; color: #86868B; }
+
+  /* ── SKILL REGISTRY ACCORDION ── */
+  .registry-accordion {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .registry-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    background: #FAFAFA;
+  }
+  .registry-toggle-label { font-size: 13px; font-weight: 700; color: #1D1D1F; }
+  .registry-chevron { font-size: 11px; color: #86868B; transition: transform 0.2s; }
+  .registry-accordion.open .registry-chevron { transform: rotate(180deg); }
+  .registry-body { display: none; border-top: 1px solid #E5E5EA; }
+  .registry-accordion.open .registry-body { display: block; }
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid #F2F2F7;
+  }
+  .skill-row:last-child { border-bottom: none; }
+  .skill-name { font-size: 13px; font-weight: 600; color: #1D1D1F; flex: 1; }
+  .skill-id { font-family: "SF Mono", "Menlo", monospace; font-size: 11px; color: #0071E3; }
+  .skill-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    background: #FF9F0A15; color: #FF9F0A;
+  }
+  .skill-tag.canonical { background: #34C75915; color: #34C759; }
+  .skill-tag.day2 { background: #0071E315; color: #0071E3; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: #F2F2F7; margin: 28px 0; }
+
+  /* ── INLINE STATUS BADGE ── */
+  .inline-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 1px 7px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  }
+  .inline-badge.green { background: #34C75915; color: #34C759; }
+  .inline-badge.amber { background: #FF9F0A15; color: #FF9F0A; }
+  .inline-badge.red { background: #FF3B3015; color: #FF3B30; }
+</style>
 </head>
 <body>
-<div class="header"><h1>🤖 AI Agent Monitor</h1><a href="../hub/" class="back">← Hub</a></div>
 
-<div class="kpi-row">
-  <div class="kpi-card" onclick="toggle('l2-fleet',this)">
-    <div class="kpi-label">Fleet Online</div>
-    <div class="kpi-value" style="color:#FF9F0A;">2<span style="font-size:18px;font-weight:600;">/3</span></div>
-    <div class="kpi-sub">Squirrel ✅ Leo ⚠️ Ivan ⚠️</div>
-    <div class="kpi-hint">▼ Tap for agent details</div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-title">🤖 FKI Agent Monitor v3</div>
+    <div class="header-sub">Fleet Health + WO Queue</div>
   </div>
-  <div class="kpi-card" onclick="toggle('l2-wos',this)">
-    <div class="kpi-label">WOs in Flight</div>
-    <div class="kpi-value" style="color:#FF9F0A;">7</div>
-    <div class="kpi-sub">Leo queue · dispatched today</div>
-    <div class="kpi-hint">▼ Tap for WO timeline</div>
-  </div>
-  <div class="kpi-card" onclick="toggle('l2-skills',this)">
-    <div class="kpi-label">Skills Active</div>
-    <div class="kpi-value" style="color:#34C759;">23</div>
-    <div class="kpi-sub">Drive · council-verified</div>
-    <div class="kpi-hint">▼ Tap for skill list</div>
-  </div>
+  <a href="/hub/" class="back-link">← Back to Hub</a>
 </div>
 
-<div id="l2-fleet" class="l2-panel">
-  <div class="l2-title">Agent Capability Matrix</div>
-  <div class="row"><div class="row-label">Squirrel (cloud sandbox)</div><div class="row-val" style="color:#34C759;">✅ Online · APIs + builds</div></div>
-  <div class="row"><div class="row-label">Leo (iMac orchestrator)</div><div class="row-val" style="color:#FF9F0A;">⚠️ 7 WOs queued</div></div>
-  <div class="row"><div class="row-label">Ivan-CC (iMac CLI)</div><div class="row-val" style="color:#FF9F0A;">⚠️ GHL token 403</div></div>
-  <div class="row"><div class="row-label">Mack (MacBook)</div><div class="row-val" style="color:#8E8E93;">Not monitored</div></div>
-  <div class="row"><div class="row-label">Tiffany (HP Omen / Ollama)</div><div class="row-val" style="color:#8E8E93;">Wake Garlon if offline</div></div>
-  <div class="sync-line">Verified 2026-05-05 · <a href="https://app.slack.com/client/T0AK...../C0AKXT2S1T2" class="l3" target="_blank">Open #leo-auto →</a></div>
-</div>
+<div class="container">
 
-<div id="l2-wos" class="l2-panel">
-  <div class="l2-title">Work Order Lifecycle (last 10)</div>
-  <div class="wo-timeline">
-    <div class="wo-entry"><div class="wo-time">Just now</div><div class="wo-body"><div class="wo-title">CEO OS Hub V3 + CPA L1 verify</div><div class="wo-detail">ts 1778011802 · Leo · 10 items</div></div><span class="wo-status ws-flight">In flight</span></div>
-    <div class="wo-entry"><div class="wo-time">Earlier</div><div class="wo-body"><div class="wo-title">hub-data.json Pulse wiring</div><div class="wo-detail">ts 1778009604 · Leo</div></div><span class="wo-status ws-flight">In flight</span></div>
-    <div class="wo-entry"><div class="wo-time">Earlier</div><div class="wo-body"><div class="wo-title">Finance CC v2 + Hub KPI strip</div><div class="wo-detail">ts 1778009604 · Leo · #1 of batch</div></div><span class="wo-status ws-flight">In flight</span></div>
-    <div class="wo-entry"><div class="wo-time">Earlier</div><div class="wo-body"><div class="wo-title">IC community-hub creative swap</div><div class="wo-detail">ts 1777986496 · Leo · Meta Ads</div></div><span class="wo-status ws-flight">In flight</span></div>
-    <div class="wo-entry"><div class="wo-time">Earlier</div><div class="wo-body"><div class="wo-title">SynthFlow → GHL connect</div><div class="wo-detail">ts 1777961430 · Leo · SynthFlow setup spec Notion</div></div><span class="wo-status ws-flight">In flight</span></div>
-    <div class="wo-entry"><div class="wo-time">Earlier</div><div class="wo-body"><div class="wo-title">GHL PIT token cleanup</div><div class="wo-detail">ts 1777946042 · Leo · CC 1537 removal</div></div><span class="wo-status ws-ack">ACK'd</span></div>
-    <div class="wo-entry"><div class="wo-time">Earlier</div><div class="wo-body"><div class="wo-title">BUG-006 Leo @mention fix</div><div class="wo-detail">Ivan · plist + appToken patch</div></div><span class="wo-status ws-done">Diamond ✓</span></div>
-  </div>
-  <div class="sync-line">#leo-auto C0AKXT2S1T2 · <a href="https://hyperagent.com" class="l3" target="_blank">Open Hyperagent →</a></div>
-</div>
-
-<div id="l2-skills" class="l2-panel">
-  <div class="l2-title">Active Drive Skills (23 total)</div>
-  <div class="row"><div class="row-label">council-skill v13</div><div class="row-val" style="color:#34C759;">4.6/5 · STAGING</div></div>
-  <div class="row"><div class="row-label">autopilot-skill v9</div><div class="row-val" style="color:#34C759;">4.6/5 · STAGING</div></div>
-  <div class="row"><div class="row-label">push-harder-skill v3</div><div class="row-val" style="color:#34C759;">4.7/5 · STAGING</div></div>
-  <div class="row"><div class="row-label">social-media-guardrails v1</div><div class="row-val" style="color:#34C759;">4.4/5 · 55 anti-patterns</div></div>
-  <div class="row"><div class="row-label">command-center-skill v1</div><div class="row-val" style="color:#34C759;">NEW · 2026-05-05</div></div>
-  <div class="row"><div class="row-label">+ 18 more skills</div><div class="row-val"><a href="https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY" style="color:#0071E3;text-decoration:none;">View all in Drive →</a></div></div>
-  <div class="sync-line">Drive root 1qdUEbUb... · 4 Squirrel scheduled invocations active</div>
-</div>
-
-<div class="main">
-  <div class="section-label">Agent Status Cards</div>
-  <div class="agent-grid">
-    <div class="agent-card online">
-      <div class="agent-head">
-        <div class="agent-name"><div class="dot dot-g"></div>🐿️ Squirrel</div>
-        <span class="status-pill sp-g">Online</span>
-      </div>
-      <div class="agent-stat">Type <span>Cloud sandbox · Hyperagent</span></div>
-      <div class="agent-stat">Thread budget <span>~$25 used (of $30)</span></div>
-      <div class="agent-stat">Scheduled invocations <span>4 active</span></div>
-      <div class="agent-stat">Pulse cadence <span>Every 2hr MDT</span></div>
-      <div class="agent-stat">Integrations <span>11 connected</span></div>
-      <div class="agent-stat">Memories <span>762</span></div>
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi-cell">
+      <div class="kpi-label">Fleet Health</div>
+      <div class="kpi-value amber">72%</div>
+      <div class="kpi-sub">🟡 2 blockers active</div>
     </div>
-    <div class="agent-card warn">
-      <div class="agent-head">
-        <div class="agent-name"><div class="dot dot-a"></div>⚡ Leo</div>
-        <span class="status-pill sp-a">7 WOs queued</span>
-      </div>
-      <div class="agent-stat">Location <span>iMac · LaunchAgent</span></div>
-      <div class="agent-stat">Last ACK <span>ts 1778009634</span></div>
-      <div class="agent-stat">BUG-006 <span style="color:#34C759;">RESOLVED</span></div>
-      <div class="agent-stat">Model <span>Claude via OpenClaw</span></div>
-      <div class="agent-stat">Watches <span>#leo-auto · @mentions</span></div>
-      <div class="agent-stat">Role <span>Orchestrator · CLI relay</span></div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Leo Status</div>
+      <div class="kpi-value green">Live</div>
+      <div class="kpi-sub">✅ ACK verified</div>
     </div>
-    <div class="agent-card warn">
-      <div class="agent-head">
-        <div class="agent-name"><div class="dot dot-a"></div>💻 Ivan-CC</div>
-        <span class="status-pill sp-a">Token issue</span>
-      </div>
-      <div class="agent-stat">Location <span>iMac CLI only</span></div>
-      <div class="agent-stat">GHL token <span style="color:#FF3B30;">pit-3987cca6 expired</span></div>
-      <div class="agent-stat">Lead Scorer <span style="color:#34C759;">:8744 live</span></div>
-      <div class="agent-stat">Tiffany <span>100.91.17.106</span></div>
-      <div class="agent-stat">SSH <span>100.103.51.12 · Tailscale</span></div>
-      <div class="agent-stat">Memory <span>~/.openclaw/MEMORY.md</span></div>
+    <div class="kpi-cell">
+      <div class="kpi-label">WOs In Queue</div>
+      <div class="kpi-value amber">5</div>
+      <div class="kpi-sub">🟡 Pending execution</div>
     </div>
-    <div class="agent-card offline">
-      <div class="agent-head">
-        <div class="agent-name"><div class="dot dot-gr"></div>🖥️ Tiffany</div>
-        <span class="status-pill sp-gr">Monitoring</span>
-      </div>
-      <div class="agent-stat">Type <span>HP Omen · Ollama</span></div>
-      <div class="agent-stat">IP <span>100.91.17.106</span></div>
-      <div class="agent-stat">Custodian <span>Garlon Maxwell (physical)</span></div>
-      <div class="agent-stat">Purpose <span>Local LLM inference</span></div>
-      <div class="agent-stat">Wake issue? <span>Contact Garlon (not Bennett)</span></div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Machines RAM</div>
+      <div class="kpi-value amber">0.5GB</div>
+      <div class="kpi-sub">🟡 Self-heal WO sent</div>
     </div>
   </div>
 
-  <div class="section-label" style="margin-top:16px;">Scheduled Invocations</div>
-  <div style="background:#FFF;border-radius:10px;overflow:hidden;">
-    <div class="row" style="padding:10px 16px;"><div class="row-label">Pulse Report (every 2hr 8AM-8PM MDT M-F)</div><div class="row-val" style="color:#34C759;">Active</div></div>
-    <div class="row" style="padding:10px 16px;"><div class="row-label">EOD Scrap Review (6 PM MDT M-F)</div><div class="row-val" style="color:#34C759;">Active</div></div>
-    <div class="row" style="padding:10px 16px;"><div class="row-label">Morning Pulse (7 AM MDT M-F)</div><div class="row-val" style="color:#34C759;">Active</div></div>
-    <div class="row" style="padding:10px 16px;border-bottom:none;"><div class="row-label">Sales Meeting Prep Dashboard (6 AM MDT M-F)</div><div class="row-val" style="color:#34C759;">Active</div></div>
+  <!-- DEPLOYMENT READINESS ROW -->
+  <div class="deploy-row">
+    <div class="deploy-label">Advaita May 17</div>
+    <div class="deploy-sep">·</div>
+    <div style="color:#FF3B30;font-weight:700;font-size:14px;white-space:nowrap;">12 Days</div>
+    <div class="deploy-sep">·</div>
+    <div class="deploy-pills">
+      <span class="req-pill green">✅ Dashboard</span>
+      <span class="req-pill amber">🟡 Lead Scorer</span>
+      <span class="req-pill amber">🟡 Sam Scoring</span>
+      <span class="req-pill red">🔴 Machines 24/7</span>
+      <span class="req-pill red">🔴 Lead Funnel</span>
+      <span class="req-pill red">🔴 Piper Briefing</span>
+      <span class="req-pill red">🔴 Content Engine</span>
+      <span class="req-pill red">🔴 Packaged</span>
+    </div>
   </div>
-</div>
 
-<footer>AI Fleet · Squirrel + Leo + Ivan-CC · May 5, 2026</footer>
+  <!-- FLEET STATUS GRID -->
+  <div class="section-header">Fleet Status — 12 Agents</div>
+  <div class="fleet-grid">
+
+    <!-- Leo -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Leo</div>
+          <div class="agent-role">Orchestrator · WO Executor</div>
+        </div>
+        <span class="agent-status-badge badge-amber">🟡 Live</span>
+      </div>
+      <div class="agent-heartbeat">Last heartbeat: Today ~14:58 MDT</div>
+      <div class="agent-task">ACK verified · RAM 0.5GB · @mention handler repaired · BUG-006 resolved</div>
+    </div>
+
+    <!-- Squirrel -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Squirrel</div>
+          <div class="agent-role">Dev Agent · Sprint Runner</div>
+        </div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Last heartbeat: Today (active)</div>
+      <div class="agent-task">Day 2 sprint active · 4 artifacts committed this session</div>
+    </div>
+
+    <!-- Mack -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Mack</div>
+          <div class="agent-role">Audit Commander</div>
+        </div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Last seen: ~14:54 MDT today</div>
+      <div class="agent-task">Angie Audit CC v3 closeout complete</div>
+    </div>
+
+    <!-- Ivan-CC -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Ivan-CC</div>
+          <div class="agent-role">Lead Scorer · FastAPI</div>
+        </div>
+        <span class="agent-status-badge badge-amber">🟡 Live</span>
+      </div>
+      <div class="agent-heartbeat">Ports :8742/:8743/:8744 live</div>
+      <div class="agent-task">SSH intermittent · RAM 0.5GB · Self-heal WO sent · Not wired to GHL yet</div>
+    </div>
+
+    <!-- Sam -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Sam</div>
+          <div class="agent-role">Call Scorer · QA Coach</div>
+        </div>
+        <span class="agent-status-badge badge-amber">🟡 Degraded</span>
+      </div>
+      <div class="agent-heartbeat">Running but unreliable</div>
+      <div class="agent-task">Not at 6/10 reliability target · Reset dependency active · Leo WO pending</div>
+    </div>
+
+    <!-- Piper -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Piper</div>
+          <div class="agent-role">6AM Briefing · Scheduler</div>
+        </div>
+        <span class="agent-status-badge badge-amber">🟡 Degraded</span>
+      </div>
+      <div class="agent-heartbeat">Briefings running</div>
+      <div class="agent-task">6AM routing to wrong Slack channel · 1hr fix queued · Leo WO needed</div>
+    </div>
+
+    <!-- Reed -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Reed</div>
+          <div class="agent-role">Transcription · Voice</div>
+        </div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Running continuously</div>
+      <div class="agent-task">Transcription pipeline running · Voice-mining-skill built</div>
+    </div>
+
+    <!-- Fred -->
+    <div class="agent-card border-red">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Fred</div>
+          <div class="agent-role">Finance · QuickBooks</div>
+        </div>
+        <span class="agent-status-badge badge-red">🔴 Blocked</span>
+      </div>
+      <div class="agent-heartbeat">OAuth not established</div>
+      <div class="agent-task">No QB OAuth · Blind to non-AI spending · Financial monitoring offline</div>
+    </div>
+
+    <!-- Dan -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Dan</div>
+          <div class="agent-role">Mission Control · Ops</div>
+        </div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Commit 313995a1</div>
+      <div class="agent-task">/mission-control/ deployed · Running on current commit</div>
+    </div>
+
+    <!-- Angie -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Angie</div>
+          <div class="agent-role">Audit Tracker · Nightly</div>
+        </div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Deployed today</div>
+      <div class="agent-task">Audit CC v3 deployed · Nightly cron scheduled · Closeout cycle active</div>
+    </div>
+
+    <!-- Eric -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Eric</div>
+          <div class="agent-role">Culture · SOUL Agent</div>
+        </div>
+        <span class="agent-status-badge badge-amber">🟡 Degraded</span>
+      </div>
+      <div class="agent-heartbeat">SOUL.md created</div>
+      <div class="agent-task">SOUL.md created · Not fully operational · Pending task assignment</div>
+    </div>
+
+    <!-- Tiffany -->
+    <div class="agent-card border-red">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Tiffany</div>
+          <div class="agent-role">HP Omen · Local Runner</div>
+        </div>
+        <span class="agent-status-badge badge-red">🔴 Offline</span>
+      </div>
+      <div class="agent-heartbeat">100.91.17.106 unreachable</div>
+      <div class="agent-task">HP Omen offline · Garlon must wake machine manually</div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AUTONOMOUS SALES STACK -->
+  <div class="section-header">Autonomous Sales Stack</div>
+  <div class="sales-stack-grid">
+
+    <div class="stack-row border-red">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">SynthFlow API</div>
+        <span class="inline-badge red">🔴 NOT CONNECTED</span>
+      </div>
+      <div class="stack-meta">Port :8742 · No response · WO ts 1777961430 in flight</div>
+      <div class="stack-alert">506 leads blocked — no voice AI routing</div>
+    </div>
+
+    <div class="stack-row border-amber">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">Lead Scorer FastAPI</div>
+        <span class="inline-badge amber">🟡 Running</span>
+      </div>
+      <div class="stack-meta">Ports :8742/:8743/:8744 live · Built by Ivan</div>
+      <div class="stack-meta" style="color:#FF9F0A;">Not wired to GHL ContactCreate webhook</div>
+    </div>
+
+    <div class="stack-row border-green">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">GHL Chatbot</div>
+        <span class="inline-badge green">✅ LIVE</span>
+      </div>
+      <div class="stack-meta">4 bots · autoPilotMaxMessages:3 · Verified Diamond April 2026</div>
+    </div>
+
+    <div class="stack-row border-red">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">Speed-to-Lead</div>
+        <span class="inline-badge red">🔴 0s Response</span>
+      </div>
+      <div class="stack-meta">Target: &lt;60 seconds · Blocked by SynthFlow</div>
+      <div class="stack-alert">Needs SynthFlow connection to activate</div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PULSE HEARTBEAT -->
+  <div class="section-header">Pulse Health</div>
+  <div class="pulse-grid">
+    <div class="pulse-row">
+      <div class="pulse-label">Last Pulse Sent</div>
+      <div class="pulse-value">2026-05-05 ~14:58 MDT</div>
+    </div>
+    <div class="pulse-row">
+      <div class="pulse-label">Next Scheduled</div>
+      <div class="pulse-value">Every 2hr · 8AM–8PM MDT</div>
+      <div class="pulse-sub">Monday – Friday</div>
+    </div>
+    <div class="pulse-row">
+      <div class="pulse-label">Downstream Triggers</div>
+      <div class="pulse-value">Sales rep alerts · Sam scoring · Pulse Board write</div>
+    </div>
+    <div class="pulse-row">
+      <div class="pulse-label">Status</div>
+      <div class="pulse-value" style="color:#FF9F0A;">🟡 Partial</div>
+      <div class="pulse-sub">Email sends OK · Downstream triggers unverified</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WO QUEUE -->
+  <div class="section-header">WO Queue — Last 8 Work Orders</div>
+  <table class="wo-table">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>ETA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="ts-code">1778015056</span></td>
+        <td>Hub-data.json live wiring (Tasks 1–5)</td>
+        <td><span class="wo-status sent">Sent</span></td>
+        <td style="color:#FF9F0A;">Pending Leo</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1778014332</span></td>
+        <td>RAM self-heal (pkill + purge)</td>
+        <td><span class="wo-status sent">Sent</span></td>
+        <td style="color:#FF9F0A;">Pending</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1778011802</span></td>
+        <td>Command-center-skill subfolder creation</td>
+        <td><span class="wo-status pending">Pending</span></td>
+        <td style="color:#86868B;">Unknown</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1778011228</span></td>
+        <td>hub-data.json Pulse cron setup</td>
+        <td><span class="wo-status pending">Pending</span></td>
+        <td style="color:#86868B;">Unknown</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777986496</span></td>
+        <td>IC community-hub creative launch</td>
+        <td><span class="wo-status inflight">In-flight</span></td>
+        <td>~24hr</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777963849</span></td>
+        <td>GSC + GA4 setup</td>
+        <td><span class="wo-status inflight">In-flight</span></td>
+        <td style="color:#86868B;">Unknown</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777961430</span></td>
+        <td>SynthFlow → GHL connection</td>
+        <td><span class="wo-status inflight">In-flight</span></td>
+        <td style="color:#FF9F0A;">Checking</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777956485</span></td>
+        <td>closeout-skill v11 canonical PATCH</td>
+        <td><span class="wo-status dispatched">Dispatched</span></td>
+        <td style="color:#86868B;">Unconfirmed</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- SKILL REGISTRY -->
+  <div class="registry-accordion" id="skillRegistry">
+    <div class="registry-toggle" onclick="toggleRegistry()">
+      <span class="registry-toggle-label">Skill Registry — Last 5 Updated</span>
+      <span class="registry-chevron">▼</span>
+    </div>
+    <div class="registry-body">
+      <div class="skill-row">
+        <div class="skill-name">command-center-skill v1</div>
+        <div class="skill-id">1rRQZeByaqEtHrBWgokvNIflO4CXgsdcN</div>
+        <span class="skill-tag day2">Day 2</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">push-harder-skill v4</div>
+        <div class="skill-id">1Uyeu1F5gSn8QOarp-AzV-5PtFFZxEq6Q</div>
+        <span class="skill-tag canonical">Canonical</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">council-skill v13</div>
+        <div class="skill-id">1bYOfBaWm62sU_euzLEXfQxPgQjVAUZF2</div>
+        <span class="skill-tag">Staging</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">autopilot-skill v9</div>
+        <div class="skill-id">1JRj5QNrHsn3EJpmyOys7cshXLRSaPZus</div>
+        <span class="skill-tag">Staging</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">closeout-skill v11</div>
+        <div class="skill-id">1TD0Gcg-akazN7VZFwp8QfGRb-6arKl75</div>
+        <span class="skill-tag">Staging</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
 
 <script>
-function toggle(id,card){const p=document.getElementById(id);const o=p.classList.contains('open');document.querySelectorAll('.l2-panel').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));if(!o){p.classList.add('open');card.classList.add('active');}}
+  function toggleRegistry() {
+    document.getElementById('skillRegistry').classList.toggle('open');
+  }
+
+  // Auto-open registry
+  // document.getElementById('skillRegistry').classList.add('open');
 </script>
 </body>
 </html>
