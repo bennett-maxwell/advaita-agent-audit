@@ -1,22 +1,99 @@
 {
-  "revenue": "$305K",
-  "runway": "3.5 wks",
-  "leads": "1,433",
-  "spend": "$8,894",
-  "autonomy": "68%",
-  "blockers": "8",
-  "updated": "May 5, 2026 \u2014 CEO OS v4",
-  "new_ccs": [
-    "agent-monitor",
-    "software",
-    "employees",
-    "cpa",
-    "finance-hub",
-    "mapki",
-    "seo",
-    "social",
-    "autonomy",
-    "marketing",
-    "meeting-prep"
+  "_meta": {
+    "updated": "2026-05-05T20:58:00Z",
+    "source": "Squirrel Day 2 sprint",
+    "next_refresh": "2hr Pulse"
+  },
+  "health_score": 68,
+  "health_score_breakdown": {
+    "revenue": 30,
+    "pipeline": 25,
+    "autonomy": 25,
+    "uptime": 20
+  },
+  "deployment_deadline": "2026-05-17",
+  "deployment_days_remaining": 12,
+  "deployment_requirements": [
+    {
+      "name": "Machines 24/7",
+      "status": "red"
+    },
+    {
+      "name": "Lead Funnel",
+      "status": "red"
+    },
+    {
+      "name": "Piper 6AM",
+      "status": "red"
+    },
+    {
+      "name": "Dashboard",
+      "status": "green"
+    },
+    {
+      "name": "Lead Scoring",
+      "status": "yellow"
+    },
+    {
+      "name": "Sam Scoring",
+      "status": "yellow"
+    },
+    {
+      "name": "Content Engine",
+      "status": "red"
+    },
+    {
+      "name": "Advaita Packaged",
+      "status": "red"
+    }
+  ],
+  "legal_deadline_may27_days": 22,
+  "legal_deadline_may13_days": 8,
+  "revenue_ytd": 305000,
+  "runway_weeks": 3.5,
+  "leads_active": 1433,
+  "leads_unassigned": 506,
+  "autonomy_pct": 68,
+  "lead_processing_pct": 22,
+  "machine_ram_gb": 0.5,
+  "synthflow_connected": false,
+  "meta_token_expired": true,
+  "ghl_pit_expired": true,
+  "cpab_sh": 114,
+  "cpab_ic": 67,
+  "show_rate_sh_pct": 31.9,
+  "show_rate_ic_pct": 20.3,
+  "seo_score": 24,
+  "mapki_brands": 3239,
+  "franchise_score_deployed": 0,
+  "content_queued": 60,
+  "linkedin_next_post": "2026-05-07",
+  "pulse_last_sent": "2026-05-05T14:58:00Z",
+  "leo_wos_in_flight": [
+    {
+      "ts": "1778014332",
+      "desc": "RAM self-heal",
+      "status": "sent"
+    },
+    {
+      "ts": "1778011802",
+      "desc": "hub-data.json Pulse wiring",
+      "status": "pending"
+    },
+    {
+      "ts": "1778011228",
+      "desc": "command-center-skill subfolder",
+      "status": "pending"
+    },
+    {
+      "ts": "1777986496",
+      "desc": "IC community-hub creative",
+      "status": "in-flight"
+    },
+    {
+      "ts": "1777963849",
+      "desc": "GSC sitemap + GA4",
+      "status": "in-flight"
+    }
   ]
 }

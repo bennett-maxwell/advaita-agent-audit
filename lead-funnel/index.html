@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKI Lead Funnel CC</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #34C759; --amber: #FF9F0A; --red: #FF3B30; --blue: #0071E3;
+    --purple: #AF52DE; --text: #1D1D1F; --label: #6E6E73; --white: #FFFFFF;
+    --bg: #F5F5F7; --border: #D2D2D7; --navy: #1B2626;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.4; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 16px 40px; }
+
+  /* HEADER */
+  .page-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px; }
+  .page-header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .header-back { font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; }
+  .header-back:hover { opacity: 0.8; }
+  .header-center { text-align: center; }
+  .page-title { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+  .page-subtitle { font-size: 12px; color: var(--label); font-weight: 500; margin-top: 2px; }
+  .header-badge { background: #FFF0EE; color: var(--red); font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 8px; border: 1px solid var(--red); }
+
+  /* DEPLOY BANNER */
+  .deploy-banner { background: var(--navy); color: var(--white); padding: 14px 16px; }
+  .deploy-banner-inner { max-width: 900px; margin: 0 auto; }
+  .deploy-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .deploy-checklist { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .deploy-checklist li { font-size: 12px; color: rgba(255,255,255,0.85); display: flex; align-items: flex-start; gap: 8px; }
+  .deploy-checklist li span { font-weight: 500; }
+
+  /* KPI STRIP */
+  .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 12px 0; }
+  @media (min-width: 600px) { .kpi-grid { grid-template-columns: repeat(4, 1fr); } }
+  .kpi-cell { background: var(--white); padding: 14px 12px; }
+  .kpi-label { font-size: 10px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .kpi-value { font-size: 28px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin-bottom: 3px; }
+  .kpi-sub { font-size: 11px; color: var(--label); }
+  .kpi-red { color: var(--red); }
+  .kpi-amber { color: var(--amber); }
+  .kpi-green { color: var(--green); }
+  .kpi-value-sm { font-size: 16px; font-weight: 800; padding-top: 6px; }
+
+  /* SECTION */
+  section { background: var(--white); border-radius: 12px; margin: 12px 0; border: 1px solid var(--border); overflow: hidden; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.8px; }
+
+  /* ACCORDION */
+  .accordion-toggle { width: 100%; background: none; border: none; padding: 14px 16px; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.15s; }
+  .accordion-toggle:hover { background: var(--bg); }
+  .accordion-header-content { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .accordion-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .accordion-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 8px; white-space: nowrap; }
+  .badge-red { background: #FFF0EE; color: var(--red); border: 1px solid var(--red); }
+  .badge-amber { background: #FFF8EC; color: var(--amber); border: 1px solid var(--amber); }
+  .badge-green { background: #F0FFF4; color: var(--green); border: 1px solid var(--green); }
+  .badge-blue { background: #EEF5FF; color: var(--blue); border: 1px solid var(--blue); }
+  .accordion-chevron { font-size: 12px; color: var(--label); transition: transform 0.2s; flex-shrink: 0; }
+  .accordion-toggle.open .accordion-chevron { transform: rotate(180deg); }
+  .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .accordion-body.open { max-height: 900px; }
+  .accordion-inner { padding: 16px; border-top: 1px solid var(--border); }
+
+  /* ROWS */
+  .row { display: flex; align-items: baseline; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--bg); }
+  .row:last-child { border-bottom: none; }
+  .row-label { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.4px; min-width: 110px; flex-shrink: 0; }
+  .row-value { font-size: 13px; color: var(--text); font-weight: 500; }
+  .row-value.mono { font-family: 'SF Mono', 'Menlo', monospace; font-size: 12px; }
+  .row-value.red { color: var(--red); font-weight: 700; }
+  .row-value.green { color: var(--green); font-weight: 700; }
+  .row-value.amber { color: var(--amber); font-weight: 700; }
+
+  /* ADS TABLE */
+  .ads-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .ads-table th { font-size: 10px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.4px; padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+  .ads-table td { font-size: 12px; padding: 8px; border-bottom: 1px solid var(--bg); font-weight: 500; }
+  .ads-table tr:last-child td { border-bottom: none; }
+
+  /* FUNNEL STAGES */
+  .stage-bar { display: flex; align-items: center; gap: 10px; margin: 4px 0; }
+  .stage-label { font-size: 12px; font-weight: 600; color: var(--text); min-width: 120px; }
+  .stage-track { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+  .stage-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .stage-count { font-size: 12px; font-weight: 700; color: var(--text); min-width: 50px; text-align: right; }
+  .stage-drop { font-size: 10px; color: var(--red); font-weight: 600; min-width: 60px; text-align: right; }
+
+  /* FUNNEL TABLE */
+  .funnel-table { width: 100%; border-collapse: collapse; }
+  .funnel-table th { font-size: 10px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.4px; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .funnel-table td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .funnel-table tr:last-child td { border-bottom: none; }
+  .funnel-table .stage-name { font-weight: 600; }
+  .funnel-table .stage-n { font-weight: 800; font-size: 16px; }
+  .funnel-table .drop-pct { color: var(--red); font-weight: 700; font-size: 12px; }
+
+  /* IMPACT BOX */
+  .impact-box { background: #F0FFF4; border: 1px solid var(--green); border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+  .impact-title { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+  .impact-row { font-size: 13px; color: var(--text); display: flex; align-items: baseline; gap: 8px; padding: 3px 0; }
+  .impact-label { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; min-width: 80px; }
+
+  /* DISPATCH BTN */
+  .btn-dispatch { display: inline-block; background: var(--blue); color: var(--white); border: none; padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 12px; transition: opacity 0.15s; }
+  .btn-dispatch:hover { opacity: 0.85; }
+  .btn-dispatch.red { background: var(--red); }
+  .btn-dispatch.amber { background: var(--amber); }
+
+  /* STATUS BAR */
+  .status-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--label); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-red { background: var(--red); }
+  .dot-amber { background: var(--amber); }
+  .dot-green { background: var(--green); }
+
+  /* RESOURCE */
+  .resource-row { padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .resource-row:last-child { border-bottom: none; }
+  .resource-label { font-size: 13px; font-weight: 600; color: var(--text); }
+  .resource-link { font-size: 12px; color: var(--blue); text-decoration: none; font-weight: 600; }
+  .resource-link:hover { text-decoration: underline; }
+  .resource-value { font-size: 12px; color: var(--label); font-family: 'SF Mono','Menlo',monospace; }
+
+  /* TOAST */
+  .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--white); padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; z-index: 200; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+
+  /* CRITICAL ALERT */
+  .critical-alert { background: #FFF0EE; border: 1px solid var(--red); border-radius: 10px; padding: 10px 14px; margin: 12px 0; display: flex; align-items: center; gap: 8px; }
+  .critical-alert-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+  .critical-alert-text { font-size: 13px; font-weight: 700; color: var(--red); }
+
+  /* CONVERSION CALLOUT */
+  .conversion-callout { background: var(--navy); color: var(--white); border-radius: 12px; padding: 16px; margin: 12px 0; }
+  .callout-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .callout-row:last-child { border-bottom: none; }
+  .callout-label { font-size: 12px; color: rgba(255,255,255,0.6); }
+  .callout-value { font-size: 14px; font-weight: 700; color: var(--white); }
+  .callout-value.green { color: #5DE67A; }
+  .callout-value.red { color: #FF6B6B; }
+  .callout-header { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <a class="header-back" href="../hub/">← Hub</a>
+    <div class="header-center">
+      <div class="page-title">🔀 FKI Lead Funnel CC</div>
+      <div class="page-subtitle">Full Lead Flow Status</div>
+    </div>
+    <div class="header-badge">22% Auto</div>
+  </div>
+</div>
+
+<!-- DEPLOYMENT BANNER -->
+<div class="deploy-banner">
+  <div class="deploy-banner-inner">
+    <div class="deploy-title">⚡ Advaita May 17 Requirements — Lead Funnel Items</div>
+    <ul class="deploy-checklist">
+      <li>☐ <span>Full lead funnel: paid ad → GHL → auto-sequence → call booked → scored → follow-up</span></li>
+      <li>☐ <span>Piper 6AM briefing to Bennett DM daily</span></li>
+      <li>☐ <span>Lead Scoring Engine qualifying automatically</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- CRITICAL ALERT -->
+<div class="critical-alert">
+  <div class="critical-alert-dot"></div>
+  <div class="critical-alert-text">506 leads UNASSIGNED &nbsp;·&nbsp; SynthFlow NOT CONNECTED &nbsp;·&nbsp; Speed-to-Lead: 0s (target 60s)</div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-grid">
+  <div class="kpi-cell">
+    <div class="kpi-label">Autonomy</div>
+    <div class="kpi-value kpi-red">22%</div>
+    <div class="kpi-sub">Target: 60%+</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">SynthFlow</div>
+    <div class="kpi-value-sm kpi-red">🔴 NOT CONNECTED</div>
+    <div class="kpi-sub">Offline</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Unassigned</div>
+    <div class="kpi-value kpi-red">506</div>
+    <div class="kpi-sub">Leads going cold</div>
+  </div>
+  <div class="kpi-cell">
+    <div class="kpi-label">Speed-to-Lead</div>
+    <div class="kpi-value kpi-red">0s</div>
+    <div class="kpi-sub">Target: 60s</div>
+  </div>
+</div>
+
+<!-- STAGE 1: Ad → GHL -->
+<section>
+  <div class="status-bar">
+    <div class="status-dot dot-red"></div>
+    <strong style="font-size:12px;color:var(--red);">STAGE 1 — TOKEN EXPIRED</strong>
+  </div>
+  <button class="accordion-toggle open" id="t1" onclick="toggleAccordion('t1','b1')">
+    <div class="accordion-header-content">
+      <span class="accordion-title">Stage 1: Ad → GHL</span>
+      <span class="accordion-badge badge-red">TOKEN EXPIRED</span>
+    </div>
+    <span class="accordion-chevron">▼</span>
+  </button>
+  <div class="accordion-body open" id="b1">
+    <div class="accordion-inner">
+      <div class="row">
+        <span class="row-label">Meta Ads</span>
+        <span class="row-value">Running — token EXPIRED Apr 30 — campaigns blind</span>
+      </div>
+      <table class="ads-table">
+        <thead>
+          <tr>
+            <th>Campaign</th>
+            <th>Spend</th>
+            <th>Leads</th>
+            <th>CPL</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[SH] Leadform</td>
+            <td>$3,892</td>
+            <td>101</td>
+            <td>$38.53</td>
+            <td style="color:var(--green);font-weight:700;">✅ OK</td>
+          </tr>
+          <tr>
+            <td>[IC] Leadform</td>
+            <td>$4,180</td>
+            <td>98</td>
+            <td>$42.66</td>
+            <td style="color:var(--amber);font-weight:700;">🟡 Wrong angle</td>
+          </tr>
+          <tr>
+            <td>[FKI] 2nd Opinion</td>
+            <td>$502</td>
+            <td>0</td>
+            <td>—</td>
+            <td style="color:var(--red);font-weight:700;">🔴 Kill candidate</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row" style="margin-top:10px;">
+        <span class="row-label">Fix Needed</span>
+        <span class="row-value red">1. Meta token refresh &nbsp;·&nbsp; 2. IC creative swap (Investor Headlines → Community-hub)</span>
+      </div>
+      <button class="btn-dispatch" onclick="copyDispatch('Meta Ads access token expired Apr 30. Campaigns running blind. Fix: Meta Business Manager → System Users → generate new long-lived token → update GHL + reporting integrations. Also: swap IC creative from Investor Headlines v1.1 to community-hub angle.')">📋 Copy Dispatch ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE 2: GHL → Auto-Sequence -->
+<section>
+  <div class="status-bar">
+    <div class="status-dot dot-red"></div>
+    <strong style="font-size:12px;color:var(--red);">STAGE 2 — CRITICAL BLOCKER</strong>
+  </div>
+  <button class="accordion-toggle open" id="t2" onclick="toggleAccordion('t2','b2')">
+    <div class="accordion-header-content">
+      <span class="accordion-title">Stage 2: GHL → Auto-Sequence</span>
+      <span class="accordion-badge badge-red">SYNTHFLOW OFFLINE</span>
+    </div>
+    <span class="accordion-chevron">▼</span>
+  </button>
+  <div class="accordion-body open" id="b2">
+    <div class="accordion-inner">
+      <div class="row">
+        <span class="row-label">SynthFlow</span>
+        <span class="row-value red">NOT CONNECTED — Selected (Council 4.55/5)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">GHL Location</span>
+        <span class="row-value mono">14RD8KklxR9G4e0Rf7v2</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Connect Path</span>
+        <span class="row-value">GHL Marketplace → SynthFlow → Subaccount mode</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Unassigned</span>
+        <span class="row-value red">506 leads — no auto-sequence running</span>
+      </div>
+      <div class="row">
+        <span class="row-label">WO Status</span>
+        <span class="row-value amber">ts 1777961430 dispatched — verify status</span>
+      </div>
+      <button class="btn-dispatch red" onclick="copyDispatch('CRITICAL: Connect SynthFlow to GHL Location 14RD8KklxR9G4e0Rf7v2 per spec Notion 357cf5514fd381f78e2fe3930c2e3a75. Leo WO ts 1777961430 already sent — verify status and confirm connection. 506 leads unassigned and going cold.')">📋 Copy Dispatch ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE 3: Lead Scoring -->
+<section>
+  <div class="status-bar">
+    <div class="status-dot dot-red"></div>
+    <strong style="font-size:12px;color:var(--red);">STAGE 3 — BUILT, NOT DEPLOYED</strong>
+  </div>
+  <button class="accordion-toggle" id="t3" onclick="toggleAccordion('t3','b3')">
+    <div class="accordion-header-content">
+      <span class="accordion-title">Stage 3: Lead Scoring Engine</span>
+      <span class="accordion-badge badge-amber">PENDING DEPLOY</span>
+    </div>
+    <span class="accordion-chevron">▼</span>
+  </button>
+  <div class="accordion-body" id="b3">
+    <div class="accordion-inner">
+      <div class="row">
+        <span class="row-label">Built By</span>
+        <span class="row-value green">Ivan — franchise-score.py ✅</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Ports</span>
+        <span class="row-value mono">:8742 / :8743 / :8744 (FastAPI live)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Pending</span>
+        <span class="row-value red">Add franchiseScore to Convex data model → wire to GHL ContactCreate webhook</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Output</span>
+        <span class="row-value">tier (hot/warm/cold) · score (0–10) · recommended_brand · urgency_level</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Impact</span>
+        <span class="row-value green">506 leads scored and routed in &lt;60s once deployed</span>
+      </div>
+      <button class="btn-dispatch" onclick="copyDispatch('Deploy Lead Scorer to GHL ContactCreate webhook. franchise-score.py built by Ivan. Ports :8742/:8743/:8744 FastAPI live. Need: add franchiseScore to Convex data model → wire to GHL ContactCreate webhook. Output: tier(hot/warm/cold), score(0-10), recommended_brand, urgency_level. Spec: Notion 357cf5514fd3816c9b17c4474df475a7')">📋 Copy Dispatch ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE 4: Call Booking -->
+<section>
+  <div class="status-bar">
+    <div class="status-dot dot-amber"></div>
+    <strong style="font-size:12px;color:var(--amber);">STAGE 4 — ROUTING ISSUE</strong>
+  </div>
+  <button class="accordion-toggle" id="t4" onclick="toggleAccordion('t4','b4')">
+    <div class="accordion-header-content">
+      <span class="accordion-title">Stage 4: Call Booking</span>
+      <span class="accordion-badge badge-amber">PIPER ROUTING FIX NEEDED</span>
+    </div>
+    <span class="accordion-chevron">▼</span>
+  </button>
+  <div class="accordion-body" id="b4">
+    <div class="accordion-inner">
+      <div class="row">
+        <span class="row-label">Piper</span>
+        <span class="row-value amber">6AM DM routing to wrong channel — ~1hr fix</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Rep Briefing</span>
+        <span class="row-value red">Not yet running daily</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Advance Rate</span>
+        <span class="row-value green">41.7% Territory Review advance rate (healthy)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Fix Needed</span>
+        <span class="row-value">Piper 6AM DM channel fix → dispatch to Leo</span>
+      </div>
+      <button class="btn-dispatch amber" onclick="copyDispatch('Fix Piper 6AM DM routing: currently going to wrong channel. Should DM Bennett directly at 6AM daily with rep briefing. ~1hr fix. Dispatch to Leo.')">📋 Copy Dispatch → Leo ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE 5: Call Scoring -->
+<section>
+  <div class="status-bar">
+    <div class="status-dot dot-amber"></div>
+    <strong style="font-size:12px;color:var(--amber);">STAGE 5 — NOT AT 6/10 RELIABILITY</strong>
+  </div>
+  <button class="accordion-toggle" id="t5" onclick="toggleAccordion('t5','b5')">
+    <div class="accordion-header-content">
+      <span class="accordion-title">Stage 5: Call Scoring</span>
+      <span class="accordion-badge badge-amber">SAM RELIABILITY LOW</span>
+    </div>
+    <span class="accordion-chevron">▼</span>
+  </button>
+  <div class="accordion-body" id="b5">
+    <div class="accordion-inner">
+      <div class="row">
+        <span class="row-label">Sam</span>
+        <span class="row-value amber">Running — not reliable due to machine resets</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Reed</span>
+        <span class="row-value green">Transcription live ✅</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Coaching</span>
+        <span class="row-value amber">Post-call coaching partial</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Follow-up</span>
+        <span class="row-value red">NOT running</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE 6: Follow-Up Loop -->
+<section>
+  <div class="status-bar">
+    <div class="status-dot dot-red"></div>
+    <strong style="font-size:12px;color:var(--red);">STAGE 6 — NOT BUILT</strong>
+  </div>
+  <button class="accordion-toggle" id="t6" onclick="toggleAccordion('t6','b6')">
+    <div class="accordion-header-content">
+      <span class="accordion-title">Stage 6: Follow-Up Loop</span>
+      <span class="accordion-badge badge-red">NOT DEPLOYED</span>
+    </div>
+    <span class="accordion-chevron">▼</span>
+  </button>
+  <div class="accordion-body" id="b6">
+    <div class="accordion-inner">
+      <div class="row">
+        <span class="row-label">3-Touch</span>
+        <span class="row-value red">24hr / 2hr / 1hr reminders — NOT deployed</span>
+      </div>
+      <div class="row">
+        <span class="row-label">No-Show</span>
+        <span class="row-value red">30min / 4hr / 24hr rebook — NOT deployed</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Show Rate</span>
+        <span class="row-value red">SH 31.9% &nbsp;·&nbsp; IC 20.3% &nbsp;·&nbsp; Target: 70%</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Impact</span>
+        <span class="row-value green">+40% show rate when reminders active</span>
+      </div>
+      <button class="btn-dispatch red" onclick="copyDispatch('Build 3-touch reminder workflow in GHL: 24hr/2hr/1hr SMS before call. Also build no-show rebook: 30min/4hr/24hr. GHL Location 14RD8KklxR9G4e0Rf7v2. Impact: +40% show rate (current SH 31.9% / IC 20.3%, target 70%). Leo WO needed.')">📋 Copy Dispatch → Build Reminders ↗</button>
+    </div>
+  </div>
+</section>
+
+<!-- FUNNEL METRICS TABLE -->
+<section>
+  <div class="section-header">
+    <span class="section-label">Funnel Metrics — End-to-End</span>
+  </div>
+  <table class="funnel-table">
+    <thead>
+      <tr>
+        <th>Stage</th>
+        <th>Count</th>
+        <th>Drop-off</th>
+        <th>Visual</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="stage-name">New Lead</td>
+        <td class="stage-n">1,064</td>
+        <td class="drop-pct">—</td>
+        <td>
+          <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;width:100%;min-width:80px;">
+            <div style="height:100%;width:100%;background:var(--blue);border-radius:4px;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="stage-name">Interested</td>
+        <td class="stage-n">125</td>
+        <td class="drop-pct">-88%</td>
+        <td>
+          <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;min-width:80px;">
+            <div style="height:100%;width:11.7%;background:var(--amber);border-radius:4px;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="stage-name">Intro</td>
+        <td class="stage-n">139</td>
+        <td class="drop-pct">—</td>
+        <td>
+          <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;min-width:80px;">
+            <div style="height:100%;width:13.1%;background:var(--amber);border-radius:4px;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="stage-name">Territory</td>
+        <td class="stage-n">58</td>
+        <td class="drop-pct">-58%</td>
+        <td>
+          <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;min-width:80px;">
+            <div style="height:100%;width:5.5%;background:var(--amber);border-radius:4px;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="stage-name">Financial</td>
+        <td class="stage-n">21</td>
+        <td class="drop-pct">-64%</td>
+        <td>
+          <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;min-width:80px;">
+            <div style="height:100%;width:1.97%;background:var(--red);border-radius:4px;"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="stage-name" style="font-weight:800;">Signed</td>
+        <td class="stage-n" style="color:var(--green);">3</td>
+        <td class="drop-pct">-86%</td>
+        <td>
+          <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;min-width:80px;">
+            <div style="height:100%;width:0.28%;background:var(--red);border-radius:4px;min-width:3px;"></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding:12px 16px;border-top:1px solid var(--border);">
+    <div class="row" style="border:none;padding:4px 0;">
+      <span class="row-label">Current Rate</span>
+      <span class="row-value red">0.28% end-to-end</span>
+    </div>
+    <div class="row" style="border:none;padding:4px 0;">
+      <span class="row-label">Industry Avg</span>
+      <span class="row-value amber">2.3%</span>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT CALLOUT -->
+<div class="conversion-callout">
+  <div class="callout-header">💰 Revenue Impact of Funnel Fix</div>
+  <div class="callout-row">
+    <span class="callout-label">Current conversion</span>
+    <span class="callout-value red">0.28%</span>
+  </div>
+  <div class="callout-row">
+    <span class="callout-label">Target conversion</span>
+    <span class="callout-value green">2.0%</span>
+  </div>
+  <div class="callout-row">
+    <span class="callout-label">Additional deals/year</span>
+    <span class="callout-value green">+25 deals</span>
+  </div>
+  <div class="callout-row">
+    <span class="callout-label">Revenue impact</span>
+    <span class="callout-value green">$1.25M franchise fee revenue</span>
+  </div>
+  <div class="callout-row">
+    <span class="callout-label">Basis</span>
+    <span class="callout-label">$40K avg franchise fee · 0.28% → 2%</span>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<section>
+  <div class="section-header">
+    <span class="section-label">Resources</span>
+  </div>
+  <div class="resource-row">
+    <span class="resource-label">GHL Location</span>
+    <span class="resource-value">14RD8KklxR9G4e0Rf7v2</span>
+  </div>
+  <div class="resource-row">
+    <span class="resource-label">SynthFlow Spec</span>
+    <a class="resource-link" href="https://notion.so/357cf5514fd381f78e2fe3930c2e3a75" target="_blank" rel="noopener">Notion 357cf551...e3a75 ↗</a>
+  </div>
+  <div class="resource-row">
+    <span class="resource-label">Lead Scorer Spec</span>
+    <a class="resource-link" href="https://notion.so/357cf5514fd3816c9b17c4474df475a7" target="_blank" rel="noopener">Notion 357cf551...f475a7 ↗</a>
+  </div>
+  <div class="resource-row">
+    <span class="resource-label">Leo WO — SynthFlow</span>
+    <span class="resource-value">ts 1777961430</span>
+  </div>
+  <div class="resource-row">
+    <span class="resource-label">Leo WO — IC Creative</span>
+    <span class="resource-value">ts 1777986496</span>
+  </div>
+</section>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Copied!</div>
+
+<script>
+  function copyDispatch(text) {
+    navigator.clipboard.writeText(text).then(function() {
+      showToast('✓ Copied!');
+    }).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Copied!');
+    });
+  }
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 1800);
+  }
+  function toggleAccordion(toggleId, bodyId) {
+    var toggle = document.getElementById(toggleId);
+    var body = document.getElementById(bodyId);
+    if (!toggle || !body) return;
+    var isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    toggle.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
