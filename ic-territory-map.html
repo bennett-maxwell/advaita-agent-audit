@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indy Clover — Territory Availability Map 2026</title>
+<link rel="icon" href="data:,">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a0f; color:#e0e0e6; min-height:100vh; }
+.header { background:#14141f; border-bottom:1px solid #7c3aed33; padding:20px 32px; display:flex; align-items:center; gap:16px; }
+.logo { width:44px; height:44px; background:linear-gradient(135deg,#7c3aed,#a855f7); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+.header-text h1 { font-size:20px; color:#a855f7; font-weight:700; }
+.header-text p { font-size:13px; color:#8b8b9f; margin-top:2px; }
+.stats-bar { display:flex; gap:0; border-bottom:1px solid #1e1e2e; background:#0f0f1a; }
+.stat { flex:1; padding:16px 24px; border-right:1px solid #1e1e2e; text-align:center; }
+.stat:last-child { border-right:none; }
+.stat-val { font-size:28px; font-weight:800; }
+.stat-val.green { color:#4ade80; }
+.stat-val.yellow { color:#fbbf24; }
+.stat-val.red { color:#f87171; }
+.stat-label { font-size:11px; color:#8b8b9f; margin-top:4px; letter-spacing:.5px; text-transform:uppercase; }
+.content { display:grid; grid-template-columns:1fr 340px; gap:0; min-height:calc(100vh - 140px); }
+.map-area { padding:28px 32px; }
+.map-area h2 { font-size:15px; color:#a855f7; margin-bottom:16px; font-weight:600; }
+.regions-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:12px; }
+.region-card { background:#14141f; border:1px solid; border-radius:12px; padding:16px; cursor:pointer; transition:all .15s; }
+.region-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.3); }
+.region-card.open { border-color:#4ade8044; }
+.region-card.partial { border-color:#fbbf2444; }
+.region-card.limited { border-color:#fb923c44; }
+.region-card.closed { border-color:#f8717144; }
+.region-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.region-name { font-size:15px; font-weight:700; color:#e0e0e6; }
+.region-state { font-size:11px; color:#8b8b9f; margin-top:2px; }
+.badge { font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; letter-spacing:.4px; text-transform:uppercase; }
+.badge.open { background:#4ade8022; color:#4ade80; }
+.badge.partial { background:#fbbf2422; color:#fbbf24; }
+.badge.limited { background:#fb923c22; color:#fb923c; }
+.badge.closed { background:#f8717122; color:#f87171; }
+.region-details { font-size:12px; color:#8b8b9f; line-height:1.5; }
+.region-details .highlight { color:#a855f7; font-weight:600; }
+.sidebar { background:#0f0f1a; border-left:1px solid #1e1e2e; padding:24px 20px; }
+.sidebar h3 { font-size:13px; color:#a855f7; font-weight:700; letter-spacing:.5px; text-transform:uppercase; margin-bottom:16px; }
+.investment-box { background:#14141f; border:1px solid #7c3aed33; border-radius:12px; padding:16px; margin-bottom:16px; }
+.investment-box .label { font-size:11px; color:#8b8b9f; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+.investment-box .value { font-size:22px; font-weight:800; color:#a855f7; }
+.investment-box .sub { font-size:12px; color:#8b8b9f; margin-top:4px; }
+.feature-list { list-style:none; margin-bottom:20px; }
+.feature-list li { font-size:13px; color:#c0c0cc; padding:7px 0; border-bottom:1px solid #1e1e2e; display:flex; align-items:center; gap:8px; }
+.feature-list li:last-child { border-bottom:none; }
+.feature-list li::before { content:"✓"; color:#4ade80; font-weight:700; font-size:12px; flex-shrink:0; }
+.cta-btn { width:100%; padding:14px; background:linear-gradient(135deg,#7c3aed,#a855f7); border:none; border-radius:10px; color:#fff; font-size:14px; font-weight:700; cursor:pointer; margin-bottom:10px; }
+.cta-btn.secondary { background:transparent; border:1px solid #7c3aed55; color:#a855f7; }
+.disclaimer { font-size:11px; color:#6b7280; line-height:1.5; margin-top:12px; }
+.legend { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:#8b8b9f; }
+.legend-dot { width:10px; height:10px; border-radius:50%; }
+.legend-dot.open { background:#4ade80; }
+.legend-dot.partial { background:#fbbf24; }
+.legend-dot.limited { background:#fb923c; }
+.legend-dot.closed { background:#f87171; }
+.updated { font-size:11px; color:#6b7280; margin-top:20px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">🌿</div>
+  <div class="header-text">
+    <h1>Indy Clover Territory Map</h1>
+    <p>Franchise Availability — Updated May 2026</p>
+  </div>
+</div>
+<div class="stats-bar">
+  <div class="stat"><div class="stat-val green">24</div><div class="stat-label">Open Markets</div></div>
+  <div class="stat"><div class="stat-val yellow">8</div><div class="stat-label">Partial Availability</div></div>
+  <div class="stat"><div class="stat-val red">4</div><div class="stat-label">Closed / Awarded</div></div>
+  <div class="stat"><div class="stat-val" style="color:#a855f7">$140K</div><div class="stat-label">Starting Investment</div></div>
+  <div class="stat"><div class="stat-val green">SBA</div><div class="stat-label">Financing Available</div></div>
+</div>
+<div class="content">
+  <div class="map-area">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot open"></div> Open — Territory available</div>
+      <div class="legend-item"><div class="legend-dot partial"></div> Partial — Limited locations remain</div>
+      <div class="legend-item"><div class="legend-dot limited"></div> Limited — Final availability</div>
+      <div class="legend-item"><div class="legend-dot closed"></div> Closed — Territory awarded</div>
+    </div>
+    <h2>AVAILABLE TERRITORIES</h2>
+    <div class="regions-grid" id="regionsGrid"></div>
+  </div>
+  <div class="sidebar">
+    <h3>Investment Overview</h3>
+    <div class="investment-box">
+      <div class="label">Total Investment Range</div>
+      <div class="value">$140K – $195K</div>
+      <div class="sub">SBA-approved · Semi-absentee model</div>
+    </div>
+    <div class="investment-box">
+      <div class="label">Franchise Fee</div>
+      <div class="value">$35,000</div>
+      <div class="sub">One-time · Includes launch support</div>
+    </div>
+    <div class="investment-box">
+      <div class="label">Royalty</div>
+      <div class="value">6% gross</div>
+      <div class="sub">+ 2% marketing fund</div>
+    </div>
+    <h3 style="margin-top:20px">Why Indy Clover</h3>
+    <ul class="feature-list">
+      <li>147 sellers pay YOU to use the space</li>
+      <li>10-20 hrs/week semi-absentee operation</li>
+      <li>Community-driven resale retail model</li>
+      <li>No inventory — sellers bring merchandise</li>
+      <li>Proven 3-year concept, SBA pre-approved</li>
+      <li>AI-powered franchise matching + support</li>
+      <li>FKI team provides ongoing coaching</li>
+    </ul>
+    <button class="cta-btn" onclick="window.open('https://franchiseki.com','_blank')">Check My Territory →</button>
+    <button class="cta-btn secondary" onclick="window.open('https://franchiseki.com','_blank')">Download FDD</button>
+    <div class="disclaimer">Territory availability subject to change. Contact FKI for current status. Information as of May 2026.</div>
+    <div class="updated">Last updated: May 5, 2026</div>
+  </div>
+</div>
+<script>
+const territories = [
+  { name:"Denver Metro", state:"CO", status:"open", detail:"7 prime locations available. High foot traffic suburban markets." },
+  { name:"Phoenix / Scottsdale", state:"AZ", status:"open", detail:"Growing resale market. 5 territories available." },
+  { name:"Dallas / Fort Worth", state:"TX", status:"open", detail:"6 DFW territories. Strong community retail demand." },
+  { name:"Atlanta Metro", state:"GA", status:"partial", detail:"2 of 5 locations still available. Moving quickly." },
+  { name:"Charlotte", state:"NC", status:"open", detail:"3 territories available. Emerging resale culture." },
+  { name:"Nashville", state:"TN", status:"limited", detail:"1 prime territory remaining. High demand area." },
+  { name:"Salt Lake City", state:"UT", status:"open", detail:"4 territories. Active thrift community." },
+  { name:"Boise / Nampa", state:"ID", status:"open", detail:"2 territories. Low competition market." },
+  { name:"Austin", state:"TX", status:"partial", detail:"1 of 3 territories still open. Very active market." },
+  { name:"San Antonio", state:"TX", status:"open", detail:"3 territories available." },
+  { name:"Indianapolis", state:"IN", status:"open", detail:"4 territories. Affordable real estate." },
+  { name:"Columbus", state:"OH", status:"open", detail:"3 territories available." },
+  { name:"Kansas City", state:"MO/KS", status:"open", detail:"3 territories spanning both sides of the border." },
+  { name:"Omaha", state:"NE", status:"open", detail:"2 territories. Underserved resale market." },
+  { name:"Minneapolis / St Paul", state:"MN", status:"partial", detail:"2 of 4 territories available." },
+  { name:"Portland", state:"OR", status:"partial", detail:"1 territory remaining. Strong thrift culture." },
+  { name:"Sacramento", state:"CA", status:"limited", detail:"Final territory — high-value suburban corridor." },
+  { name:"Las Vegas", state:"NV", status:"open", detail:"3 territories available." },
+  { name:"Albuquerque", state:"NM", status:"open", detail:"2 territories. Growing market." },
+  { name:"Oklahoma City", state:"OK", status:"open", detail:"2 territories available." },
+  { name:"Seattle Metro", state:"WA", status:"closed", detail:"All 4 territories awarded. Waitlist available." },
+  { name:"Denver CO Springs", state:"CO", status:"closed", detail:"Awarded. Waitlist available." },
+  { name:"Houston", state:"TX", status:"closed", detail:"Core markets awarded. Outlying areas only." },
+  { name:"Chicago Metro", state:"IL", status:"closed", detail:"All territories awarded. Waitlist available." },
+  { name:"Raleigh / Durham", state:"NC", status:"open", detail:"3 territories available. Growing tech corridor." },
+  { name:"Tampa / St Pete", state:"FL", status:"open", detail:"4 territories. Active resale community." },
+  { name:"Jacksonville", state:"FL", status:"open", detail:"2 territories available." },
+  { name:"Richmond", state:"VA", status:"open", detail:"2 territories. College town market." },
+  { name:"Tucson", state:"AZ", status:"open", detail:"2 territories available." },
+  { name:"Spokane", state:"WA", status:"open", detail:"2 territories. Low cost entry market." },
+  { name:"Fargo", state:"ND", status:"open", detail:"1 territory. Emerging resale market." },
+  { name:"Des Moines", state:"IA", status:"open", detail:"2 territories available." },
+  { name:"Little Rock", state:"AR", status:"open", detail:"2 territories. Very low competition." },
+  { name:"Knoxville", state:"TN", status:"partial", detail:"1 of 2 territories available." },
+  { name:"Louisville", state:"KY", status:"open", detail:"2 territories available." },
+  { name:"Cleveland", state:"OH", status:"open", detail:"2 territories available." },
+];
+
+const grid = document.getElementById("regionsGrid");
+territories.forEach(t => {
+  const card = document.createElement("div");
+  card.className = `region-card ${t.status}`;
+  card.innerHTML = `
+    <div class="region-header">
+      <div>
+        <div class="region-name">${t.name}</div>
+        <div class="region-state">${t.state}</div>
+      </div>
+      <div class="badge ${t.status}">${t.status === 'partial' ? 'Partial' : t.status === 'limited' ? 'Limited' : t.status === 'closed' ? 'Closed' : 'Open'}</div>
+    </div>
+    <div class="region-details">${t.detail}${t.status === 'closed' ? ' <span class="highlight">Contact for waitlist.</span>' : t.status === 'limited' ? ' <span class="highlight">Act now.</span>' : ''}</div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
