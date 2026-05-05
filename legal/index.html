@@ -429,5 +429,22 @@
     toggle.classList.toggle('open', !isOpen);
   }
 </script>
+<!-- IronCreek R15 - Day 3 proactive-autonomy run -->
+<style>
+.ic-alert{background:#FFF3CD;border:1px solid #FF9F0A;border-radius:10px;padding:14px 18px;margin:16px 0}
+.ic-hd{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.ic-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;border-bottom:1px solid #F2F2F7}
+.ic-row:last-child{border-bottom:none}
+.ic-btn{font-size:11px;font-weight:600;color:#FFF;background:#FF9F0A;border:none;padding:5px 10px;border-radius:7px;cursor:pointer;margin-left:auto}
+</style>
+<div class="ic-alert">
+  <div class="ic-hd">⚖️ IronCreek R15 Draft — Action Required</div>
+  <div class="ic-row"><span style="flex:0 0 130px;font-size:12px;font-weight:600">Deadline</span><span>May 18, 2026 — 13 Days</span></div>
+  <div class="ic-row"><span style="flex:0 0 130px;font-size:12px;font-weight:600">Action</span><span>Review R15 draft → send before May 18</span></div>
+  <div class="ic-row"><span style="flex:0 0 130px;font-size:12px;font-weight:600">Contact</span><span>gbrown@heidlaw.com / rhaslam@heidlaw.com</span></div>
+  <div class="ic-row"><span style="flex:0 0 130px;font-size:12px;font-weight:600">Context</span><span>IronCreek v Dirty Dough — R15 response</span></div>
+  <div class="ic-row"><span style="font-size:11px;color:#6E6E73">IRREVERSIBLE — queued to daily-digest.md for Bennett review. Do NOT send without Bennett approval.</span></div>
+  <button class="ic-btn" onclick="navigator.clipboard.writeText('Bennett — IronCreek R15 draft needs your review before May 18. Contact gbrown@heidlaw.com. IRREVERSIBLE action — review in /daily-digest/').then(()=>{this.textContent='✓ Copied!'})">Copy Dispatch ↗</button>
+</div>
 </body>
 </html>

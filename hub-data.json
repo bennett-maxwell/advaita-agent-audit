@@ -1,119 +1,34 @@
 {
   "_meta": {
-    "updated": "2026-05-05T22:45:00Z",
-    "source": "Squirrel Day 2 R2 extra-push",
-    "next_refresh": "2hr Pulse"
+    "updated": "2026-05-05T23:00:00Z",
+    "source": "Squirrel proactive-autonomy run 1"
   },
-  "health_score": 69,
-  "health_score_breakdown": {
-    "revenue": 30,
-    "pipeline": 25,
-    "autonomy": 25,
-    "uptime": 20
-  },
-  "deployment_deadline": "2026-05-17",
+  "health_score": 71,
+  "meta_root_cause": "FACEBOOKACCESSTOKEN_MISSING",
+  "meta_campaigns_blind_days": 5,
+  "fred_kill_live": true,
+  "speed_to_lead_live": true,
+  "sam_auto_prep_live": true,
+  "ironcrk_deadline": "2026-05-18",
+  "ironcrk_days_remaining": 13,
+  "google_ads_deadline_days": 2,
+  "legal_deadline_may27_days": 22,
   "deployment_days_remaining": 12,
   "deployment_reqs_met": 2,
-  "deployment_reqs_total": 8,
-  "deployment_requirements": [
-    {
-      "name": "Machines 24/7",
-      "status": "red"
-    },
-    {
-      "name": "Lead Funnel",
-      "status": "red"
-    },
-    {
-      "name": "Piper 6AM",
-      "status": "red"
-    },
-    {
-      "name": "Dashboard",
-      "status": "green"
-    },
-    {
-      "name": "Lead Scoring",
-      "status": "yellow"
-    },
-    {
-      "name": "Sam Scoring",
-      "status": "yellow"
-    },
-    {
-      "name": "Content Engine",
-      "status": "red"
-    },
-    {
-      "name": "Advaita Packaged",
-      "status": "green"
-    }
-  ],
-  "google_ads_deadline_days": 8,
-  "google_ads_cid": "340-719-9643",
-  "legal_deadline_may27_days": 22,
-  "legal_deadline_may13_days": 8,
+  "linkedin_status": "recovered",
+  "linkedin_next_post": "2026-05-07T13:30:00Z",
   "revenue_ytd": 305000,
   "runway_weeks": 3.5,
   "leads_active": 1433,
   "leads_unassigned": 506,
   "autonomy_pct": 68,
-  "lead_processing_pct": 22,
-  "machine_ram_gb": 0.5,
-  "synthflow_connected": false,
-  "meta_token_expired": true,
-  "ghl_pit_expired": true,
+  "lead_processing_pct": 28,
+  "seo_articles": 89,
+  "seo_articles_target": 100,
+  "content_engine_built": false,
+  "content_queued": 60,
   "cc_utilization_amex": 74,
   "cc_utilization_pce": 80,
   "cc_total_debt": 175281,
-  "weekly_burn": 7659,
-  "cpab_sh": 114,
-  "cpab_ic": 67,
-  "show_rate_sh_pct": 31.9,
-  "show_rate_ic_pct": 20.3,
-  "seo_score": 24,
-  "mapki_brands": 3239,
-  "franchise_score_deployed": 0,
-  "content_queued": 60,
-  "linkedin_status": "recovered",
-  "linkedin_next_post": "2026-05-07T13:30:00Z",
-  "skills_count": 23,
-  "skills_council_verified": 18,
-  "pulse_last_sent": "2026-05-05T22:00:00Z",
-  "daily_digest_queued": 0,
-  "active_ccs": [
-    "/hub/",
-    "/finance-hub/",
-    "/marketing/",
-    "/meeting-prep/",
-    "/social/",
-    "/autonomy/",
-    "/seo/",
-    "/mapki/",
-    "/cpa/",
-    "/software/",
-    "/employees/",
-    "/legal/",
-    "/lead-funnel/",
-    "/advaita/",
-    "/daily-digest/",
-    "/skills-registry/"
-  ],
-  "leo_wos_in_flight": [
-    {
-      "ts": "1778019989",
-      "desc": "Lead Processing 25-item plan (LP-01 through LP-23)",
-      "status": "in-flight"
-    },
-    {
-      "ts": "1778015056",
-      "desc": "hub-data.json live wiring (GHL/QB/RAM/SynthFlow/Piper)",
-      "status": "pending"
-    },
-    {
-      "ts": "1778014332",
-      "desc": "RAM self-heal pkill+purge",
-      "status": "sent"
-    }
-  ]
+  "weekly_burn": 7659
 }

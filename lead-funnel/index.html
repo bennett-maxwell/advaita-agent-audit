@@ -629,5 +629,27 @@
     toggle.classList.toggle('open', !isOpen);
   }
 </script>
+<!-- Day 3 R3 Updates -->
+<style>
+.root-cause{background:#FF3B30;color:#fff;border-radius:10px;padding:14px 18px;margin:16px 0}
+.rc-title{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;opacity:.8}
+.rc-main{font-size:16px;font-weight:800}
+.rc-sub{font-size:12px;margin-top:6px;opacity:.85}
+.stl-win{background:#D4EDDA;border:1px solid #34C759;border-radius:10px;padding:14px 18px;margin:16px 0}
+.stl-hd{font-size:10px;font-weight:700;color:#34C759;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+</style>
+<div class="root-cause">
+  <div class="rc-title">🔍 ROOT CAUSE CONFIRMED — Meta Ads Blind</div>
+  <div class="rc-main">FACEBOOKACCESSTOKEN completely missing from .env</div>
+  <div class="rc-sub">NOT an expired token — was never present. 5 days of campaigns running blind.</div>
+  <div class="rc-sub">Fix: Bennett generates token from Meta Business Manager → System Users → Generate Token (ads_read, ads_management) → Leo updates ~/.env. Queued to daily-digest.md.</div>
+</div>
+<div class="stl-win">
+  <div class="stl-hd">✅ IMPROVEMENT: Speed-to-Lead BUILT</div>
+  <div style="font-size:22px;font-weight:800;color:#34C759">speed-to-lead.py</div>
+  <div style="font-size:12px;color:#6E6E73;margin-top:4px">LaunchAgent com.franchiseki.speed-to-lead — runs every 5min</div>
+  <div style="font-size:12px;color:#6E6E73;margin-top:4px">Auto-assigns unassigned contacts in GHL Location 14RD8KklxR9G4e0Rf7v2 — round robin Bailey + Keith</div>
+  <div style="font-size:12px;color:#34C759;margin-top:4px;font-weight:600">Built by Ivan-CC ✅ — Lead Processing +6% toward target</div>
+</div>
 </body>
 </html>
