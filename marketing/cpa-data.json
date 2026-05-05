@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-05T13:51:01.820737",
+  "generated": "2026-05-05T13:53:12.159839",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -7,12 +7,12 @@
       "utm_campaign": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
       "meta_campaign_name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
       "brand": "Indy Clover",
-      "meta_spend": 4284.63,
+      "meta_spend": 4284.76,
       "meta_leads": 194,
       "meta_cpl": 22.09,
       "booked": 1,
       "showed": 0,
-      "cost_per_booked": 4284.63,
+      "cost_per_booked": 4284.76,
       "cost_per_showed": null,
       "is_untagged": false
     },
