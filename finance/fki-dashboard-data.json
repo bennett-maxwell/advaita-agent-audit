@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-02 06:00 MDT",
+  "generated_at": "2026-05-05 00:17 MDT",
   "company": "Franchise KI LLC",
   "brands": [
     "Spoiled Rotten Photography",
@@ -11,34 +11,34 @@
   "cash_position": {
     "closing_balance": 7000.0,
     "opening_balance": 228105.96,
-    "net_change": 0.0,
+    "net_change": 80000.0,
     "checking_balance": 7000.0,
     "savings_balance": 0.0,
     "available": true,
     "override_active": true,
     "qb_checking": 40005.96,
     "qb_savings": 188100.0,
-    "qb_closing": 228105.96,
+    "qb_closing": 308105.96,
     "override_as_of": "2026-04-23",
     "override_reason": "QB bank feed last synced 2026-04-16 (7 days stale). Actual bank balance per Bennett 2026-04-23."
   },
   "pl": {
     "revenue": 0.0,
-    "expenses": 936.61,
-    "net": -936.61,
-    "period": "2026-05-01 to 2026-05-02",
+    "expenses": 1251.33,
+    "net": -1251.33,
+    "period": "2026-05-01 to 2026-05-05",
     "line_items": [
       {
         "name": "Office expenses",
-        "amount": 936.61,
+        "amount": 1182.33,
         "section": "Expenses"
       }
     ]
   },
   "pl_prior": {
-    "revenue": 70601.5,
+    "revenue": 110601.5,
     "expenses": 12152.14,
-    "net": 58449.36,
+    "net": 98449.36,
     "period": "2026-04-01 to 2026-04-30"
   },
   "balance_sheet": {
@@ -88,8 +88,8 @@
       },
       {
         "name": "Divvy - Spend & Expense Credit Card",
-        "balance": 9752.79,
-        "last_synced": "2026-05-01T22:51:14-07:00"
+        "balance": 9438.07,
+        "last_synced": "2026-05-04T00:17:14-07:00"
       },
       {
         "name": "PCE Credit (0864) - 2",
@@ -102,9 +102,9 @@
         "last_synced": "2026-04-02T13:40:18-07:00"
       }
     ],
-    "total_assets": 268105.96,
-    "total_liabilities": 115971.03,
-    "equity": 384076.99
+    "total_assets": 308105.96,
+    "total_liabilities": 115656.31,
+    "equity": 423762.27
   },
   "ben_monthly_pl": [
     {
@@ -196,12 +196,12 @@
   "api_costs": {
     "today": 0.0,
     "month": 0.0,
-    "avg_7day": 0.0492,
+    "avg_7day": 0.0,
     "budget_daily": 10.0,
     "budget_monthly": 300.0,
     "tier": "OK",
     "run_rate": 0.0,
-    "variance": -20.0,
+    "variance": -50.0,
     "per_agent": {}
   },
   "recurring": [
@@ -736,13 +736,13 @@
   "weeks_13": [
     {
       "week": 1,
-      "start": "2026-04-27",
-      "end": "2026-05-03",
-      "label": "W1 Apr 27",
+      "start": "2026-05-04",
+      "end": "2026-05-10",
+      "label": "W1 May 04",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 229073.81,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 309074.15,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -750,13 +750,13 @@
     },
     {
       "week": 2,
-      "start": "2026-05-04",
-      "end": "2026-05-10",
-      "label": "W2 May 04",
+      "start": "2026-05-11",
+      "end": "2026-05-17",
+      "label": "W2 May 11",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 230041.66,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 310042.34,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -764,13 +764,13 @@
     },
     {
       "week": 3,
-      "start": "2026-05-11",
-      "end": "2026-05-17",
-      "label": "W3 May 11",
+      "start": "2026-05-18",
+      "end": "2026-05-24",
+      "label": "W3 May 18",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 231009.51,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 311010.53,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -778,13 +778,13 @@
     },
     {
       "week": 4,
-      "start": "2026-05-18",
-      "end": "2026-05-24",
-      "label": "W4 May 18",
+      "start": "2026-05-25",
+      "end": "2026-05-31",
+      "label": "W4 May 25",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 231977.36,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 311978.72,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -792,13 +792,13 @@
     },
     {
       "week": 5,
-      "start": "2026-05-25",
-      "end": "2026-05-31",
-      "label": "W5 May 25",
+      "start": "2026-06-01",
+      "end": "2026-06-07",
+      "label": "W5 Jun 01",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 232945.21,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 312946.91,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -806,13 +806,13 @@
     },
     {
       "week": 6,
-      "start": "2026-06-01",
-      "end": "2026-06-07",
-      "label": "W6 Jun 01",
+      "start": "2026-06-08",
+      "end": "2026-06-14",
+      "label": "W6 Jun 08",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 233913.06,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 313915.1,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -820,13 +820,13 @@
     },
     {
       "week": 7,
-      "start": "2026-06-08",
-      "end": "2026-06-14",
-      "label": "W7 Jun 08",
+      "start": "2026-06-15",
+      "end": "2026-06-21",
+      "label": "W7 Jun 15",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 234880.91,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 314883.29,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -834,13 +834,13 @@
     },
     {
       "week": 8,
-      "start": "2026-06-15",
-      "end": "2026-06-21",
-      "label": "W8 Jun 15",
+      "start": "2026-06-22",
+      "end": "2026-06-28",
+      "label": "W8 Jun 22",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 235848.76,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 315851.48,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -848,13 +848,13 @@
     },
     {
       "week": 9,
-      "start": "2026-06-22",
-      "end": "2026-06-28",
-      "label": "W9 Jun 22",
+      "start": "2026-06-29",
+      "end": "2026-07-05",
+      "label": "W9 Jun 29",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 236816.61,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 316819.67,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -862,13 +862,13 @@
     },
     {
       "week": 10,
-      "start": "2026-06-29",
-      "end": "2026-07-05",
-      "label": "W10 Jun 29",
+      "start": "2026-07-06",
+      "end": "2026-07-12",
+      "label": "W10 Jul 06",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 237784.46,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 317787.86,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -876,13 +876,13 @@
     },
     {
       "week": 11,
-      "start": "2026-07-06",
-      "end": "2026-07-12",
-      "label": "W11 Jul 06",
+      "start": "2026-07-13",
+      "end": "2026-07-19",
+      "label": "W11 Jul 13",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 238752.31,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 318756.05,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -890,13 +890,13 @@
     },
     {
       "week": 12,
-      "start": "2026-07-13",
-      "end": "2026-07-19",
-      "label": "W12 Jul 13",
+      "start": "2026-07-20",
+      "end": "2026-07-26",
+      "label": "W12 Jul 20",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 239720.16,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 319724.24,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -904,13 +904,13 @@
     },
     {
       "week": 13,
-      "start": "2026-07-20",
-      "end": "2026-07-26",
-      "label": "W13 Jul 20",
+      "start": "2026-07-27",
+      "end": "2026-08-02",
+      "label": "W13 Jul 27",
       "cash_in": 13187.41,
-      "cash_out": 12219.56,
-      "net": 967.85,
-      "balance": 240688.01,
+      "cash_out": 12219.22,
+      "net": 968.19,
+      "balance": 320692.43,
       "negative": false,
       "charges": [],
       "basis": "Ben actuals (2026-02)",
@@ -966,18 +966,18 @@
     "windows": {
       "wtd": {
         "Indy Clover": {
-          "booked": 1,
-          "showed": 0,
+          "booked": 2,
+          "showed": 1,
           "noshow": 0,
           "cancelled": 0,
           "confirmed": 1
         },
         "Salad House": {
-          "booked": 5,
-          "showed": 1,
+          "booked": 4,
+          "showed": 0,
           "noshow": 0,
-          "cancelled": 1,
-          "confirmed": 3
+          "cancelled": 2,
+          "confirmed": 2
         },
         "Spoiled Rotten Photography": {
           "booked": 0,
@@ -996,18 +996,18 @@
       },
       "mtd": {
         "Indy Clover": {
-          "booked": 0,
-          "showed": 0,
-          "noshow": 0,
-          "cancelled": 0,
-          "confirmed": 0
-        },
-        "Salad House": {
-          "booked": 3,
+          "booked": 2,
           "showed": 1,
           "noshow": 0,
           "cancelled": 0,
-          "confirmed": 2
+          "confirmed": 1
+        },
+        "Salad House": {
+          "booked": 7,
+          "showed": 1,
+          "noshow": 0,
+          "cancelled": 2,
+          "confirmed": 4
         },
         "Spoiled Rotten Photography": {
           "booked": 0,
@@ -1026,18 +1026,18 @@
       },
       "d7": {
         "Indy Clover": {
-          "booked": 1,
-          "showed": 0,
+          "booked": 2,
+          "showed": 1,
           "noshow": 0,
           "cancelled": 0,
           "confirmed": 1
         },
         "Salad House": {
-          "booked": 5,
+          "booked": 9,
           "showed": 1,
           "noshow": 0,
-          "cancelled": 1,
-          "confirmed": 3
+          "cancelled": 3,
+          "confirmed": 5
         },
         "Spoiled Rotten Photography": {
           "booked": 0,
@@ -1063,11 +1063,11 @@
           "confirmed": 3
         },
         "Salad House": {
-          "booked": 50,
-          "showed": 16,
-          "noshow": 16,
+          "booked": 47,
+          "showed": 12,
+          "noshow": 15,
           "cancelled": 10,
-          "confirmed": 8
+          "confirmed": 10
         },
         "Spoiled Rotten Photography": {
           "booked": 0,
@@ -1090,79 +1090,79 @@
         "booked": 6,
         "showed": 1,
         "noshow": 0,
-        "cancelled": 1,
-        "confirmed": 4
+        "cancelled": 2,
+        "confirmed": 3
       },
       "mtd": {
-        "booked": 3,
-        "showed": 1,
+        "booked": 9,
+        "showed": 2,
         "noshow": 0,
-        "cancelled": 0,
-        "confirmed": 2
+        "cancelled": 2,
+        "confirmed": 5
       },
       "d7": {
-        "booked": 6,
-        "showed": 1,
+        "booked": 11,
+        "showed": 2,
         "noshow": 0,
-        "cancelled": 1,
-        "confirmed": 4
+        "cancelled": 3,
+        "confirmed": 6
       },
       "d30": {
-        "booked": 57,
-        "showed": 18,
-        "noshow": 17,
+        "booked": 54,
+        "showed": 14,
+        "noshow": 16,
         "cancelled": 11,
-        "confirmed": 11
+        "confirmed": 13
       }
     },
     "wtd": 6,
-    "mtd": 3,
+    "mtd": 9,
     "contacts_by_campaign": {
       "available": true,
       "error": null,
       "total_contacts": 3000,
-      "no_attribution_count": 2973,
-      "no_attribution_pct": 99.1,
+      "no_attribution_count": 2964,
+      "no_attribution_pct": 98.8,
       "by_campaign": {
-        "(no campaign)": {
-          "leads": 2973,
-          "booked": 4,
-          "held": 1,
-          "no_answer": 9,
-          "cancelled": 0,
-          "booking_survey": 0,
-          "no_show": 0,
-          "not_qualified": 3
-        },
-        "[IC] Leadform \u2013 FNL - 12 Feb - CBO": {
-          "leads": 6,
-          "booked": 1,
-          "held": 0,
-          "no_answer": 4,
-          "cancelled": 0,
-          "booking_survey": 0,
-          "no_show": 1,
-          "not_qualified": 0
-        },
-        "120241391955120432": {
-          "leads": 18,
-          "booked": 7,
-          "held": 1,
-          "no_answer": 9,
-          "cancelled": 1,
-          "booking_survey": 0,
-          "no_show": 4,
-          "not_qualified": 2
-        },
         "[SH] Leadform \u2013 FNL - 12 Feb - CBO": {
-          "leads": 3,
+          "leads": 7,
           "booked": 1,
           "held": 0,
           "no_answer": 2,
-          "cancelled": 0,
+          "cancelled": 1,
           "booking_survey": 0,
           "no_show": 0,
           "not_qualified": 0
+        },
+        "(no campaign)": {
+          "leads": 2964,
+          "booked": 7,
+          "held": 1,
+          "no_answer": 9,
+          "cancelled": 0,
+          "booking_survey": 0,
+          "no_show": 0,
+          "not_qualified": 5
+        },
+        "120241391955120432": {
+          "leads": 20,
+          "booked": 7,
+          "held": 1,
+          "no_answer": 6,
+          "cancelled": 2,
+          "booking_survey": 0,
+          "no_show": 4,
+          "not_qualified": 4
+        },
+        "[IC] Leadform \u2013 FNL - 12 Feb - CBO": {
+          "leads": 9,
+          "booked": 2,
+          "held": 0,
+          "no_answer": 5,
+          "cancelled": 0,
+          "booking_survey": 0,
+          "no_show": 1,
+          "not_qualified": 1
         }
       },
       "window_days": 30
@@ -1170,13 +1170,26 @@
   },
   "qb_income_audit": {
     "booked_income": 0.0,
-    "cash_received": 0,
+    "cash_received": 80000.0,
     "deposits_total": 0,
-    "payments_total": 0,
+    "payments_total": 80000.0,
     "receipts_total": 0,
-    "variance": 0.0,
+    "variance": 80000.0,
     "deposits": [],
-    "payments": [],
+    "payments": [
+      {
+        "date": "2026-05-04",
+        "amount": 40000.0,
+        "customer": "The Salad House Franchising",
+        "memo": "INV-001 Arshad Bhutta franchise broker commission received and confirmed by Bennett Maxwell 2026-05-05"
+      },
+      {
+        "date": "2026-05-04",
+        "amount": 40000.0,
+        "customer": "The Salad House Franchising",
+        "memo": "Payment received for Arshad Bhutta franchise broker commission (INV-001). Recorded 2026-05-05 per Bennett confirmation."
+      }
+    ],
     "receipts": [],
     "deposits_90d": [
       {
@@ -1250,7 +1263,20 @@
         "memo": "BOOK TRANSFER CREDIT B/O: RYKR CONSULTING, LLC ESCONDIDO CA XXXXX-1226 US REF: SACHIN REF FEE INV 02 TRN: XXXXXX6054 ES"
       }
     ],
-    "payments_90d": [],
+    "payments_90d": [
+      {
+        "date": "2026-05-04",
+        "amount": 40000.0,
+        "customer": "The Salad House Franchising",
+        "memo": "INV-001 Arshad Bhutta franchise broker commission received and confirmed by Bennett Maxwell 2026-05-05"
+      },
+      {
+        "date": "2026-05-04",
+        "amount": 40000.0,
+        "customer": "The Salad House Franchising",
+        "memo": "Payment received for Arshad Bhutta franchise broker commission (INV-001). Recorded 2026-05-05 per Bennett confirmation."
+      }
+    ],
     "receipts_90d": [
       {
         "date": "2026-04-24",
@@ -1301,8 +1327,8 @@
       },
       {
         "name": "Divvy - Spend & Expense Credit Card",
-        "balance": 9752.79,
-        "last_synced": "2026-05-01T22:51:14-07:00"
+        "balance": 9438.07,
+        "last_synced": "2026-05-04T00:17:14-07:00"
       },
       {
         "name": "PCE Credit (0864) - 2",
@@ -1331,7 +1357,7 @@
         "statement_close_day": 25,
         "payment_due_day": 20,
         "next_due": "2026-05-20",
-        "days_until_due": 18,
+        "days_until_due": 15,
         "minimum_due": 382.18,
         "autopay": false,
         "autopay_source": "",
@@ -1351,7 +1377,7 @@
         "statement_close_day": 28,
         "payment_due_day": 25,
         "next_due": "2026-05-25",
-        "days_until_due": 23,
+        "days_until_due": 20,
         "minimum_due": 1855.14,
         "autopay": false,
         "autopay_source": "",
@@ -1371,7 +1397,7 @@
         "statement_close_day": 28,
         "payment_due_day": 25,
         "next_due": "2026-05-25",
-        "days_until_due": 23,
+        "days_until_due": 20,
         "minimum_due": 275.0,
         "autopay": false,
         "autopay_source": "",
@@ -1391,7 +1417,7 @@
         "statement_close_day": 1,
         "payment_due_day": 25,
         "next_due": "2026-05-25",
-        "days_until_due": 23,
+        "days_until_due": 20,
         "minimum_due": 25.0,
         "autopay": false,
         "autopay_source": "",
@@ -1404,20 +1430,20 @@
         "display_name": "Divvy (BILL Spend)",
         "issuer": "BILL (Divvy)",
         "last4": "----",
-        "balance": 9752.79,
+        "balance": 9438.07,
         "credit_limit": null,
         "utilization": null,
         "available": null,
         "statement_close_day": 30,
         "payment_due_day": 25,
         "next_due": "2026-05-25",
-        "days_until_due": 23,
-        "minimum_due": 195.06,
+        "days_until_due": 20,
+        "minimum_due": 188.76,
         "autopay": true,
         "autopay_source": "FKI Checking 5000",
         "apr": 0,
         "notes": "Divvy credit line is dynamic. Pull current limit from app.bill.com.",
-        "last_synced": "2026-05-01T22:51:14-07:00"
+        "last_synced": "2026-05-04T00:17:14-07:00"
       },
       {
         "qb_name": "PCE Credit (0864) - 2",
@@ -1431,7 +1457,7 @@
         "statement_close_day": 1,
         "payment_due_day": 25,
         "next_due": "2026-05-25",
-        "days_until_due": 23,
+        "days_until_due": 20,
         "minimum_due": 804.54,
         "autopay": false,
         "autopay_source": "",
@@ -1451,7 +1477,7 @@
         "statement_close_day": 25,
         "payment_due_day": 20,
         "next_due": "2026-05-20",
-        "days_until_due": 18,
+        "days_until_due": 15,
         "minimum_due": 25.0,
         "autopay": false,
         "autopay_source": "",
@@ -1460,13 +1486,13 @@
         "last_synced": "2026-04-02T13:40:18-07:00"
       }
     ],
-    "total_balance": 177002.33,
+    "total_balance": 176687.61,
     "total_limit": null,
     "total_available": null
   },
   "qb_sync_status": {
     "latest_bank_sync": "2026-04-25T19:32:34-07:00",
-    "hours_stale": 153.5,
+    "hours_stale": 219.8,
     "stale": true,
     "bank_accounts": [
       {
