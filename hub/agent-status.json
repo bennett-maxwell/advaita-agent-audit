@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-05T17:30:03Z",
+  "updated": "2026-05-05T17:45:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "5m ago",
-      "memory_updated_rel": "5m ago",
+      "last_active_rel": "20m ago",
+      "memory_updated_rel": "20m ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": "Watchdog probe \u00b7 monitoring daemons",
+      "current_task": ":warning: *IMAC RAM low: 0.8GB free* (avail 18.9GB). v2 is read-only \u2014 no auto-k",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -56,7 +56,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "17 LaunchAgents \u00b7 4 cloudflared \u00b7 25 python3 procs",
+      "current_task": "17 LaunchAgents \u00b7 4 cloudflared \u00b7 24 python3 procs",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "15m ago",
@@ -74,7 +74,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #56 \u00b7 45389 uploaded \u00b7 disk 469GB",
+      "current_task": "FDD extractor \u00b7 run #59 \u00b7 45389 uploaded \u00b7 disk 469GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -112,8 +112,8 @@
       "tasks_max": 4,
       "current_task": ":chipmunk: *Squirrel AliveMode \u2014 May 5 17:26 MDT*",
       "current_skill": null,
-      "last_active_rel": "2m ago",
-      "memory_updated_rel": "2m ago",
+      "last_active_rel": "17m ago",
+      "memory_updated_rel": "17m ago",
       "notion_project": null,
       "color_class": "hyper-color",
       "text_class": "hyper-color-text"
@@ -121,7 +121,7 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 95,
+    "ivan_cpu_pct": 97,
     "ivan_ram_pct": 54,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
@@ -141,7 +141,7 @@
     ],
     "tiffany_ollama_status": "offline",
     "ivan_launchagents_active": 17,
-    "ivan_python_procs": 25,
+    "ivan_python_procs": 24,
     "ivan_cloudflared_procs": 4,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
