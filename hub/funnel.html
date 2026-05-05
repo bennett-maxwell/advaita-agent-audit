@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>00-Sales Funnel — FKI</title>
+<style>
+:root {
+  --bg: #0d0f14;
+  --card: #1e2230;
+  --border: #2a2f3e;
+  --text: #eef2f7;
+  --muted: #9aa5b5;
+  --accent: #14b8a6;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, rgba(20,184,166,0.12), transparent 30rem),
+              linear-gradient(180deg, #0d0f14, #11151e);
+  color: var(--text);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 32px 24px;
+}
+.header {
+  max-width: 680px;
+  margin: 0 auto 28px;
+}
+.header h1 {
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #2dd4bf;
+  margin-bottom: 6px;
+}
+.header p { font-size: 13px; color: var(--muted); }
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+.back-link:hover { color: var(--text); }
+.card {
+  max-width: 680px;
+  margin: 0 auto 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.card-title {
+  padding: 16px 20px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 13px 20px;
+  text-align: left;
+  font-size: 14px;
+}
+th {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 1px solid var(--border);
+}
+td { border-bottom: 1px solid #1e2230; }
+tr:last-child td { border-bottom: none; }
+.stage-name { font-weight: 500; }
+.count { font-weight: 700; font-size: 16px; }
+.delta-up   { color: #4ade80; font-weight: 600; }
+.delta-down { color: #f87171; font-weight: 600; }
+.delta-flat { color: var(--muted); }
+.bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: #14b8a6;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+.totals-row td { font-weight: 600; color: #2dd4bf; background: #14b8a608; }
+.meta {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0 4px;
+}
+.dot-live {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  margin-right: 5px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+#error { max-width: 680px; margin: 40px auto; color: #f87171; font-size: 14px; text-align: center; }
+</style>
+</head>
+<body>
+
+<div style="max-width:680px;margin:0 auto;">
+  <a class="back-link" href="index.html">← Command Center</a>
+</div>
+
+<div class="header">
+  <h1>🔽 00-Sales Funnel</h1>
+  <p><span class="dot-live"></span>Weekly snapshot · Updated every Monday 7am MDT · 00-Sales pipeline</p>
+</div>
+
+<div class="card" id="main-card" style="display:none;">
+  <div class="card-title" id="snapshot-date">Loading…</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Stage</th>
+        <th>Count</th>
+        <th>vs Last Week</th>
+        <th style="width:120px;">Share</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+
+<div class="meta" id="meta" style="display:none;">
+  <span id="meta-left"></span>
+  <span id="meta-right"></span>
+</div>
+
+<div id="error" style="display:none;">No funnel snapshot found. Run <code>python3 ~/ghl-funnel-snapshot.sh</code> first.</div>
+
+<script>
+const STAGES = [
+  { id: "d10a1c5b-66bd-430a-9e95-29f05797679a", name: "New Lead" },
+  { id: "ba21ea66-38eb-4053-a3ff-28090b1cf75e", name: "Interested" },
+  { id: "9757cf8a-91ad-478e-9756-f6937ac6ab9c", name: "Intro Call" },
+  { id: "083b38b6-0fa8-4d12-b57a-e050bd4ca442", name: "Territory Review" },
+];
+
+// Try to load the snapshot JSON via fetch (works when served from same origin)
+async function loadSnapshot() {
+  // Try to load latest snapshot via the hub's own data
+  // The snapshot is served as a static file if copied to the hub folder
+  let snap = null, prev = null;
+
+  try {
+    const r = await fetch("funnel-snapshot.json?_=" + Date.now());
+    if (r.ok) snap = await r.json();
+  } catch(e) {}
+
+  try {
+    const r2 = await fetch("funnel-snapshot-prev.json?_=" + Date.now());
+    if (r2.ok) prev = await r2.json();
+  } catch(e) {}
+
+  if (!snap) {
+    document.getElementById("error").style.display = "block";
+    return;
+  }
+
+  render(snap, prev);
+}
+
+function render(snap, prev) {
+  const prevStages = prev ? (prev.stages || {}) : {};
+  const total = snap.total || Object.values(snap.stages || {}).reduce((a,b)=>a+b,0);
+
+  // Format date
+  const d = snap.date;
+  const dateStr = d ? `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}` : "unknown";
+  document.getElementById("snapshot-date").textContent = `Snapshot: ${dateStr}`;
+
+  const tbody = document.getElementById("rows");
+  tbody.innerHTML = "";
+
+  STAGES.forEach(s => {
+    const count = (snap.stages || {})[s.id] || 0;
+    const prevCount = prevStages[s.id];
+    const pct = total > 0 ? (count / total * 100) : 0;
+
+    let deltaHtml = '<span class="delta-flat">—</span>';
+    if (prevCount !== undefined) {
+      const delta = count - prevCount;
+      if (delta > 0)      deltaHtml = `<span class="delta-up">▲ ${delta}</span>`;
+      else if (delta < 0) deltaHtml = `<span class="delta-down">▼ ${Math.abs(delta)}</span>`;
+      else                deltaHtml = `<span class="delta-flat">→ 0</span>`;
+    }
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="stage-name">${s.name}</td>
+      <td class="count">${count.toLocaleString()}</td>
+      <td>${deltaHtml}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="bar-wrap" style="flex:1;"><div class="bar-fill" style="width:${pct.toFixed(1)}%"></div></div>
+          <span style="font-size:12px;color:var(--muted);width:34px;text-align:right;">${pct.toFixed(0)}%</span>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Totals row
+  const ttr = document.createElement("tr");
+  ttr.className = "totals-row";
+  const prevTotal = prev ? (prev.total || Object.values(prevStages).reduce((a,b)=>a+b,0)) : null;
+  let totalDelta = prevTotal !== null ? (total - prevTotal) : null;
+  let totalDeltaHtml = totalDelta !== null
+    ? (totalDelta >= 0 ? `<span class="delta-up">▲ ${totalDelta}</span>` : `<span class="delta-down">▼ ${Math.abs(totalDelta)}</span>`)
+    : '<span class="delta-flat">—</span>';
+  ttr.innerHTML = `<td>Total Tracked</td><td class="count">${total.toLocaleString()}</td><td>${totalDeltaHtml}</td><td></td>`;
+  tbody.appendChild(ttr);
+
+  document.getElementById("main-card").style.display = "block";
+  document.getElementById("meta").style.display = "flex";
+  document.getElementById("meta-left").textContent = `Pipeline: 00-Sales · ${STAGES.length} stages`;
+  document.getElementById("meta-right").textContent = `Cron: Mon 7am MDT`;
+}
+
+loadSnapshot();
+</script>
+</body>
+</html>
