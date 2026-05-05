@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKI Social Media Command Center</title>
+<style>
+  :root { --fki: #3496FF; --dark: #1B2626; --green: #22C55E; --red: #EF4444; --amber: #F59E0B; --gray: #6B7280; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0F1923; color: #F1F5F9; }
+  header { background: var(--dark); border-bottom: 2px solid var(--fki); padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; }
+  header h1 { font-size: 1.4rem; font-weight: 700; color: #fff; }
+  header h1 span { color: var(--fki); }
+  .subtitle { font-size: 0.75rem; color: #94A3B8; margin-top: 2px; }
+  .date-badge { background: var(--fki); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 4px; }
+  .container { padding: 24px 32px; max-width: 1200px; margin: 0 auto; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .kpi { background: var(--dark); border-radius: 10px; padding: 20px; border-left: 4px solid var(--fki); }
+  .kpi .val { font-size: 2rem; font-weight: 800; color: #fff; }
+  .kpi .label { font-size: 0.7rem; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+  .kpi .change { font-size: 0.75rem; margin-top: 6px; }
+  .kpi.red { border-left-color: var(--red); }
+  .kpi.green { border-left-color: var(--green); }
+  .kpi.amber { border-left-color: var(--amber); }
+  .section { background: var(--dark); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+  .section-header { padding: 16px 20px; border-bottom: 1px solid #1E293B; display: flex; justify-content: space-between; align-items: center; }
+  .section-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94A3B8; }
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: 10px 16px; text-align: left; font-size: 0.7rem; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #1E293B; }
+  td { padding: 12px 16px; font-size: 0.82rem; border-bottom: 1px solid #0F1923; }
+  tr:last-child td { border-bottom: none; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.68rem; font-weight: 700; }
+  .pill.live { background: rgba(34,197,94,0.15); color: var(--green); }
+  .pill.recovery { background: rgba(239,68,68,0.15); color: var(--red); }
+  .pill.pending { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .pill.not-started { background: rgba(107,114,128,0.15); color: var(--gray); }
+  .pill.done { background: rgba(52,150,255,0.15); color: var(--fki); }
+  .score-bar { background: #1E293B; border-radius: 4px; height: 6px; width: 120px; display: inline-block; vertical-align: middle; }
+  .score-fill { height: 100%; border-radius: 4px; background: var(--fki); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #0F1923; font-size: 0.82rem; }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-label { color: #94A3B8; }
+  .metric-value { font-weight: 700; color: #fff; }
+  .action-card { padding: 14px 20px; border-left: 3px solid var(--fki); margin: 12px 20px; background: #0F1923; border-radius: 0 6px 6px 0; font-size: 0.82rem; }
+  .action-card.urgent { border-left-color: var(--red); }
+  .action-card.pending { border-left-color: var(--amber); }
+  .tag { font-size: 0.65rem; color: #64748B; margin-top: 3px; }
+  footer { text-align: center; padding: 16px; font-size: 0.7rem; color: #4B5563; border-top: 1px solid #1E293B; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>FKI Social Media <span>Command Center</span></h1>
+    <div class="subtitle">Bennett Personal Brand + IC / SH / SRP / FKI — Audit 2026-05-05</div>
+  </div>
+  <div class="date-badge">Updated: May 5, 2026</div>
+</header>
+
+<div class="container">
+  <!-- KPI Row -->
+  <div class="kpi-grid">
+    <div class="kpi amber">
+      <div class="val">27%</div>
+      <div class="label">Systems Operational</div>
+      <div class="change" style="color:var(--amber)">Target: 80% by Jun 1</div>
+    </div>
+    <div class="kpi green">
+      <div class="val">60</div>
+      <div class="label">Posts Drafted</div>
+      <div class="change" style="color:var(--green)">14 Week 1 posts ready</div>
+    </div>
+    <div class="kpi red">
+      <div class="val">0</div>
+      <div class="label">Posts Live (Organic)</div>
+      <div class="change" style="color:var(--red)">LinkedIn RECOVERY — May 7</div>
+    </div>
+    <div class="kpi">
+      <div class="val">5</div>
+      <div class="label">Platforms Targeted</div>
+      <div class="change" style="color:var(--fki)">LI / IG / FB / TikTok / X</div>
+    </div>
+  </div>
+
+  <!-- Account Status -->
+  <div class="section">
+    <div class="section-header"><span class="section-title">Account Status</span><span class="date-badge" style="background:#1E293B;color:#94A3B8">Pre-publish gate enforced</span></div>
+    <table>
+      <thead><tr><th>Account</th><th>Status</th><th>Last Post</th><th>Next Eligible</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>Bennett LinkedIn</td><td><span class="pill recovery">RECOVERY</span></td><td>May 5 — 4 posts deleted</td><td><strong style="color:var(--amber)">May 7 7:30AM MDT</strong></td><td>Squirrel</td></tr>
+        <tr><td>Bennett Instagram</td><td><span class="pill pending">Not Connected</span></td><td>Never</td><td>After Metricool upgrade</td><td>Christelle</td></tr>
+        <tr><td>Bennett Facebook</td><td><span class="pill pending">Not Connected</span></td><td>Never</td><td>After Metricool upgrade</td><td>Christelle</td></tr>
+        <tr><td>Bennett TikTok</td><td><span class="pill pending">Not Connected</span></td><td>Never</td><td>After Metricool upgrade</td><td>Christelle</td></tr>
+        <tr><td>Bennett X/Twitter</td><td><span class="pill pending">Not Connected</span></td><td>Never</td><td>After Metricool upgrade</td><td>Christelle</td></tr>
+        <tr><td>IC Brand Account</td><td><span class="pill not-started">Not Started</span></td><td>Never</td><td>After May 7 meeting</td><td>Christelle</td></tr>
+        <tr><td>SH Brand Account</td><td><span class="pill not-started">Not Started</span></td><td>Never</td><td>After May 7 meeting</td><td>Christelle</td></tr>
+        <tr><td>SRP Brand Account</td><td><span class="pill not-started">Not Started</span></td><td>Never</td><td>After May 7 meeting</td><td>Christelle</td></tr>
+        <tr><td>FKI Brand Account</td><td><span class="pill not-started">Not Started</span></td><td>Never</td><td>After May 7 meeting</td><td>Christelle</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Skills System Status + Top 10 Plan -->
+  <div class="two-col">
+    <div class="section">
+      <div class="section-header"><span class="section-title">Skill Infrastructure</span></div>
+      <table>
+        <thead><tr><th>Skill</th><th>Status</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td>social-media-guardrails</td><td><span class="pill live">LIVE</span></td><td>4.4/5</td></tr>
+          <tr><td>linkedin-social-media v2</td><td><span class="pill live">LIVE</span></td><td>4.3/5</td></tr>
+          <tr><td>ig-fb-tiktok-skill v1</td><td><span class="pill live">LIVE</span></td><td>4.3/5</td></tr>
+          <tr><td>x-twitter-skill v1</td><td><span class="pill live">LIVE</span></td><td>4.2/5</td></tr>
+          <tr><td>voice-mining-skill v1</td><td><span class="pill pending">STAGING</span></td><td>Built</td></tr>
+          <tr><td>brand-photo-mandate v2</td><td><span class="pill live">LIVE</span></td><td>Enforced</td></tr>
+          <tr><td>IC brand guide skill</td><td><span class="pill pending">STAGING</span></td><td>4.32/5</td></tr>
+          <tr><td>SH brand guide skill</td><td><span class="pill pending">STAGING</span></td><td>4.32/5</td></tr>
+          <tr><td>SRP brand guide skill</td><td><span class="pill pending">STAGING</span></td><td>4.32/5</td></tr>
+          <tr><td>FKI brand guide skill</td><td><span class="pill pending">STAGING</span></td><td>4.32/5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><span class="section-title">Council Top 10 Action Plan</span><span style="font-size:0.7rem;color:var(--green)">4.46/5 verdict</span></div>
+      <div class="action-card urgent"><strong>1. ACTIVATE</strong> — Week 1 posts May 7 7:30AM MDT<div class="tag">Lead Acquisition | SANDBOX — Squirrel</div></div>
+      <div class="action-card pending"><strong>2. METRICOOL</strong> — Upgrade + connect 5 brand accounts<div class="tag">Operations | Kay task — May 7 meeting</div></div>
+      <div class="action-card pending"><strong>3. SKILL DROP</strong> — Wire comment to DM to GHL funnel<div class="tag">Lead Processing | Leo WO dispatched</div></div>
+      <div class="action-card pending"><strong>4. TIKTOK CLIPS</strong> — Plaud voice memo clips via HeyGen<div class="tag">Lead Acquisition | Leo WO dispatched</div></div>
+      <div class="action-card"><strong>5. BRAND ACCOUNTS</strong> — IC/SH/SRP/FKI 3x/week drafts ready<div class="tag">Lead Acquisition | Christelle executes</div></div>
+      <div class="action-card"><strong>6. X BUILD IN PUBLIC</strong> — Thread series drafted<div class="tag">Sales Intelligence | Christelle schedules</div></div>
+      <div class="action-card"><strong>7. GEO OPTIMIZATION</strong> — Location keywords in captions<div class="tag">Lead Acquisition | Squirrel adds to guardrails</div></div>
+      <div class="action-card"><strong>8. UGC PIPELINE</strong> — Franchisee testimonial emails<div class="tag">Sales Intelligence | Squirrel drafts</div></div>
+      <div class="action-card"><strong>9. ANALYTICS</strong> — Social to GHL attribution tracking<div class="tag">Financial Control | This dashboard</div></div>
+      <div class="action-card"><strong>10. WEEKLY CADENCE</strong> — Mon mine / Tue review / Wed publish / Fri analytics<div class="tag">Operations | Update voice-mining-skill</div></div>
+    </div>
+  </div>
+
+  <!-- Content Pipeline -->
+  <div class="section">
+    <div class="section-header"><span class="section-title">Content Pipeline — Bennett Personal Brand</span></div>
+    <table>
+      <thead><tr><th>Platform</th><th>Pillar</th><th>Format</th><th>Status</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr><td>LinkedIn</td><td>Build Log</td><td>AI Video</td><td><span class="pill pending">SCHEDULED</span></td><td>May 7 7:30AM MDT</td></tr>
+        <tr><td>LinkedIn</td><td>AI Thesis</td><td>Text</td><td><span class="pill pending">DRAFTED</span></td><td>May 8 7:30AM MDT</td></tr>
+        <tr><td>LinkedIn</td><td>Results</td><td>UGC Video</td><td><span class="pill pending">DRAFTED</span></td><td>May 9 12PM MDT</td></tr>
+        <tr><td>LinkedIn</td><td>Skill Drop</td><td>Text</td><td><span class="pill pending">DRAFTED</span></td><td>May 12 7:30AM MDT</td></tr>
+        <tr><td>LinkedIn</td><td>Educational</td><td>Document</td><td><span class="pill pending">DRAFTED</span></td><td>May 13 7:30AM MDT</td></tr>
+        <tr><td>X/Twitter</td><td>Build In Public</td><td>Thread (6)</td><td><span class="pill pending">DRAFTED</span></td><td>May 7 (any time)</td></tr>
+        <tr><td>IG / FB</td><td>All pillars</td><td>Mixed</td><td><span class="pill not-started">PENDING CHRISTELLE</span></td><td>After May 7 meeting</td></tr>
+        <tr><td>TikTok</td><td>Build Log / Skill Drop</td><td>HeyGen Video</td><td><span class="pill not-started">PENDING LEO</span></td><td>TBD — clip pipeline</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Brand Accounts -->
+  <div class="section">
+    <div class="section-header"><span class="section-title">Brand Account Content — Week 1 Drafts Ready</span></div>
+    <table>
+      <thead><tr><th>Brand</th><th>Persona</th><th>Posts Ready</th><th>Visual Source</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--fki)">Indy Clover</strong></td><td>Community Kate — W2, 28-50</td><td>3 text posts</td><td>Provo / Clover Corner photos</td><td><span class="pill pending">CHRISTELLE PENDING</span></td></tr>
+        <tr><td><strong style="color:var(--green)">Salad House</strong></td><td>Investment-Minded Ian</td><td>2 text posts</td><td>Open Sesame / Joey+Jerry</td><td><span class="pill pending">CHRISTELLE PENDING</span></td></tr>
+        <tr><td><strong style="color:var(--amber)">SRP</strong></td><td>Milestone Mom / Emily</td><td>2 text posts</td><td>SRP franchise photos</td><td><span class="pill pending">CHRISTELLE PENDING</span></td></tr>
+        <tr><td><strong style="color:var(--red)">FKI / MapKi</strong></td><td>Franchise prospect researcher</td><td>2 text posts</td><td>MapKi screenshot</td><td><span class="pill pending">CHRISTELLE PENDING</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Benchmarks -->
+  <div class="section">
+    <div class="section-header"><span class="section-title">Industry Benchmarks (Exa Research — 2026)</span></div>
+    <div class="two-col" style="padding:16px;gap:12px;">
+      <div>
+        <div class="metric-row"><span class="metric-label">Target engagement rate/post</span><span class="metric-value">1.4%</span></div>
+        <div class="metric-row"><span class="metric-label">Content creation time savings (AI)</span><span class="metric-value">60-80%</span></div>
+        <div class="metric-row"><span class="metric-label">Engagement improvement (AI social)</span><span class="metric-value">25-35%</span></div>
+        <div class="metric-row"><span class="metric-label">Locations actively posting benchmark</span><span class="metric-value">26.8%</span></div>
+      </div>
+      <div>
+        <div class="metric-row"><span class="metric-label">LinkedIn optimal posts/week (founder)</span><span class="metric-value">4 posts</span></div>
+        <div class="metric-row"><span class="metric-label">Consumers using social for local search</span><span class="metric-value">40%</span></div>
+        <div class="metric-row"><span class="metric-label">Skill Drop est. value (1% conv rate)</span><span class="metric-value">~$3,129/wk</span></div>
+        <div class="metric-row"><span class="metric-label">Social signals affect AI recommendation</span><span class="metric-value">YES (GEO)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Items -->
+  <div class="section">
+    <div class="section-header"><span class="section-title">Open Items for Bennett</span></div>
+    <div class="action-card urgent"><strong>GATE 1 — Google Ads $500 credit EXPIRES MAY 7</strong> — Must spend $500 by tomorrow<div class="tag">Financial — Bennett identity gate</div></div>
+    <div class="action-card urgent"><strong>GATE 2 — Google Ads advertiser verification — May 13</strong> — Submit identity docs at ads.google.com<div class="tag">Financial/Identity — Bennett gate</div></div>
+    <div class="action-card pending"><strong>GATE 3 — IC Meta adset 120239296168310003</strong> — Pause Investor Headlines v1.1, launch community-hub creative ($76.24 CPL vs $45 target)<div class="tag">Lead Acquisition — CMO Bennett decision</div></div>
+    <div class="action-card pending"><strong>GATE 4 — Meta FACEBOOK_ACCESS_TOKEN expired</strong> — Refresh token at Meta Business Manager System Users<div class="tag">Infrastructure — Bennett identity gate</div></div>
+  </div>
+</div>
+<footer>FKI Social Media Command Center — Squirrel 2026-05-05 | Powered by business-audit-skill v2 + council v13 + autopilot v9</footer>
+</body>
+</html>
