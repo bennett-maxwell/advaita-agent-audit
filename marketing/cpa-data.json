@@ -1,31 +1,31 @@
 {
-  "generated": "2026-04-30T13:32:21.598524",
+  "generated": "2026-05-05T13:51:01.820737",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
     {
-      "utm_campaign": null,
-      "meta_campaign_name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
-      "brand": "Salad House",
-      "meta_spend": 5307.4,
-      "meta_leads": 282,
-      "meta_cpl": 18.82,
-      "booked": 0,
+      "utm_campaign": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
+      "meta_campaign_name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
+      "brand": "Indy Clover",
+      "meta_spend": 4284.63,
+      "meta_leads": 194,
+      "meta_cpl": 22.09,
+      "booked": 1,
       "showed": 0,
-      "cost_per_booked": null,
+      "cost_per_booked": 4284.63,
       "cost_per_showed": null,
       "is_untagged": false
     },
     {
-      "utm_campaign": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
-      "meta_campaign_name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
-      "brand": "Indy Clover",
-      "meta_spend": 3893.42,
-      "meta_leads": 204,
-      "meta_cpl": 19.09,
+      "utm_campaign": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
+      "meta_campaign_name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
+      "brand": "Salad House",
+      "meta_spend": 3560.5,
+      "meta_leads": 182,
+      "meta_cpl": 19.56,
       "booked": 1,
       "showed": 0,
-      "cost_per_booked": 3893.42,
+      "cost_per_booked": 3560.5,
       "cost_per_showed": null,
       "is_untagged": false
     },
@@ -46,7 +46,7 @@
       "utm_campaign": null,
       "meta_campaign_name": "[SH] Video Series \u2013 FNL - 26 March - CBO",
       "brand": "Salad House",
-      "meta_spend": 475.29,
+      "meta_spend": 280.86,
       "meta_leads": 0,
       "meta_cpl": null,
       "booked": 0,
@@ -62,8 +62,8 @@
       "meta_spend": null,
       "meta_leads": null,
       "meta_cpl": null,
-      "booked": 4,
-      "showed": 0,
+      "booked": 8,
+      "showed": 1,
       "cost_per_booked": null,
       "cost_per_showed": null,
       "is_untagged": false
@@ -72,6 +72,19 @@
       "utm_campaign": "120239296168280003",
       "meta_campaign_name": null,
       "brand": "Indy Clover",
+      "meta_spend": null,
+      "meta_leads": null,
+      "meta_cpl": null,
+      "booked": 1,
+      "showed": 0,
+      "cost_per_booked": null,
+      "cost_per_showed": null,
+      "is_untagged": false
+    },
+    {
+      "utm_campaign": "{{campaign.name}}",
+      "meta_campaign_name": null,
+      "brand": "Salad House",
       "meta_spend": null,
       "meta_leads": null,
       "meta_cpl": null,
@@ -90,8 +103,8 @@
       "meta_spend": null,
       "meta_leads": null,
       "meta_cpl": null,
-      "booked": 51,
-      "showed": 12,
+      "booked": 50,
+      "showed": 13,
       "cost_per_booked": null,
       "cost_per_showed": null,
       "is_untagged": true
@@ -103,8 +116,8 @@
       "meta_spend": null,
       "meta_leads": null,
       "meta_cpl": null,
-      "booked": 50,
-      "showed": 16,
+      "booked": 42,
+      "showed": 11,
       "cost_per_booked": null,
       "cost_per_showed": null,
       "is_untagged": true
@@ -127,17 +140,17 @@
       ]
     },
     "Indy Clover": {
-      "meta_spend": 3882.44,
-      "step1_booked": 57,
-      "step1_showed": 11,
-      "cost_per_booked": 68.11,
-      "cost_per_showed": 352.95,
-      "show_rate_pct": 19.3,
+      "meta_spend": 4275.25,
+      "step1_booked": 60,
+      "step1_showed": 14,
+      "cost_per_booked": 71.25,
+      "cost_per_showed": 305.38,
+      "show_rate_pct": 23.3,
       "campaigns": [
         {
           "name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 3882.44,
-          "leads": 204
+          "spend": 4275.25,
+          "leads": 194
         }
       ]
     },
@@ -151,21 +164,21 @@
       "campaigns": []
     },
     "Salad House": {
-      "meta_spend": 5778.78,
-      "step1_booked": 50,
-      "step1_showed": 16,
-      "cost_per_booked": 115.58,
-      "cost_per_showed": 361.17,
-      "show_rate_pct": 32.0,
+      "meta_spend": 3841.36,
+      "step1_booked": 44,
+      "step1_showed": 11,
+      "cost_per_booked": 87.3,
+      "cost_per_showed": 349.21,
+      "show_rate_pct": 25.0,
       "campaigns": [
         {
           "name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 5303.49,
-          "leads": 282
+          "spend": 3560.5,
+          "leads": 182
         },
         {
           "name": "[SH] Video Series \u2013 FNL - 26 March - CBO",
-          "spend": 475.29,
+          "spend": 280.86,
           "leads": 0
         }
       ]
