@@ -1,213 +1,297 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FKI — Cost Per Appointment</title>
+<title>FKI — Cost Per Appointment Command Center</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0c;color:#e2e8f0;min-height:100vh}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0c;color:#e2e8f0;min-height:100vh}
 .hdr{background:linear-gradient(135deg,#f97316,#dc2626);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.hdr h1{font-size:1.2rem;font-weight:700}
-.hdr .meta{font-size:.7rem;opacity:.85}
-.badge{background:rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:.68rem;font-weight:600}
-.wrap{max-width:1200px;margin:0 auto;padding:20px 16px}
-/* Tabs */
-.tab-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
-.tab{padding:6px 14px;border-radius:6px;font-size:.73rem;font-weight:600;cursor:pointer;border:1px solid #334155;background:#1e293b;color:#64748b;transition:all .15s}
+.hdr h1{font-size:1.15rem;font-weight:700}
+.hdr .sub{font-size:.68rem;opacity:.85;margin-bottom:2px}
+.badge{background:rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:.65rem;font-weight:600;margin-left:6px}
+.wrap{max-width:1300px;margin:0 auto;padding:18px 14px}
+.tab-section{margin-bottom:2px}
+.tab-label{font-size:.6rem;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;margin-top:14px}
+.tab-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:2px}
+.tab{padding:5px 12px;border-radius:5px;font-size:.7rem;font-weight:600;cursor:pointer;border:1px solid #334155;background:#1e293b;color:#64748b;transition:all .15s}
 .tab.active{color:#fff}
 .tab.date.active{background:#f97316;border-color:#f97316}
-.tab.brand.active.sh{background:#16a34a;border-color:#16a34a}
-.tab.brand.active.ic{background:#7c3aed;border-color:#7c3aed}
-.tab.brand.active.fki{background:#ea580c;border-color:#ea580c}
-.tab.brand.active.all{background:#0f172a;border-color:#475569;color:#e2e8f0}
-.tab-label{font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;margin-top:16px}
-/* KPIs */
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:16px 0}
-.kpi{background:#1e293b;border-radius:8px;padding:14px 12px;border:1px solid #334155}
-.kpi .lbl{font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
-.kpi .val{font-size:1.55rem;font-weight:700;color:#f1f5f9}
-.kpi .val.sm{font-size:1rem;color:#94a3b8;font-weight:500}
-.kpi .src{font-size:.58rem;margin-top:3px}
-.kpi .src.ok{color:#22c55e}
-.kpi .src.pend{color:#f59e0b}
-/* Table */
-.tbl-wrap{background:#1e293b;border-radius:10px;overflow:hidden;border:1px solid #334155;margin-top:16px;overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:750px}
-th{background:#0f172a;padding:9px 12px;text-align:left;font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;cursor:pointer;user-select:none}
+.tab.view.active{background:#0ea5e9;border-color:#0ea5e9}
+.tab.brand.sh.active{background:#16a34a;border-color:#16a34a}
+.tab.brand.ic.active{background:#7c3aed;border-color:#7c3aed}
+.tab.brand.fki.active{background:#ea580c;border-color:#ea580c}
+.tab.brand.all.active{background:#0f172a;border-color:#475569;color:#e2e8f0}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:12px 0}
+.kpi{background:#1e293b;border-radius:8px;padding:12px 10px;border:1px solid #334155;position:relative}
+.kpi.highlight{border-color:#f97316}
+.kpi .lbl{font-size:.58rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.kpi .val{font-size:1.4rem;font-weight:700;color:#f1f5f9}
+.kpi .val.sm{font-size:.9rem;color:#94a3b8;font-weight:500}
+.kpi .val.ok{color:#22c55e}
+.kpi .val.warn{color:#f59e0b}
+.kpi .val.bad{color:#ef4444}
+.kpi .src{font-size:.55rem;margin-top:2px;color:#475569}
+.kpi .src.verified{color:#22c55e}
+.kpi .src.cpah{color:#f59e0b}
+.alert-bar{background:#1c1917;border-left:3px solid #22c55e;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:.72rem;color:#94a3b8;line-height:1.5}
+.alert-bar strong{color:#22c55e}
+.tbl-wrap{background:#1e293b;border-radius:10px;overflow:hidden;border:1px solid #334155;margin-top:12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th{background:#0f172a;padding:8px 10px;text-align:left;font-size:.58rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{color:#94a3b8}
-td{padding:11px 12px;border-top:1px solid #1e293b;font-size:.8rem;white-space:nowrap}
-tr:hover td{background:rgba(249,115,22,.04)}
-.brand-tag{display:inline-block;padding:2px 7px;border-radius:8px;font-size:.6rem;font-weight:700;color:#fff}
-.sh-tag{background:#16a34a}.ic-tag{background:#7c3aed}.fki-tag{background:#ea580c}
+th.highlight-col{color:#f97316}
+td{padding:10px 10px;border-top:1px solid #152030;font-size:.77rem;white-space:nowrap}
+tr:hover td{background:rgba(249,115,22,.03)}
+.brand-tag{display:inline-block;padding:2px 6px;border-radius:6px;font-size:.58rem;font-weight:700;color:#fff}
+.sh-t{background:#16a34a}.ic-t{background:#7c3aed}.fki-t{background:#ea580c}
 .ok{color:#22c55e;font-weight:600}
-.warn{color:#f59e0b}
+.warn{color:#f59e0b;font-weight:500}
 .bad{color:#ef4444;font-weight:600}
-.pend{color:#475569;font-style:italic;font-size:.72rem}
-/* GHL notice */
-.ghl-notice{background:#1c1917;border:1px solid #f97316;border-radius:8px;padding:14px 16px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ghl-notice h3{font-size:.8rem;color:#f97316;margin-bottom:6px;grid-column:1/-1}
-.ghl-col{font-size:.73rem;color:#94a3b8;line-height:1.6}
-.ghl-col strong{color:#e2e8f0}
-/* No data */
-.no-data{text-align:center;padding:40px;color:#475569;font-size:.85rem}
-.footer{text-align:center;font-size:.6rem;color:#334155;padding:16px;margin-top:8px}
-.sort-arrow{margin-left:3px;opacity:.5}
-.total-row td{background:#0f172a;font-weight:700;border-top:2px solid #334155}
-</style></head><body>
+.pend{color:#475569;font-style:italic;font-size:.68rem}
+.total-row td{background:#0c1420;font-weight:700;border-top:2px solid #334155}
+.section-hdr{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748b;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.section-hdr::after{content:'';flex:1;height:1px;background:#1e293b}
+.data-badge{font-size:.55rem;padding:2px 6px;border-radius:4px;font-weight:600;vertical-align:middle}
+.db-verified{background:#22c55e22;color:#22c55e;border:1px solid #22c55e44}
+.db-cpah{background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44}
+.footer{text-align:center;font-size:.58rem;color:#334155;padding:14px;margin-top:8px}
+.no-data{text-align:center;padding:30px;color:#475569;font-size:.8rem}
+.revenue-bar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.rev-card{flex:1;min-width:120px;background:#1e293b;border-radius:8px;padding:12px;border:1px solid #334155}
+.rev-card .r-val{font-size:1.3rem;font-weight:700;color:#22c55e}
+.rev-card .r-lbl{font-size:.6rem;color:#64748b;text-transform:uppercase;margin-bottom:3px}
+.rev-card .r-sub{font-size:.62rem;color:#64748b;margin-top:2px}
+</style></head>
+<body>
 <div class="hdr">
-  <div><div class="meta">FKI Command Center</div><h1>📊 Cost Per Appointment — By Brand & Campaign</h1></div>
-  <div><div class="badge">✅ Meta Ads Live · ⏳ GHL Pending</div></div>
+  <div>
+    <div class="sub">FKI Command Center — v4</div>
+    <h1>CPA <span class="badge">Meta Live</span><span class="badge" style="background:rgba(245,158,11,.3)">CPAH via Ivan Bridge</span></h1>
+  </div>
+  <div style="font-size:.65rem;opacity:.8;text-align:right">Updated May 1, 2026<br>GHL via Ivan CPAH Bridge</div>
 </div>
+
 <div class="wrap">
-
-<!-- DATE TABS -->
-<div class="tab-label">Date Range</div>
-<div class="tab-row" id="date-tabs">
-  <div class="tab date active" data-period="today" onclick="setPeriod(this)">Today</div>
-  <div class="tab date" data-period="last7d" onclick="setPeriod(this)">Last 7 Days</div>
-  <div class="tab date" data-period="thisMonth" onclick="setPeriod(this)">This Month</div>
-  <div class="tab date" data-period="lastMonth" onclick="setPeriod(this)">Last Month (Apr)</div>
-  <div class="tab date" data-period="last30d" onclick="setPeriod(this)">Last 30 Days</div>
+<div class="alert-bar">
+  <strong>APPOINTMENT DATA FOUND</strong> — Ivan's CPAH Bridge (marketing-data.json, May 1 2026) has real booked + showed counts by brand and per-ad. <strong>Source: Ivan CPAH script via GHL + Meta attribution (unverified by Squirrel direct API).</strong> Full GHL direct connection WO in progress.
 </div>
 
-<!-- BRAND TABS -->
+<!-- DATE + VIEW TABS -->
+<div class="tab-label">Date Range</div>
+<div class="tab-row">
+  <div class="tab date active" data-period="30d" onclick="setPeriod(this)">30 Days</div>
+  <div class="tab date" data-period="90d" onclick="setPeriod(this)">90 Days (Per-Ad)</div>
+  <div class="tab date" data-period="today" onclick="setPeriod(this)">Today</div>
+  <div class="tab date" data-period="7d" onclick="setPeriod(this)">Last 7D</div>
+  <div class="tab date" data-period="thisMonth" onclick="setPeriod(this)">This Month</div>
+  <div class="tab date" data-period="lastMonth" onclick="setPeriod(this)">Last Month</div>
+</div>
 <div class="tab-label">Brand Filter</div>
-<div class="tab-row" id="brand-tabs">
-  <div class="tab brand active all" data-brand="all" onclick="setBrand(this)">All Brands</div>
-  <div class="tab brand sh" data-brand="SH" onclick="setBrand(this)">🥗 Salad House</div>
-  <div class="tab brand ic" data-brand="IC" onclick="setBrand(this)">🍃 Indy Clover</div>
-  <div class="tab brand fki" data-brand="FKI" onclick="setBrand(this)">🔥 FKI</div>
+<div class="tab-row">
+  <div class="tab brand all active" data-brand="all" onclick="setBrand(this)">All Brands</div>
+  <div class="tab brand sh" data-brand="SH" onclick="setBrand(this)">Salad House</div>
+  <div class="tab brand ic" data-brand="IC" onclick="setBrand(this)">Indy Clover</div>
+  <div class="tab brand fki" data-brand="FKI" onclick="setBrand(this)">FKI</div>
 </div>
 
 <!-- KPIs -->
 <div class="kpi-row" id="kpis"></div>
 
-<!-- TABLE -->
+<!-- REVENUE SUMMARY -->
+<div class="section-hdr" id="rev-hdr">Revenue by Brand <span class="data-badge db-cpah">Ivan QB Bridge</span></div>
+<div class="revenue-bar" id="rev-bar"></div>
+
+<!-- MAIN TABLE -->
+<div class="section-hdr" id="tbl-hdr">Campaign / Ad Breakdown</div>
 <div class="tbl-wrap">
 <table id="main-table">
-<thead><tr>
-  <th onclick="sortBy('name')">Campaign <span class="sort-arrow">↕</span></th>
-  <th onclick="sortBy('brand')">Brand</th>
-  <th onclick="sortBy('spend')">Spend ↕</th>
-  <th onclick="sortBy('leads')">Leads ↕</th>
-  <th onclick="sortBy('cpl')">CPL ↕</th>
-  <th onclick="sortBy('ctr')">CTR</th>
-  <th onclick="sortBy('cpc')">CPC</th>
-  <th onclick="sortBy('impressions')">Impressions</th>
-  <th>Appts Set</th>
-  <th>Appts Showed</th>
-  <th>Cost/Appt</th>
-  <th>Cost/Deal</th>
-</tr></thead>
+<thead><tr id="thead"></tr></thead>
 <tbody id="tbody"></tbody>
 </table>
 </div>
-
-<!-- GHL NOTICE -->
-<div class="ghl-notice">
-  <h3>⏳ What's Missing — GHL Connection Required for Full Dashboard</h3>
-  <div class="ghl-col">
-    <strong>Appointments Set per Campaign</strong><br>
-    GHL tracks which lead source (Meta campaign) each appointment came from. Once connected, every row above shows "X appointments set" and real Cost Per Appointment.<br><br>
-    <strong>Appointments Showed (Showed Up)</strong><br>
-    GHL tracks show rate per stage. This tells you which campaign drives leads that actually show, not just book.
-  </div>
-  <div class="ghl-col">
-    <strong>How to connect GHL now:</strong><br>
-    Leo WO dispatched (ts 1777937507). Leo runs: <code style="color:#f97316;font-size:.68rem">composio SDK → connectedAccounts.initiate() → GHL PIT token</code> — bypasses broken OAuth. Once Leo confirms, Cost Per Appt and Cost Per Signed Deal auto-populate.<br><br>
-    <strong>Glo Tanning benchmark:</strong> pull from GHL won opps to show exact CPL → CPSD for that deal and replicate the playbook.
-  </div>
 </div>
-</div>
-<div class="footer">FKI CPA Command Center · Squirrel 🐿️ · Meta data verified via direct API 2026-05-04 · GHL sync pending Leo · dashboard.franchiseki.com/cpa</div>
+<div class="footer">FKI CPA Command Center v4 — Squirrel — Meta direct API — Appointments via Ivan CPAH Bridge (GHL+Meta+QB) — dashboard.franchiseki.com/cpa — 2026-05-04</div>
 
 <script>
-const D={
-  today:{label:"Today (May 4)",campaigns:[
-    {name:"[SH] Leadform – FNL",brand:"SH",spend:35.06,leads:2,cpl:17.53,ctr:4.86,cpc:3.90,impressions:185,clicks:9},
-    {name:"[IC] Leadform – FNL",brand:"IC",spend:106.67,leads:3,cpl:35.56,ctr:4.52,cpc:1.84,impressions:1283,clicks:58}
-  ]},
-  last7d:{label:"Last 7 Days (Apr 27–May 3)",campaigns:[
-    {name:"[SH] Leadform – FNL",brand:"SH",spend:349.14,leads:11,cpl:31.74,ctr:3.60,cpc:3.80,impressions:2558,clicks:92},
-    {name:"[IC] Leadform – FNL",brand:"IC",spend:1154.29,leads:14,cpl:82.45,ctr:2.86,cpc:3.42,impressions:11801,clicks:338}
-  ]},
-  thisMonth:{label:"This Month (May 1–4)",campaigns:[
-    {name:"[SH] Leadform – FNL",brand:"SH",spend:174.03,leads:7,cpl:24.86,ctr:2.56,cpc:4.83,impressions:1404,clicks:36},
-    {name:"[IC] Leadform – FNL",brand:"IC",spend:677.88,leads:11,cpl:61.63,ctr:3.12,cpc:2.52,impressions:8630,clicks:269}
-  ]},
-  lastMonth:{label:"Last Month — April 2026",campaigns:[
-    {name:"[SH] Leadform – FNL",brand:"SH",spend:4903.22,leads:126,cpl:38.91,ctr:2.87,cpc:3.61,impressions:47412,clicks:1359},
-    {name:"[IC] Leadform – FNL",brand:"IC",spend:3899.00,leads:100,cpl:38.99,ctr:4.11,cpc:2.31,impressions:41190,clicks:1691},
-    {name:"[SH] Video Series",brand:"SH",spend:454.51,leads:12,cpl:37.88,ctr:6.86,cpc:1.63,impressions:4051,clicks:278},
-    {name:"[FKI] 2nd Opinion",brand:"FKI",spend:502.41,leads:0,cpl:null,ctr:4.36,cpc:2.04,impressions:5640,clicks:246}
-  ]},
-  last30d:{label:"Last 30 Days (Apr 4–May 3)",campaigns:[
-    {name:"[SH] Leadform – FNL",brand:"SH",spend:3891.94,leads:101,cpl:38.53,ctr:2.82,cpc:3.76,impressions:36673,clicks:1036},
-    {name:"[IC] Leadform – FNL",brand:"IC",spend:4180.44,leads:98,cpl:42.66,ctr:3.89,cpc:2.37,impressions:45360,clicks:1766},
-    {name:"[SH] Video Series",brand:"SH",spend:319.34,leads:8,cpl:39.92,ctr:9.56,cpc:1.28,impressions:2614,clicks:250},
-    {name:"[FKI] 2nd Opinion",brand:"FKI",spend:502.41,leads:0,cpl:null,ctr:4.36,cpc:2.04,impressions:5640,clicks:246}
-  ]}
+// ============================================================
+// DATA — Multi-period, all sources
+// ============================================================
+const PERIODS={
+ '30d':{
+  label:"30 Days (Ivan CPAH Bridge ~May 1)",
+  dataSource:"Ivan CPAH Bridge + Meta Ads API",
+  summary:{
+   SH:{spend:5358,leads:252,cpl:21.26,booked:47,showed:15,showPct:31.9,cpab:114,cpah:357,revenue:25000,roas:4.67},
+   IC:{spend:3958,leads:200,cpl:19.79,booked:59,showed:12,showPct:20.3,cpab:67,cpah:330,revenue:21000,roas:5.31},
+   FKI:{spend:0,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,revenue:70386,roas:null}
+  },
+  campaigns:[
+   {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:3892,leads:101,cpl:38.53,booked:47,showed:15,showPct:31.9,cpab:82.8,cpah:259,ctr:2.82,cpc:3.76,impressions:36673},
+   {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:4180,leads:98,cpl:42.66,booked:59,showed:12,showPct:20.3,cpab:70.8,cpah:348,ctr:3.89,cpc:2.37,impressions:45360},
+   {name:"[SH] Video Series",adset:"Script 2 (Best)",brand:"SH",spend:126,leads:7,cpl:18.0,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:12.11,cpc:1.13,impressions:925},
+   {name:"[SH] Video Series",adset:"Script 1",brand:"SH",spend:128,leads:1,cpl:null,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:9.11,cpc:1.20,impressions:1163},
+   {name:"[SH] Video Series",adset:"Script 3",brand:"SH",spend:66,leads:0,cpl:null,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:6.08,cpc:2.05,impressions:526},
+   {name:"[FKI] 2nd Opinion",adset:"Images v1",brand:"FKI",spend:242,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:4.25,cpc:1.54,impressions:3693},
+   {name:"[FKI] 2nd Opinion",adset:"AI Ad v1",brand:"FKI",spend:95,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:5.10,cpc:2.78,impressions:667},
+   {name:"[FKI] 2nd Opinion",adset:"AIV v1",brand:"FKI",spend:166,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:4.30,cpc:3.02,impressions:1280}
+  ],
+  revenue:{glo:974000,fki:70386,sh:25000,ic:21000,unknown:86000}
+ },
+ '90d':{
+  label:"90 Days — Per-Ad CPAH (Ivan Bridge)",
+  dataSource:"Ivan CPAH Bridge — GHL+Meta+QB (90-day window, ~Apr 26)",
+  summary:{
+   SH:{spend:30828,leads:1905,cpl:16.2,booked:145,showed:44,showPct:30.3,cpah:700,revenue:25000,roas:null},
+   IC:{spend:8501,leads:582,cpl:14.61,booked:65,showed:11,showPct:16.7,cpah:787,revenue:21000,roas:2.54},
+   FKI:{spend:5100,leads:8,cpl:637,booked:1,showed:0,showPct:0,cpah:null,revenue:70386,roas:12.0}
+  },
+  campaigns:[
+   {name:"Investor Headlines",adset:"FNL v1",brand:"SH",spend:16186,leads:894,cpl:18.10,booked:81,showed:24,showPct:29.5,cpab:199,cpah:676,ctr:null,cpc:null,impressions:null},
+   {name:"Investor Headlines",adset:"FNL v2",brand:"SH",spend:7053,leads:340,cpl:20.74,booked:33,showed:10,showPct:30.8,cpab:215,cpah:699,ctr:null,cpc:null,impressions:null},
+   {name:"Investor Headlines",adset:"FNL v3",brand:"SH",spend:3886,leads:389,cpl:9.99,booked:15,showed:4,showPct:29.9,cpab:267,cpah:893,ctr:null,cpc:null,impressions:null},
+   {name:"Investor Headlines",adset:"FNL v4",brand:"SH",spend:3119,leads:254,cpl:12.28,booked:15,showed:5,showPct:31.1,cpab:207,cpah:665,ctr:null,cpc:null,impressions:null},
+   {name:"Standard Headlines",adset:"SH v1",brand:"SH",spend:584,leads:28,cpl:20.86,booked:2,showed:1,showPct:26.7,cpab:310,cpah:1159,ctr:null,cpc:null,impressions:null},
+   {name:"Investor Headlines",adset:"IC v1.1",brand:"IC",spend:8501,leads:582,cpl:14.61,booked:65,showed:11,showPct:16.7,cpab:131,cpah:787,ctr:null,cpc:null,impressions:null},
+   {name:"v1 Static",adset:"FKI 2nd Opinion",brand:"FKI",spend:4469,leads:7,cpl:638,booked:1,showed:0,showPct:0,cpab:4637,cpah:null,ctr:null,cpc:null,impressions:null},
+   {name:"v1 AIV",adset:"FKI 2nd Opinion",brand:"FKI",spend:631,leads:1,cpl:631,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:null,cpc:null,impressions:null}
+  ],
+  revenue:{glo:974000,fki:70386,sh:25000,ic:21000,unknown:86000}
+ },
+ 'today':{label:"Today (May 4)",dataSource:"Meta Ads API",summary:{SH:{spend:35.06,leads:2,cpl:17.53},IC:{spend:106.67,leads:3,cpl:35.56},FKI:{spend:0,leads:0}},campaigns:[
+  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:35.06,leads:2,cpl:17.53,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.86,cpc:3.90,impressions:185},
+  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:106.67,leads:3,cpl:35.56,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.52,cpc:1.84,impressions:1283}
+ ],revenue:null},
+ '7d':{label:"Last 7 Days",dataSource:"Meta Ads API",summary:{SH:{spend:349,leads:11,cpl:31.74},IC:{spend:1154,leads:14,cpl:82.45},FKI:{spend:0,leads:0}},campaigns:[
+  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:349.14,leads:11,cpl:31.74,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:3.60,cpc:3.80,impressions:2558},
+  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:1154.29,leads:14,cpl:82.45,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:2.86,cpc:3.42,impressions:11801}
+ ],revenue:null},
+ 'thisMonth':{label:"This Month (May 1-4)",dataSource:"Meta Ads API",summary:{SH:{spend:174,leads:7,cpl:24.86},IC:{spend:678,leads:11,cpl:61.63},FKI:{spend:0,leads:0}},campaigns:[
+  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:174.03,leads:7,cpl:24.86,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:2.56,cpc:4.83,impressions:1404},
+  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:677.88,leads:11,cpl:61.63,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:3.12,cpc:2.52,impressions:8630}
+ ],revenue:null},
+ 'lastMonth':{label:"Last Month (April 2026)",dataSource:"Meta Ads API",summary:{SH:{spend:9357,leads:238,cpl:39.3},IC:{spend:3899,leads:100,cpl:38.99},FKI:{spend:502,leads:0}},campaigns:[
+  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:4903,leads:126,cpl:38.91,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:2.87,cpc:3.61,impressions:47412},
+  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:3899,leads:100,cpl:38.99,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.11,cpc:2.31,impressions:41190},
+  {name:"[SH] Video Series",adset:"Script 2",brand:"SH",spend:454,leads:12,cpl:37.88,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:6.86,cpc:1.63,impressions:4051},
+  {name:"[FKI] 2nd Opinion",adset:"All Creatives",brand:"FKI",spend:502,leads:0,cpl:null,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.36,cpc:2.04,impressions:5640}
+ ],revenue:null}
 };
-let period='today',brand='all',sortCol='spend',sortDir=-1;
+
+let period='30d',brand='all',sortCol='spend',sortDir=-1;
 function setPeriod(el){document.querySelectorAll('.tab.date').forEach(t=>t.classList.remove('active'));el.classList.add('active');period=el.dataset.period;render()}
 function setBrand(el){document.querySelectorAll('.tab.brand').forEach(t=>t.classList.remove('active'));el.classList.add('active');brand=el.dataset.brand;render()}
-function sortBy(col){if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=-1}render()}
-function fmt$(n){return n!=null?'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'—'}
-function fmtN(n){return n!=null?n.toLocaleString():'—'}
-function cplClass(v){if(v==null)return'pend';if(v<35)return'ok';if(v<55)return'warn';return'bad'}
+function sortBy(c){if(sortCol===c)sortDir*=-1;else{sortCol=c;sortDir=-1}render()}
+function $n(n,d=0){return n!=null?'$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}):'—'}
+function pct(n){return n!=null?n.toFixed(1)+'%':'—'}
+function cplC(v){if(!v)return'';if(v<25)return'ok';if(v<55)return'warn';return'bad'}
+function cpahC(v){if(!v)return'';if(v<500)return'ok';if(v<900)return'warn';return'bad'}
+function showC(v){if(!v)return'';if(v>=30)return'ok';if(v>=20)return'warn';return'bad'}
+
 function render(){
-  let rows=D[period].campaigns.filter(c=>brand==='all'||c.brand===brand);
-  rows.sort((a,b)=>{let av=a[sortCol]??-Infinity,bv=b[sortCol]??-Infinity;return sortDir*(bv-av<0?-1:bv-av>0?1:0)});
-  // KPIs
-  let totSpend=rows.reduce((s,r)=>s+r.spend,0);
-  let totLeads=rows.reduce((s,r)=>s+r.leads,0);
-  let bCPL=totLeads>0?(totSpend/totLeads):null;
-  let shSpend=rows.filter(r=>r.brand==='SH').reduce((s,r)=>s+r.spend,0);
-  let icSpend=rows.filter(r=>r.brand==='IC').reduce((s,r)=>s+r.spend,0);
-  let shLeads=rows.filter(r=>r.brand==='SH').reduce((s,r)=>s+r.leads,0);
-  let icLeads=rows.filter(r=>r.brand==='IC').reduce((s,r)=>s+r.leads,0);
-  document.getElementById('kpis').innerHTML=`
-    <div class="kpi"><div class="lbl">Total Spend</div><div class="val">$${totSpend.toLocaleString('en-US',{maximumFractionDigits:0})}</div><div class="src ok">✅ Meta API</div></div>
-    <div class="kpi"><div class="lbl">Total Leads</div><div class="val">${totLeads}</div><div class="src ok">✅ Meta API</div></div>
-    <div class="kpi"><div class="lbl">Blended CPL</div><div class="val">${bCPL?'$'+bCPL.toFixed(2):'—'}</div><div class="src ok">✅ Verified</div></div>
-    <div class="kpi"><div class="lbl">SH Spend</div><div class="val ${shSpend>0?'':'sm'}">$${shSpend.toLocaleString('en-US',{maximumFractionDigits:0})}</div><div class="src ok">✅ ${shLeads} leads</div></div>
-    <div class="kpi"><div class="lbl">IC Spend</div><div class="val">${icSpend>0?'$'+icSpend.toLocaleString('en-US',{maximumFractionDigits:0}):'$0'}</div><div class="src ok">✅ ${icLeads} leads</div></div>
-    <div class="kpi"><div class="lbl">Cost Per Appt</div><div class="val sm">GHL pending</div><div class="src pend">⏳ Leo WO sent</div></div>
-    <div class="kpi"><div class="lbl">Cost Per Deal</div><div class="val sm">GHL pending</div><div class="src pend">⏳ Leo WO sent</div></div>`;
-  // Table
-  if(!rows.length){document.getElementById('tbody').innerHTML=`<tr><td colspan="12" class="no-data">No campaigns for this filter.</td></tr>`;return}
-  let totImpr=rows.reduce((s,r)=>s+r.impressions,0);
-  let totClicks=rows.reduce((s,r)=>s+r.clicks,0);
-  let html=rows.map(r=>{
-    const tag=r.brand==='SH'?'sh-tag':r.brand==='IC'?'ic-tag':'fki-tag';
-    const cc=cplClass(r.cpl);
-    const cplStr=r.cpl!=null?'$'+r.cpl.toFixed(2):'Awareness';
-    const cplCls=r.cpl!=null?cc:'pend';
-    return`<tr>
-      <td>${r.name}</td>
-      <td><span class="brand-tag ${tag}">${r.brand}</span></td>
-      <td class="warn">$${r.spend.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-      <td>${r.leads||'0'}</td>
-      <td class="${cplCls}">${cplStr}</td>
-      <td>${r.ctr.toFixed(2)}%</td>
-      <td>$${r.cpc.toFixed(2)}</td>
-      <td>${r.impressions.toLocaleString()}</td>
-      <td class="pend">⏳ GHL</td>
-      <td class="pend">⏳ GHL</td>
-      <td class="pend">⏳ GHL</td>
-      <td class="pend">⏳ GHL</td>
-    </tr>`}).join('');
-  // Totals row
-  let avgCPL=totLeads>0?'$'+(totSpend/totLeads).toFixed(2):'—';
-  html+=`<tr class="total-row">
-    <td><strong>TOTAL</strong></td><td></td>
-    <td><strong>$${totSpend.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</strong></td>
-    <td><strong>${totLeads}</strong></td>
-    <td><strong>${avgCPL}</strong></td>
-    <td><strong>${totImpr>0?(totClicks/totImpr*100).toFixed(2)+'%':'—'}</strong></td>
-    <td></td><td><strong>${totImpr.toLocaleString()}</strong></td>
-    <td colspan="4" class="pend" style="text-align:center">⏳ GHL sync needed for appointment + deal columns</td>
+ const D=PERIODS[period];
+ let rows=D.campaigns.filter(c=>brand==='all'||c.brand===brand);
+ rows.sort((a,b)=>{let av=a[sortCol]??-Infinity,bv=b[sortCol]??-Infinity;return sortDir*(bv<av?-1:bv>av?1:0)});
+ const has90=period==='90d';
+ const hasCpah=['30d','90d'].includes(period);
+
+ // KPIs
+ const sum=D.summary;
+ const brands=brand==='all'?['SH','IC','FKI']:[brand];
+ let totSpend=brands.reduce((s,b)=>s+(sum[b]?.spend||0),0);
+ let totLeads=brands.reduce((s,b)=>s+(sum[b]?.leads||0),0);
+ let totBooked=brands.reduce((s,b)=>s+(sum[b]?.booked||0),0);
+ let totShowed=brands.reduce((s,b)=>s+(sum[b]?.showed||0),0);
+ let bCPL=totLeads>0?(totSpend/totLeads):null;
+ let bCPAB=totBooked>0?(totSpend/totBooked):null;
+ let bCPAH=totShowed>0?(totSpend/totShowed):null;
+ let bShow=totBooked>0?(totShowed/totBooked*100):null;
+
+ let kpiHtml=`
+  <div class="kpi"><div class="lbl">Total Spend</div><div class="val">${$n(totSpend)}</div><div class="src verified">Meta API</div></div>
+  <div class="kpi"><div class="lbl">Leads</div><div class="val">${totLeads||'—'}</div><div class="src verified">Meta API</div></div>
+  <div class="kpi"><div class="lbl">CPL</div><div class="val ${cplC(bCPL)}">${bCPL?$n(bCPL,2):'—'}</div><div class="src verified">Verified</div></div>`;
+ if(hasCpah){
+  kpiHtml+=`
+  <div class="kpi highlight"><div class="lbl">Appts Booked</div><div class="val ${totBooked>0?'warn':''}">${totBooked||'—'}</div><div class="src cpah">Ivan Bridge</div></div>
+  <div class="kpi highlight"><div class="lbl">Appts Showed</div><div class="val ${totShowed>0?'ok':''}">${totShowed||'—'}</div><div class="src cpah">Ivan Bridge</div></div>
+  <div class="kpi highlight"><div class="lbl">Show Rate</div><div class="val ${showC(bShow)}">${pct(bShow)}</div><div class="src cpah">Ivan Bridge</div></div>
+  <div class="kpi highlight"><div class="lbl">Cost/Appt Booked</div><div class="val">${bCPAB?$n(bCPAB,0):'—'}</div><div class="src cpah">Ivan Bridge</div></div>
+  <div class="kpi highlight"><div class="lbl">Cost/Appt Held</div><div class="val ${cpahC(bCPAH)}">${bCPAH?$n(bCPAH,0):'—'}</div><div class="src cpah">Ivan Bridge</div></div>`;
+ } else {
+  kpiHtml+=`<div class="kpi"><div class="lbl">Appts Booked</div><div class="val sm">Switch to 30D</div><div class="src cpah">Ivan Bridge data</div></div>
+  <div class="kpi"><div class="lbl">Appts Showed</div><div class="val sm">Switch to 30D</div><div class="src cpah">Ivan Bridge data</div></div>`;
+ }
+ document.getElementById('kpis').innerHTML=kpiHtml;
+
+ // Revenue
+ const rev=D.revenue;
+ const rEl=document.getElementById('rev-bar');
+ if(rev){
+  rEl.innerHTML=`
+   <div class="rev-card"><div class="r-lbl">Glo Tanning</div><div class="r-val">$${(rev.glo/1000).toFixed(0)}K</div><div class="r-sub">All-time QB revenue</div></div>
+   <div class="rev-card"><div class="r-lbl">FKI Brokerage</div><div class="r-val">$${(rev.fki/1000).toFixed(0)}K</div><div class="r-sub">QB revenue</div></div>
+   <div class="rev-card"><div class="r-lbl">Salad House</div><div class="r-val">$${(rev.sh/1000).toFixed(0)}K</div><div class="r-sub">QB revenue</div></div>
+   <div class="rev-card"><div class="r-lbl">Indy Clover</div><div class="r-val">$${(rev.ic/1000).toFixed(0)}K</div><div class="r-sub">QB revenue</div></div>
+   <div class="rev-card"><div class="r-lbl">All-Time Revenue</div><div class="r-val" style="color:#f1f5f9">$1.13M</div><div class="r-sub">$116K ad spend → $1.13M</div></div>`;
+  document.getElementById('rev-hdr').style.display='';
+ } else {
+  rEl.innerHTML='';
+  document.getElementById('rev-hdr').style.display='none';
+ }
+
+ // Table header
+ let thHtml=`<th onclick="sortBy('name')">Campaign ↕</th><th onclick="sortBy('brand')">Brand</th><th onclick="sortBy('adset')">Ad Set</th>
+  <th onclick="sortBy('spend')">Spend ↕</th><th onclick="sortBy('leads')">Leads ↕</th><th onclick="sortBy('cpl')" class="${hasCpah?'':'highlight-col'}">CPL ↕</th>`;
+ if(hasCpah){
+  thHtml+=`<th onclick="sortBy('booked')" class="highlight-col">Booked ↕</th>
+  <th onclick="sortBy('showed')" class="highlight-col">Showed ↕</th>
+  <th onclick="sortBy('showPct')" class="highlight-col">Show % ↕</th>
+  <th onclick="sortBy('cpab')" class="highlight-col">CPAB ↕</th>
+  <th onclick="sortBy('cpah')" class="highlight-col">CPAH ↕</th>`;
+ }
+ thHtml+=`<th onclick="sortBy('ctr')">CTR</th><th onclick="sortBy('impressions')">Impr.</th>`;
+ document.getElementById('thead').innerHTML=thHtml;
+
+ if(!rows.length){document.getElementById('tbody').innerHTML=`<tr><td colspan="15" class="no-data">No campaigns for this filter.</td></tr>`;return}
+ let totS=rows.reduce((s,r)=>s+r.spend,0);
+ let totL=rows.reduce((s,r)=>s+r.leads,0);
+ let totB=rows.reduce((s,r)=>s+(r.booked||0),0);
+ let totSh=rows.reduce((s,r)=>s+(r.showed||0),0);
+ let avgCPL=totL>0?$n(totS/totL,2):'—';
+
+ let html=rows.map(r=>{
+  const tag=r.brand==='SH'?'sh-t':r.brand==='IC'?'ic-t':'fki-t';
+  let tr=`<tr>
+   <td>${r.name}</td>
+   <td><span class="brand-tag ${tag}">${r.brand}</span></td>
+   <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${r.adset||'—'}</td>
+   <td class="warn">${$n(r.spend,2)}</td>
+   <td>${r.leads||'0'}</td>
+   <td class="${cplC(r.cpl)}">${r.cpl?$n(r.cpl,2):'Awareness'}</td>`;
+  if(hasCpah){
+   tr+=`<td class="${r.booked>0?'warn':r.booked===0?'bad':''}">${r.booked!=null?r.booked:''}</td>
+   <td class="${r.showed>0?'ok':r.showed===0&&r.booked!=null?'bad':''}">${r.showed!=null?r.showed:''}</td>
+   <td class="${showC(r.showPct)}">${pct(r.showPct)}</td>
+   <td class="${cpahC(r.cpab)}">${r.cpab?$n(r.cpab,0):'—'}</td>
+   <td class="${cpahC(r.cpah)}">${r.cpah?$n(r.cpah,0):'—'}</td>`;
+  }
+  tr+=`<td>${r.ctr!=null?r.ctr.toFixed(2)+'%':'—'}</td>
+   <td>${r.impressions!=null?Number(r.impressions).toLocaleString():'—'}</td>
   </tr>`;
-  document.getElementById('tbody').innerHTML=html;
-  // Update header with date label
-  document.querySelector('.hdr h1').textContent='📊 Cost Per Appointment — '+D[period].label;
+  return tr}).join('');
+
+ let totRow=`<tr class="total-row">
+  <td><strong>TOTAL</strong></td><td></td><td></td>
+  <td><strong>${$n(totS,2)}</strong></td>
+  <td><strong>${totL}</strong></td>
+  <td><strong>${avgCPL}</strong></td>`;
+ if(hasCpah){
+  totRow+=`<td><strong>${totB||'—'}</strong></td>
+  <td><strong>${totSh||'—'}</strong></td>
+  <td><strong>${totB>0?pct(totSh/totB*100):'—'}</strong></td>
+  <td><strong>${totB>0?$n(totS/totB,0):'—'}</strong></td>
+  <td><strong>${totSh>0?$n(totS/totSh,0):'—'}</strong></td>`;
+ }
+ totRow+=`<td></td><td></td></tr>`;
+ document.getElementById('tbody').innerHTML=html+totRow;
+ document.querySelector('.hdr h1').childNodes[0].textContent='';
 }
 render();
 </script>
