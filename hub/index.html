@@ -117,6 +117,15 @@
   .gallery .lock-badge { background: #f472b615; color: #f9a8d4;  border: 1px solid #f472b630; }
   .gallery .card-title { color: #f9a8d4; }
   .gallery .card-footer { color: #f9a8d4; background: #f472b60d; }
+
+    /* KPI STRIP */
+    .kpi-strip-hub { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; display: flex; overflow-x: auto; }
+    .kpi-hub { flex: 1; min-width: 120px; padding: 16px 20px; border-right: 1px solid #E5E5EA; }
+    .kpi-hub:last-child { border-right: none; }
+    .kpi-hub-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+    .kpi-hub-value { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .kpi-hub-sub { font-size: 10px; color: #8E8E93; margin-top: 3px; }
+    .kpi-hub-stale { font-size: 10px; color: #FF9F0A; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -137,6 +146,42 @@
   </div>
 
   <div class="main">
+
+    <!-- KPI STRIP - updated by Squirrel Pulse every 2hr -->
+    <div class="kpi-strip-hub" id="kpi-strip">
+      <div class="kpi-hub">
+        <div class="kpi-hub-label">YTD Revenue</div>
+        <div class="kpi-hub-value" style="color:#34C759;" id="kpi-revenue">$305K</div>
+        <div class="kpi-hub-sub">QB verified &middot; cash basis</div>
+      </div>
+      <div class="kpi-hub">
+        <div class="kpi-hub-label">Cash Runway</div>
+        <div class="kpi-hub-value" style="color:#FF3B30;" id="kpi-runway">3.5 wks</div>
+        <div class="kpi-hub-sub">$7.6K/wk burn &middot; zero-deal</div>
+      </div>
+      <div class="kpi-hub">
+        <div class="kpi-hub-label">Active Leads</div>
+        <div class="kpi-hub-value" style="color:#0071E3;" id="kpi-leads">1,433</div>
+        <div class="kpi-hub-sub">GHL pipeline &middot; 506 unassigned</div>
+      </div>
+      <div class="kpi-hub">
+        <div class="kpi-hub-label">Ad Spend (30D)</div>
+        <div class="kpi-hub-value" style="color:#FF9F0A;" id="kpi-spend">$8,894</div>
+        <div class="kpi-hub-sub">Meta Ads &middot; $44.70 CPL</div>
+      </div>
+      <div class="kpi-hub">
+        <div class="kpi-hub-label">Autonomy %</div>
+        <div class="kpi-hub-value" style="color:#AF52DE;" id="kpi-autonomy">68%</div>
+        <div class="kpi-hub-sub">5 domains &middot; Lead Proc 22% critical</div>
+      </div>
+      <div class="kpi-hub">
+        <div class="kpi-hub-label">Open Blockers</div>
+        <div class="kpi-hub-value" style="color:#FF3B30;" id="kpi-blockers">31</div>
+        <div class="kpi-hub-sub">Sprint Board &middot; Red rows</div>
+      </div>
+    </div>
+    <div style="text-align:right;padding:4px 24px;font-size:10px;color:#C7C7CC;background:#FAFAFA;border-bottom:1px solid #E5E5EA;">Data cached &middot; refreshed every 2hr by Squirrel Pulse &middot; <span id="last-kpi-update">May 5, 2026</span></div>
+
 
     <!-- GEORGE DEMO BANNER -->
     <div class="demo-banner">
@@ -213,6 +258,16 @@
           <span class="badge b-weekly">Weekly Mon 7 AM</span>
         </div>
         <div class="card-desc">1,433 open opps. 0.28% end-to-end conversion vs 2.3% industry. New Lead &rarr; Interested (88% drop). 506 leads unassigned.</div>
+        <div class="card-open">Open &rarr;</div>
+      </a>
+
+
+      <a class="card c-finance" href="../finance-hub/" target="_blank">
+        <div class="card-top">
+          <div class="card-name">Finance CC v2</div>
+          <span class="badge b-new">All Sections</span>
+        </div>
+        <div class="card-desc">QB live: $305K revenue, $40K cash, 3.5 wk runway. P&amp;L trend, done/blocked/in-progress, 3 audience views (Bennett/Team/Investor). Drill-down + resources.</div>
         <div class="card-open">Open &rarr;</div>
       </a>
 
@@ -317,6 +372,18 @@
   </div>
 
   <script>
+
+  // Load KPI data from Pulse cache
+  fetch('../hub-data.json').then(r => r.json()).then(d => {
+    if (d.revenue) document.getElementById('kpi-revenue').textContent = d.revenue;
+    if (d.runway) document.getElementById('kpi-runway').textContent = d.runway;
+    if (d.leads) document.getElementById('kpi-leads').textContent = d.leads;
+    if (d.spend) document.getElementById('kpi-spend').textContent = d.spend;
+    if (d.autonomy) document.getElementById('kpi-autonomy').textContent = d.autonomy;
+    if (d.blockers) document.getElementById('kpi-blockers').textContent = d.blockers;
+    if (d.updated) document.getElementById('last-kpi-update').textContent = d.updated;
+  }).catch(() => {}); // graceful fallback to hardcoded values above
+
     document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
       month: 'short', day: 'numeric', year: 'numeric',
       hour: '2-digit', minute: '2-digit', timeZone: 'America/Denver'
