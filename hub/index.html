@@ -6,389 +6,433 @@
   <title>FKI Command Center</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background: #F5F5F7; color: #1D1D1F; min-height: 100vh; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif; background: #F5F5F7; color: #1D1D1F; min-height: 100vh; }
 
     /* HEADER */
-    .page-header { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 28px 40px 24px; }
-    .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
-    .header-top h1 { font-size: 24px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.3px; }
-    .header-top .sub { font-size: 13px; color: #6E6E73; margin-top: 4px; }
-    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .stat-pill { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
-    .sp-b { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.25); }
-    .sp-g { background: rgba(52,199,89,0.08); color: #34C759; border-color: rgba(52,199,89,0.25); }
-    .sp-a { background: rgba(255,159,10,0.08); color: #FF9F0A; border-color: rgba(255,159,10,0.25); }
-    .sp-r { background: rgba(255,59,48,0.08); color: #FF3B30; border-color: rgba(255,59,48,0.25); }
-    .sp-gray { background: rgba(142,142,147,0.08); color: #8E8E93; border-color: rgba(142,142,147,0.25); }
+    .hdr { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .hdr-left { display: flex; align-items: center; gap: 14px; }
+    .hdr-title { font-size: 17px; font-weight: 700; color: #1D1D1F; }
+    .runway-badge { background: #FF3B30; color: #FFF; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .hdr-right { display: flex; align-items: center; gap: 10px; }
+    .cache-time { font-size: 11px; color: #8E8E93; }
+    .refresh-btn { font-size: 12px; color: #0071E3; background: rgba(0,113,227,0.08); border: none; padding: 5px 12px; border-radius: 8px; cursor: pointer; }
 
-    /* MAIN */
-    .main { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
+    /* MAIN LAYOUT */
+    .main { max-width: 900px; margin: 0 auto; padding: 16px 20px; }
 
-    /* GEORGE DEMO BANNER */
-    .demo-banner { background: #FFFFFF; border: 1px solid #E5E5EA; border-left: 4px solid #0071E3; border-radius: 0 10px 10px 0; padding: 20px 24px; margin-bottom: 20px; }
-    .demo-banner .dlbl { font-size: 11px; font-weight: 700; color: #0071E3; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-    .demo-banner .dtitle { font-size: 15px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
-    .demo-banner .dsub { font-size: 13px; color: #6E6E73; margin-bottom: 14px; }
-    .demo-links { display: flex; gap: 10px; flex-wrap: wrap; }
-    .demo-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid; transition: opacity 0.15s; }
-    .demo-btn:hover { opacity: 0.85; }
-    .db-primary { background: #0071E3; color: #FFFFFF; border-color: #0071E3; }
-    .db-secondary { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.3); }
+    /* ACTION CENTER */
+    .section-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; margin-top: 16px; display: flex; align-items: center; gap: 8px; }
+    .section-label:first-child { margin-top: 0; }
+    .badge-count { background: #FF3B30; color: #FFF; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 10px; }
 
-    /* ALERT BAR */
-    .alert-bar { background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); border-radius: 10px; padding: 12px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .ab-left .al { font-size: 11px; font-weight: 700; color: #FF3B30; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
-    .ab-left .at { font-size: 13px; color: #1D1D1F; }
-    .ab-badges { display: flex; gap: 6px; flex-shrink: 0; }
-    .ab-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(255,59,48,0.1); color: #FF3B30; white-space: nowrap; }
-
-    /* CATEGORY LABEL */
-    .cat-label { font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.06em; margin: 24px 0 10px; padding-bottom: 8px; border-bottom: 1px solid #E5E5EA; }
-    .cat-label:first-of-type { margin-top: 0; }
-
-    /* CARD GRID */
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
-
-    /* CARD */
-    .card { background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 10px; padding: 18px 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: box-shadow 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
-    .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
-    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-
-    /* Card accent colors */
-    .c-social::before { background: #0071E3; } .c-social:hover { border-color: rgba(0,113,227,0.3); }
-    .c-marketing::before { background: #EC4899; } .c-marketing:hover { border-color: rgba(236,72,153,0.3); }
-    .c-cpa::before { background: #F97316; } .c-cpa:hover { border-color: rgba(249,115,22,0.3); }
-    .c-sales-prep::before { background: #F59E0B; } .c-sales-prep:hover { border-color: rgba(245,158,11,0.3); }
-    .c-funnel::before { background: #14B8A6; } .c-funnel:hover { border-color: rgba(20,184,166,0.3); }
-    .c-finance::before { background: #34C759; } .c-finance:hover { border-color: rgba(52,199,89,0.3); }
-    .c-legal::before { background: #3B82F6; } .c-legal:hover { border-color: rgba(59,130,246,0.3); }
-    .c-agents::before { background: #A7xBFA; } .c-agents:hover { border-color: rgba(167,139,250,0.3); }
-    .c-health::before { background: #F59E0B; } .c-health:hover { border-color: rgba(245,158,11,0.3); }
-    .c-vision::before { background: #8B5CF6; } .c-vision:hover { border-color: rgba(139,92,246,0.3); }
-    .c-seo::before { background: #10B981; } .c-seo:hover { border-color: rgba(16,185,129,0.3); }
-    .c-chores::before { background: #06B6D4; } .c-chores:hover { border-color: rgba(6,182,212,0.3); }
-
-    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-    .card-name { font-size: 14px; font-weight: 700; color: #1D1D1F; }
-    .badge { padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
-    .b-live { background: rgba(52,199,89,0.1); color: #34C759; }
-    .b-protected { background: rgba(142,142,147,0.1); color: #8E8E93; }
-    .b-new { background: rgba(0,113,227,0.1); color: #0071E3; }
-    .b-daily { background: rgba(52,199,89,0.1); color: #34C759; }
-    .b-pending { background: rgba(255,159,10,0.1); color: #FF9F0A; }
-    .b-weekly { background: rgba(0,113,227,0.1); color: #0071E3; }
-    .b-crisis { background: rgba(255,59,48,0.1); color: #FF3B30; }
-
-    .card-desc { font-size: 12px; color: #6E6E73; line-height: 1.5; flex: 1; }
-    .card-open { font-size: 12px; font-weight: 600; color: #0071E3; margin-top: 14px; display: flex; align-items: center; gap: 4px; }
-
-    /* Accent color for "Open" text per card type */
-    .c-social .card-open { color: #0071E3; }
-    .c-marketing .card-open { color: #EC4899; }
-    .c-cpa .card-open { color: #F97316; }
-    .c-sales-prep .card-open { color: #F59E0B; }
-    .c-funnel .card-open { color: #14B8A6; }
-    .c-finance .card-open { color: #34C759; }
-    .c-legal .card-open { color: #3B82F6; }
-    .c-agents .card-open { color: #A7xBFA; }
-    .c-health .card-open { color: #F59E0B; }
-    .c-vision .card-open { color: #8B5CF6; }
-    .c-seo .card-open { color: #10B981; }
-    .c-chores .card-open { color: #06B6D4; }
-
-    /* FOOTER */
-    .footer { text-align: center; padding: 28px 20px; font-size: 12px; color: #8E8E93; }
-    a.fl { color: #0071E3; text-decoration: none; }
-    a.fl:hover { text-decoration: underline; }
-
-    @media (max-width: 640px) {
-      .page-header { padding: 20px 20px 16px; }
-      .header-top { flex-direction: column; gap: 12px; }
-      .main { padding: 20px 12px; }
-      .grid { grid-template-columns: 1fr; }
-      .demo-links { flex-direction: column; }
-      .alert-bar { flex-direction: column; align-items: flex-start; }
-    }
-    .c-autonomy::before { background: #F59E0B; } .c-autonomy:hover { border-color: rgba(245,158,11,0.3); }
-    .c-autonomy .card-open { color: #F59E0B; }
-    .card.gallery { border-color: #f472b633; }
-  .card.gallery:hover { border-color: #f472b6; box-shadow: 0 12px 40px rgba(244,114,182,0.15); }
-  .gallery .card-icon  { background: #f472b61a; }
-  .gallery .lock-badge { background: #f472b615; color: #f9a8d4;  border: 1px solid #f472b630; }
-  .gallery .card-title { color: #f9a8d4; }
-  .gallery .card-footer { color: #f9a8d4; background: #f472b60d; }
+    .action-item { background: #FFFFFF; border-radius: 10px; border-left: 4px solid #FF3B30; margin-bottom: 8px; padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .action-item.warn { border-left-color: #FF9F0A; }
+    .action-item.info { border-left-color: #0071E3; }
+    .action-content { flex: 1; min-width: 0; }
+    .action-title { font-size: 14px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+    .action-detail { font-size: 12px; color: #6E6E73; }
+    .action-btns { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+    .btn-open { font-size: 11px; font-weight: 600; color: #0071E3; background: rgba(0,113,227,0.08); border: none; padding: 5px 10px; border-radius: 7px; cursor: pointer; text-decoration: none; white-space: nowrap; }
+    .btn-dispatch { font-size: 11px; font-weight: 600; color: #FFF; background: #1D1D1F; border: none; padding: 5px 10px; border-radius: 7px; cursor: pointer; white-space: nowrap; }
+    .btn-dispatch:active { background: #34C759; }
 
     /* KPI STRIP */
-    .kpi-strip-hub { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; display: flex; overflow-x: auto; }
-    .kpi-hub { flex: 1; min-width: 120px; padding: 16px 20px; border-right: 1px solid #E5E5EA; }
-    .kpi-hub:last-child { border-right: none; }
-    .kpi-hub-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
-    .kpi-hub-value { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-    .kpi-hub-sub { font-size: 10px; color: #8E8E93; margin-top: 3px; }
-    .kpi-hub-stale { font-size: 10px; color: #FF9F0A; margin-top: 2px; }
-</style>
+    .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 0; }
+    .kpi-mini { background: #FFFFFF; border-radius: 10px; padding: 12px 14px; }
+    .kpi-mini-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .kpi-mini-val { font-size: 24px; font-weight: 800; letter-spacing: -0.8px; }
+    .kpi-mini-sub { font-size: 10px; color: #8E8E93; margin-top: 2px; }
+
+    /* DOMAIN TABS */
+    .tabs { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 2px; }
+    .tab { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: #FFFFFF; color: #6E6E73; transition: all 0.15s; white-space: nowrap; }
+    .tab.active { background: #1D1D1F; color: #FFF; }
+
+    /* CC GRID */
+    .cc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .cc-card { background: #FFFFFF; border-radius: 10px; padding: 14px 16px; text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; transition: all 0.15s; border-left: 3px solid transparent; }
+    .cc-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .cc-card.red { border-left-color: #FF3B30; }
+    .cc-card.amber { border-left-color: #FF9F0A; }
+    .cc-card.green { border-left-color: #34C759; }
+    .cc-card.blue { border-left-color: #0071E3; }
+    .cc-name { font-size: 13px; font-weight: 600; color: #1D1D1F; }
+    .cc-metric { text-align: right; }
+    .cc-val { font-size: 18px; font-weight: 700; }
+    .cc-val.red { color: #FF3B30; }
+    .cc-val.amber { color: #FF9F0A; }
+    .cc-val.green { color: #34C759; }
+    .cc-val.blue { color: #0071E3; }
+    .cc-status { font-size: 10px; color: #8E8E93; margin-top: 1px; }
+    .cc-arrow { font-size: 12px; color: #C7C7CC; margin-left: 8px; }
+
+    /* FLEET STATUS */
+    .fleet-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .fleet-card { background: #FFFFFF; border-radius: 10px; padding: 12px 14px; }
+    .fleet-name { font-size: 12px; font-weight: 600; color: #1D1D1F; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green { background: #34C759; }
+    .dot-amber { background: #FF9F0A; }
+    .dot-red { background: #FF3B30; }
+    .fleet-stat { font-size: 11px; color: #6E6E73; margin-bottom: 3px; display: flex; justify-content: space-between; }
+    .fleet-stat span { font-weight: 600; color: #1D1D1F; }
+
+    /* QUICK LINKS */
+    .quick-links { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ql { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: #1D1D1F; background: #FFFFFF; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; transition: all 0.15s; }
+    .ql:hover { background: #E5E5EA; }
+
+    /* ACTIVE WOs */
+    .wo-item { background: #FFFFFF; border-radius: 10px; padding: 12px 14px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .wo-title { font-size: 13px; font-weight: 500; color: #1D1D1F; }
+    .wo-meta { font-size: 11px; color: #8E8E93; margin-top: 2px; }
+    .wo-status { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+    .wo-flight { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .wo-done { background: rgba(52,199,89,0.1); color: #34C759; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1D1D1F; color: #FFF; font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: 20px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
+    .toast.show { opacity: 1; }
+
+    /* DOMAIN VIEWS */
+    .domain-view { display: none; }
+    .domain-view.active { display: block; }
+
+    @media (max-width: 600px) {
+      .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+      .cc-grid { grid-template-columns: 1fr; }
+      .fleet-grid { grid-template-columns: 1fr; }
+      .main { padding: 12px 14px; }
+    }
+  </style>
 </head>
 <body>
 
-  <div class="page-header">
-    <div class="header-top">
-      <div>
-        <h1>FKI Command Center</h1>
-        <div class="sub">CEO Design Skill v1 &middot; 12 systems &middot; <span id="ts"></span></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-pill sp-b">12 Systems</span>
-        <span class="stat-pill sp-g">8 Live</span>
-        <span class="stat-pill sp-gray">2 Protected</span>
-        <span class="stat-pill sp-b">2 CEO Design v2</span>
-      </div>
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-title">FKI Command Center</div>
+    <div class="runway-badge">⚠️ 3.5 wk runway</div>
+  </div>
+  <div class="hdr-right">
+    <span class="cache-time" id="cache-time">Cached via Pulse</span>
+    <button class="refresh-btn" onclick="location.reload()">↺ Refresh</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ACTION CENTER -->
+  <div class="section-label">Needs My Attention <span class="badge-count" id="att-count">8</span></div>
+
+  <div class="action-item" id="ai-runway">
+    <div class="action-content">
+      <div class="action-title">💰 Cash Runway: 3.5 weeks</div>
+      <div class="action-detail">• Zero-deal scenario · $7,659/wk burn · 1 deal = +5.2 weeks extended</div>
+    </div>
+    <div class="action-btns">
+      <a href="../finance-hub/" class="btn-open">Open Finance →</a>
+      <button class="btn-dispatch" onclick="dispatch('Cash Runway Critical', 'Close 1 deal this week. Pipeline has 11 at Discovery Day — push to close.')">Copy ↗</button>
     </div>
   </div>
 
-  <div class="main">
-
-    <!-- KPI STRIP - updated by Squirrel Pulse every 2hr -->
-    <div class="kpi-strip-hub" id="kpi-strip">
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">YTD Revenue</div>
-        <div class="kpi-hub-value" style="color:#34C759;" id="kpi-revenue">$305K</div>
-        <div class="kpi-hub-sub">QB verified &middot; cash basis</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Cash Runway</div>
-        <div class="kpi-hub-value" style="color:#FF3B30;" id="kpi-runway">3.5 wks</div>
-        <div class="kpi-hub-sub">$7.6K/wk burn &middot; zero-deal</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Active Leads</div>
-        <div class="kpi-hub-value" style="color:#0071E3;" id="kpi-leads">1,433</div>
-        <div class="kpi-hub-sub">GHL pipeline &middot; 506 unassigned</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Ad Spend (30D)</div>
-        <div class="kpi-hub-value" style="color:#FF9F0A;" id="kpi-spend">$8,894</div>
-        <div class="kpi-hub-sub">Meta Ads &middot; $44.70 CPL</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Autonomy %</div>
-        <div class="kpi-hub-value" style="color:#AF52DE;" id="kpi-autonomy">68%</div>
-        <div class="kpi-hub-sub">5 domains &middot; Lead Proc 22% critical</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Open Blockers</div>
-        <div class="kpi-hub-value" style="color:#FF3B30;" id="kpi-blockers">31</div>
-        <div class="kpi-hub-sub">Sprint Board &middot; Red rows</div>
-      </div>
+  <div class="action-item warn" id="ai-ghl-token">
+    <div class="action-content">
+      <div class="action-title">🔑 GHL PIT Token Expired (403)</div>
+      <div class="action-detail">• Attribution blind · booked=0 all brands · ad ROAS unknown</div>
     </div>
-    <div style="text-align:right;padding:4px 24px;font-size:10px;color:#C7C7CC;background:#FAFAFA;border-bottom:1px solid #E5E5EA;">Data cached &middot; refreshed every 2hr by Squirrel Pulse &middot; <span id="last-kpi-update">May 5, 2026</span></div>
-
-
-    <!-- GEORGE DEMO BANNER -->
-    <div class="demo-banner">
-      <div class="dlbl">George Meeting &mdash; May 5, 2026</div>
-      <div class="dtitle">Start here for the demo</div>
-      <div class="dsub">Open Social Media CC first &mdash; Story for George is auto-expanded. Then switch to Marketing CC to show the IC CPL crisis being fixed in real time.</div>
-      <div class="demo-links">
-        <a href="../social/" target="_blank" class="demo-btn db-primary">&#127919; Social Media CC &rarr;</a>
-        <a href="../marketing/" target="_blank" class="demo-btn db-secondary">&#128202; Marketing CC &rarr;</a>
-      </div>
+    <div class="action-btns">
+      <a href="https://app.crmx.app" class="btn-open" target="_blank">Open GHL →</a>
+      <button class="btn-dispatch" onclick="dispatch('GHL PIT Token Expired', 'Generate new PIT at app.crmx.app Settings → Private Integrations. Forward to Leo for ~/.env update.')">Copy ↗</button>
     </div>
-
-    <!-- URGENT ACTIONS -->
-    <div class="alert-bar">
-      <div class="ab-left">
-        <div class="al">Urgent &mdash; Before Full Automation</div>
-        <div class="at">Meta Ads token expired April 30 &middot; Google Ads verify deadline May 13 &middot; Metricool upgrade ($22/mo, Kay task)</div>
-      </div>
-      <div class="ab-badges">
-        <span class="ab-badge">2 Bennett Gates</span>
-        <span class="ab-badge">1 Kay Task</span>
-      </div>
-    </div>
-
-    <!-- MARKETING & REVENUE -->
-    <div class="cat-label">Marketing &amp; Revenue</div>
-    <div class="grid">
-
-      <a class="card c-social" href="https://bennett-maxwell.github.io/advaita-agent-audit/social/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Social Media CC</div>
-          <span class="badge b-new">CEO Design v2</span>
-        </div>
-        <div class="card-desc">Bennett personal + IC/SH/SRP/FKI. 60 posts queued. LinkedIn resumes May 7. AI writes everything in Bennett's voice. Story for George auto-expanded.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-marketing" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Marketing CC</div>
-          <span class="badge b-crisis">IC CPL $76 Crisis</span>
-        </div>
-        <div class="card-desc">Meta Ads verified data: $8,894 spend / 199 leads / $44.70 CPL. IC Investor Headlines at $76 vs $45 target. SH healthy at $38.53. Glo Tanning $974K benchmark.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-cpa" href="https://bennett-maxwell.github.io/advaita-agent-audit/cpa/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Cost per Appointment</div>
-          <span class="badge b-live">Live</span>
-        </div>
-        <div class="card-desc">CPAB: SH $114 / IC $67. CPAH: SH $357 / IC $330. Show rates: SH 31.9% / IC 20.3% vs 70% target. Ad spend vs pipeline by brand.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-sales-prep" href="https://bennett-maxwell.github.io/advaita-agent-audit/meeting-prep/" target="_blank" rel="noopener noreferrer">
-        <div class="card-top">
-          <div class="card-name">Sales Meeting Prep</div>
-          <span class="badge b-daily">Daily 6 AM</span>
-        </div>
-        <div class="card-desc">Today&rsquo;s calls + battle cards. Hot leads with signal scoring. FDD review pipeline. Rep accountability (Bailey + Keith). Show rate tracker.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <!-- SALES & PIPELINE -->
-    <div class="cat-label">Sales &amp; Pipeline</div>
-    <div class="grid">
-
-      <a class="card c-funnel" href="funnel.html">
-        <div class="card-top">
-          <div class="card-name">Sales Funnel</div>
-          <span class="badge b-weekly">Weekly Mon 7 AM</span>
-        </div>
-        <div class="card-desc">1,433 open opps. 0.28% end-to-end conversion vs 2.3% industry. New Lead &rarr; Interested (88% drop). 506 leads unassigned.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-
-      <a class="card c-finance" href="../finance-hub/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Finance CC v2</div>
-          <span class="badge b-new">All Sections</span>
-        </div>
-        <div class="card-desc">QB live: $305K revenue, $40K cash, 3.5 wk runway. P&amp;L trend, done/blocked/in-progress, 3 audience views (Bennett/Team/Investor). Drill-down + resources.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-finance" href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/">
-        <div class="card-top">
-          <div class="card-name">Finance Dashboard</div>
-          <span class="badge b-protected">Password Protected</span>
-        </div>
-        <div class="card-desc">P&amp;L, cash position, QB sync. 13-week cash flow forecast. CC debt tracker. AES-256 encrypted. Password: finance 2026.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-legal" href="https://bennett-maxwell.github.io/advaita-agent-audit/legal/">
-        <div class="card-top">
-          <div class="card-name">Legal Dashboard</div>
-          <span class="badge b-protected">Password Protected</span>
-        </div>
-        <div class="card-desc">Entity tracker, compliance status, case roster. CFP case deadline May 27. Attorney-client privileged. AES-256 encrypted.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <!-- AI INFRASTRUCTURE -->
-    <div class="cat-label">AI Infrastructure</div>
-    <div class="grid">
-
-      <a class="card c-agents" href="agent-monitor.html">
-        <div class="card-top">
-          <div class="card-name">Agent Monitor</div>
-          <span class="badge b-live">Live &middot; 60s refresh</span>
-        </div>
-        <div class="card-desc">Real-time view of Mack, Leo, Ivan, Tiffany, and Chad. Tasks running, active skills, memory updates, handoff queue.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
- 
-      <a class="card c-health" href="machine-health.html">
-        <div class="card-top">
-          <div class="card-name">Machine Health</div>
-          <span class="badge b-live">Live &middot; 5 min refresh</span>
-        </div>
-        <div class="card-desc">iMac, MacBook, and Tiffany: CPU, memory, disk, uptime. Auto-refresh every 60 seconds.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-vision" href="../vision/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Vision 3.0 Status</div>
-          <span class="badge b-pending">68% Complete</span>
-        </div>
-        <div class="card-desc">Advaita Vision 3.0 deployment tracker. 5 domains, P1 blockers, timeline to 100% autonomy. 13 days to May 17 milestone.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-seo" href="../seo/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">SEO Command Center</div>
-          <span class="badge b-pending">Score 24/100</span>
-        </div>
-        <div class="card-desc">60+ franchise-guide articles. 50 keywords tracked. Target: 24 &rarr; 68 in 30 days. 0 AI citations verified. GA4 pending.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <!-- PERSONAL -->
-    <div class="cat-label">Personal</div>
-    <div class="grid">
-
-      <a class="card c-chores" href="https://bennett-maxwell.github.io/advaita-agent-audit/chore-chart/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Kids& rsquo;s Chores</div>
-          <span class="badge b-live">Public</span>
-        </div>
-        <div class="card-desc">Chore tracker by kid. Completion status, points, streaks, and rewards. Shareable with family &mdash; no login required.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-
-    <!-- AUTONOMY DASHBOARD -->
-    <div class="cat-label">Autonomy</div>
-    <div class="grid">
-
-      <a class="card c-autonomy" href="../autonomy/">
-        <div class="card-top">
-          <div class="card-name">Autonomy Dashboard</div>
-          <span class="badge b-pending">68% &rarr; 100%</span>
-        </div>
-        <div class="card-desc">30-item full autonomy plan. Lead Processing 22% &rarr; critical. business-audit v2 + council 4.47/5.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <div class="footer">
-      <div>FKI Command Center Hub &middot; CEO Design Skill v1 &middot; Franchise KI AI Fleet</div>
-      <div style="margin-top:6px">12 systems &middot; GitHub Pages &middot; <a href="https://github.com/bennett-maxwell/advaita-agent-audit" target="_blank" class="fl">bennett-maxwell/advaita-agent-audit</a></div>
-    </div>
-
   </div>
 
-  <script>
+  <div class="action-item" id="ai-legal">
+    <div class="action-content">
+      <div class="action-title">⚖️ Legal: CFP Default Certificate</div>
+      <div class="action-detail">• Case 250905143 · Filing deadline May 27, 2026 · Heidlaw contact</div>
+    </div>
+    <div class="action-btns">
+      <a href="mailto:gbrown@heidlaw.com" class="btn-open">Email Heidlaw →</a>
+      <button class="btn-dispatch" onclick="dispatch('CFP Legal Deadline May 27', 'Contact gbrown@heidlaw.com. Case 250905143. Default Certificate needs response by May 27.')">Copy ↗</button>
+    </div>
+  </div>
 
-  // Load KPI data from Pulse cache
-  fetch('../hub-data.json').then(r => r.json()).then(d => {
-    if (d.revenue) document.getElementById('kpi-revenue').textContent = d.revenue;
-    if (d.runway) document.getElementById('kpi-runway').textContent = d.runway;
-    if (d.leads) document.getElementById('kpi-leads').textContent = d.leads;
-    if (d.spend) document.getElementById('kpi-spend').textContent = d.spend;
-    if (d.autonomy) document.getElementById('kpi-autonomy').textContent = d.autonomy;
-    if (d.blockers) document.getElementById('kpi-blockers').textContent = d.blockers;
-    if (d.updated) document.getElementById('last-kpi-update').textContent = d.updated;
-  }).catch(() => {}); // graceful fallback to hardcoded values above
+  <div class="action-item warn" id="ai-google-ads">
+    <div class="action-content">
+      <div class="action-title">📊 Google Ads Verify · Deadline May 13</div>
+      <div class="action-detail">• CID 340-719-9643 · Identity verification required · account pause risk</div>
+    </div>
+    <div class="action-btns">
+      <a href="https://ads.google.com" class="btn-open" target="_blank">Open Google Ads →</a>
+      <button class="btn-dispatch" onclick="dispatch('Google Ads Verification Deadline May 13', 'Submit identity docs at ads.google.com CID 340-719-9643. Risk: account paused if not done.')">Copy ↗</button>
+    </div>
+  </div>
 
-    document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: '2-digit', minute: '2-digit', timeZone: 'America/Denver'
-    }) + ' MDT';
-  </script>
+  <div class="action-item warn" id="ai-ic-cpl">
+    <div class="action-content">
+      <div class="action-title">📣 IC CPL Crisis: $76 vs $45 target</div>
+      <div class="action-detail">• Investor Headlines wrong angle · $1,296 wasted last 7D · community-hub creative ready</div>
+    </div>
+    <div class="action-btns">
+      <a href="https://business.facebook.com/adsmanager" class="btn-open" target="_blank">Open Meta →</a>
+      <button class="btn-dispatch" onclick="dispatch('IC CPL Crisis $76', 'Pause adset Investor Headlines v1.1 ID 120239296168310003. Launch community-hub creative. Leo WO ts 1777986496 already dispatched - verify completion.')">Copy ↗</button>
+    </div>
+  </div>
+
+  <div class="action-item warn" id="ai-meta-token">
+    <div class="action-content">
+      <div class="action-title">📱 Meta Ads Token Expired Apr 30</div>
+      <div class="action-detail">• Campaigns running blind · CPL Kill Switch offline · no ROAS data</div>
+    </div>
+    <div class="action-btns">
+      <a href="https://business.facebook.com" class="btn-open" target="_blank">Open Meta Business →</a>
+      <button class="btn-dispatch" onclick="dispatch('Meta Ads Token Expired', 'Go to Meta Business Manager → System Users → Generate New Token (ads_read, ads_management). Forward to Leo for ~/.env update.')">Copy ↗</button>
+    </div>
+  </div>
+
+  <div class="action-item warn" id="ai-synthflow">
+    <div class="action-content">
+      <div class="action-title">📞 SynthFlow Not Connected</div>
+      <div class="action-detail">• 506 unassigned leads going cold · speed-to-lead target: &lt;60s · blocks 22% autonomy</div>
+    </div>
+    <div class="action-btns">
+      <a href="https://app.gohighlevel.com" class="btn-open" target="_blank">Open GHL →</a>
+      <button class="btn-dispatch" onclick="dispatch('SynthFlow Deploy', 'Connect SynthFlow to GHL Location 14RD8KklxR9G4e0Rf7v2 via GHL Marketplace → SynthFlow. Setup spec: Notion 357cf5514fd381f78e2fe3930c2e3a75. Leo WO already in flight.')">Copy ↗</button>
+    </div>
+  </div>
+
+  <div class="action-item info" id="ai-qb-entity">
+    <div class="action-content">
+      <div class="action-title">📋 QB Entity: Sole Proprietor → LLC/S-Corp</div>
+      <div class="action-detail">• Tax risk · S-Corp election pending wet signature · Ben Fellmeth no longer accountant</div>
+    </div>
+    <div class="action-btns">
+      <a href="https://app.qbo.intuit.com" class="btn-open" target="_blank">Open QB →</a>
+      <button class="btn-dispatch" onclick="dispatch('QB Entity Type Fix', 'File S-Corp election with IRS Form 2553. AI team handles QB going forward. Fix entity classification in QB Online.')">Copy ↗</button>
+    </div>
+  </div>
+
+  <!-- KPI STRIP -->
+  <div class="section-label" style="margin-top:20px;">Key Metrics</div>
+  <div class="kpi-strip">
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">YTD Revenue</div>
+      <div class="kpi-mini-val" style="color:#34C759;">$305K</div>
+      <div class="kpi-mini-sub">QB verified</div>
+    </div>
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">Cash Runway</div>
+      <div class="kpi-mini-val" style="color:#FF3B30;">3.5 wks</div>
+      <div class="kpi-mini-sub">$40K checking</div>
+    </div>
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">Active Leads</div>
+      <div class="kpi-mini-val" style="color:#0071E3;">1,433</div>
+      <div class="kpi-mini-sub">GHL pipeline</div>
+    </div>
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">Autonomy</div>
+      <div class="kpi-mini-val" style="color:#FF9F0A;">68%</div>
+      <div class="kpi-mini-sub">Lead Proc 22% ⚠️</div>
+    </div>
+  </div>
+
+  <!-- CC GRID -->
+  <div class="section-label" style="margin-top:20px;">Command Centers</div>
+  <div class="tabs" style="margin-bottom:10px;">
+    <button class="tab active" onclick="showDomain('all', this)">All</button>
+    <button class="tab" onclick="showDomain('marketing', this)">Marketing</button>
+    <button class="tab" onclick="showDomain('sales', this)">Sales</button>
+    <button class="tab" onclick="showDomain('finance', this)">Finance</button>
+    <button class="tab" onclick="showDomain('ai', this)">AI</button>
+    <button class="tab" onclick="showDomain('personal', this)">Personal</button>
+  </div>
+
+  <div id="domain-all" class="domain-view active">
+    <div class="cc-grid">
+      <a class="cc-card amber" href="../finance-hub/"><div><div class="cc-name">💰 Finance</div></div><div class="cc-metric"><div class="cc-val amber">$40K</div><div class="cc-status">cash · 3.5wk runway</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card red" href="../marketing/"><div><div class="cc-name">📣 Marketing</div></div><div class="cc-metric"><div class="cc-val red">$76 CPL</div><div class="cc-status">IC crisis · SH $38 OK</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card red" href="../meeting-prep/"><div><div class="cc-name">📈 Sales Pipeline</div></div><div class="cc-metric"><div class="cc-val red">26%</div><div class="cc-status">show rate · 506 unassigned</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card amber" href="../social/"><div><div class="cc-name">📱 Social Media</div></div><div class="cc-metric"><div class="cc-val amber">May 7</div><div class="cc-status">LinkedIn resumes · 60 queued</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card amber" href="../seo/"><div><div class="cc-name">🔍 SEO</div></div><div class="cc-metric"><div class="cc-val amber">24/100</div><div class="cc-status">→ target 68 in 30D</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="../mapki/"><div><div class="cc-name">🗺️ MapKi</div></div><div class="cc-metric"><div class="cc-val blue">3,239</div><div class="cc-status">brands · FranchiseScore pending</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card amber" href="../autonomy/"><div><div class="cc-name">⚡ Autonomy</div></div><div class="cc-metric"><div class="cc-val amber">68%</div><div class="cc-status">Lead Processing 22% ⚠️</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card green" href="../cpa/"><div><div class="cc-name">💸 CPA</div></div><div class="cc-metric"><div class="cc-val green">$114</div><div class="cc-status">SH CPAB · IC $67</div></div><span class="cc-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div id="domain-marketing" class="domain-view">
+    <div class="cc-grid">
+      <a class="cc-card red" href="../marketing/"><div><div class="cc-name">📣 Marketing CC</div></div><div class="cc-metric"><div class="cc-val red">$76 CPL</div><div class="cc-status">IC crisis</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card green" href="../cpa/"><div><div class="cc-name">💸 CPA</div></div><div class="cc-metric"><div class="cc-val">$114</div><div class="cc-status">CPAB SH</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card amber" href="../social/"><div><div class="cc-name">📱 Social Media</div></div><div class="cc-metric"><div class="cc-val amber">May 7</div><div class="cc-status">LinkedIn resumes</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="../brand-gallery/"><div><div class="cc-name">🖼️ Brand Gallery</div></div><div class="cc-metric"><div class="cc-val blue">84</div><div class="cc-status">real photos</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="../ai-franchise-kit/"><div><div class="cc-name">🤝 AI Kit</div></div><div class="cc-metric"><div class="cc-val blue">$5K+</div><div class="cc-status">3-tier pricing live</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="../ai-agents/"><div><div class="cc-name">🤖 AI Agents</div></div><div class="cc-metric"><div class="cc-val blue">7</div><div class="cc-status">lead magnet live</div></div><span class="cc-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div id="domain-sales" class="domain-view">
+    <div class="cc-grid">
+      <a class="cc-card red" href="../meeting-prep/"><div><div class="cc-name">📈 Sales Pipeline</div></div><div class="cc-metric"><div class="cc-val red">26%</div><div class="cc-status">show rate</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="../mapki/"><div><div class="cc-name">🗺️ MapKi</div></div><div class="cc-metric"><div class="cc-val blue">3,239</div><div class="cc-status">brands</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="../franchise-ranking/"><div><div class="cc-name">🏆 Rankings</div></div><div class="cc-metric"><div class="cc-val blue">100</div><div class="cc-status">top brands</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card green" href="../franchise-score/"><div><div class="cc-name">⭐ FranchiseScore</div></div><div class="cc-metric"><div class="cc-val green">0-100</div><div class="cc-status">Zestimate equiv.</div></div><span class="cc-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div id="domain-finance" class="domain-view">
+    <div class="cc-grid">
+      <a class="cc-card amber" href="../finance-hub/"><div><div class="cc-name">💰 Finance CC</div></div><div class="cc-metric"><div class="cc-val amber">$40K</div><div class="cc-status">cash · QB live</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card green" href="../cpa/"><div><div class="cc-name">💸 CPA</div></div><div class="cc-metric"><div class="cc-val">$114</div><div class="cc-status">CPAB SH</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card red" href="../finance/"><div><div class="cc-name">🔐 Finance (Protected)</div></div><div class="cc-metric"><div class="cc-val">P&amp;L</div><div class="cc-status">Password: finance 2026</div></div><span class="cc-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div id="domain-ai" class="domain-view">
+    <div class="cc-grid">
+      <a class="cc-card amber" href="../autonomy/"><div><div class="cc-name">⚡ Autonomy</div></div><div class="cc-metric"><div class="cc-val amber">68%</div><div class="cc-status">Vision 3.0</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card amber" href="../seo/"><div><div class="cc-name">🔍 SEO</div></div><div class="cc-metric"><div class="cc-val amber">24/100</div><div class="cc-status">86 articles</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="agent-monitor.html"><div><div class="cc-name">👁 Agent Monitor</div></div><div class="cc-metric"><div class="cc-val blue">Live</div><div class="cc-status">60s refresh</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card amber" href="machine-health.html"><div><div class="cc-name">💻 Machine Health</div></div><div class="cc-metric"><div class="cc-val amber">Check</div><div class="cc-status">iMac + MacBook</div></div><span class="cc-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div id="domain-personal" class="domain-view">
+    <div class="cc-grid">
+      <a class="cc-card blue" href="../real-estate/"><div><div class="cc-name">🏠 Real Estate</div></div><div class="cc-metric"><div class="cc-val blue">6</div><div class="cc-status">Utah properties</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card green" href="../chore-chart/"><div><div class="cc-name">📋 Chores</div></div><div class="cc-metric"><div class="cc-val green">Live</div><div class="cc-status">public · family</div></div><span class="cc-arrow">›</span></a>
+      <a class="cc-card blue" href="../legal/"><div><div class="cc-name">⚖️ Legal</div></div><div class="cc-metric"><div class="cc-val blue">Protected</div><div class="cc-status">AES-256</div></div><span class="cc-arrow">›</span></a>
+    </div>
+  </div>
+
+  <!-- AI FLEET STATUS -->
+  <div class="section-label" style="margin-top:20px;">AI Fleet Status</div>
+  <div class="fleet-grid">
+    <div class="fleet-card">
+      <div class="fleet-name"><div class="dot dot-green"></div>Squirrel</div>
+      <div class="fleet-stat">Status <span style="color:#34C759;">Online</span></div>
+      <div class="fleet-stat">Thread budget <span>~$8 used</span></div>
+      <div class="fleet-stat">Pulse <span>every 2hr</span></div>
+      <div class="fleet-stat">Invocations <span>4 active</span></div>
+    </div>
+    <div class="fleet-card">
+      <div class="fleet-name"><div class="dot dot-amber"></div>Leo</div>
+      <div class="fleet-stat">WOs in flight <span style="color:#FF9F0A;">7 items</span></div>
+      <div class="fleet-stat">Last dispatch <span>ts 1778011228</span></div>
+      <div class="fleet-stat">BUG-006 <span style="color:#34C759;">RESOLVED</span></div>
+      <div class="fleet-stat">Bridge <span>live via LaunchAgent</span></div>
+    </div>
+    <div class="fleet-card">
+      <div class="fleet-name"><div class="dot dot-amber"></div>Ivan-CC</div>
+      <div class="fleet-stat">Location <span>iMac · Tailscale</span></div>
+      <div class="fleet-stat">GHL token <span style="color:#FF3B30;">expired 403</span></div>
+      <div class="fleet-stat">Tiffany <span style="color:#FF9F0A;">wake Garlon</span></div>
+      <div class="fleet-stat">Lead Scorer <span style="color:#34C759;">:8744 live</span></div>
+    </div>
+  </div>
+
+  <!-- ACTIVE WOs -->
+  <div class="section-label" style="margin-top:20px;">Active Work Orders <span class="badge-count">7</span></div>
+  <div class="wo-item">
+    <div><div class="wo-title">CPA CC L1 + Hub card text update</div><div class="wo-meta">ts 1778011228 · Leo</div></div>
+    <span class="wo-status wo-flight">In flight</span>
+  </div>
+  <div class="wo-item">
+    <div><div class="wo-title">hub-data.json Pulse wiring</div><div class="wo-meta">ts 1778009604 · Leo</div></div>
+    <span class="wo-status wo-flight">In flight</span>
+  </div>
+  <div class="wo-item">
+    <div><div class="wo-title">FranchiseScore Convex deploy</div><div class="wo-meta">ts 1778011228 · Leo</div></div>
+    <span class="wo-status wo-flight">In flight</span>
+  </div>
+  <div class="wo-item">
+    <div><div class="wo-title">IC community-hub creative swap</div><div class="wo-meta">ts 1777986496 · Leo</div></div>
+    <span class="wo-status wo-flight">In flight</span>
+  </div>
+  <div class="wo-item">
+    <div><div class="wo-title">SynthFlow → GHL connection</div><div class="wo-meta">ts 1777961430 · Leo</div></div>
+    <span class="wo-status wo-flight">In flight</span>
+  </div>
+  <div class="wo-item">
+    <div><div class="wo-title">Finance CC v2 StaticCrypt</div><div class="wo-meta">ts 1778009604 · Leo</div></div>
+    <span class="wo-status wo-flight">In flight</span>
+  </div>
+  <div class="wo-item">
+    <div><div class="wo-title">command-center-skill Drive subfolder move</div><div class="wo-meta">ts 1778011228 · Leo</div></div>
+    <span class="wo-status wo-flight">In flight</span>
+  </div>
+
+  <!-- QUICK LINKS -->
+  <div class="section-label" style="margin-top:20px;">Quick Links</div>
+  <div class="quick-links">
+    <a href="https://app.gohighlevel.com" class="ql" target="_blank">📊 GHL</a>
+    <a href="https://app.qbo.intuit.com" class="ql" target="_blank">📗 QuickBooks</a>
+    <a href="https://business.facebook.com/adsmanager" class="ql" target="_blank">📱 Meta Ads</a>
+    <a href="https://hyperagent.com" class="ql" target="_blank">🤖 Hyperagent</a>
+    <a href="https://github.com/bennett-maxwell/advaita-agent-audit" class="ql" target="_blank">💻 GitHub</a>
+    <a href="https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY" class="ql" target="_blank">📁 Drive Skills</a>
+    <a href="https://mapki.franchiseki.com" class="ql" target="_blank">🗺️ MapKi</a>
+    <a href="https://ads.google.com" class="ql" target="_blank">🔍 Google Ads</a>
+    <a href="https://app.synthflow.ai" class="ql" target="_blank">📞 SynthFlow</a>
+    <a href="https://app.instantly.ai" class="ql" target="_blank">📧 Instantly</a>
+  </div>
+
+  <div style="text-align:center;padding:20px 0 8px;font-size:10px;color:#C7C7CC;">
+    FKI Command Center · CEO OS v3 · Cached 2hr via Squirrel Pulse · May 5, 2026
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Copied! Paste in Hyperagent to dispatch →</div>
+
+<script>
+// Cache time
+const d = new Date();
+document.getElementById('cache-time').textContent = d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'America/Denver'}) + ' MDT';
+
+// Domain tabs
+function showDomain(domain, btn) {
+  document.querySelectorAll('.domain-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('domain-' + domain).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Dispatch to clipboard
+function dispatch(title, action) {
+  const msg = `DISPATCH FROM FKI DASHBOARD
+
+Issue: ${title}
+Recommended action: ${action}
+
+→ Please route to @Leo and execute immediately.
+— Bennett (via CEO Dashboard ${new Date().toLocaleDateString()})`;
+  
+  navigator.clipboard.writeText(msg).then(() => {
+    showToast('Copied! Paste in Hyperagent → Squirrel will dispatch to Leo.');
+  }).catch(() => {
+    // Fallback for browsers that block clipboard
+    prompt('Copy this and paste in Hyperagent:', msg);
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Load hub-data.json if available
+fetch('../hub-data.json').then(r => r.json()).then(d => {
+  if (d.revenue) document.querySelector('.kpi-mini:nth-child(1) .kpi-mini-val').textContent = d.revenue;
+  if (d.runway) document.querySelector('.kpi-mini:nth-child(2) .kpi-mini-val').textContent = d.runway;
+  if (d.leads) document.querySelector('.kpi-mini:nth-child(3) .kpi-mini-val').textContent = d.leads;
+  if (d.autonomy) document.querySelector('.kpi-mini:nth-child(4) .kpi-mini-val').textContent = d.autonomy;
+}).catch(() => {}); // graceful fallback
+</script>
 
 </body>
 </html>

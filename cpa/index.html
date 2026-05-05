@@ -1,350 +1,64 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FKI — Cost Per Appointment Command Center</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0c;color:#e2e8f0;min-height:100vh}
-.hdr{background:linear-gradient(135deg,#f97316,#dc2626);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.hdr h1{font-size:1.15rem;font-weight:700}
-.hdr .sub{font-size:.68rem;opacity:.85;margin-bottom:2px}
-.badge{background:rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:.65rem;font-weight:600;margin-left:6px}
-.wrap{max-width:1400px;margin:0 auto;padding:18px 14px}
-.tab-section{margin-bottom:2px}
-.tab-label{font-size:.6rem;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;margin-top:14px}
-.tab-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:2px}
-.tab{padding:5px 12px;border-radius:5px;font-size:.7rem;font-weight:600;cursor:pointer;border:1px solid #334155;background:#1e293b;color:#64748b;transition:all .15s}
-.tab.active{color:#fff}
-.tab.date.active{background:#f97316;border-color:#f97316}
-.tab.view.active{background:#0ea5e9;border-color:#0ea5e9}
-.tab.brand.sh.active{background:#16a34a;border-color:#16a34a}
-.tab.brand.ic.active{background:#7c3aed;border-color:#7c3aed}
-.tab.brand.fki.active{background:#ea580c;border-color:#ea580c}
-.tab.brand.all.active{background:#0f172a;border-color:#475569;color:#e2e8f0}
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:12px 0}
-.kpi{background:#1e293b;border-radius:8px;padding:12px 10px;border:1px solid #334155;position:relative}
-.kpi.highlight{border-color:#f97316}
-.kpi .lbl{font-size:.58rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
-.kpi .val{font-size:1.4rem;font-weight:700;color:#f1f5f9}
-.kpi .val.sm{font-size:.9rem;color:#94a3b8;font-weight:500}
-.kpi .val.ok{color:#22c55e}
-.kpi .val.warn{color:#f59e0b}
-.kpi .val.bad{color:#ef4444}
-.kpi .src{font-size:.55rem;margin-top:2px;color:#475569}
-.kpi .src.verified{color:#22c55e}
-.kpi .src.cpah{color:#f59e0b}
-.alert-bar{background:#1c1917;border-left:3px solid #22c55e;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:.72rem;color:#94a3b8;line-height:1.5}
-.alert-bar strong{color:#22c55e}
-.tbl-wrap{background:#1e293b;border-radius:10px;overflow:hidden;border:1px solid #334155;margin-top:12px;overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:1050px}
-th{background:#0f172a;padding:8px 10px;text-align:left;font-size:.58rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;cursor:pointer;user-select:none}
-th:hover{color:#94a3b8}
-th.highlight-col{color:#f97316}
-th.rebook-col{color:#a78bfa;position:relative}
-th.rebook-col .tip{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#1e293b;border:1px solid #334155;border-radius:6px;padding:6px 10px;font-size:.65rem;white-space:nowrap;color:#e2e8f0;z-index:10;font-weight:400;text-transform:none;letter-spacing:0}
-th.rebook-col:hover .tip{display:block}
-td{padding:10px 10px;border-top:1px solid #152030;font-size:.77rem;white-space:nowrap}
-tr:hover td{background:rgba(249,115,22,.03)}
-.brand-tag{display:inline-block;padding:2px 6px;border-radius:6px;font-size:.58rem;font-weight:700;color:#fff}
-.sh-t{background:#16a34a}.ic-t{background:#7c3aed}.fki-t{background:#ea580c}
-.ok{color:#22c55e;font-weight:600}
-.warn{color:#f59e0b;font-weight:500}
-.bad{color:#ef4444;font-weight:600}
-.pend{color:#475569;font-style:italic;font-size:.68rem}
-.rebook-red{color:#ef4444;font-weight:600}
-.rebook-yellow{color:#f59e0b;font-weight:600}
-.rebook-green{color:#22c55e;font-weight:700}
-.rebook-pend{color:#475569;font-style:italic;font-size:.7rem}
-.total-row td{background:#0c1420;font-weight:700;border-top:2px solid #334155}
-.section-hdr{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748b;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
-.section-hdr::after{content:'';flex:1;height:1px;background:#1e293b}
-.data-badge{font-size:.55rem;padding:2px 6px;border-radius:4px;font-weight:600;vertical-align:middle}
-.db-verified{background:#22c55e22;color:#22c55e;border:1px solid #22c55e44}
-.db-cpah{background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44}
-.footer{text-align:center;font-size:.58rem;color:#334155;padding:14px;margin-top:8px}
-.no-data{text-align:center;padding:30px;color:#475569;font-size:.8rem}
-.revenue-bar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.rev-card{flex:1;min-width:120px;background:#1e293b;border-radius:8px;padding:12px;border:1px solid #334155}
-.rev-card .r-val{font-size:1.3rem;font-weight:700;color:#22c55e}
-.rev-card .r-lbl{font-size:.6rem;color:#64748b;text-transform:uppercase;margin-bottom:3px}
-.rev-card .r-sub{font-size:.62rem;color:#64748b;margin-top:2px}
-.rebook-note{background:#1c1917;border-left:3px solid #f59e0b;border-radius:6px;padding:10px 14px;margin-top:10px;font-size:.7rem;color:#94a3b8;line-height:1.5}
-</style></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPA Dashboard — FranchiseKI</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;background:#FFF;color:#1D1D1F}.header{padding:16px 24px;border-bottom:1px solid #E5E5EA;display:flex;justify-content:space-between;align-items:center}.header h1{font-size:17px;font-weight:700}.back{font-size:12px;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 12px;border-radius:8px}.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E5E5EA;border-bottom:1px solid #E5E5EA}.kpi-card{background:#FFF;padding:22px 18px;cursor:pointer;transition:background .15s;user-select:none;position:relative}.kpi-card:hover{background:#F9F9FB}.kpi-card.active{background:#F0F7FF}.kpi-card.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#0071E3}.kpi-label{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}.kpi-value{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:4px}.kpi-sub{font-size:11px;color:#8E8E93}.kpi-hint{font-size:10px;color:#0071E3;margin-top:8px;opacity:0;transition:opacity .2s}.kpi-card:hover .kpi-hint,.kpi-card.active .kpi-hint{opacity:1}.l2-panel{display:none;padding:20px 24px;border-bottom:1px solid #E5E5EA;background:#FAFAFA}.l2-panel.open{display:block;animation:slideDown .2s ease}@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}.l2-title{font-size:13px;font-weight:700;color:#1D1D1F;margin-bottom:14px}.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0F0F0}.row:last-of-type{border-bottom:none}.row-label{font-size:13px;color:#1D1D1F}.row-val{font-size:13px;font-weight:700}.sync-line{font-size:11px;color:#8E8E93;margin-top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.l3{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 11px;border-radius:8px}.footer{padding:10px 24px;text-align:center;font-size:10px;color:#C7C7CC;border-top:1px solid #E5E5EA}@media(max-width:480px){.kpi-value{font-size:28px}}
+  </style>
+</head>
 <body>
-<div class="hdr">
-  <div>
-    <div class="sub">FKI Command Center — v5</div>
-    <h1>CPA <span class="badge">Meta Live</span><span class="badge" style="background:rgba(245,158,11,.3)">CPAH via Ivan Bridge</span></h1>
+<div class="header"><h1>💸 Cost Per Appointment</h1><a href="../hub/" class="back">← Hub</a></div>
+<div class="kpi-row">
+  <div class="kpi-card" onclick="toggle('l2-cpab',this)">
+    <div class="kpi-label">Cost Per Appt Booked</div>
+    <div class="kpi-value" style="color:#FF9F0A;">$114</div>
+    <div class="kpi-sub">SH avg · IC $67</div>
+    <div class="kpi-hint">▼ Tap for brand breakdown</div>
   </div>
-  <div style="font-size:.65rem;opacity:.8;text-align:right">Updated May 1, 2026<br>GHL via Ivan CPAH Bridge</div>
+  <div class="kpi-card" onclick="toggle('l2-cpah',this)">
+    <div class="kpi-label">Cost Per Appt Showed</div>
+    <div class="kpi-value" style="color:#FF3B30;">$357</div>
+    <div class="kpi-sub">SH avg · vs $200 target</div>
+    <div class="kpi-hint">▼ Tap for show rate fix</div>
+  </div>
+  <div class="kpi-card" onclick="toggle('l2-glo',this)">
+    <div class="kpi-label">Best Deal (Glo Tanning)</div>
+    <div class="kpi-value" style="color:#34C759;" style="font-size:28px;">$974K</div>
+    <div class="kpi-sub">All-time revenue · replicate</div>
+    <div class="kpi-hint">▼ Tap for deal details</div>
+  </div>
 </div>
-
-<div class="wrap">
-<div class="alert-bar">
-  <strong>APPOINTMENT DATA FOUND</strong> — Ivan's CPAH Bridge (marketing-data.json, May 1 2026) has real booked + showed counts by brand and per-ad. <strong>Source: Ivan CPAH script via GHL + Meta attribution (unverified by Squirrel direct API).</strong> Full GHL direct connection WO in progress.
+<div id="l2-cpab" class="l2-panel">
+  <div class="l2-title">Cost Per Appointment Booked</div>
+  <div class="row"><div class="row-label">SH CPAB</div><div class="row-val" style="color:#FF9F0A;">$114</div></div>
+  <div class="row"><div class="row-label">IC CPAB</div><div class="row-val" style="color:#34C759;">$67</div></div>
+  <div class="row"><div class="row-label">SH leads 30D</div><div class="row-val">101 leads</div></div>
+  <div class="row"><div class="row-label">IC leads 30D</div><div class="row-val">98 leads</div></div>
+  <div class="row"><div class="row-label">SH booked</div><div class="row-val">47 appointments</div></div>
+  <div class="row"><div class="row-label">IC booked</div><div class="row-val">59 appointments</div></div>
+  <div class="sync-line">Meta Ads verified · CPAH Bridge (Ivan) · <a href="https://business.facebook.com/adsmanager" class="l3" target="_blank">Open Meta →</a></div>
 </div>
-
-<!-- DATE + VIEW TABS -->
-<div class="tab-label">Date Range</div>
-<div class="tab-row">
-  <div class="tab date active" data-period="30d" onclick="setPeriod(this)">30 Days</div>
-  <div class="tab date" data-period="90d" onclick="setPeriod(this)">90 Days (Per-Ad)</div>
-  <div class="tab date" data-period="today" onclick="setPeriod(this)">Today</div>
-  <div class="tab date" data-period="7d" onclick="setPeriod(this)">Last 7D</div>
-  <div class="tab date" data-period="thisMonth" onclick="setPeriod(this)">This Month</div>
-  <div class="tab date" data-period="lastMonth" onclick="setPeriod(this)">Last Month</div>
+<div id="l2-cpah" class="l2-panel">
+  <div class="l2-title">Cost Per Appointment Showed</div>
+  <div class="row"><div class="row-label">SH CPAH</div><div class="row-val" style="color:#FF3B30;">$357</div></div>
+  <div class="row"><div class="row-label">IC CPAH</div><div class="row-val" style="color:#FF3B30;">$330</div></div>
+  <div class="row"><div class="row-label">SH show rate</div><div class="row-val" style="color:#FF9F0A;">31.9% vs 70% target</div></div>
+  <div class="row"><div class="row-label">IC show rate</div><div class="row-val" style="color:#FF3B30;">20.3% vs 70% target</div></div>
+  <div class="row"><div class="row-label">Fix: 3-touch reminders</div><div class="row-val" style="color:#FF3B30;">NOT LIVE</div></div>
+  <div class="sync-line">GHL Location 14RD8KklxR9G4e0Rf7v2 · <a href="https://app.gohighlevel.com" class="l3" target="_blank">Open GHL →</a></div>
 </div>
-<div class="tab-label">Brand Filter</div>
-<div class="tab-row">
-  <div class="tab brand all active" data-brand="all" onclick="setBrand(this)">All Brands</div>
-  <div class="tab brand sh" data-brand="SH" onclick="setBrand(this)">Salad House</div>
-  <div class="tab brand ic" data-brand="IC" onclick="setBrand(this)">Indy Clover</div>
-  <div class="tab brand fki" data-brand="FKI" onclick="setBrand(this)">FKI</div>
+<div id="l2-glo" class="l2-panel">
+  <div class="l2-title">Glo Tanning — Best Deal Benchmark</div>
+  <div class="row"><div class="row-label">All-time revenue from deal</div><div class="row-val" style="color:#34C759;">$974,000</div></div>
+  <div class="row"><div class="row-label">Lead source</div><div class="row-val">Verify from GHL won opps</div></div>
+  <div class="row"><div class="row-label">Goal: replicate this pattern</div><div class="row-val">Target 3+ per month</div></div>
+  <div class="row"><div class="row-label">Current: cost per signed deal</div><div class="row-val" style="color:#FF3B30;">NOT TRACKED</div></div>
+  <div class="sync-line">GHL Pipeline vUMUWSpK5v217qHsFH5k · <a href="https://app.gohighlevel.com" class="l3" target="_blank">Open GHL →</a></div>
 </div>
-
-<!-- KPIs -->
-<div class="kpi-row" id="kpis"></div>
-
-<!-- REVENUE SUMMARY -->
-<div class="section-hdr" id="rev-hdr">Revenue by Brand <span class="data-badge db-cpah">Ivan QB Bridge</span></div>
-<div class="revenue-bar" id="rev-bar"></div>
-
-<!-- MAIN TABLE -->
-<div class="section-hdr" id="tbl-hdr">Campaign / Ad Breakdown</div>
-<div class="tbl-wrap">
-<table id="main-table">
-<thead><tr id="thead"></tr></thead>
-<tbody id="tbody"></tbody>
-</table>
-</div>
-<div class="rebook-note" id="rebook-note" style="display:none">
-  &#9888;&#65039; Rebooking tracking goes live when GHL rebook sequence is deployed
-</div>
-</div>
-<div class="footer">FKI CPA Command Center v5 — Squirrel — Meta direct API — Appointments via Ivan CPAH Bridge (GHL+Meta+QB) — dashboard.franchiseki.com/cpa — 2026-05-05</div>
-
+<div class="footer">Meta Ads + GHL bridge · Cached 2hr · May 5, 2026</div>
 <script>
-// ========================================================
-// DATA — Multi-period, all sources
-// ========================================================
-const PERIODS={
- '30d':{
-  label:"30 Days (Ivan CPAH Bridge ~May 1)",
-  dataSource:"Ivan CPAH Bridge + Meta Ads API",
-  summary:{
-   SH:{spend:5358,leads:252,cpl:21.26,booked:47,showed:15,showPct:31.9,cpab:114,cpah:357,revenue:25000,roas:4.67,noShows:32,rebooked:0,rebookRate:0},
-   IC:{spend:3958,leads:200,cpl:19.79,booked:59,showed:12,showPct:20.3,cpab:67,cpah:330,revenue:21000,roas:5.31,noShows:47,rebooked:0,rebookRate:0},
-   FKI:{spend:0,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,revenue:70386,roas:null,noShows:0,rebooked:0,rebookRate:null}
-  },
-  campaigns:[
-   {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:3892,leads:101,cpl:38.53,booked:47,showed:15,showPct:31.9,cpab:82.8,cpah:259,ctr:2.82,cpc:3.76,impressions:36673,noShows:32,rebooked:0},
-   {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:4180,leads:98,cpl:42.66,booked:59,showed:12,showPct:20.3,cpab:70.8,cpah:348,ctr:3.89,cpc:2.37,impressions:45360,noShows:47,rebooked:0},
-   {name:"[SH] Video Series",adset:"Script 2 (Best)",brand:"SH",spend:126,leads:7,cpl:18.0,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:12.11,cpc:1.13,impressions:925,noShows:null,rebooked:0},
-   {name:"[SH] Video Series",adset:"Script 1",brand:"SH",spend:128,leads:1,cpl:null,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:9.11,cpc:1.20,impressions:1163,noShows:null,rebooked:0},
-   {name:"[SH] Video Series",adset:"Script 3",brand:"SH",spend:66,leads:0,cpl:null,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:6.08,cpc:2.05,impressions:526,noShows:null,rebooked:0},
-   {name:"[FKI] 2nd Opinion",adset:"Images v1",brand:"FKI",spend:242,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:4.25,cpc:1.54,impressions:3693,noShows:0,rebooked:0},
-   {name:"[FKI] 2nd Opinion",adset:"AI Ad v1",brand:"FKI",spend:95,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:5.10,cpc:2.78,impressions:667,noShows:0,rebooked:0},
-   {name:"[FKI] 2nd Opinion",adset:"AIV v1",brand:"FKI",spend:166,leads:0,cpl:null,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:4.30,cpc:3.02,impressions:1280,noShows:0,rebooked:0}
-  ],
-  revenue:{glo:974000,fki:70386,sh:25000,ic:21000,unknown:86000}
- },
- '90d':{
-  label:"90 Days — Per-Ad CPAH (Ivan Bridge)",
-  dataSource:"Ivan CPAH Bridge — GHL+Meta+QB (90-day window, ~Apr 26)",
-  summary:{
-   SH:{spend:30828,leads:1905,cpl:16.2,booked:145,showed:44,showPct:30.3,cpah:700,revenue:25000,roas:null,noShows:101,rebooked:0,rebookRate:0},
-   IC:{spend:8501,leads:582,cpl:14.61,booked:65,showed:11,showPct:16.7,cpah:787,revenue:21000,roas:2.54,noShows:54,rebooked:0,rebookRate:0},
-   FKI:{spend:5100,leads:8,cpl:637,booked:1,showed:0,showPct:0,cpah:null,revenue:70386,roas:12.0,noShows:1,rebooked:0,rebookRate:null}
-  },
-  campaigns:[
-   {name:"Investor Headlines",adset:"FNL v1",brand:"SH",spend:16186,leads:894,cpl:18.10,booked:81,showed:24,showPct:29.5,cpab:199,cpah:676,ctr:null,cpc:null,impressions:null,noShows:57,rebooked:0},
-   {name:"Investor Headlines",adset:"FNL v2",brand:"SH",spend:7053,leads:340,cpl:20.74,booked:33,showed:10,showPct:30.8,cpab:215,cpah:699,ctr:null,cpc:null,impressions:null,noShows:23,rebooked:0},
-   {name:"Investor Headlines",adset:"FNL v3",brand:"SH",spend:3886,leads:389,cpl:9.99,booked:15,showed:4,showPct:29.9,cpab:267,cpah:893,ctr:null,cpc:null,impressions:null,noShows:11,rebooked:0},
-   {name:"Investor Headlines",adset:"FNL v4",brand:"SH",spend:3119,leads:254,cpl:12.28,booked:15,showed:5,showPct:31.1,cpab:207,cpah:665,ctr:null,cpc:null,impressions:null,noShows:10,rebooked:0},
-   {name:"Standard Headlines",adset:"SH v1",brand:"SH",spend:584,leads:28,cpl:20.86,booked:2,showed:1,showPct:26.7,cpab:310,cpah:1159,ctr:null,cpc:null,impressions:null,noShows:1,rebooked:0},
-   {name:"Investor Headlines",adset:"IC v1.1",brand:"IC",spend:8501,leads:582,cpl:14.61,booked:65,showed:11,showPct:16.7,cpab:131,cpah:787,ctr:null,cpc:null,impressions:null,noShows:54,rebooked:0},
-   {name:"v1 Static",adset:"FKI 2nd Opinion",brand:"FKI",spend:4469,leads:7,cpl:638,booked:1,showed:0,showPct:0,cpab:4637,cpah:null,ctr:null,cpc:null,impressions:null,noShows:1,rebooked:0},
-   {name:"v1 AIV",adset:"FKI 2nd Opinion",brand:"FKI",spend:631,leads:1,cpl:631,booked:0,showed:0,showPct:0,cpab:null,cpah:null,ctr:null,cpc:null,impressions:null,noShows:0,rebooked:0}
-  ],
-  revenue:{glo:974000,fki:70386,sh:25000,ic:21000,unknown:86000}
- },
- 'today':{label:"Today (May 4)",dataSource:"Meta Ads API",summary:{SH:{spend:35.06,leads:2,cpl:17.53},IC:{spend:106.67,leads:3,cpl:35.56},FKI:{spend:0,leads:0}},campaigns:[
-  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:35.06,leads:2,cpl:17.53,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.86,cpc:3.90,impressions:185,noShows:null,rebooked:0},
-  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:106.67,leads:3,cpl:35.56,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.52,cpc:1.84,impressions:1283,noShows:null,rebooked:0}
- ],revenue:null},
- '7d':{label:"Last 7 Days",dataSource:"Meta Ads API",summary:{SH:{spend:349,leads:11,cpl:31.74},IC:{spend:1154,leads:14,cpl:82.45},FKI:{spend:0,leads:0}},campaigns:[
-  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:349.14,leads:11,cpl:31.74,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:3.60,cpc:3.80,impressions:2558,noShows:null,rebooked:0},
-  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:1154.29,leads:14,cpl:82.45,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:2.86,cpc:3.42,impressions:11801,noShows:null,rebooked:0}
- ],revenue:null},
- 'thisMonth':{label:"This Month (May 1-4)",dataSource:"Meta Ads API",summary:{SH:{spend:174,leads:7,cpl:24.86},IC:{spend:678,leads:11,cpl:61.63},FKI:{spend:0,leads:0}},campaigns:[
-  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:174.03,leads:7,cpl:24.86,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:2.56,cpc:4.83,impressions:1404,noShows:null,rebooked:0},
-  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:677.88,leads:11,cpl:61.63,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:3.12,cpc:2.52,impressions:8630,noShows:null,rebooked:0}
- ],revenue:null},
- 'lastMonth':{label:"Last Month (April 2026)",dataSource:"Meta Ads API",summary:{SH:{spend:9357,leads:238,cpl:39.3},IC:{spend:3899,leads:100,cpl:38.99},FKI:{spend:502,leads:0}},campaigns:[
-  {name:"[SH] Leadform – FNL",adset:"Investor Headlines",brand:"SH",spend:4903,leads:126,cpl:38.91,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:2.87,cpc:3.61,impressions:47412,noShows:null,rebooked:0},
-  {name:"[IC] Leadform – FNL",adset:"Investor Headlines v1.1",brand:"IC",spend:3899,leads:100,cpl:38.99,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.11,cpc:2.31,impressions:41190,noShows:null,rebooked:0},
-  {name:"[SH] Video Series",adset:"Script 2",brand:"SH",spend:454,leads:12,cpl:37.88,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:6.86,cpc:1.63,impressions:4051,noShows:null,rebooked:0},
-  {name:"[FKI] 2nd Opinion",adset:"All Creatives",brand:"FKI",spend:502,leads:0,cpl:null,booked:null,showed:null,showPct:null,cpab:null,cpah:null,ctr:4.36,cpc:2.04,impressions:5640,noShows:null,rebooked:0}
- ],revenue:null}
-};
-
-let period='30d',brand='all',sortCol='spend',sortDir=-1;
-function setPeriod(el){document.querySelectorAll('.tab.date').forEach(t=>t.classList.remove('active'));el.classList.add('active');period=el.dataset.period;render()}
-function setBrand(el){document.querySelectorAll('.tab.brand').forEach(t=>t.classList.remove('active'));el.classList.add('active');brand=el.dataset.brand;render()}
-function sortBy(c){if(sortCol===c)sortDir*=-1;else{sortCol=c;sortDir=-1}render()}
-function $n(n,d=0){return n!=null?'$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}):'—'}
-function pct(n){return n!=null?n.toFixed(1)+'%':'—'}
-function cplC(v){if(!v)return'';if(v<25)return'ok';if(v<55)return'warn';return'bad'}
-function cpahC(v){if(!v)return'';if(v<500)return'ok';if(v<900)return'warn';return'bad'}
-function showC(v){if(!v)return'';if(v>=30)return'ok';if(v>=20)return'warn';return'bad'}
-function rebookC(v){
-  if(v===null||v===undefined)return'rebook-pend';
-  if(v===0)return'rebook-red';
-  if(v<40)return'rebook-yellow';
-  return'rebook-green';
-}
-function rebookDisplay(rebooked,noShows){
-  if(rebooked===0&&noShows===0)return'<span class="rebook-pend">—</span>';
-  if(rebooked===0)return'<span class="rebook-red">0%</span>';
-  const r=Math.round(rebooked/noShows*100);
-  if(r<40)return`<span class="rebook-yellow">${r}%</span>`;
-  return`<span class="rebook-green">${r}%</span>`;
-}
-
-function render(){
- const D=PERIODS[period];
- let rows=D.campaigns.filter(c=>brand==='all'||c.brand===brand);
- rows.sort((a,b)=>{let av=a[sortCol]??-Infinity,bv=b[sortCol]??-Infinity;return sortDir*(bv<av?-1:bv>av?1:0)});
- const hasCpah=['30d','90d'].includes(period);
-
- // KPIs
- const sum=D.summary;
- const brands=brand==='all'?['SH','IC','FKI']:[brand];
- let totSpend=brands.reduce((s,b)=>s+(sum[b]?.spend||0),0);
- let totLeads=brands.reduce((s,b)=>s+(sum[b]?.leads||0),0);
- let totBooked=brands.reduce((s,b)=>s+(sum[b]?.booked||0),0);
- let totShowed=brands.reduce((s,b)=>s+(sum[b]?.showed||0),0);
- let totNoShows=brands.reduce((s,b)=>s+(sum[b]?.noShows||0),0);
- let bCPL=totLeads>0?(totSpend/totLeads):null;
- let bCPAB=totBooked>0?(totSpend/totBooked):null;
- let bCPAH=totShowed>0?(totSpend/totShowed):null;
- let bShow=totBooked>0?(totShowed/totBooked*100):null;
-
- let kpiHtml=`
-  <div class="kpi"><div class="lbl">Total Spend</div><div class="val">${$n(totSpend)}</div><div class="src verified">Meta API</div></div>
-  <div class="kpi"><div class="lbl">Leads</div><div class="val">${totLeads||'—'}</div><div class="src verified">Meta API</div></div>
-  <div class="kpi"><div class="lbl">CPL</div><div class="val ${cplC(bCPL)}">${bCPL?$n(bCPL,2):'—'}</div><div class="src verified">Verified</div></div>`;
- if(hasCpah){
-  kpiHtml+=`
-  <div class="kpi highlight"><div class="lbl">Appts Booked</div><div class="val ${totBooked>0?'warn':''}">${totBooked||'—'}</div><div class="src cpah">Ivan Bridge</div></div>
-  <div class="kpi highlight"><div class="lbl">Appts Showed</div><div class="val ${totShowed>0?'ok':''}">${totShowed||'—'}</div><div class="src cpah">Ivan Bridge</div></div>
-  <div class="kpi highlight"><div class="lbl">Show Rate</div><div class="val ${showC(bShow)}">${pct(bShow)}</div><div class="src cpah">Ivan Bridge</div></div>
-  <div class="kpi highlight"><div class="lbl">No-Shows</div><div class="val ${totNoShows>0?'warn':''}">${totNoShows||'—'}</div><div class="src cpah">Ivan Bridge</div></div>
-  <div class="kpi highlight"><div class="lbl">Cost/Appt Booked</div><div class="val">${bCPAB?$n(bCPAB,0):'—'}</div><div class="src cpah">Ivan Bridge</div></div>
-  <div class="kpi highlight"><div class="lbl">Cost/Appt Held</div><div class="val ${cpahC(bCPAH)}">${bCPAH?$n(bCPAH,0):'—'}</div><div class="src cpah">Ivan Bridge</div></div>`;
- } else {
-  kpiHtml+=`<div class="kpi"><div class="lbl">Appts Booked</div><div class="val sm">Switch to 30D</div><div class="src cpah">Ivan Bridge data</div></div>
-  <div class="kpi"><div class="lbl">Appts Showed</div><div class="val sm">Switch to 30D</div><div class="src cpah">Ivan Bridge data</div></div>`;
- }
- document.getElementById('kpis').innerHTML=kpiHtml;
-
- // Revenue
- const rev=D.revenue;
- const rEl=document.getElementById('rev-bar');
- if(rev){
-  rEl.innerHTML=`
-   <div class="rev-card"><div class="r-lbl">Glo Tanning</div><div class="r-val">$${(rev.glo/1000).toFixed(0)}K</div><div class="r-sub">All-time QB revenue</div></div>
-   <div class="rev-card"><div class="r-lbl">FKI Brokerage</div><div class="r-val">$${(rev.fki/1000).toFixed(0)}K</div><div class="r-sub">QB revenue</div></div>
-   <div class="rev-card"><div class="r-lbl">Salad House</div><div class="r-val">$${(rev.sh/1000).toFixed(0)}K</div><div class="r-sub">QB revenue</div></div>
-   <div class="rev-card"><div class="r-lbl">Indy Clover</div><div class="r-val">$${(rev.ic/1000).toFixed(0)}K</div><div class="r-sub">QB revenue</div></div>
-   <div class="rev-card"><div class="r-lbl">All-Time Revenue</div><div class="r-val" style="color:#f1f5f9">$1.13M</div><div class="r-sub">$116K ad spend → $1.13M</div></div>`;
-  document.getElementById('rev-hdr').style.display='';
- } else {
-  rEl.innerHTML='';
-  document.getElementById('rev-hdr').style.display='none';
- }
-
- // Table header
- let thHtml=`<th onclick="sortBy('name')">Campaign ↕</th><th onclick="sortBy('brand')">Brand</th><th onclick="sortBy('adset')">Ad Set</th>
-  <th onclick="sortBy('spend')">Spend ↕</th><th onclick="sortBy('leads')">Leads ↕</th><th onclick="sortBy('cpl')" class="${hasCpah?'':'highlight-col'}">CPL ↕</th>`;
- if(hasCpah){
-  thHtml+=`<th onclick="sortBy('booked')" class="highlight-col">Booked ↕</th>
-  <th onclick="sortBy('showed')" class="highlight-col">Showed ↕</th>
-  <th onclick="sortBy('showPct')" class="highlight-col">Show% ↕</th>
-  <th onclick="sortBy('noShows')" class="highlight-col">No-Shows ↕</th>
-  <th onclick="sortBy('rebooked')" class="rebook-col">Rebooked ↕<span class="tip">Awaiting GHL rebook sequence deploy</span></th>
-  <th onclick="sortBy('rebookRate')" class="rebook-col">Rebook Rate ↕<span class="tip">Target: 40%+ — GHL rebook sequence deploying this week</span></th>
-  <th onclick="sortBy('cpab')" class="highlight-col">CPAB ↕</th>
-  <th onclick="sortBy('cpah')" class="highlight-col">CPAH ↕</th>`;
- }
- thHtml+=`<th onclick="sortBy('ctr')">CTR</th><th onclick="sortBy('impressions')">Impr.</th>`;
- document.getElementById('thead').innerHTML=thHtml;
-
- // Show rebook note when cpah period
- document.getElementById('rebook-note').style.display=hasCpah?'':'none';
-
- if(!rows.length){document.getElementById('tbody').innerHTML=`<tr><td colspan="15" class="no-data">No campaigns for this filter.</td></tr>`;return}
- let totS=rows.reduce((s,r)=>s+r.spend,0);
- let totL=rows.reduce((s,r)=>s+r.leads,0);
- let totB=rows.reduce((s,r)=>s+(r.booked||0),0);
- let totSh=rows.reduce((s,r)=>s+(r.showed||0),0);
- let totNS=rows.reduce((s,r)=>s+(r.noShows||0),0);
- let avgCPL=totL>0?$n(totS/totL,2):'—';
-
- let html=rows.map(r=>{
-  const tag=r.brand==='SH'?'sh-t':r.brand==='IC'?'ic-t':'fki-t';
-  // Rebook rate for row
-  let rebookCell='';
-  if(hasCpah){
-    const ns=r.noShows;
-    const rb=r.rebooked||0;
-    if(ns===null||ns===undefined){
-      rebookCell='<span class="rebook-pend" title="GHL rebook sequence deploying this week">—</span>';
-    } else if(rb===0){
-      rebookCell='<span class="rebook-pend" title="GHL rebook sequence deploying this week">— pending</span>';
-    } else {
-      const rr=Math.round(rb/ns*100);
-      rebookCell=`<span class="${rebookC(rr)}">${rr}%</span>`;
-    }
-  }
-  let tr=`<tr>
-   <td>${r.name}</td>
-   <td><span class="brand-tag ${tag}">${r.brand}</span></td>
-   <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${r.adset||'—'}</td>
-   <td class="warn">${$n(r.spend,2)}</td>
-   <td>${r.leads||'0'}</td>
-   <td class="${cplC(r.cpl)}">${r.cpl?$n(r.cpl,2):'Awareness'}</td>`;
-  if(hasCpah){
-   tr+=`<td class="${r.booked>0?'warn':r.booked===0?'bad':''}">${r.booked!=null?r.booked:''}</td>
-   <td class="${r.showed>0?'ok':r.showed===0&&r.booked!=null?'bad':''}">${r.showed!=null?r.showed:''}</td>
-   <td class="${showC(r.showPct)}">${pct(r.showPct)}</td>
-   <td class="${r.noShows>0?'warn':''}">${r.noShows!=null?r.noShows:''}</td>
-   <td>${r.rebooked||0}</td>
-   <td>${rebookCell}</td>
-   <td class="${cpahC(r.cpab)}">${r.cpab?$n(r.cpab,0):'—'}</td>
-   <td class="${cpahC(r.cpah)}">${r.cpah?$n(r.cpah,0):'—'}</td>`;
-  }
-  tr+=`<td>${r.ctr!=null?r.ctr.toFixed(2)+'%':'—'}</td>
-   <td>${r.impressions!=null?Number(r.impressions).toLocaleString():'—'}</td>
-  </tr>`;
-  return tr}).join('');
-
- let totRow=`<tr class="total-row">
-  <td><strong>TOTAL</strong></td><td></td><td></td>
-  <td><strong>${$n(totS,2)}</strong></td>
-  <td><strong>${totL}</strong></td>
-  <td><strong>${avgCPL}</strong></td>`;
- if(hasCpah){
-  totRow+=`<td><strong>${totB||'—'}</strong></td>
-  <td><strong>${totSh||'—'}</strong></td>
-  <td><strong>${totB>0?pct(totSh/totB*100):'—'}</strong></td>
-  <td><strong>${totNS||'—'}</strong></td>
-  <td><strong>0</strong></td>
-  <td><strong><span class="rebook-pend">— pending</span></strong></td>
-  <td><strong>${totB>0?$n(totS/totB,0):'—'}</strong></td>
-  <td><strong>${totSh>0?$n(totS/totSh,0):'—'}</strong></td>`;
- }
- totRow+=`<td></td><td></td></tr>`;
- document.getElementById('tbody').innerHTML=html+totRow;
- document.querySelector('.hdr h1').childNodes[0].textContent='';
-}
-render();
+function toggle(id,card){const p=document.getElementById(id);const o=p.classList.contains('open');document.querySelectorAll('.l2-panel').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));if(!o){p.classList.add('open');card.classList.add('active');}}
 </script>
-</body></html>
+</body>
+</html>
