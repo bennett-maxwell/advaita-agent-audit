@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "updated": "2026-05-05T21:04:00Z",
-    "source": "Ivan-CC Work-Share Sprint May 5 PM",
+    "updated": "2026-05-05T22:45:00Z",
+    "source": "Squirrel Day 2 R2 extra-push",
     "next_refresh": "2hr Pulse"
   },
-  "health_score": 68,
+  "health_score": 69,
   "health_score_breakdown": {
     "revenue": 30,
     "pipeline": 25,
@@ -13,6 +13,8 @@
   },
   "deployment_deadline": "2026-05-17",
   "deployment_days_remaining": 12,
+  "deployment_reqs_met": 2,
+  "deployment_reqs_total": 8,
   "deployment_requirements": [
     {
       "name": "Machines 24/7",
@@ -44,9 +46,11 @@
     },
     {
       "name": "Advaita Packaged",
-      "status": "red"
+      "status": "green"
     }
   ],
+  "google_ads_deadline_days": 8,
+  "google_ads_cid": "340-719-9643",
   "legal_deadline_may27_days": 22,
   "legal_deadline_may13_days": 8,
   "revenue_ytd": 305000,
@@ -55,10 +59,14 @@
   "leads_unassigned": 506,
   "autonomy_pct": 68,
   "lead_processing_pct": 22,
-  "machine_ram_gb": 3.2,
+  "machine_ram_gb": 0.5,
   "synthflow_connected": false,
   "meta_token_expired": true,
-  "ghl_pit_expired": false,
+  "ghl_pit_expired": true,
+  "cc_utilization_amex": 74,
+  "cc_utilization_pce": 80,
+  "cc_total_debt": 175281,
+  "weekly_burn": 7659,
   "cpab_sh": 114,
   "cpab_ic": 67,
   "show_rate_sh_pct": 31.9,
@@ -67,71 +75,45 @@
   "mapki_brands": 3239,
   "franchise_score_deployed": 0,
   "content_queued": 60,
-  "linkedin_next_post": "2026-05-07",
-  "pulse_last_sent": "2026-05-05T14:58:00Z",
+  "linkedin_status": "recovered",
+  "linkedin_next_post": "2026-05-07T13:30:00Z",
+  "skills_count": 23,
+  "skills_council_verified": 18,
+  "pulse_last_sent": "2026-05-05T22:00:00Z",
+  "daily_digest_queued": 0,
+  "active_ccs": [
+    "/hub/",
+    "/finance-hub/",
+    "/marketing/",
+    "/meeting-prep/",
+    "/social/",
+    "/autonomy/",
+    "/seo/",
+    "/mapki/",
+    "/cpa/",
+    "/software/",
+    "/employees/",
+    "/legal/",
+    "/lead-funnel/",
+    "/advaita/",
+    "/daily-digest/",
+    "/skills-registry/"
+  ],
   "leo_wos_in_flight": [
     {
-      "ts": "1778008486",
-      "desc": "GHL workflows DRAFT \u2192 publish (Playwright)",
-      "status": "dispatched"
-    },
-    {
-      "ts": "1778011802",
-      "desc": "hub-data.json Pulse auto-wiring",
-      "status": "pending"
-    },
-    {
-      "ts": "1778011228",
-      "desc": "command-center-skill subfolder move",
-      "status": "pending"
-    },
-    {
-      "ts": "1777986496",
-      "desc": "IC community-hub creative",
+      "ts": "1778019989",
+      "desc": "Lead Processing 25-item plan (LP-01 through LP-23)",
       "status": "in-flight"
     },
     {
-      "ts": "1777963849",
-      "desc": "GSC sitemap + GA4",
-      "status": "in-flight"
+      "ts": "1778015056",
+      "desc": "hub-data.json live wiring (GHL/QB/RAM/SynthFlow/Piper)",
+      "status": "pending"
     },
     {
-      "ts": "new-t13",
-      "desc": "GHL 3-touch SMS reminders",
-      "status": "dispatched"
-    },
-    {
-      "ts": "new-t14",
-      "desc": "No-show rebook automation",
-      "status": "dispatched"
-    },
-    {
-      "ts": "new-t18",
-      "desc": "Reed \u2192 Piper \u2192 Calendar wire",
-      "status": "dispatched"
-    },
-    {
-      "ts": "new-t33",
-      "desc": "Evolver wiring (openclaw.json)",
-      "status": "dispatched"
-    },
-    {
-      "ts": "new-t34",
-      "desc": "Connie DWD fix",
-      "status": "dispatched"
+      "ts": "1778014332",
+      "desc": "RAM self-heal pkill+purge",
+      "status": "sent"
     }
-  ],
-  "ivan_cc_sprint_may5pm": {
-    "completed": [
-      "IC/SH/SRP brand skill Step 0 photography mandate patched",
-      "GHL webhook :8742 \u2014 4 new fields (ai_score/ai_tier/recommended_brand/ai_scored_at)",
-      "lead-scoring-engine.py AgentOps instrumented",
-      "mapki _redirects committed (root 404 fix)",
-      "AGENT-MEMORY.md Section G added",
-      "SOUL.md restored: Rachel/Lex/Ace personal agents",
-      "IndexNow key committed + 6 articles pinged (202 OK)",
-      "capcut_broll_automation.py created (George mandate compliant)"
-    ],
-    "timestamp": "2026-05-05T21:04:00Z"
-  }
+  ]
 }
