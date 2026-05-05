@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKI SEO Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh}
+.header{background:#0F1923;color:#fff;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.header-left h1{font-size:1.6rem;font-weight:800;color:#10b981;letter-spacing:-0.02em}
+.header-left p{color:#94a3b8;font-size:0.85rem;margin-top:4px}
+.header-right{text-align:right;color:#64748b;font-size:0.8rem}
+.container{max-width:1200px;margin:0 auto;padding:24px 20px}
+.score-banner{background:linear-gradient(135deg,#0F1923 0%,#1a2a3a 100%);border-radius:16px;padding:32px;margin-bottom:24px;display:flex;align-items:center;gap:32px;flex-wrap:wrap}
+.score-big{font-size:5rem;font-weight:900;color:#10b981;line-height:1;min-width:180px;text-align:center}
+.score-big span{font-size:2rem;color:#64748b}
+.score-info h2{color:#fff;font-size:1.2rem;font-weight:600;margin-bottom:8px}
+.score-info p{color:#94a3b8;font-size:0.85rem;margin-bottom:16px}
+.progress-bar{background:#1e3a2f;border-radius:999px;height:12px;width:400px;max-width:100%;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#10b981,#059669);height:100%;border-radius:999px;width:24%;transition:width 1s ease}
+.progress-label{color:#64748b;font-size:0.75rem;margin-top:6px}
+.section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.section-title{font-size:1rem;font-weight:700;color:#0F1923;margin-bottom:16px;display:flex;align-items:center;gap:8px;border-bottom:2px solid #10b981;padding-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{background:#f8fafc;color:#64748b;font-weight:600;text-align:left;padding:10px 12px;border-bottom:2px solid #e2e8f0}
+td{padding:10px 12px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tr:hover td{background:#f8fafc}
+tr:last-child td{border-bottom:none;font-weight:700;background:#f0fdf4}
+.score-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:700;font-size:0.8rem}
+.score-red{background:#fee2e2;color:#dc2626}
+.score-yellow{background:#fef3c7;color:#d97706}
+.score-green{background:#dcfce7;color:#16a34a}
+.grade{font-weight:700;min-width:28px;display:inline-block;text-align:center}
+.status-pill{display:inline-block;padding:3px 8px;border-radius:6px;font-size:0.75rem;font-weight:500;background:#f1f5f9;color:#475569}
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.article-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;border-left:3px solid #10b981}
+.article-card h4{font-size:0.82rem;font-weight:600;color:#1e293b;margin-bottom:4px}
+.article-card .size{font-size:0.75rem;color:#94a3b8}
+.infra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.infra-item{background:#f8fafc;border-radius:8px;padding:14px;display:flex;align-items:flex-start;gap:10px;border:1px solid #e2e8f0}
+.infra-icon{font-size:1.2rem;flex-shrink:0}
+.infra-text strong{display:block;font-size:0.83rem;font-weight:600;color:#1e293b}
+.infra-text span{font-size:0.75rem;color:#64748b}
+.gaps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.gap-card{border-radius:8px;padding:14px;border-left:4px solid;display:flex;align-items:flex-start;gap:10px}
+.gap-critical{background:#fff5f5;border-color:#dc2626}
+.gap-warning{background:#fffbeb;border-color:#d97706}
+.gap-card .gap-icon{font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.gap-card strong{display:block;font-size:0.83rem;font-weight:600;color:#1e293b;margin-bottom:2px}
+.gap-card p{font-size:0.75rem;color:#64748b}
+.phase{background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid #10b981}
+.phase.phase2{border-color:#f59e0b}
+.phase.phase3{border-color:#6366f1}
+.phase h4{font-size:0.9rem;font-weight:700;color:#1e293b;margin-bottom:8px}
+.phase ul{list-style:none;padding:0}
+.phase ul li{font-size:0.82rem;color:#475569;padding:4px 0;display:flex;align-items:flex-start;gap:6px}
+.phase ul li::before{content:"→";color:#10b981;font-weight:700;flex-shrink:0}
+.phase.phase2 ul li::before{color:#f59e0b}
+.phase.phase3 ul li::before{color:#6366f1}
+.projection{background:linear-gradient(135deg,#0F1923,#1a2a3a);border-radius:10px;padding:20px;margin-top:16px;text-align:center}
+.projection h3{color:#10b981;font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.projection p{color:#94a3b8;font-size:0.83rem}
+.owner-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.72rem;font-weight:600}
+.owner-squirrel{background:#dbeafe;color:#1d4ed8}
+.owner-leo{background:#ede9fe;color:#7c3aed}
+.due-today{background:#fee2e2;color:#dc2626;font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:999px}
+.due-week{background:#fef3c7;color:#d97706;font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:999px}
+.due-ongoing{background:#dcfce7;color:#16a34a;font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:999px}
+.stats-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.stat{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px 20px;text-align:center;flex:1;min-width:100px}
+.stat .num{font-size:1.8rem;font-weight:800;color:#10b981}
+.stat .lbl{font-size:0.75rem;color:#64748b;margin-top:2px}
+footer{background:#0F1923;color:#475569;text-align:center;padding:16px;font-size:0.75rem;margin-top:24px}
+@media(max-width:600px){.score-big{font-size:3.5rem}.score-banner{gap:20px}.progress-bar{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>🔍 SEO Command Center</h1>
+    <p>FKI / Franchise KI — Search Engine Optimization Intelligence</p>
+  </div>
+  <div class="header-right">
+    <div>Audit: business-audit-skill v2</div>
+    <div>Council: 4.4/5 verdict</div>
+    <div>Updated: May 5, 2026</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- OVERALL SCORE -->
+  <div class="score-banner">
+    <div>
+      <div class="score-big">24<span>/100</span></div>
+      <div style="color:#dc2626;font-size:0.75rem;font-weight:700;margin-top:8px;text-align:center">CRITICAL</div>
+    </div>
+    <div class="score-info">
+      <h2>Overall SEO Score — May 5, 2026</h2>
+      <p>Audit via business-audit-skill v2 (Layer 3: Brand &amp; Marketing) + SEO-specific assessment. 8 categories rated. AI search infrastructure in place but traditional SEO completely absent.</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:24%"></div></div>
+      <div class="progress-label">24/100 — Target: 62/100 in 30 days (Phase 1+2 complete)</div>
+    </div>
+  </div>
+
+  <!-- SCORE BREAKDOWN -->
+  <div class="section">
+    <div class="section-title">📊 Score Breakdown by Category</div>
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Score</th><th>Grade</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Website Technical SEO</strong></td>
+          <td><span class="score-pill score-yellow">52/100</span></td>
+          <td><span class="grade" style="color:#d97706">C</span></td>
+          <td><span class="status-pill">Functional but blind (81/100 on SEO Checkup, 0 GA4)</span></td>
+        </tr>
+        <tr>
+          <td><strong>AI Search (ChatGPT / Claude / Perplexity)</strong></td>
+          <td><span class="score-pill score-red">38/100</span></td>
+          <td><span class="grade" style="color:#f59e0b">D+</span></td>
+          <td><span class="status-pill">Infrastructure ✅ — 0 citations verified</span></td>
+        </tr>
+        <tr>
+          <td><strong>Content Production Velocity</strong></td>
+          <td><span class="score-pill score-red">28/100</span></td>
+          <td><span class="grade" style="color:#dc2626">D</span></td>
+          <td><span class="status-pill">12 articles live, target is 5/week</span></td>
+        </tr>
+        <tr>
+          <td><strong>Keyword Strategy</strong></td>
+          <td><span class="score-pill score-red">12/100</span></td>
+          <td><span class="grade" style="color:#dc2626">F</span></td>
+          <td><span class="status-pill">No formal strategy or research</span></td>
+        </tr>
+        <tr>
+          <td><strong>Backlink &amp; Authority Building</strong></td>
+          <td><span class="score-pill score-red">8/100</span></td>
+          <td><span class="grade" style="color:#dc2626">F</span></td>
+          <td><span class="status-pill">No outreach program, 0 submissions</span></td>
+        </tr>
+        <tr>
+          <td><strong>Local &amp; Franchise SEO</strong></td>
+          <td><span class="score-pill score-red">15/100</span></td>
+          <td><span class="grade" style="color:#dc2626">F</span></td>
+          <td><span class="status-pill">MapKI JSON-LD helps, no local strategy</span></td>
+        </tr>
+        <tr>
+          <td><strong>SEO Tracking &amp; Analytics</strong></td>
+          <td><span class="score-pill score-red">5/100</span></td>
+          <td><span class="grade" style="color:#dc2626">F</span></td>
+          <td><span class="status-pill" style="background:#fee2e2;color:#dc2626">🔴 BLIND — No GA4, No Search Console</span></td>
+        </tr>
+        <tr>
+          <td><strong>Brand-Specific SEO (IC / SH / SRP / FKI)</strong></td>
+          <td><span class="score-pill score-red">30/100</span></td>
+          <td><span class="grade" style="color:#dc2626">D</span></td>
+          <td><span class="status-pill">Content exists per brand, no targeting</span></td>
+        </tr>
+        <tr style="background:#f0fdf4">
+          <td><strong>OVERALL WEIGHTED SCORE</strong></td>
+          <td><span class="score-pill score-red" style="font-size:0.9rem">24/100</span></td>
+          <td><span class="grade" style="color:#dc2626;font-size:1rem">F</span></td>
+          <td><span class="status-pill" style="background:#fee2e2;color:#dc2626;font-weight:700">CRITICAL — Foundation exists, execution absent</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GITHUB ARTICLES -->
+  <div class="section">
+    <div class="section-title">📝 AI Search Content Library (GitHub /franchise-guides/)</div>
+    <div class="stats-row">
+      <div class="stat"><div class="num">12</div><div class="lbl">Articles Live</div></div>
+      <div class="stat"><div class="num">~69KB</div><div class="lbl">Total Content</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">Brands Covered</div></div>
+      <div class="stat"><div class="num">0</div><div class="lbl">Verified AI Citations</div></div>
+    </div>
+    <div class="articles-grid">
+      <div class="article-card"><h4>ai-franchise-consultant-2026.md</h4><div class="size">7.4KB • FKI Brand</div></div>
+      <div class="article-card"><h4>best-franchise-to-buy-2026.md</h4><div class="size">6.1KB • General</div></div>
+      <div class="article-card"><h4>franchise-opportunities-under-300k-2026.md</h4><div class="size">5.5KB • General</div></div>
+      <div class="article-card"><h4>franchise-resale-opportunities-2026.md</h4><div class="size">1.4KB • General</div></div>
+      <div class="article-card"><h4>how-to-buy-a-franchise-2026.md</h4><div class="size">3.0KB • General</div></div>
+      <div class="article-card"><h4>indy-clover-franchise-2026.md</h4><div class="size">7.4KB • Indy Clover</div></div>
+      <div class="article-card"><h4>indy-clover-franchise-review-2026.md</h4><div class="size">3.7KB • Indy Clover</div></div>
+      <div class="article-card"><h4>resale-thrift-franchise-2026.md</h4><div class="size">7.0KB • Indy Clover</div></div>
+      <div class="article-card"><h4>salad-house-franchise-2026.md</h4><div class="size">6.6KB • Salad House</div></div>
+      <div class="article-card"><h4>semi-absentee-franchise-2026.md</h4><div class="size">3.6KB • General</div></div>
+      <div class="article-card"><h4>spoiled-rotten-photography-franchise-2026.md</h4><div class="size">7.3KB • SRP</div></div>
+      <div class="article-card"><h4>wellness-franchise-2026.md</h4><div class="size">6.0KB • General</div></div>
+    </div>
+  </div>
+
+  <!-- AI INFRASTRUCTURE -->
+  <div class="section">
+    <div class="section-title">🤖 AI Search Engine Infrastructure</div>
+    <div class="infra-grid">
+      <div class="infra-item">
+        <div class="infra-icon">✅</div>
+        <div class="infra-text"><strong>robots.txt Configured</strong><span>GPTBot / ClaudeBot / PerplexityBot / Googlebot-Extended all ALLOWED</span></div>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">✅</div>
+        <div class="infra-text"><strong>JSON-LD Schema Active</strong><span>3,239 MapKI brand pages with Organization + LocalBusiness + FAQPage markup</span></div>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">✅</div>
+        <div class="infra-text"><strong>llms.txt Live</strong><span>Citation policy + attribution format at mapki.franchiseki.com/llms.txt</span></div>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">✅</div>
+        <div class="infra-text"><strong>GitHub franchise-guides</strong><span>12 articles at bennett-maxwell/advaita-agent-audit/franchise-guides/</span></div>
+      </div>
+      <div class="infra-item" style="border-color:#fef3c7;background:#fffbeb">
+        <div class="infra-icon">⚠️</div>
+        <div class="infra-text"><strong>AI Citations: 0 Verified</strong><span>No citation tracking tool yet. Target: 5 citations in 30 days, 25 in 90 days.</span></div>
+      </div>
+      <div class="infra-item" style="border-color:#fef3c7;background:#fffbeb">
+        <div class="infra-icon">⚠️</div>
+        <div class="infra-text"><strong>SEO Score: 81/100</strong><span>franchiseki.com on SEO Site Checkup. 8 issues / 7 warnings / 46 passed. Above avg (75).</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRITICAL GAPS -->
+  <div class="section">
+    <div class="section-title">🔴 Critical SEO Gaps</div>
+    <div class="gaps-grid">
+      <div class="gap-card gap-critical">
+        <div class="gap-icon">🔴</div>
+        <div><strong>GA4 Not Connected</strong><p>Completely blind to traffic, conversions, user behavior. Need Composio OAuth or Leo browser automation to connect.</p></div>
+      </div>
+      <div class="gap-card gap-critical">
+        <div class="gap-icon">🔴</div>
+        <div><strong>No Google Search Console</strong><p>Can't see keyword rankings, index coverage, crawl errors, or click-through rates. Site effectively invisible from a monitoring standpoint.</p></div>
+      </div>
+      <div class="gap-card gap-critical">
+        <div class="gap-icon">🔴</div>
+        <div><strong>No Position Tracking</strong><p>No tool tracking where any franchise-guides article ranks for its target keyword. Flying blind on campaign effectiveness.</p></div>
+      </div>
+      <div class="gap-card gap-warning">
+        <div class="gap-icon">🟡</div>
+        <div><strong>Content Cadence Below Target</strong><p>Target: 5 articles/week. Current: ~2/week. Voice-mining-skill pipeline exists but not yet triggered for SEO content.</p></div>
+      </div>
+      <div class="gap-card gap-warning">
+        <div class="gap-icon">🟡</div>
+        <div><strong>No Backlink Strategy</strong><p>Zero outreach, PR mentions, guest posts, or franchise directory submissions. Authority score near zero.</p></div>
+      </div>
+      <div class="gap-card gap-warning">
+        <div class="gap-icon">🟡</div>
+        <div><strong>No Local SEO Program</strong><p>Google Business Profiles not optimized for Indy Clover / Salad House / SRP brand locations. Local citations = 0.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COUNCIL IMPROVEMENT PLAN -->
+  <div class="section">
+    <div class="section-title">🏛️ Council Improvement Plan — 4.4/5 Verdict</div>
+
+    <div class="phase">
+      <h4>Phase 1 — Immediate (Squirrel executes today, zero human involvement)</h4>
+      <ul>
+        <li>Deploy 8 more franchise-guide articles targeting: franchise under $200K, women-owned franchise, recession-proof franchise, franchise consultant near me, best food franchise 2026, low-cost franchise, part-time franchise, community hub franchise</li>
+        <li>Add FAQPage JSON-LD schema to all 12 existing articles (structured data boost)</li>
+        <li>Verify AI citations via Exa search queries (ChatGPT, Perplexity, Claude)</li>
+        <li>Create Notion SEO tracking page with citation + position log</li>
+        <li>Build this SEO Command Center (complete ✅)</li>
+      </ul>
+    </div>
+
+    <div class="phase phase2">
+      <h4>Phase 2 — Short-Term (Leo WO this week)</h4>
+      <ul>
+        <li>Connect Google Analytics 4 via Composio OAuth (free, 1-time setup)</li>
+        <li>Submit XML sitemap to Google Search Console</li>
+        <li>Submit to 20+ free franchise directories: IFE, BFA, Franchise.com, FranchiseGator, FranchiseDirect, Entrepreneur.com, TopFranchises, etc.</li>
+        <li>Set up weekly position tracking cron for top 20 target keywords</li>
+      </ul>
+    </div>
+
+    <div class="phase phase3">
+      <h4>Phase 3 — Ongoing Automation (Squirrel weekly)</h4>
+      <ul>
+        <li>5 articles/week via voice-mining-skill (Bennett's Plaud transcripts → SEO content → GitHub auto-deploy)</li>
+        <li>Weekly AI citation monitoring via Exa sweep (track progress toward 25-citation target)</li>
+        <li>Monthly SEO audit update to this dashboard</li>
+        <li>Add SEO section to Reed Pulse report (citations this week, new articles, top rankings)</li>
+      </ul>
+    </div>
+
+    <div class="projection">
+      <h3>📈 24/100 → 62/100 in 30 Days</h3>
+      <p>Phase 1 (+14 pts) + Phase 2 (+24 pts) = +38 pts projected lift</p>
+      <p style="margin-top:6px;font-size:0.75rem">AI Search: 38→65 | Tech SEO: 52→72 | Content: 28→55 | Tracking: 5→45 | Authority: 8→25</p>
+    </div>
+  </div>
+
+  <!-- NEXT ACTIONS -->
+  <div class="section">
+    <div class="section-title">⚡ Next Actions — Ranked by Impact</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Action</th><th>Owner</th><th>Est. Lift</th><th>When</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>Deploy 8 new franchise articles (high-value keywords)</strong></td>
+          <td><span class="owner-badge owner-squirrel">Squirrel</span></td>
+          <td>+8 pts AI Score</td>
+          <td><span class="due-today">TODAY</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Add FAQPage schema to 12 existing articles</strong></td>
+          <td><span class="owner-badge owner-squirrel">Squirrel</span></td>
+          <td>+5 pts Tech</td>
+          <td><span class="due-today">TODAY</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Verify AI citations (ChatGPT / Claude / Perplexity)</strong></td>
+          <td><span class="owner-badge owner-squirrel">Squirrel</span></td>
+          <td>Measurement</td>
+          <td><span class="due-today">TODAY</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Create Notion SEO tracking page</strong></td>
+          <td><span class="owner-badge owner-squirrel">Squirrel</span></td>
+          <td>Visibility</td>
+          <td><span class="due-today">TODAY</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Connect Google Analytics 4 via Composio OAuth</strong></td>
+          <td><span class="owner-badge owner-leo">Leo</span></td>
+          <td>+15 pts Tracking</td>
+          <td><span class="due-week">This Week</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Submit sitemap to Google Search Console</strong></td>
+          <td><span class="owner-badge owner-leo">Leo</span></td>
+          <td>+10 pts Tech</td>
+          <td><span class="due-week">This Week</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>Submit to 20+ franchise directories</strong></td>
+          <td><span class="owner-badge owner-leo">Leo</span></td>
+          <td>+8 pts Authority</td>
+          <td><span class="due-week">This Week</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>Weekly voice-mining → SEO article pipeline (5/week)</strong></td>
+          <td><span class="owner-badge owner-squirrel">Squirrel</span></td>
+          <td>Ongoing +∞</td>
+          <td><span class="due-ongoing">Set Up Now</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  FKI SEO Command Center | Built by Squirrel 2026-05-05 | business-audit-skill v2 | council-skill 4.4/5 |
+  <a href="/hub/" style="color:#10b981;text-decoration:none">← Back to Hub</a>
+</footer>
+
+</body>
+</html>
