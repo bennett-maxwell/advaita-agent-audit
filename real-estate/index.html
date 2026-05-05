@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real Estate Command Center</title>
+<style>
+:root {
+  --bg: #0d0f14; --surface: #161922; --card: #1e2230; --border: rgba(255,255,255,0.07);
+  --accent: #D4A23A; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+  --blue: #4f8ef7; --text: #e8eaf0; --muted: #6b7280;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; min-height: 100vh; }
+.top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+.back-btn { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; padding: 4px 8px; background: rgba(212,162,58,0.1); border-radius: 6px; border: 1px solid rgba(212,162,58,0.2); }
+.top-title { font-size: 16px; font-weight: 800; flex: 1; }
+.top-sub { font-size: 11px; color: var(--muted); }
+/* Tabs */
+.tabs { display: flex; gap: 4px; padding: 12px 16px 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 8px 8px 0 0; cursor: pointer; color: var(--muted); background: transparent; border: none; white-space: nowrap; transition: all 0.15s; }
+.tab.active { background: var(--card); color: var(--text); border: 1px solid var(--border); border-bottom: 1px solid var(--card); }
+.tab-content { display: none; padding: 16px; }
+.tab-content.active { display: block; }
+/* KPI grid */
+.kpi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 12px; }
+@media (min-width: 480px) { .kpi-grid { grid-template-columns: repeat(4,1fr); } }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.kpi-val { font-size: 22px; font-weight: 800; }
+.kpi-label { font-size: 10px; color: var(--muted); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+/* Property cards */
+.property-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; transition: border-color 0.2s; }
+.property-card:hover { border-color: rgba(212,162,58,0.4); }
+.property-card.expanded { border-color: rgba(212,162,58,0.5); }
+.prop-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; user-select: none; }
+.prop-icon { font-size: 22px; flex-shrink: 0; }
+.prop-meta { flex: 1; min-width: 0; }
+.prop-name { font-size: 14px; font-weight: 700; }
+.prop-addr { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.prop-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.prop-rent { font-size: 13px; font-weight: 800; color: var(--accent); }
+.chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s; background: none; border: none; cursor: pointer; padding: 4px; }
+.property-card.expanded .chevron { transform: rotate(180deg); }
+.prop-body { display: none; border-top: 1px solid var(--border); padding: 14px 16px 16px; }
+.property-card.expanded .prop-body { display: block; }
+.detail-row { display: flex; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(42,47,62,0.5); font-size: 12px; line-height: 1.5; }
+.detail-row:last-child { border-bottom: none; }
+.detail-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; min-width: 90px; flex-shrink: 0; }
+.detail-val { flex: 1; }
+/* Badge */
+.badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; display: inline-block; }
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-blue { background: rgba(79,142,247,0.15); color: var(--blue); }
+.badge-gold { background: rgba(212,162,58,0.15); color: var(--accent); }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.dot-green { background: var(--green); }
+.dot-yellow { background: var(--yellow); }
+/* Card */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.card-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+.ql-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.ql-btn { font-size: 12px; font-weight: 600; color: var(--text); background: rgba(42,47,62,0.6); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; text-decoration: none; white-space: nowrap; }
+.ql-btn:hover { background: rgba(212,162,58,0.15); border-color: rgba(212,162,58,0.4); }
+.pl-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.pl-row:last-child { border-bottom: none; }
+.pl-label { font-weight: 600; }
+.pl-val { font-weight: 700; }
+.pl-pos { color: var(--green); }
+.pl-neg { color: var(--red); }
+.data-note { font-size: 10px; color: var(--muted); margin-top: 8px; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="../bennett-cc/index.html" class="back-btn">← Home</a>
+  <div>
+    <div class="top-title">🏠 Real Estate Command Center</div>
+    <div class="top-sub">Rachel Agent · 5 Rental Properties · Managed via #leo-sky</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('overview')">Overview</button>
+  <button class="tab" onclick="showTab('properties')">🏘️ Properties</button>
+  <button class="tab" onclick="showTab('financials')">💰 P&amp;L</button>
+  <button class="tab" onclick="showTab('rachel')">🤖 Rachel</button>
+</div>
+
+<div id="tab-overview" class="tab-content active">
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val" style="color:var(--accent)">5</div><div class="kpi-label">Rental Properties</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--green)">$10,800+</div><div class="kpi-label">Gross Rent/mo</div></div>
+    <div class="kpi"><div class="kpi-val">Nov '26</div><div class="kpi-label">Next Lease Renewal</div></div>
+    <div class="kpi"><div class="kpi-val">Rentler</div><div class="kpi-label">Payment Platform</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Active Items</div>
+    <div class="pl-row">
+      <span class="pl-label">Chidester (NSL) — Listing Decision</span>
+      <span class="badge badge-yellow">Pending</span>
+    </div>
+    <div class="pl-row">
+      <span class="pl-label">Lehi Townhome — Carpet Replacement</span>
+      <span class="badge badge-yellow">In Progress</span>
+    </div>
+    <div class="pl-row">
+      <span class="pl-label">Chidester Tenant Lease — Expires Nov 2026</span>
+      <span class="badge badge-blue">Monitor</span>
+    </div>
+    <div class="pl-row">
+      <span class="pl-label">3 Properties — Address Needed from Rachel</span>
+      <span class="badge badge-red">Incomplete</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Quick Links</div>
+    <div class="ql-row">
+      <a class="ql-btn" href="https://www.rentler.com" target="_blank">🏠 Rentler</a>
+      <a class="ql-btn" href="https://drive.google.com/drive/folders/1w8V2WD8urg0o7FvkvigH_A3gzXVsYnni" target="_blank">📁 RE Drive Folder</a>
+      <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0ALAL16WRW" target="_blank">💬 #leo-sky (Rachel)</a>
+      <a class="ql-btn" href="https://www.zillow.com" target="_blank">🏘️ Zillow</a>
+      <a class="ql-btn" href="https://www.redfin.com" target="_blank">🏡 Redfin</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Rachel — Task Rachel Now</div>
+    <div style="font-size:12px; color:var(--muted); line-height:1.6;">
+      Tag Rachel in <strong>#leo-sky</strong> for:<br>
+      • Rent collection status · Maintenance requests<br>
+      • Contractor quotes (3 quotes per job) · Lease renewals<br>
+      • Market value updates · Tenant communications (draft only)
+    </div>
+  </div>
+</div>
+
+<div id="tab-properties" class="tab-content">
+
+  <!-- Property 1: Chidester NSL -->
+  <div class="property-card" id="card-chidester">
+    <div class="prop-header" onclick="toggleProp('chidester')">
+      <div class="prop-icon">🏡</div>
+      <div class="prop-meta">
+        <div class="prop-name"><span class="dot dot-green"></span>Chidester — North Salt Lake</div>
+        <div class="prop-addr">1052 N Chidester Dr W, North Salt Lake, UT 84054</div>
+      </div>
+      <div class="prop-right">
+        <span class="prop-rent">$2,600/mo</span>
+        <button class="chevron" onclick="event.stopPropagation(); toggleProp('chidester')">▼</button>
+      </div>
+    </div>
+    <div class="prop-body">
+      <div class="detail-row"><div class="detail-label">Address</div><div class="detail-val">1052 N Chidester Dr W, North Salt Lake, UT 84054</div></div>
+      <div class="detail-row"><div class="detail-label">Specs</div><div class="detail-val">4 bed / 3 bath / 2,400 sqft / 2007 build / 2-car garage</div></div>
+      <div class="detail-row"><div class="detail-label">Mortgage</div><div class="detail-val">$333,521 balance</div></div>
+      <div class="detail-row"><div class="detail-label">Est. Value</div><div class="detail-val">$551K (Redfin) · Comp at 1036 Chidester listed at $575K</div></div>
+      <div class="detail-row"><div class="detail-label">Rent</div><div class="detail-val">$2,600/mo — fixed lease through Nov 2026. Tenant cooperative with showings.</div></div>
+      <div class="detail-row"><div class="detail-label">HOA</div><div class="detail-val">Yes — Dixie Kramer. HOA current.</div></div>
+      <div class="detail-row"><div class="detail-label">Tax</div><div class="detail-val">$1,666/yr</div></div>
+      <div class="detail-row"><div class="detail-label">Status</div><div class="detail-val"><span class="badge badge-yellow">Listing Decision Pending</span> — FSBO + 2% buyer commission vs 1% agent. Est. net: $207K–$226K vs $203K with Duane.</div></div>
+      <div class="detail-row"><div class="detail-label">Updates</div><div class="detail-val">New carpet installed. 40 MLS photos on file (Duane's expired listing). Duane's contract expired 12/31/25 — free and clear.</div></div>
+      <div class="detail-row"><div class="detail-label">Agents</div><div class="detail-val">Duane (Real Broker, LLC) — contract expired. 1% option: Reeve Real Estate ($99+$299 at closing).</div></div>
+    </div>
+  </div>
+
+  <!-- Property 2: Lehi Townhome -->
+  <div class="property-card" id="card-lehi-townhome">
+    <div class="prop-header" onclick="toggleProp('lehi-townhome')">
+      <div class="prop-icon">🏠</div>
+      <div class="prop-meta">
+        <div class="prop-name"><span class="dot dot-green"></span>Lehi Townhome</div>
+        <div class="prop-addr">2032 N 3830 W, Lehi, UT 84043</div>
+      </div>
+      <div class="prop-right">
+        <span class="prop-rent">$2,900/mo</span>
+        <button class="chevron" onclick="event.stopPropagation(); toggleProp('lehi-townhome')">▼</button>
+      </div>
+    </div>
+    <div class="prop-body">
+      <div class="detail-row"><div class="detail-label">Address</div><div class="detail-val">2032 N 3830 W, Lehi, UT 84043</div></div>
+      <div class="detail-row"><div class="detail-label">Specs</div><div class="detail-val">5 bed / 3.5 bath / 2,280 sqft townhome</div></div>
+      <div class="detail-row"><div class="detail-label">Rent</div><div class="detail-val">$2,900/mo (upper end of market — 4bd comps at $2,297–$2,988)</div></div>
+      <div class="detail-row"><div class="detail-label">Alt. Revenue</div><div class="detail-val">Mid-term furnished: ~$3,600/mo · Airbnb est: ~$3,600/mo (60% occ, $200/night)</div></div>
+      <div class="detail-row"><div class="detail-label">Maintenance</div><div class="detail-val"><span class="badge badge-yellow">Carpet replacement — 560 sqft. Rachel: get 3 quotes, Lehi area.</span></div></div>
+      <div class="detail-row"><div class="detail-label">Furnish Cost</div><div class="detail-val">~$40K to furnish for STR/MTR if pivoting to Airbnb</div></div>
+      <div class="detail-row"><div class="detail-label">Status</div><div class="detail-val"><span class="badge badge-green">Rented</span></div></div>
+    </div>
+  </div>
+
+  <!-- Property 3: Pleasant Grove Home -->
+  <div class="property-card" id="card-pg-home">
+    <div class="prop-header" onclick="toggleProp('pg-home')">
+      <div class="prop-icon">🏘️</div>
+      <div class="prop-meta">
+        <div class="prop-name"><span class="dot dot-yellow"></span>Pleasant Grove Home</div>
+        <div class="prop-addr">Address: Update via Rachel</div>
+      </div>
+      <div class="prop-right">
+        <span class="prop-rent">TBD</span>
+        <button class="chevron" onclick="event.stopPropagation(); toggleProp('pg-home')">▼</button>
+      </div>
+    </div>
+    <div class="prop-body">
+      <div class="detail-row"><div class="detail-label">Address</div><div class="detail-val">Pleasant Grove, UT — tag Rachel in #leo-sky for address + full details</div></div>
+      <div class="detail-row"><div class="detail-label">Status</div><div class="detail-val"><span class="badge badge-red">Data Needed</span> — Rachel: pull from Drive folder + Rentler</div></div>
+    </div>
+  </div>
+
+  <!-- Property 4: Pleasant Grove Mom's Home -->
+  <div class="property-card" id="card-pg-mom">
+    <div class="prop-header" onclick="toggleProp('pg-mom')">
+      <div class="prop-icon">🏘️</div>
+      <div class="prop-meta">
+        <div class="prop-name"><span class="dot dot-yellow"></span>Pleasant Grove — Mom's Home</div>
+        <div class="prop-addr">Address: Update via Rachel</div>
+      </div>
+      <div class="prop-right">
+        <span class="prop-rent">TBD</span>
+        <button class="chevron" onclick="event.stopPropagation(); toggleProp('pg-mom')">▼</button>
+      </div>
+    </div>
+    <div class="prop-body">
+      <div class="detail-row"><div class="detail-label">Address</div><div class="detail-val">Pleasant Grove, UT — tag Rachel in #leo-sky for full details</div></div>
+      <div class="detail-row"><div class="detail-label">Status</div><div class="detail-val"><span class="badge badge-red">Data Needed</span></div></div>
+    </div>
+  </div>
+
+  <!-- Property 5: Provo Duplex -->
+  <div class="property-card" id="card-provo">
+    <div class="prop-header" onclick="toggleProp('provo')">
+      <div class="prop-icon">🏗️</div>
+      <div class="prop-meta">
+        <div class="prop-name"><span class="dot dot-yellow"></span>Provo Duplex</div>
+        <div class="prop-addr">Address: Update via Rachel</div>
+      </div>
+      <div class="prop-right">
+        <span class="prop-rent">TBD</span>
+        <button class="chevron" onclick="event.stopPropagation(); toggleProp('provo')">▼</button>
+      </div>
+    </div>
+    <div class="prop-body">
+      <div class="detail-row"><div class="detail-label">Address</div><div class="detail-val">Provo, UT — duplex. Tag Rachel in #leo-sky for full details.</div></div>
+      <div class="detail-row"><div class="detail-label">Status</div><div class="detail-val"><span class="badge badge-red">Data Needed</span></div></div>
+    </div>
+  </div>
+
+  <div class="data-note">📌 3 properties need full data. Tag Rachel in #leo-sky: "Rachel — update the RE dashboard with all property addresses, mortgage balances, rent amounts, lease dates, and tenant names from the Drive folder." Drive: drive.google.com/drive/folders/1w8V2WD8urg0o7FvkvigH_A3gzXVsYnni</div>
+</div>
+
+<div id="tab-financials" class="tab-content">
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val pl-pos" style="color:var(--green)">$10,800+</div><div class="kpi-label">Gross Rent/mo (known)</div></div>
+    <div class="kpi"><div class="kpi-val">TBD</div><div class="kpi-label">Total Mortgage Payments</div></div>
+    <div class="kpi"><div class="kpi-val">TBD</div><div class="kpi-label">Net Cash Flow/mo</div></div>
+    <div class="kpi"><div class="kpi-val">Rentler</div><div class="kpi-label">Collection Platform</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💰 Known Financials (Partial)</div>
+    <div class="pl-row"><span class="pl-label">Chidester Rent</span><span class="pl-val pl-pos">+$2,600/mo</span></div>
+    <div class="pl-row"><span class="pl-label">Chidester Mortgage</span><span class="pl-val pl-neg">-TBD/mo (balance $333,521)</span></div>
+    <div class="pl-row"><span class="pl-label">Chidester HOA</span><span class="pl-val pl-neg">-TBD/mo</span></div>
+    <div class="pl-row"><span class="pl-label">Lehi Townhome Rent</span><span class="pl-val pl-pos">+$2,900/mo</span></div>
+    <div class="pl-row"><span class="pl-label">Lehi Townhome Mortgage</span><span class="pl-val pl-neg">-TBD/mo</span></div>
+    <div class="pl-row"><span class="pl-label">PG Home · PG Mom · Provo Duplex</span><span class="pl-val">Data needed from Rachel</span></div>
+    <div class="data-note">Full P&L requires Rachel to pull mortgage statements + HOA fees from Drive. Tag Rachel in #leo-sky monthly for P&L update.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Chidester Sale Analysis (if selling)</div>
+    <div class="pl-row"><span class="pl-label">Mortgage Balance</span><span class="pl-val">$333,521</span></div>
+    <div class="pl-row"><span class="pl-label">Estimated Sale Price</span><span class="pl-val">$549K–$575K</span></div>
+    <div class="pl-row"><span class="pl-label">FSBO + 2% buyer → Net</span><span class="pl-val pl-pos">~$207K–$226K</span></div>
+    <div class="pl-row"><span class="pl-label">1% agent + 2% buyer → Net</span><span class="pl-val pl-pos">~$202K–$221K</span></div>
+    <div class="pl-row"><span class="pl-label">Duane (6%+$500) → Net</span><span class="pl-val">~$185K–$203K</span></div>
+  </div>
+</div>
+
+<div id="tab-rachel" class="tab-content">
+  <div class="card">
+    <div class="card-title">🤖 Rachel — Real Estate Manager Agent</div>
+    <div class="detail-row"><div class="detail-label">Role</div><div class="detail-val">Property management, tenant coordination, maintenance tracking, RE finances</div></div>
+    <div class="detail-row"><div class="detail-label">Channel</div><div class="detail-val">#leo-sky → Rachel</div></div>
+    <div class="detail-row"><div class="detail-label">SOUL.md</div><div class="detail-val">agents/rachel/agent/SOUL.md (Ivan)</div></div>
+    <div class="detail-row"><div class="detail-label">Status</div><div class="detail-val"><span class="badge badge-green">Green — Go</span> (Three-Brain reviewed Apr 6, 2026)</div></div>
+    <div class="detail-row"><div class="detail-label">Email</div><div class="detail-val">bennettmaxwell35@gmail.com + personal Drive</div></div>
+    <div class="detail-row"><div class="detail-label">Scope</div><div class="detail-val">Property tracking · Listings · Mortgage tracking · Tenant drafts · Improvements · Sale coordination · Market analysis · Draft-only · No FKI access</div></div>
+    <div class="detail-row"><div class="detail-label">Limits</div><div class="detail-val">Draft-only (no sends) · Gets 3 contractor quotes before presenting · Makes recommendations, Bennett approves purchases</div></div>
+    <div class="detail-row"><div class="detail-label">Escalation</div><div class="detail-val">Legal notice or insurance deadline &lt;48h → immediate Slack DM to Bennett</div></div>
+    <div class="detail-row"><div class="detail-label">PII Rule</div><div class="detail-val">Tenant PII in dedicated Drive folder — no other agent can read</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Rachel Task Templates</div>
+    <div style="font-size:12px; line-height:2; color:var(--muted);">
+      <div><strong style="color:var(--text)">Update dashboard data:</strong> "Rachel — update RE dashboard: all 5 property addresses, mortgage balances, rent amounts, lease dates, tenant names. Pull from Drive folder."</div>
+      <div><strong style="color:var(--text)">Maintenance quote:</strong> "Rachel — get 3 quotes for [repair] at [address]. [Size/details]. Post quotes with company, price, availability."</div>
+      <div><strong style="color:var(--text)">Monthly P&L:</strong> "Rachel — generate monthly P&L for all 5 properties: rent collected, mortgage payments, HOA, maintenance costs, net cash flow."</div>
+      <div><strong style="color:var(--text)">Lease renewal:</strong> "Rachel — [address] lease expires [date]. Draft renewal letter with [new rent] and send to me for review."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Quick Links</div>
+    <div class="ql-row">
+      <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0ALAL16WRW" target="_blank">💬 #leo-sky</a>
+      <a class="ql-btn" href="https://www.rentler.com" target="_blank">🏠 Rentler</a>
+      <a class="ql-btn" href="https://drive.google.com/drive/folders/1w8V2WD8urg0o7FvkvigH_A3gzXVsYnni" target="_blank">📁 RE Drive Folder</a>
+      <a class="ql-btn" href="https://www.notion.so/349cf5514fd381e6b6e4dbb159517683" target="_blank">📝 Rachel Notion</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggleProp(name) {
+  const card = document.getElementById('card-' + name);
+  if (card) card.classList.toggle('expanded');
+}
+</script>
+</body>
+</html>

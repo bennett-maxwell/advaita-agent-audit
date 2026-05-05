@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FKI Command Center</title>
+<style>
+:root {
+  --bg: #0d0f14; --surface: #161922; --card: #1e2230; --border: rgba(255,255,255,0.07);
+  --accent: #4f8ef7; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+  --purple: #a855f7; --text: #e8eaf0; --muted: #6b7280;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; min-height: 100vh; }
+.top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+.back-btn { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; padding: 4px 8px; background: rgba(79,142,247,0.1); border-radius: 6px; border: 1px solid rgba(79,142,247,0.2); }
+.top-title { font-size: 16px; font-weight: 800; flex: 1; }
+.top-sub { font-size: 11px; color: var(--muted); }
+/* Tabs */
+.tabs { display: flex; gap: 4px; padding: 12px 16px 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 8px 8px 0 0; cursor: pointer; color: var(--muted); background: transparent; border: none; white-space: nowrap; transition: all 0.15s; }
+.tab.active { background: var(--card); color: var(--text); border: 1px solid var(--border); border-bottom: 1px solid var(--card); }
+.tab-content { display: none; padding: 16px; }
+.tab-content.active { display: block; }
+/* Cards */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.card-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
+/* KPI row */
+.kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+@media (min-width: 480px) { .kpi-grid { grid-template-columns: repeat(4, 1fr); } }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.kpi-val { font-size: 22px; font-weight: 800; }
+.kpi-label { font-size: 10px; color: var(--muted); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-delta { font-size: 11px; margin-top: 4px; }
+.delta-up { color: var(--green); }
+.delta-down { color: var(--red); }
+/* Link cards */
+.link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.link-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-decoration: none; color: var(--text); display: block; transition: border-color 0.2s; }
+.link-card:hover { border-color: rgba(79,142,247,0.4); }
+.link-icon { font-size: 22px; margin-bottom: 8px; }
+.link-title { font-size: 13px; font-weight: 700; }
+.link-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+/* Status dots */
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.dot-green { background: var(--green); }
+.dot-yellow { background: var(--yellow); }
+.dot-red { background: var(--red); }
+/* Badge */
+.badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; display: inline-block; }
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-blue { background: rgba(79,142,247,0.15); color: var(--accent); }
+/* Status rows */
+.status-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.status-row:last-child { border-bottom: none; }
+.status-label { font-weight: 600; }
+.status-val { color: var(--muted); font-size: 11px; }
+/* Quick links */
+.ql-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.ql-btn { font-size: 12px; font-weight: 600; color: var(--text); background: rgba(42,47,62,0.6); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; text-decoration: none; white-space: nowrap; }
+.ql-btn:hover { background: rgba(79,142,247,0.15); border-color: rgba(79,142,247,0.4); }
+/* Priority */
+.priority-board { background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(168,85,247,0.05)); border: 1px solid rgba(79,142,247,0.25); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.pb-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.pb-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(42,47,62,0.4); }
+.pb-item:last-child { border-bottom: none; }
+.pb-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb-num.red { background: var(--red); }
+.pb-text { font-size: 13px; font-weight: 600; }
+.pb-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="../bennett-cc/index.html" class="back-btn">← Home</a>
+  <div>
+    <div class="top-title">🏢 FKI Command Center</div>
+    <div class="top-sub">Franchise KI — Business Operations</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('overview')">Overview</button>
+  <button class="tab" onclick="showTab('marketing')">📣 Marketing</button>
+  <button class="tab" onclick="showTab('sales')">💼 Sales</button>
+  <button class="tab" onclick="showTab('pipeline')">📋 Pipeline</button>
+  <button class="tab" onclick="showTab('finance')">💰 Finance</button>
+  <button class="tab" onclick="showTab('ops')">⚙️ Ops</button>
+</div>
+
+<div id="tab-overview" class="tab-content active">
+  <div class="priority-board">
+    <div class="pb-title">🔴 This Week — FKI Actions</div>
+    <div class="pb-item">
+      <div class="pb-num red">1</div>
+      <div>
+        <div class="pb-text">Sales Dashboard Review</div>
+        <div class="pb-sub">Keith show rate + coaching loop trigger</div>
+      </div>
+    </div>
+    <div class="pb-item">
+      <div class="pb-num">2</div>
+      <div>
+        <div class="pb-text">Ad Performance Audit</div>
+        <div class="pb-sub">IC CPL $109 · SH CPL $30 — optimize or scale</div>
+      </div>
+    </div>
+    <div class="pb-item">
+      <div class="pb-num">3</div>
+      <div>
+        <div class="pb-text">Pipeline Sweep</div>
+        <div class="pb-sub">440 stuck in New Lead — re-engage campaign</div>
+      </div>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val">7,039</div><div class="kpi-label">Total GHL Opps</div></div>
+    <div class="kpi"><div class="kpi-val">440</div><div class="kpi-label">New Lead (Stuck)</div><div class="kpi-delta delta-down">↑ needs re-engage</div></div>
+    <div class="kpi"><div class="kpi-val">$109</div><div class="kpi-label">IC CPL (Meta)</div></div>
+    <div class="kpi"><div class="kpi-val">$30</div><div class="kpi-label">SH CPL (Meta)</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">⚡ Quick Links</div>
+    <div class="ql-row">
+      <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 GHL CRM</a>
+      <a class="ql-btn" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">📌 Sprint Board</a>
+      <a class="ql-btn" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a>
+      <a class="ql-btn" href="https://quickbooks.intuit.com" target="_blank">💰 QuickBooks</a>
+      <a class="ql-btn" href="../sales/index.html">📊 Sales Dashboard</a>
+      <a class="ql-btn" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank">🎯 Marketing</a>
+    </div>
+  </div>
+  <div class="link-grid">
+    <a href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank" class="link-card">
+      <div class="link-icon">📣</div>
+      <div class="link-title">Marketing</div>
+      <div class="link-sub"><span class="dot dot-green"></span>Live · Ads + Social</div>
+    </a>
+    <a href="../sales/index.html" class="link-card">
+      <div class="link-icon">💼</div>
+      <div class="link-title">Sales Dashboard</div>
+      <div class="link-sub"><span class="dot dot-green"></span>Keith · Sam benchmarks</div>
+    </a>
+    <a href="https://app.crmx.app" target="_blank" class="link-card">
+      <div class="link-icon">📋</div>
+      <div class="link-title">GHL Pipeline</div>
+      <div class="link-sub">7,039 opps · 440 stuck</div>
+    </a>
+    <a href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/" target="_blank" class="link-card">
+      <div class="link-icon">💰</div>
+      <div class="link-title">Finance</div>
+      <div class="link-sub"><span class="dot dot-green"></span>Password gated</div>
+    </a>
+  </div>
+</div>
+
+<div id="tab-marketing" class="tab-content">
+  <div class="card">
+    <div class="card-title">📣 Marketing — Full Dashboard</div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">The Marketing Command Center has its own dedicated page with all tabs: Ads Pipeline, Social Calendar, Content by Platform, CPL/CPAH metrics, and Verification.</p>
+    <a href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank" style="display:inline-block; background:var(--accent); color:#fff; font-size:13px; font-weight:700; padding:10px 18px; border-radius:8px; text-decoration:none;">Open Marketing Dashboard →</a>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val" style="color:var(--accent)">$109</div><div class="kpi-label">IC CPL (as of Apr 29)</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--green)">$30</div><div class="kpi-label">SH CPL (as of Apr 29)</div></div>
+    <div class="kpi"><div class="kpi-val">50%</div><div class="kpi-label">IC Show Rate</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--green)">100%</div><div class="kpi-label">SH Show Rate</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📊 Platform Status</div>
+    <div class="status-row"><span class="status-label">Meta Ads (IC)</span><span class="badge badge-green">Active</span></div>
+    <div class="status-row"><span class="status-label">Meta Ads (SH)</span><span class="badge badge-green">Active</span></div>
+    <div class="status-row"><span class="status-label">Meta CAPI</span><span class="badge badge-green">Live since Apr 20</span></div>
+    <div class="status-row"><span class="status-label">Metricool (Social)</span><span class="badge badge-blue">Scheduling</span></div>
+    <div class="status-row"><span class="status-label">Blaze AI (Content)</span><span class="badge badge-blue">Active</span></div>
+    <div class="status-row"><span class="status-label">AdStellar (Competitor)</span><span class="badge badge-yellow">Monitor</span></div>
+  </div>
+</div>
+
+<div id="tab-sales" class="tab-content">
+  <div class="card">
+    <div class="card-title">💼 Sales — Full Dashboard</div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Keith's daily appointment log, show rate vs Sam benchmarks, and training loop are on the dedicated Sales Dashboard.</p>
+    <a href="../sales/index.html" style="display:inline-block; background:var(--accent); color:#fff; font-size:13px; font-weight:700; padding:10px 18px; border-radius:8px; text-decoration:none;">Open Sales Dashboard →</a>
+  </div>
+  <div class="card">
+    <div class="card-title">📅 Today's Quick View</div>
+    <div class="status-row"><span class="status-label">Keith Appointments Scheduled</span><span class="badge badge-blue">Check GHL</span></div>
+    <div class="status-row"><span class="status-label">Keith Appointments Showed</span><span class="badge badge-blue">Log in Sales Dashboard</span></div>
+    <div class="status-row"><span class="status-label">Sam Show Rate Benchmark</span><span class="badge badge-green">Update Weekly</span></div>
+    <div class="status-row"><span class="status-label">Training Trigger Active</span><span class="badge badge-yellow">Review Coaching Loop</span></div>
+  </div>
+</div>
+
+<div id="tab-pipeline" class="tab-content">
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val">7,039</div><div class="kpi-label">Total Opps</div></div>
+    <div class="kpi"><div class="kpi-val">440</div><div class="kpi-label">New Lead (stuck)</div></div>
+    <div class="kpi"><div class="kpi-val">12%</div><div class="kpi-label">Form Lead TR Rate</div></div>
+    <div class="kpi"><div class="kpi-val">2%</div><div class="kpi-label">Facebook TR Rate</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 Pipeline Stages</div>
+    <div class="status-row"><span class="status-label">New Lead (stuck)</span><span class="status-val">440 → re-engage campaign needed</span></div>
+    <div class="status-row"><span class="status-label">Discovery Scheduled</span><span class="badge badge-blue">Check GHL</span></div>
+    <div class="status-row"><span class="status-label">Discovery Done</span><span class="badge badge-blue">Check GHL</span></div>
+    <div class="status-row"><span class="status-label">Brand Match</span><span class="badge badge-blue">Check GHL</span></div>
+    <div class="status-row"><span class="status-label">FDD Sent</span><span class="badge badge-blue">Check GHL</span></div>
+    <div class="status-row"><span class="status-label">Validation</span><span class="badge badge-blue">Check GHL</span></div>
+    <div class="status-row"><span class="status-label">Discovery Day</span><span class="badge badge-blue">Check GHL</span></div>
+    <div class="status-row"><span class="status-label">FA Signed (Closed)</span><span class="badge badge-blue">Check GHL</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">⚡ Pipeline Quick Links</div>
+    <div class="ql-row">
+      <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 Open GHL</a>
+    </div>
+  </div>
+</div>
+
+<div id="tab-finance" class="tab-content">
+  <div class="card">
+    <div class="card-title">💰 Finance Dashboard (Password Gated)</div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Finance dashboard is StatiCrypt protected. Password: <strong>finance 2026</strong></p>
+    <a href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/" target="_blank" style="display:inline-block; background:rgba(34,197,94,0.15); color:var(--green); border:1px solid rgba(34,197,94,0.3); font-size:13px; font-weight:700; padding:10px 18px; border-radius:8px; text-decoration:none;">Open Finance Dashboard →</a>
+  </div>
+  <div class="card">
+    <div class="card-title">💳 Quick Links</div>
+    <div class="ql-row">
+      <a class="ql-btn" href="https://quickbooks.intuit.com" target="_blank">📊 QuickBooks</a>
+    </div>
+  </div>
+</div>
+
+<div id="tab-ops" class="tab-content">
+  <div class="link-grid">
+    <a href="https://dashboard.franchiseki.com/agent-monitor.html" target="_blank" class="link-card">
+      <div class="link-icon">🤖</div>
+      <div class="link-title">Agent Monitor</div>
+      <div class="link-sub"><span class="dot dot-green"></span>Leo · Piper · Reed · Tiffany</div>
+    </a>
+    <a href="https://bennett-maxwell.github.io/advaita-agent-audit/hub/machine-health.html" target="_blank" class="link-card">
+      <div class="link-icon">💻</div>
+      <div class="link-title">Machine Health</div>
+      <div class="link-sub">Ivan iMac · Mack MacBook · Tiffany</div>
+    </a>
+    <a href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" class="link-card">
+      <div class="link-icon">📌</div>
+      <div class="link-title">Sprint Board</div>
+      <div class="link-sub">Notion — current projects</div>
+    </a>
+    <a href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank" class="link-card">
+      <div class="link-icon">⚡</div>
+      <div class="link-title">#leo-auto</div>
+      <div class="link-sub">Autopilot reports · Status</div>
+    </a>
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

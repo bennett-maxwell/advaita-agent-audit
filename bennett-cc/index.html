@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bennett Command Center</title>
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #161922;
+  --card: #1e2230;
+  --border: rgba(255,255,255,0.07);
+  --accent: #4f8ef7;
+  --green: #22c55e;
+  --red: #ef4444;
+  --yellow: #f59e0b;
+  --purple: #a855f7;
+  --gold: #D4A23A;
+  --text: #e8eaf0;
+  --muted: #6b7280;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; min-height: 100vh; padding: 16px; }
+.header { text-align: center; padding: 24px 0 20px; }
+.header-logo { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+.header-sub { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+.date-badge { display: inline-block; background: rgba(79,142,247,0.12); border: 1px solid rgba(79,142,247,0.25); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--accent); font-weight: 600; margin-top: 8px; }
+
+/* Priority Board */
+.priority-board { background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(168,85,247,0.05)); border: 1px solid rgba(79,142,247,0.25); border-radius: 14px; padding: 14px; margin-bottom: 16px; }
+.priority-board-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.priority-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(42,47,62,0.4); }
+.priority-item:last-child { border-bottom: none; }
+.priority-num { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.priority-item.urgent .priority-num { background: var(--red); }
+.priority-title { font-size: 13px; font-weight: 600; }
+.priority-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.priority-tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+.tag-fki { background: rgba(79,142,247,0.15); color: var(--accent); border: 1px solid rgba(79,142,247,0.3); }
+.tag-personal { background: rgba(168,85,247,0.15); color: var(--purple); border: 1px solid rgba(168,85,247,0.3); }
+.tag-re { background: rgba(212,162,58,0.15); color: var(--gold); border: 1px solid rgba(212,162,58,0.3); }
+
+/* Main CC grid */
+.cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 480px) { .cc-grid { grid-template-columns: 1fr; } }
+.cc-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-decoration: none; color: var(--text); display: block; transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden; }
+.cc-card:hover { border-color: rgba(79,142,247,0.4); transform: translateY(-1px); }
+.cc-card.gold { border-color: rgba(212,162,58,0.2); }
+.cc-card.gold:hover { border-color: rgba(212,162,58,0.5); }
+.cc-card.purple { border-color: rgba(168,85,247,0.2); }
+.cc-card.purple:hover { border-color: rgba(168,85,247,0.5); }
+.cc-card.green-b { border-color: rgba(34,197,94,0.2); }
+.cc-card.green-b:hover { border-color: rgba(34,197,94,0.5); }
+.cc-card-icon { font-size: 32px; margin-bottom: 10px; }
+.cc-card-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+.cc-card-title { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+.cc-card-desc { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.cc-card-stats { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.cc-stat { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+.cc-stat.blue { background: rgba(79,142,247,0.15); color: var(--accent); }
+.cc-stat.gold { background: rgba(212,162,58,0.15); color: var(--gold); }
+.cc-stat.purple-s { background: rgba(168,85,247,0.15); color: var(--purple); }
+.cc-stat.green-s { background: rgba(34,197,94,0.15); color: var(--green); }
+.cc-arrow { position: absolute; bottom: 14px; right: 14px; color: var(--muted); font-size: 18px; }
+
+/* Quick links */
+.quick-links { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; }
+.quick-links-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+.quick-links-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.ql-btn { font-size: 12px; font-weight: 600; color: var(--text); background: rgba(42,47,62,0.6); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; text-decoration: none; white-space: nowrap; transition: background 0.15s, border-color 0.15s; }
+.ql-btn:hover { background: rgba(79,142,247,0.15); border-color: rgba(79,142,247,0.4); }
+
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.dot-green { background: var(--green); }
+.footer { text-align: center; font-size: 10px; color: var(--muted); padding: 16px 0 8px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-logo">Bennett Maxwell</div>
+  <div class="header-sub">Command Center</div>
+  <div class="date-badge" id="dateBadge">Loading...</div>
+</div>
+
+<div class="priority-board">
+  <div class="priority-board-title">⭐ This Week — Top Priorities</div>
+  <div class="priority-item urgent">
+    <div class="priority-num">1</div>
+    <div style="flex:1">
+      <div class="priority-title">Sales — Keith Appointment Review</div>
+      <div class="priority-sub">Review today's show rate + coach based on Sam benchmarks</div>
+    </div>
+    <span class="priority-tag tag-fki">FKI Sales</span>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">2</div>
+    <div style="flex:1">
+      <div class="priority-title">Chidester Listing Decision</div>
+      <div class="priority-sub">FSBO vs 1% agent — renter exits Nov 2026</div>
+    </div>
+    <span class="priority-tag tag-re">Real Estate</span>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">3</div>
+    <div style="flex:1">
+      <div class="priority-title">Marketing Content Verification</div>
+      <div class="priority-sub">Confirm daily posts went out on all platforms</div>
+    </div>
+    <span class="priority-tag tag-fki">Marketing</span>
+  </div>
+</div>
+
+<div class="cc-grid">
+  <a href="../fki-cc/index.html" class="cc-card">
+    <div class="cc-card-icon">🏢</div>
+    <div class="cc-card-label">Business</div>
+    <div class="cc-card-title">FKI Command Center</div>
+    <div class="cc-card-desc">Marketing · Sales · Pipeline · Finance · Operations</div>
+    <div class="cc-card-stats">
+      <span class="cc-stat blue">Marketing</span>
+      <span class="cc-stat blue">Sales</span>
+      <span class="cc-stat blue">Finance</span>
+    </div>
+    <span class="cc-arrow">→</span>
+  </a>
+
+  <a href="../personal-cc/index.html" class="cc-card purple">
+    <div class="cc-card-icon">👤</div>
+    <div class="cc-card-label">Personal</div>
+    <div class="cc-card-title">Personal Center</div>
+    <div class="cc-card-desc">Legal · Personal Finance · Kids' Chores · Agents</div>
+    <div class="cc-card-stats">
+      <span class="cc-stat purple-s">Legal</span>
+      <span class="cc-stat purple-s">Finance</span>
+      <span class="cc-stat purple-s">Chores</span>
+    </div>
+    <span class="cc-arrow">→</span>
+  </a>
+
+  <a href="../real-estate/index.html" class="cc-card gold">
+    <div class="cc-card-icon">🏠</div>
+    <div class="cc-card-label">Portfolio</div>
+    <div class="cc-card-title">Real Estate</div>
+    <div class="cc-card-desc">5 Properties · Rachel Agent · Rent & Mortgage Tracker</div>
+    <div class="cc-card-stats">
+      <span class="cc-stat gold">5 Properties</span>
+      <span class="cc-stat gold">$10,800+/mo</span>
+    </div>
+    <span class="cc-arrow">→</span>
+  </a>
+
+  <a href="https://dashboard.franchiseki.com/agent-monitor.html" target="_blank" class="cc-card green-b">
+    <div class="cc-card-icon">🤖</div>
+    <div class="cc-card-label">System</div>
+    <div class="cc-card-title">Agent Monitor</div>
+    <div class="cc-card-desc">Leo · Mack · Piper · Reed · Tiffany — Live Status</div>
+    <div class="cc-card-stats">
+      <span class="cc-stat green-s">Live</span>
+    </div>
+    <span class="cc-arrow">↗</span>
+  </a>
+</div>
+
+<div class="quick-links">
+  <div class="quick-links-title">⚡ Quick Access</div>
+  <div class="quick-links-row">
+    <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 GHL CRM</a>
+    <a class="ql-btn" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">📌 Sprint Board</a>
+    <a class="ql-btn" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a>
+    <a class="ql-btn" href="https://quickbooks.intuit.com" target="_blank">💰 QuickBooks</a>
+    <a class="ql-btn" href="https://bennett-maxwell.github.io/advaita-agent-audit/legal/" target="_blank">⚖️ Legal</a>
+    <a class="ql-btn" href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/" target="_blank">📊 Finance</a>
+  </div>
+</div>
+
+<div class="footer">
+  <span class="dot dot-green"></span> All systems operational · Updated <span id="lastUpdate"></span>
+</div>
+
+<script>
+const d = new Date();
+document.getElementById('dateBadge').textContent = d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+document.getElementById('lastUpdate').textContent = d.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+</script>
+</body>
+</html>

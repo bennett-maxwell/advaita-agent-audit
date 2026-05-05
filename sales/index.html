@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FKI Sales Dashboard</title>
+<style>
+:root {
+  --bg: #0d0f14; --surface: #161922; --card: #1e2230; --border: rgba(255,255,255,0.07);
+  --accent: #4f8ef7; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+  --purple: #a855f7; --text: #e8eaf0; --muted: #6b7280;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; min-height: 100vh; }
+.top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+.back-btn { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; padding: 4px 8px; background: rgba(79,142,247,0.1); border-radius: 6px; border: 1px solid rgba(79,142,247,0.2); }
+.top-title { font-size: 16px; font-weight: 800; flex: 1; }
+.top-sub { font-size: 11px; color: var(--muted); }
+.tabs { display: flex; gap: 4px; padding: 12px 16px 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 8px 8px 0 0; cursor: pointer; color: var(--muted); background: transparent; border: none; white-space: nowrap; transition: all 0.15s; }
+.tab.active { background: var(--card); color: var(--text); border: 1px solid var(--border); border-bottom: 1px solid var(--card); }
+.tab-content { display: none; padding: 16px; }
+.tab-content.active { display: block; }
+.kpi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 12px; }
+@media (min-width: 480px) { .kpi-grid { grid-template-columns: repeat(4,1fr); } }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.kpi-val { font-size: 22px; font-weight: 800; }
+.kpi-label { font-size: 10px; color: var(--muted); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-sub { font-size: 11px; margin-top: 4px; color: var(--muted); }
+.kpi-pos { color: var(--green); }
+.kpi-neg { color: var(--red); }
+.kpi-warn { color: var(--yellow); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.card-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
+.badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 5px; display: inline-block; }
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-blue { background: rgba(79,142,247,0.15); color: var(--accent); }
+.badge-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+/* Appointment table */
+.appt-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.appt-table th { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+.appt-table td { padding: 10px 10px; border-bottom: 1px solid rgba(42,47,62,0.4); vertical-align: middle; }
+.appt-table tr:last-child td { border-bottom: none; }
+.result-won { color: var(--green); font-weight: 700; }
+.result-lost { color: var(--red); font-weight: 600; }
+.result-pending { color: var(--yellow); font-weight: 600; }
+/* Progress bar */
+.progress-wrap { background: rgba(42,47,62,0.8); border-radius: 6px; height: 8px; overflow: hidden; margin-top: 4px; }
+.progress-bar { height: 8px; border-radius: 6px; }
+.bar-green { background: var(--green); }
+.bar-yellow { background: var(--yellow); }
+.bar-red { background: var(--red); }
+/* Benchmark compare */
+.bench-row { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.bench-row:last-child { border-bottom: none; }
+.bench-metric { font-size: 12px; font-weight: 600; min-width: 130px; }
+.bench-bars { flex: 1; }
+.bench-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; display: flex; justify-content: space-between; }
+.bench-keith { background: rgba(79,142,247,0.2); border-radius: 4px; height: 7px; margin-bottom: 4px; }
+.bench-sam { background: rgba(34,197,94,0.2); border-radius: 4px; height: 7px; }
+.bench-fill-keith { background: var(--accent); border-radius: 4px; height: 7px; }
+.bench-fill-sam { background: var(--green); border-radius: 4px; height: 7px; }
+/* Training card */
+.coaching-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.coaching-item:last-child { border-bottom: none; }
+.coaching-trigger { font-size: 11px; font-weight: 700; min-width: 100px; color: var(--accent); }
+.coaching-text { font-size: 12px; color: var(--text); flex: 1; line-height: 1.5; }
+.coaching-status { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+.status-active { background: rgba(245,158,11,0.15); color: var(--yellow); }
+.status-done { background: rgba(34,197,94,0.15); color: var(--green); }
+/* Quick links */
+.ql-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.ql-btn { font-size: 12px; font-weight: 600; color: var(--text); background: rgba(42,47,62,0.6); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; text-decoration: none; white-space: nowrap; }
+.ql-btn:hover { background: rgba(79,142,247,0.15); border-color: rgba(79,142,247,0.4); }
+.data-note { font-size: 10px; color: var(--muted); margin-top: 8px; font-style: italic; }
+/* Priority board */
+.priority-board { background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(168,85,247,0.05)); border: 1px solid rgba(79,142,247,0.25); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.pb-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.pb-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(42,47,62,0.4); }
+.pb-item:last-child { border-bottom: none; }
+.pb-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb-num.red { background: var(--red); }
+.pb-text { font-size: 13px; font-weight: 600; flex: 1; }
+.pb-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="../fki-cc/index.html" class="back-btn">← FKI</a>
+  <div>
+    <div class="top-title">💼 FKI Sales Dashboard</div>
+    <div class="top-sub">Keith Johnson · Sam Benchmarks · Training Loop · GHL Pipeline</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('daily')">📅 Daily</button>
+  <button class="tab" onclick="showTab('keith')">👤 Keith</button>
+  <button class="tab" onclick="showTab('benchmarks')">📊 Benchmarks</button>
+  <button class="tab" onclick="showTab('training')">🎯 Training</button>
+</div>
+
+<div id="tab-daily" class="tab-content active">
+  <div class="priority-board">
+    <div class="pb-title">📅 Today — Sales Actions</div>
+    <div class="pb-item">
+      <div class="pb-num red">1</div>
+      <div style="flex:1">
+        <div class="pb-text">Log Keith's appointments in GHL</div>
+        <div class="pb-sub">Mark showed / no-showed · Record result for each</div>
+      </div>
+    </div>
+    <div class="pb-item">
+      <div class="pb-num">2</div>
+      <div style="flex:1">
+        <div class="pb-text">Review coaching triggers</div>
+        <div class="pb-sub">If show rate &lt;60% → fire Sam coaching loop</div>
+      </div>
+    </div>
+    <div class="pb-item">
+      <div class="pb-num">3</div>
+      <div style="flex:1">
+        <div class="pb-text">Check GHL pipeline movement</div>
+        <div class="pb-sub">Any deals advanced or stalled today?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-val" id="appts-today">—</div>
+      <div class="kpi-label">Appts Today</div>
+      <div class="kpi-sub">Update from GHL</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" id="showed-today">—</div>
+      <div class="kpi-label">Showed</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" id="show-rate-today">—</div>
+      <div class="kpi-label">Show Rate</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" id="results-today">—</div>
+      <div class="kpi-label">Results Today</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Today's Appointment Log</div>
+    <table class="appt-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Prospect</th>
+          <th>Showed</th>
+          <th>Result</th>
+          <th>Stage</th>
+        </tr>
+      </thead>
+      <tbody id="appt-log">
+        <tr><td colspan="5" style="text-align:center; color:var(--muted); padding:20px;">Log appointments in GHL · Sam coaching loop fires on patterns</td></tr>
+      </tbody>
+    </table>
+    <div class="data-note">📌 Appointments pulled from GHL pipeline. Log outcomes daily. Sam agent analyzes after each call.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Quick Links</div>
+    <div class="ql-row">
+      <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 GHL Pipeline</a>
+      <a class="ql-btn" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">📌 Sprint Board</a>
+      <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">⚡ #leo-auto</a>
+    </div>
+  </div>
+</div>
+
+<div id="tab-keith" class="tab-content">
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-val kpi-warn">Update</div>
+      <div class="kpi-label">Keith Show Rate</div>
+      <div class="kpi-sub">Target: ≥60%</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val kpi-warn">Update</div>
+      <div class="kpi-label">Keith Close Rate</div>
+      <div class="kpi-sub">Target: Match Sam</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val kpi-warn">Update</div>
+      <div class="kpi-label">Appts This Week</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val kpi-warn">Update</div>
+      <div class="kpi-label">Deals in Pipeline</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Keith — 30-Day Rolling Performance</div>
+    <table class="appt-table">
+      <thead>
+        <tr><th>Week</th><th>Scheduled</th><th>Showed</th><th>Show Rate</th><th>Results</th><th>vs Sam</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>This Week</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class="badge badge-blue">Log GHL</span></td>
+        </tr>
+        <tr>
+          <td>Last Week</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class="badge badge-blue">Log GHL</span></td>
+        </tr>
+        <tr>
+          <td>Wk -2</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class="badge badge-blue">Log GHL</span></td>
+        </tr>
+        <tr>
+          <td>Wk -3</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class="badge badge-blue">Log GHL</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="data-note">📌 Pull weekly from GHL. Sam agent scores each call and feeds coaching brief to Keith's next session calendar invite.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💼 Keith's Active Pipeline</div>
+    <table class="appt-table">
+      <thead><tr><th>Prospect</th><th>Brand</th><th>Stage</th><th>Last Touch</th><th>Next Action</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" style="text-align:center; color:var(--muted); padding:16px;">Pull from GHL — filter by owner: Keith</td></tr>
+      </tbody>
+    </table>
+    <div class="ql-row" style="margin-top:10px">
+      <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 Open Keith's GHL View →</a>
+    </div>
+  </div>
+</div>
+
+<div id="tab-benchmarks" class="tab-content">
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-val kpi-pos">Sam</div>
+      <div class="kpi-label">Benchmark Rep</div>
+      <div class="kpi-sub">FKI's top performer</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">TBD</div>
+      <div class="kpi-label">Sam Show Rate</div>
+      <div class="kpi-sub">Update weekly</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">TBD</div>
+      <div class="kpi-label">Sam Close Rate</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">$15K–$25K</div>
+      <div class="kpi-label">Avg Deal Size</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Keith vs Sam — Head to Head</div>
+    <div class="bench-row">
+      <div class="bench-metric">Show Rate</div>
+      <div class="bench-bars">
+        <div class="bench-label"><span>Keith: —%</span><span>Sam: —%</span></div>
+        <div class="bench-keith"><div class="bench-fill-keith" style="width:50%"></div></div>
+        <div class="bench-sam"><div class="bench-fill-sam" style="width:70%"></div></div>
+      </div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-metric">Close Rate</div>
+      <div class="bench-bars">
+        <div class="bench-label"><span>Keith: —%</span><span>Sam: —%</span></div>
+        <div class="bench-keith"><div class="bench-fill-keith" style="width:30%"></div></div>
+        <div class="bench-sam"><div class="bench-fill-sam" style="width:55%"></div></div>
+      </div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-metric">Avg Deal Value</div>
+      <div class="bench-bars">
+        <div class="bench-label"><span>Keith: —</span><span>Sam: —</span></div>
+        <div class="bench-keith"><div class="bench-fill-keith" style="width:40%"></div></div>
+        <div class="bench-sam"><div class="bench-fill-sam" style="width:65%"></div></div>
+      </div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-metric">Discovery to FA</div>
+      <div class="bench-bars">
+        <div class="bench-label"><span>Keith: — days</span><span>Sam: — days</span></div>
+        <div class="bench-keith"><div class="bench-fill-keith" style="width:40%"></div></div>
+        <div class="bench-sam"><div class="bench-fill-sam" style="width:60%"></div></div>
+      </div>
+    </div>
+    <div class="data-note">📌 Sam agent pulls transcript scores weekly. Benchmark bars update automatically once Sam coaching loop feeds data.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤖 Sam Agent — Coaching Loop</div>
+    <div style="font-size:12px; color:var(--muted); line-height:1.8;">
+      <div>📞 <strong style="color:var(--text)">After every Keith call:</strong> Sam pulls transcript, scores against Klaff/Voss/Belfort frameworks, identifies drop-off moments, delivers coaching brief.</div>
+      <div>📅 <strong style="color:var(--text)">Before every Keith call:</strong> Sam reviews last 3 calls, builds training brief attached to the calendar invite.</div>
+      <div>🤖 <strong style="color:var(--text)">GHL Bot training:</strong> Same performance data trains the GHL chatbot and calling bot weekly.</div>
+    </div>
+    <div class="ql-row" style="margin-top:12px">
+      <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">⚡ Sam reports → #leo-auto</a>
+    </div>
+  </div>
+</div>
+
+<div id="tab-training" class="tab-content">
+  <div class="card">
+    <div class="card-title">🎯 Active Coaching Triggers</div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Show Rate &lt;60%</div>
+      <div class="coaching-text">Sam coaching loop fires immediately. Pre-call brief includes confirmation scripts and day-before reminder cadence playbook.</div>
+      <span class="coaching-status status-active">Monitor</span>
+    </div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Pitch Drop-off</div>
+      <div class="coaching-text">Sam identifies exact moment in transcript where momentum was lost. Provides reframe for next call.</div>
+      <span class="coaching-status status-active">Auto</span>
+    </div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Close Rate &lt;Sam</div>
+      <div class="coaching-text">Weekly comparison. If Keith trails Sam by &gt;15%, escalate to full week coaching intensive. Belfort straight-line script review.</div>
+      <span class="coaching-status status-active">Weekly</span>
+    </div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Deal Stalled 14d</div>
+      <div class="coaching-text">Piper flags. Sam generates re-engagement brief. Keith gets exact talk track for re-activation call.</div>
+      <span class="coaching-status status-active">Auto</span>
+    </div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Post-FDD silence</div>
+      <div class="coaching-text">Candidate goes silent after FDD sent. Sam generates 3-touch re-engagement sequence. If no response in 7 days → escalate to Bennett.</div>
+      <span class="coaching-status status-active">Piper triggers</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📚 Coaching Frameworks (Sam uses)</div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Klaff (Pitch)</div>
+      <div class="coaching-text">Pitch Anything framework. Sam scores framing, intrigue, prizing, and time constraint. Identifies where Keith loses frame control.</div>
+    </div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Voss (Negotiation)</div>
+      <div class="coaching-text">Never Split the Difference. Sam scores tactical empathy, mirroring, and labeling moments. Catches Keith being too eager.</div>
+    </div>
+    <div class="coaching-item">
+      <div class="coaching-trigger">Belfort (Close)</div>
+      <div class="coaching-text">Straight Line system. Sam identifies whether Keith is running the straight line or letting prospects pull him off track.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Dispatch Training Now</div>
+    <div style="font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Tag Sam in #leo-auto to trigger coaching on a specific call:</div>
+    <div style="background:rgba(79,142,247,0.08); border:1px solid rgba(79,142,247,0.2); border-radius:8px; padding:10px; font-size:12px; font-family:monospace; color:var(--text);">
+      @Sam — score Keith's call from [date/time]. Focus on [show rate / close attempt / framing]. Post brief to Keith's next calendar invite.
+    </div>
+    <div class="ql-row" style="margin-top:10px">
+      <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">⚡ #leo-auto → Sam</a>
+      <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 GHL Transcripts</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

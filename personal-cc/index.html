@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal Command Center</title>
+<style>
+:root {
+  --bg: #0d0f14; --surface: #161922; --card: #1e2230; --border: rgba(255,255,255,0.07);
+  --accent: #a855f7; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+  --blue: #4f8ef7; --text: #e8eaf0; --muted: #6b7280;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; min-height: 100vh; padding: 16px; }
+.top-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.back-btn { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; padding: 4px 8px; background: rgba(168,85,247,0.1); border-radius: 6px; border: 1px solid rgba(168,85,247,0.2); }
+.top-title { font-size: 16px; font-weight: 800; }
+.top-sub { font-size: 11px; color: var(--muted); }
+/* Main cards */
+.cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 480px) { .cc-grid { grid-template-columns: 1fr; } }
+.cc-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-decoration: none; color: var(--text); display: block; transition: border-color 0.2s; position: relative; }
+.cc-card:hover { border-color: rgba(168,85,247,0.4); }
+.cc-card.legal { border-color: rgba(239,68,68,0.15); }
+.cc-card.legal:hover { border-color: rgba(239,68,68,0.4); }
+.cc-card.finance { border-color: rgba(34,197,94,0.15); }
+.cc-card.finance:hover { border-color: rgba(34,197,94,0.4); }
+.cc-card.chores { border-color: rgba(245,158,11,0.15); }
+.cc-card.chores:hover { border-color: rgba(245,158,11,0.4); }
+.cc-icon { font-size: 28px; margin-bottom: 10px; }
+.cc-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
+.cc-title { font-size: 17px; font-weight: 800; }
+.cc-desc { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+.cc-arrow { position: absolute; bottom: 14px; right: 14px; color: var(--muted); }
+/* Agents section */
+.agents-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.agent-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+.agent-icon { font-size: 22px; margin-bottom: 6px; }
+.agent-name { font-size: 14px; font-weight: 800; }
+.agent-role { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.agent-channel { font-size: 10px; color: var(--accent); margin-top: 6px; font-weight: 600; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.dot-green { background: var(--green); }
+.badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; display: inline-block; }
+.badge-purple { background: rgba(168,85,247,0.15); color: var(--accent); }
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.card-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+.ql-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.ql-btn { font-size: 12px; font-weight: 600; color: var(--text); background: rgba(42,47,62,0.6); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; text-decoration: none; white-space: nowrap; }
+.ql-btn:hover { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.4); }
+.note { background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.2); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="../bennett-cc/index.html" class="back-btn">← Home</a>
+  <div>
+    <div class="top-title">👤 Personal Command Center</div>
+    <div class="top-sub">Personal · Private · Agents: Ace · Lex · Rachel · Finny</div>
+  </div>
+</div>
+
+<div class="note">🔒 Personal space. Business agents have no access to this section. Channel: #leo-sky only.</div>
+
+<div class="cc-grid">
+  <a href="https://bennett-maxwell.github.io/advaita-agent-audit/legal/" target="_blank" class="cc-card legal">
+    <div class="cc-icon">⚖️</div>
+    <div class="cc-label">Legal</div>
+    <div class="cc-title">Legal Dashboard</div>
+    <div class="cc-desc">Cases · Deadlines · Lex Agent · Attorney Comms<br><span style="color:var(--red);font-weight:700">pw: legal 2026</span></div>
+    <span class="cc-arrow">↗</span>
+  </a>
+  <a href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/" target="_blank" class="cc-card finance">
+    <div class="cc-icon">💰</div>
+    <div class="cc-label">Finance</div>
+    <div class="cc-title">Personal Finance</div>
+    <div class="cc-desc">Finny Agent · Budget · Bills · Investments<br><span style="color:var(--green);font-weight:700">pw: finance 2026</span></div>
+    <span class="cc-arrow">↗</span>
+  </a>
+  <a href="https://bennett-maxwell.github.io/advaita-agent-audit/chore-chart/" target="_blank" class="cc-card chores">
+    <div class="cc-icon">✅</div>
+    <div class="cc-label">Family</div>
+    <div class="cc-title">Kids' Chores</div>
+    <div class="cc-desc">Chore chart · Weekly review · Points tracker</div>
+    <span class="cc-arrow">↗</span>
+  </a>
+  <a href="../real-estate/index.html" class="cc-card">
+    <div class="cc-icon">🏠</div>
+    <div class="cc-label">Property</div>
+    <div class="cc-title">Real Estate</div>
+    <div class="cc-desc">5 Properties · Rachel Agent · Rent Tracker</div>
+    <span class="cc-arrow">→</span>
+  </a>
+</div>
+
+<div class="card">
+  <div class="card-title">👥 Personal Agent Roster</div>
+  <div class="agents-grid">
+    <div class="agent-card">
+      <div class="agent-icon">🗂️</div>
+      <div class="agent-name">Ace</div>
+      <div class="agent-role">Personal Chief of Staff</div>
+      <div class="agent-channel">#leo-sky → Ace</div>
+      <div style="margin-top:8px"><span class="badge badge-green">Active</span></div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">⚖️</div>
+      <div class="agent-name">Lex</div>
+      <div class="agent-role">Personal Paralegal</div>
+      <div class="agent-channel">#leo-sky → Lex</div>
+      <div style="margin-top:8px"><span class="badge badge-yellow">Proceed w/ Caution</span></div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">🏠</div>
+      <div class="agent-name">Rachel</div>
+      <div class="agent-role">Real Estate Manager</div>
+      <div class="agent-channel">#leo-sky → Rachel</div>
+      <div style="margin-top:8px"><span class="badge badge-green">Green — Go</span></div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">💰</div>
+      <div class="agent-name">Finny</div>
+      <div class="agent-role">Personal Finance</div>
+      <div class="agent-channel">#leo-sky → Finny</div>
+      <div style="margin-top:8px"><span class="badge badge-purple">Setup Pending</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">⚡ Quick Links — Personal</div>
+  <div class="ql-row">
+    <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0ALAL16WRW" target="_blank">💬 #leo-sky</a>
+    <a class="ql-btn" href="mailto:bennettmaxwell35@gmail.com">📧 Personal Gmail</a>
+    <a class="ql-btn" href="https://www.rentler.com" target="_blank">🏠 Rentler</a>
+    <a class="ql-btn" href="https://drive.google.com/drive/folders/1w8V2WD8urg0o7FvkvigH_A3gzXVsYnni" target="_blank">📁 RE Drive</a>
+    <a class="ql-btn" href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank">📝 Agent Roster (Notion)</a>
+  </div>
+</div>
+</body>
+</html>
