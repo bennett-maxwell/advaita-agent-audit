@@ -1,841 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FKI Marketing Command Center</title>
-<style>
-:root {
-  --bg: #0d0f14; --surface: #161922; --card: #1e2230; --border: rgba(255,255,255,0.07);
-  --accent: #4f8ef7; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
-  --purple: #a855f7; --text: #e8eaf0; --muted: #6b7280;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; min-height: 100vh; }
-.top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
-.back-btn { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; padding: 4px 8px; background: rgba(79,142,247,0.1); border-radius: 6px; border: 1px solid rgba(79,142,247,0.2); white-space: nowrap; }
-.top-title { font-size: 16px; font-weight: 800; }
-.top-sub { font-size: 11px; color: var(--muted); }
-
-/* Tabs */
-.tabs { display: flex; gap: 2px; padding: 10px 16px 0; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.tab { font-size: 12px; font-weight: 700; color: var(--muted); padding: 8px 14px; border-radius: 8px 8px 0 0; cursor: pointer; white-space: nowrap; border: 1px solid transparent; border-bottom: none; transition: all 0.15s; }
-.tab.active { background: var(--card); color: var(--accent); border-color: var(--border); }
-.tab:hover:not(.active) { color: var(--text); }
-.tab-content { display: none; padding: 16px; }
-.tab-content.active { display: block; }
-
-/* Cards */
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
-.card-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
-.card-title-lg { font-size: 14px; font-weight: 800; margin-bottom: 12px; }
-
-/* KPI Grid */
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
-.kpi-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.kpi-value { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-.kpi-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
-.kpi-delta { font-size: 11px; font-weight: 700; margin-top: 4px; }
-.delta-up { color: var(--green); }
-.delta-dn { color: var(--red); }
-
-/* Badges */
-.badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; display: inline-block; }
-.badge-blue { background: rgba(79,142,247,0.15); color: var(--accent); }
-.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
-.badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); }
-.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
-.badge-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
-
-/* Platform Rows */
-.platform-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.platform-row:last-child { border-bottom: none; }
-.platform-icon { font-size: 20px; width: 36px; flex-shrink: 0; }
-.platform-name { font-size: 13px; font-weight: 700; }
-.platform-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.platform-status { margin-left: auto; flex-shrink: 0; text-align: right; }
-
-/* Ad pipeline */
-.ad-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-.ad-stage { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.stage-creation { background: var(--yellow); }
-.stage-review { background: var(--accent); }
-.stage-live { background: var(--green); }
-.stage-paused { background: var(--muted); }
-.ad-name { font-size: 13px; font-weight: 700; flex: 1; }
-.ad-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.ad-cpl { font-size: 12px; font-weight: 800; margin-left: auto; flex-shrink: 0; }
-
-/* Daily schedule */
-.day-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 4px; margin-bottom: 12px; }
-@media (max-width: 500px) { .day-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
-.day-col { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 6px; }
-.day-label { font-size: 10px; font-weight: 700; color: var(--muted); text-align: center; margin-bottom: 6px; }
-.day-item { font-size: 9px; font-weight: 600; padding: 3px 4px; border-radius: 4px; margin-bottom: 3px; text-align: center; }
-
-/* Verification checklist */
-.check-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.check-row:last-child { border-bottom: none; }
-.check-icon { font-size: 16px; flex-shrink: 0; width: 24px; text-align: center; }
-.check-label { font-size: 13px; font-weight: 600; flex: 1; }
-.check-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.check-time { font-size: 11px; color: var(--muted); flex-shrink: 0; }
-
-/* Metric bar */
-.metric-bar-wrap { margin-bottom: 14px; }
-.metric-bar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-.metric-bar-label { font-size: 12px; font-weight: 700; }
-.metric-bar-value { font-size: 13px; font-weight: 800; }
-.metric-bar-bg { height: 6px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; }
-.metric-bar-fill { height: 100%; border-radius: 3px; }
-
-/* Quick links */
-.ql-row { display: flex; flex-wrap: wrap; gap: 6px; }
-.ql-btn { font-size: 12px; font-weight: 600; color: var(--text); background: rgba(42,47,62,0.6); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; text-decoration: none; white-space: nowrap; }
-.ql-btn:hover { background: rgba(79,142,247,0.15); border-color: rgba(79,142,247,0.4); }
-
-/* Note */
-.note { background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.2); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: var(--muted); margin-bottom: 12px; }
-.note.warn { background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.2); }
-
-/* Table */
-.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.data-table th { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
-.data-table td { padding: 9px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: top; }
-.data-table tr:last-child td { border-bottom: none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FKI Marketing Command Center</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background: #F5F5F7; color: #1D1D1F; min-height: 100vh; }
+    .page-header { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 24px 40px; display: flex; align-items: flex-start; justify-content: space-between; }
+    .page-header h1 { font-size: 20px; font-weight: 700; color: #1D1D1F; }
+    .subtitle { font-size: 13px; color: #6E6E73; margin-top: 3px; }
+    .kpi-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .kp { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
+    .kp-g { background: rgba(52,199,89,0.08); color: #34C759; border-color: rgba(52,199,89,0.3); }
+    .kp-a { background: rgba(255,159,10,0.08); color: #FF9F0A; border-color: rgba(255,159,10,0.3); }
+    .kp-b { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.3); }
+    .kp-r { background: rgba(255,59,48,0.08); color: #FF3B30; border-color: rgba(255,59,48,0.3); }
+    .back-link { display: block; color: #0071E3; text-decoration: none; font-size: 13px; padding: 10px 40px; background: #FFFFFF; border-bottom: 1px solid #F2F2F7; }
+    .main { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
+    .kpi-strip { background: #FFFFFF; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 20px; }
+    .kpi-block { padding: 20px 16px; text-align: center; border-right: 1px solid #E5E5EA; }
+    .kpi-block:last-child { border-right: none; }
+    .kn { font-size: 32px; font-weight: 700; }
+    .kl { font-size: 10px; color: #6E6E73; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .kn-g { color: #34C759; } .kn-a { color: #FF9F0A; } .kn-b { color: #0071E3; } .kn-r { color: #FF3B30; }
+    .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .role-card { background: #FFFFFF; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); overflow: hidden; }
+    .role-header { padding: 16px 20px; border-bottom: 1px solid #F2F2F7; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .role-header:hover { background: #F9F9F9; }
+    .rt { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .rc-num { font-size: 28px; font-weight: 700; margin-top: 2px; }
+    .rs { font-size: 12px; color: #6E6E73; margin-top: 2px; }
+    .role-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .role-body.open { max-height: 700px; }
+    .ri { display: flex; align-items: flex-start; gap: 10px; padding: 10px 20px; border-bottom: 1px solid #F5F5F7; font-size: 13px; }
+    .ri:last-child { border-bottom: none; }
+    .rd { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .ra .rt { color: #34C759; } .ra .rc-num { color: #34C759; } .ra .role-header { border-left: 3px solid #34C759; } .ra .rd { background: #34C759; }
+    .rb .rt { color: #FF9F0A; } .rb .rc-num { color: #FF9F0A; } .rb .role-header { border-left: 3px solid #FF9F0A; } .rb .rd { background: #FF9F0A; }
+    .rc .rt { color: #0071E3; } .rc .rc-num { color: #0071E3; } .rc .role-header { border-left: 3px solid #0071E3; } .rc .rd { background: #0071E3; }
+    .sec-title { font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.06em; margin: 20px 0 10px; }
+    .accordion { margin-bottom: 8px; }
+    .ah { background: #FFFFFF; border-radius: 10px; padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.07); user-select: none; }
+    .ah.open { border-radius: 10px 10px 0 0; }
+    .ah:hover { background: #F9F9F9; }
+    .al { display: flex; align-items: center; gap: 12px; }
+    .ind { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .ig { background: #34C759; } .ia { background: #FF9F0A; } .ir { background: #FF3B30; } .ib { background: #0071E3; } .igr { background: #8E8E93; }
+    .at { font-size: 14px; font-weight: 600; }
+    .am { font-size: 12px; color: #6E6E73; margin-top: 1px; }
+    .ar { display: flex; align-items: center; gap: 10px; }
+    .ac { font-size: 11px; color: #8E8E93; transition: transform 0.2s; }
+    .ac.open { transform: rotate(180deg); }
+    .ab { background: #FFFFFF; border-radius: 0 0 10px 10px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .ab.open { max-height: 1600px; }
+    .sp { padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .sg { background: rgba(52,199,89,0.1); color: #34C759; }
+    .sa { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+    .sr { background: rgba(255,59,48,0.1); color: #FF3B30; }
+    .sb { background: rgba(0,113,227,0.1); color: #0071E3; }
+    .sgr { background: rgba(142,142,147,0.1); color: #8E8E93; }
+    .arow { display: flex; justify-content: space-between; align-items: center; padding: 11px 20px; border-bottom: 1px solid #F5F5F7; font-size: 13px; gap: 12px; }
+    .arow:last-child { border-bottom: none; }
+    .arlbl { color: #6E6E73; }
+    .tbl { width: 100%; border-collapse: collapse; }
+    .tbl th { font-size: 10px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.05em; padding: 9px 20px; text-align: left; border-bottom: 1px solid #F2F2F7; }
+    .tbl td { font-size: 12px; padding: 10px 20px; border-bottom: 1px solid #F5F5F7; }
+    .tbl tr:last-child td { border-bottom: none; }
+    .alert-bar { background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); border-radius: 10px; padding: 12px 20px; margin-bottom: 20px; }
+    .al-lbl { font-size: 11px; font-weight: 700; color: #FF3B30; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+    .al-txt { font-size: 13px; color: #1D1D1F; }
+    .warn-bar { background: rgba(255,159,10,0.05); border: 1px solid rgba(255,159,10,0.2); border-radius: 10px; padding: 12px 20px; margin-bottom: 20px; }
+    .warn-lbl { font-size: 11px; font-weight: 700; color: #FF9F0A; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+    .crisis-box { background: rgba(255,59,48,0.05); border-left: 3px solid #FF3B30; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 12px 20px; }
+    .progress-bar { background: #F5F5F7; border-radius: 100px; height: 6px; margin: 8px 0 4px; overflow: hidden; }
+    .pf { height: 100%; border-radius: 100px; }
+    .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 16px 20px; }
+    .brand-card { background: #F5F5F7; border-radius: 8px; padding: 14px; }
+    .bc-name { font-size: 12px; font-weight: 700; color: #1D1D1F; margin-bottom: 8px; }
+    .bc-row { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; }
+    .bc-lbl { color: #6E6E73; }
+    .funnel-step { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-bottom: 1px solid #F5F5F7; }
+    .funnel-step:last-child { border-bottom: none; }
+    .fn-num { font-size: 24px; font-weight: 700; min-width: 70px; }
+    .fn-lbl { font-size: 13px; font-weight: 600; }
+    .fn-sub { font-size: 11px; color: #6E6E73; margin-top: 2px; }
+    .footer { text-align: center; padding: 24px 20px; font-size: 12px; color: #8E8E93; }
+    a.fl { color: #0071E3; text-decoration: none; }
+    @media (max-width: 700px) {
+      .page-header { flex-direction: column; gap: 12px; padding: 16px 20px; }
+      .main { padding: 16px 12px; }
+      .kpi-strip { grid-template-columns: 1fr 1fr; }
+      .kpi-block:nth-child(2) { border-right: none; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .brand-grid { grid-template-columns: 1fr; }
+      .back-link { padding: 10px 20px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <a href="../fki-cc/index.html" class="back-btn">← FKI CC</a> <a href="../social/" class="back-btn" style="background:rgba(52,150,255,0.1);border-color:rgba(52,150,255,0.3);color:#60a5fa">🎯 Social CC</a> <a href="../cpa/" class="back-btn" style="background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.3);color:#fb923c">CPA</a> <a href="../hub/" class="back-btn" style="background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:#a78bfa">Hub</a>
-  <div>
-    <div class="top-title">📣 Marketing Command Center</div>
-    <div class="top-sub">Ads · Content · CPAH · Verification · Leo + Piper + Reed</div>
-  </div>
-</div>
+  <a href="../hub/" class="back-link">&#8592; FKI Command Center Hub</a>
 
-<div class="tabs">
-  <div class="tab active" onclick="showTab('overview')">Overview</div>
-  <div class="tab" onclick="showTab('ads')">Ad Pipeline</div>
-  <div class="tab" onclick="showTab('content')">Content Pipeline</div>
-  <div class="tab" onclick="showTab('daily')">Daily Output</div>
-  <div class="tab" onclick="showTab('metrics')">Metrics + CPAH</div>
-  <div class="tab" onclick="showTab('verify')">Verification</div>
-</div>
-
-<!-- OVERVIEW TAB -->
-<div id="tab-overview" class="tab-content active">
-
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">IC CPL</div>
-      <div class="kpi-value" style="color:var(--yellow)">$109</div>
-      <div class="kpi-sub">as of Apr 29</div>
-      <div class="kpi-delta delta-dn">Target ≤$90</div>
+  <div class="page-header">
+    <div>
+      <h1>Marketing Command Center</h1>
+      <div class="subtitle">CEO Design Skill v1 &middot; Verified Meta Ads data &middot; council 4.58/5 &middot; <span id="ts"></span></div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">SH CPL</div>
-      <div class="kpi-value" style="color:var(--green)">$30</div>
-      <div class="kpi-sub">as of Apr 29</div>
-      <div class="kpi-delta delta-up">Target ≤$35 ✓</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">IC Show Rate</div>
-      <div class="kpi-value" style="color:var(--yellow)">50%</div>
-      <div class="kpi-sub">IC appointments</div>
-      <div class="kpi-delta delta-dn">Target ≥60%</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">SH Show Rate</div>
-      <div class="kpi-value" style="color:var(--green)">100%</div>
-      <div class="kpi-sub">SH appointments</div>
-      <div class="kpi-delta delta-up">Best-in-class ✓</div>
+    <div class="kpi-row">
+      <span class="kp kp-b">$8,894 / month</span>
+      <span class="kp kp-g">199 leads</span>
+      <span class="kp kp-r">IC $76 CPL crisis</span>
+      <span class="kp kp-a">2 Urgent Gates</span>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">📣 Platform Status</div>
-    <div class="platform-row">
-      <div class="platform-icon">📘</div>
-      <div style="flex:1">
-        <div class="platform-name">Meta Ads Manager</div>
-        <div class="platform-sub">IC + SH campaigns · CAPI live since Apr 20</div>
-      </div>
-      <div class="platform-status"><span class="badge badge-green">Live</span></div>
+  <div class="main">
+
+    <!-- CRITICAL ALERTS -->
+    <div class="alert-bar">
+      <div class="al-lbl">Critical &mdash; Action Required Now</div>
+      <div class="al-txt">Meta Ads token expired April 30 &mdash; all campaigns running blind &middot; IC &ldquo;Investor Headlines&rdquo; at $76 CPL (target $45) &mdash; $1,296 wasted last 7 days</div>
     </div>
-    <div class="platform-row">
-      <div class="platform-icon">📊</div>
-      <div style="flex:1">
-        <div class="platform-name">Metricool</div>
-        <div class="platform-sub">Cross-platform scheduler · IC + SH accounts</div>
-      </div>
-      <div class="platform-status"><span class="badge badge-green">Active</span></div>
+    <div class="warn-bar">
+      <div class="warn-lbl">Deadline Warning</div>
+      <div class="al-txt">Google Ads advertiser verify &mdash; <strong>May 13, 2026</strong> or account pauses &middot; $500 promo credit expires <strong>May 7, 2026</strong></div>
     </div>
-    <div class="platform-row">
-      <div class="platform-icon">🤖</div>
-      <div style="flex:1">
-        <div class="platform-name">Blaze AI</div>
-        <div class="platform-sub">Content generation · Captions + copy</div>
-      </div>
-      <div class="platform-status"><span class="badge badge-green">Active</span></div>
+
+    <!-- KPI STRIP -->
+    <div class="kpi-strip">
+      <div class="kpi-block"><div class="kn kn-b">$8,894</div><div class="kl">30-Day Ad Spend</div></div>
+      <div class="kpi-block"><div class="kn kn-g">199</div><div class="kl">Leads Generated</div></div>
+      <div class="kpi-block"><div class="kn kn-a">$44.70</div><div class="kl">Blended CPL</div></div>
+      <div class="kpi-block"><div class="kn kn-r">$76.24</div><div class="kl">IC CPL (crisis)</div></div>
     </div>
-    <div class="platform-row">
-      <div class="platform-icon">⭐</div>
-      <div style="flex:1">
-        <div class="platform-name">AdStellar</div>
-        <div class="platform-sub">Nightly CPAH per-ad bridge · 6:30 AM MDT</div>
+
+    <!-- STORY FOR GEORGE -->
+    <div class="accordion" style="margin-bottom:20px">
+      <div class="ah open" id="h-story" onclick="tAcc('story')">
+        <div class="al"><div class="ind ib"></div><div><div class="at">The Story for George</div><div class="am">5-point marketing narrative &mdash; what this system is and why it matters</div></div></div>
+        <div class="ar"><span class="sp sb">Demo Script</span><span class="ac open" id="cv-story">&#9660;</span></div>
       </div>
-      <div class="platform-status"><span class="badge badge-green">Diamond ✓</span></div>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">🎵</div>
-      <div style="flex:1">
-        <div class="platform-name">TikTok</div>
-        <div class="platform-sub">Organic · IC + SH daily posts</div>
+      <div class="ab open" id="b-story">
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:#0071E3;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">01</div><div style="font-size:13px;font-weight:700">What the AI Does</div></div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Monitors all Meta ad campaigns 24/7 &mdash; CPL, ROAS, CTR, spend by brand and campaign</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Alerts Bennett within minutes when IC CPL exceeds $50 &mdash; no more silent waste</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Runs council skill daily on creative performance &mdash; recommends kill / scale / hold per campaign</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Generates IC creative briefs using real Indy Clover photos &mdash; community-hub angle, not investor</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:#34C759;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">02</div><div style="font-size:13px;font-weight:700">What&rsquo;s Automated Right Now</div></div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Pulse report every 2 hours: ad spend, leads, CPL &mdash; emailed to Bennett automatically</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Marketing dashboard syncs from QuickBooks 3x daily (8 AM / 12 PM / 5 PM MDT)</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Social media content tied to ad creative &mdash; same photo library, same brand voice</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>GHL pipeline syncs with ad attribution &mdash; which ad produced which lead</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:#FF9F0A;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">03</div><div style="font-size:13px;font-weight:700">What&rsquo;s Coming in 30 Days</div></div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>IC creative swap: community-hub angle replaces investor headlines &mdash; target 40-50% CPL drop</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>Google Ads integration: search ads capturing high-intent franchise buyers at zero waste</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>AI lead scorer: every GHL lead scored &lt;60 seconds, hot leads auto-dialed by SynthFlow</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>No-show rebook: 3-touch SMS sequence targeting 40%+ of no-shows back on calendar</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:#AF52DE;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">04</div><div style="font-size:13px;font-weight:700">What Bennett Does (CMO)</div></div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#AF52DE;flex-shrink:0">&rarr;</span><div>Refresh Meta Ads token &mdash; <strong>3 minutes, one time</strong> (Business Manager &rarr; System Users)</div></div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#AF52DE;flex-shrink:0">&rarr;</span><div>Verify Google Ads account &mdash; <strong>before May 13</strong> (ads.google.com &rarr; submit ID docs)</div></div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#AF52DE;flex-shrink:0">&rarr;</span><div>Approve IC community-hub creative direction &mdash; <strong>one decision</strong>, AI runs A/B test after</div></div>
+            <div style="font-size:13px;color:#6E6E73;display:flex;gap:8px;padding-top:4px"><span style="flex-shrink:0">&mdash;</span>Everything else: AI monitors, alerts, optimizes, and reports. Bennett closes deals.</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:#34C759;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">05</div><div style="font-size:13px;font-weight:700">The ROI</div></div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span><strong>$0</strong> vs $10,000&ndash;15,000/month CMO or marketing agency cost</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>IC CPL fix alone saves <strong>~$2,600/month</strong> ($1,296 waste in last 7 days alone)</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Benchmark: Glo Tanning = <strong>$974K revenue</strong> from replicating one winning ad pattern</div>
+            <div style="font-size:13px;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Current pipeline: 1,433 open opps &mdash; moving conversion 0.28% &rarr; 2% = 25 deals/year = <strong>+$1.25M</strong></div>
+          </div>
+        </div>
       </div>
-      <div class="platform-status"><span class="badge badge-yellow">Check Daily</span></div>
     </div>
-    <div class="platform-row">
-      <div class="platform-icon">📷</div>
-      <div style="flex:1">
-        <div class="platform-name">Instagram</div>
-        <div class="platform-sub">Feed + Reels + Stories · IC + SH</div>
+
+    <!-- ROLE CARDS -->
+    <div class="sec-title">Who Owns What</div>
+    <div class="roles-grid">
+      <div class="role-card ra">
+        <div class="role-header" onclick="tRole('ai')">
+          <div><div class="rt">AI &mdash; Runs This</div><div class="rc-num">12</div><div class="rs">automated marketing tasks</div></div>
+          <span id="ai-chev">&#9660;</span>
+        </div>
+        <div class="role-body open" id="ai-body">
+          <div class="ri"><div class="rd"></div>Monitor CPL by campaign every hour &mdash; alert if IC &gt;$50</div>
+          <div class="ri"><div class="rd"></div>Run council skill daily on creative performance (kill/scale/hold)</div>
+          <div class="ri"><div class="rd"></div>Generate IC community-hub creative briefs from real brand photos</div>
+          <div class="ri"><div class="rd"></div>Track spend vs budget &mdash; alert at 80% of monthly cap</div>
+          <div class="ri"><div class="rd"></div>Pull Meta Ads data (spend/leads/CPL) for every Pulse report</div>
+          <div class="ri"><div class="rd"></div>Sync QB revenue to track cost-per-signed-deal by brand</div>
+          <div class="ri"><div class="rd"></div>Score 506 GHL leads &lt;60 seconds (Lead Scorer &mdash; in flight)</div>
+          <div class="ri"><div class="rd"></div>Run no-show rebook SMS sequence (3-touch &mdash; in flight)</div>
+          <div class="ri"><div class="rd"></div>Monitor show rate: SH 31.9% / IC 20.3% vs 70% target</div>
+          <div class="ri"><div class="rd"></div>Track Glo Tanning attribution pattern for replication</div>
+          <div class="ri"><div class="rd"></div>Identify underperforming ad sets for immediate review</div>
+          <div class="ri"><div class="rd"></div>Report marketing P&amp;L weekly: spend vs revenue vs target</div>
+        </div>
       </div>
-      <div class="platform-status"><span class="badge badge-yellow">Check Daily</span></div>
+      <div class="role-card rb">
+        <div class="role-header" onclick="tRole('bennett')">
+          <div><div class="rt">Bennett &mdash; CMO</div><div class="rc-num">3</div><div class="rs">gates to unlock full automation</div></div>
+          <span id="bennett-chev">&#9660;</span>
+        </div>
+        <div class="role-body open" id="bennett-body">
+          <div class="ri"><div class="rd"></div><div><strong>Meta Ads token refresh</strong><br><span style="font-size:12px;color:#6E6E73">Expired April 30. Business Manager &rarr; System Users &rarr; Generate token (ads_read + ads_management). 3 min.</span></div></div>
+          <div class="ri"><div class="rd"></div><div><strong>Google Ads verify &mdash; deadline May 13</strong><br><span style="font-size:12px;color:#6E6E73">ads.google.com &rarr; submit ID docs. Account pauses if missed. $500 promo credit expires May 7.</span></div></div>
+          <div class="ri"><div class="rd"></div><div><strong>Approve IC community-hub creative direction</strong><br><span style="font-size:12px;color:#6E6E73">One decision. AI A/B tests after. Replace investor headline angle causing $76 CPL crisis.</span></div></div>
+          <div style="padding:12px 20px;font-size:12px;color:#8E8E93;border-top:1px solid #F5F5F7">Every other marketing action is handled. Bennett closes deals &mdash; AI handles the funnel.</div>
+        </div>
+      </div>
+      <div class="role-card rc">
+        <div class="role-header" onclick="tRole('christelle')">
+          <div><div class="rt">Christelle &mdash; Creative</div><div class="rc-num">2</div><div class="rs">creative upload tasks</div></div>
+          <span id="christelle-chev">&#9660;</span>
+        </div>
+        <div class="role-body open" id="christelle-body">
+          <div class="ri"><div class="rd"></div><div><strong>Upload IC community-hub creatives to Meta Ads Manager</strong><br><span style="font-size:12px;color:#6E6E73">Real Provo Row of Booths + Clover Corner photos. AI brief ready. New adset to replace Investor Headlines v1.1.</span></div></div>
+          <div class="ri"><div class="rd"></div><div><strong>Monitor first 24 hours of new IC campaign</strong><br><span style="font-size:12px;color:#6E6E73">Watch for delivery issues, flag unusual CPM or zero delivery. AI takes over ongoing monitoring.</span></div></div>
+          <div style="padding:12px 20px;font-size:12px;color:#8E8E93;border-top:1px solid #F5F5F7"><strong>Kay Labang:</strong> Retrieve Apollo + Instantly API keys from 1Password. Store in FKI-Production vault.</div>
+        </div>
+      </div>
     </div>
+
+    <!-- ACCORDIONS -->
+    <div class="sec-title">Full Marketing Detail &mdash; Click Any Section</div>
+
+    <!-- What's Working -->
+    <div class="accordion">
+      <div class="ah open" id="h-wrk" onclick="tAcc('wrk')">
+        <div class="al"><div class="ind ig"></div><div><div class="at">What&rsquo;s Working</div><div class="am">SH performing &middot; Video Series strong CTR &middot; data pipeline live</div></div></div>
+        <div class="ar"><span class="sp sg">3 Strong</span><span class="ac open" id="cv-wrk">&#9660;</span></div>
+      </div>
+      <div class="ab open" id="b-wrk">
+        <div class="arow"><span class="arlbl">SH Leadform campaign</span><span style="font-size:13px;font-weight:600;color:#34C759">$38.53 CPL &mdash; scale candidate</span></div>
+        <div class="arow"><span class="arlbl">SH Video Series CTR</span><span style="font-size:13px;font-weight:600;color:#34C759">9.56% CTR &mdash; highest in fleet</span></div>
+        <div class="arow"><span class="arlbl">SH cost per appt booked</span><span style="font-size:13px;font-weight:600;color:#34C759">$114 CPAB &mdash; on target</span></div>
+        <div class="arow"><span class="arlbl">QB &rarr; Marketing CC sync</span><span class="sp sg">Live 3x daily</span></div>
+        <div class="arow"><span class="arlbl">Real brand photo library</span><span class="sp sg">84 photos ready for ads</span></div>
+        <div class="arow"><span class="arlbl">IC community-hub brief</span><span class="sp sg">Brief written, photos selected</span></div>
+      </div>
+    </div>
+
+    <!-- What's Not Working -->
+    <div class="accordion">
+      <div class="ah" id="h-blk" onclick="tAcc('blk')">
+        <div class="al"><div class="ind ir"></div><div><div class="at">What&rsquo;s Not Working</div><div class="am">IC CPL crisis &middot; token expired &middot; show rates low &middot; 506 leads cold</div></div></div>
+        <div class="ar"><span class="sp sr">5 Blocked</span><span class="ac" id="cv-blk">&#9660;</span></div>
+      </div>
+      <div class="ab" id="b-blk">
+        <div style="padding:14px 20px;border-bottom:1px solid #F2F2F7">
+          <div class="crisis-box">
+            <div style="font-size:12px;font-weight:700;color:#FF3B30;margin-bottom:4px">IC CPL CRISIS &mdash; $76.24 vs $45 target</div>
+            <div style="font-size:12px;color:#1D1D1F">&ldquo;Investor Headlines v1.1&rdquo; (ID: 120239296168310003) spent $1,296 last 7 days. IC buyer is community-driven, not investor. Wrong creative angle = $31 CPL premium per lead.</div>
+            <div style="margin-top:8px;font-size:12px;color:#0071E3">Fix: Christelle uploads community-hub creative &rarr; Leo creates new adset &rarr; A/B test &rarr; pause Investor Headlines when new hits &lt;$60 CPL.</div>
+          </div>
+        </div>
+        <div class="arow"><div><div>Meta Ads token expired April 30</div><div style="font-size:11px;color:#8E8E93">All 4 campaigns running without ROAS data. Bid optimization disabled.</div></div><span class="sp sr">Bennett Gate</span></div>
+        <div class="arow"><div><div>Show rates: SH 31.9% / IC 20.3% vs 70% target</div><div style="font-size:11px;color:#8E8E93">Reminder sequences (24hr/2hr/1hr) not yet live in GHL.</div></div><span class="sp sr">Leo WO</span></div>
+        <div class="arow"><div><div>506 GHL leads unassigned &mdash; going cold</div><div style="font-size:11px;color:#8E8E93">Speed-to-lead &lt;60s industry standard. Lead scorer in flight.</div></div><span class="sp sr">Leo WO</span></div>
+        <div class="arow"><div><div>FKI 2nd Opinion: $502 spend / 0 leads</div><div style="font-size:11px;color:#8E8E93">Awareness-only. No lead tracking. Kill or restructure.</div></div><span class="sp sa">Review</span></div>
+        <div class="arow"><div><div>Google Ads: no data, verification pending</div><div style="font-size:11px;color:#8E8E93">Deadline May 13. $500 promo credit expires May 7.</div></div><span class="sp sr">Bennett Gate</span></div>
+      </div>
+    </div>
+
+    <!-- Meta Ads Performance -->
+    <div class="accordion">
+      <div class="ah" id="h-meta" onclick="tAcc('meta')">
+        <div class="al"><div class="ind ia"></div><div><div class="at">Meta Ads Performance</div><div class="am">Verified via Composio API &middot; act_1034627395362893 &middot; Apr 4&ndash;May 3, 2026</div></div></div>
+        <div class="ar"><span class="sp sb">$8,894 Spend</span><span class="ac" id="cv-meta">&#9660;</span></div>
+      </div>
+      <div class="ab" id="b-meta">
+        <div class="brand-grid">
+          <div class="brand-card">
+            <div class="bc-name" style="color:#0071E3">Indy Clover</div>
+            <div class="bc-row"><span class="bc-lbl">Spend</span><span style="font-weight:600">$4,180.44</span></div>
+            <div class="bc-row"><span class="bc-lbl">Leads</span><span style="font-weight:600">98</span></div>
+            <div class="bc-row"><span class="bc-lbl">Avg CPL</span><span style="font-weight:600">$42.66</span></div>
+            <div class="bc-row"><span class="bc-lbl">Crisis adset CPL</span><span style="font-weight:600;color:#FF3B30">$76.24</span></div>
+            <div class="bc-row"><span class="bc-lbl">CPAB</span><span style="font-weight:600">$67</span></div>
+            <div class="bc-row"><span class="bc-lbl">CPAH</span><span style="font-weight:600">$330</span></div>
+            <div class="bc-row"><span class="bc-lbl">Show rate</span><span style="font-weight:600;color:#FF9F0A">20.3%</span></div>
+          </div>
+          <div class="brand-card">
+            <div class="bc-name" style="color:#34C759">Salad House</div>
+            <div class="bc-row"><span class="bc-lbl">Spend</span><span style="font-weight:600">$4,211.28</span></div>
+            <div class="bc-row"><span class="bc-lbl">Leads</span><span style="font-weight:600">109</span></div>
+            <div class="bc-row"><span class="bc-lbl">Avg CPL</span><span style="font-weight:600;color:#34C759">$38.65</span></div>
+            <div class="bc-row"><span class="bc-lbl">Video CTR</span><span style="font-weight:600;color:#34C759">9.56%</span></div>
+            <div class="bc-row"><span class="bc-lbl">CPAB</span><span style="font-weight:600;color:#34C759">$114</span></div>
+            <div class="bc-row"><span class="bc-lbl">CPAH</span><span style="font-weight:600">$357</span></div>
+            <div class="bc-row"><span class="bc-lbl">Show rate</span><span style="font-weight:600;color:#FF9F0A">31.9%</span></div>
+          </div>
+          <div class="brand-card">
+            <div class="bc-name" style="color:#8E8E93">FKI 2nd Opinion</div>
+            <div class="bc-row"><span class="bc-lbl">Spend</span><span style="font-weight:600">$502.41</span></div>
+            <div class="bc-row"><span class="bc-lbl">Leads</span><span style="font-weight:600;color:#FF3B30">0</span></div>
+            <div class="bc-row"><span class="bc-lbl">CPL</span><span style="font-weight:600;color:#FF3B30">N/A</span></div>
+            <div class="bc-row"><span class="bc-lbl">Type</span><span style="font-weight:600">Awareness only</span></div>
+            <div style="margin-top:8px"><span class="sp sr">Kill candidate</span></div>
+          </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #F2F2F7">
+          <div style="font-size:11px;font-weight:600;color:#6E6E73;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Decision Matrix</div>
+          <div class="arow" style="padding:8px 0"><span class="arlbl">IC Leadform FNL</span><span class="sp sr">Fix creative &rarr; pause Investor Headlines</span></div>
+          <div class="arow" style="padding:8px 0"><span class="arlbl">SH Leadform FNL</span><span class="sp sg">Scale +20% budget when token refreshed</span></div>
+          <div class="arow" style="padding:8px 0"><span class="arlbl">SH Video Series</span><span class="sp sg">Hold &mdash; highest CTR, test more budget</span></div>
+          <div class="arow" style="padding:8px 0;border-bottom:none"><span class="arlbl">FKI 2nd Opinion</span><span class="sp sr">Pause or add lead form</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Funnel -->
+    <div class="accordion">
+      <div class="ah" id="h-funnel" onclick="tAcc('funnel')">
+        <div class="al"><div class="ind ia"></div><div><div class="at">Lead Funnel</div><div class="am">Ad click &rarr; GHL &rarr; appointment &rarr; deal &middot; 0.28% end-to-end (industry: 2.3%)</div></div></div>
+        <div class="ar"><span class="sp sa">0.28% Conversion</span><span class="ac" id="cv-funnel">&#9660;</span></div>
+      </div>
+      <div class="ab" id="b-funnel">
+        <div class="funnel-step"><div class="fn-num kn-b">1,433</div><div><div class="fn-lbl">Open Opportunities in GHL</div><div class="fn-sub">Total active pipeline &middot; 506 unassigned &mdash; going cold daily</div></div></div>
+        <div class="funnel-step"><div class="fn-num kn-r">125</div><div><div class="fn-lbl">Interested (88% drop here)</div><div class="fn-sub">Biggest leak in funnel &mdash; speed-to-lead fix targets this stage</div></div></div>
+        <div class="funnel-step"><div class="fn-num kn-a">139</div><div><div class="fn-lbl">Intro Calls Booked</div><div class="fn-sub">SH show rate 31.9% / IC show rate 20.3% &mdash; target 70%</div></div></div>
+        <div class="funnel-step"><div class="fn-num kn-a">58</div><div><div class="fn-lbl">Territory Reviews</div><div class="fn-sub">41.7% advance rate &mdash; approaching benchmark</div></div></div>
+        <div class="funnel-step"><div class="fn-num kn-g">21</div><div><div class="fn-lbl">Financial Reviews</div><div class="fn-sub">36.2% advance rate</div></div></div>
+        <div class="funnel-step"><div class="fn-num kn-g">3</div><div><div class="fn-lbl">Signed Deals</div><div class="fn-sub">0.28% end-to-end vs industry 2.3% &mdash; +25 deals/year at 2% = +$1.25M</div></div></div>
+      </div>
+    </div>
+
+    <!-- Marketing Tool Stack -->
+    <div class="accordion">
+      <div class="ah" id="h-tools" onclick="tAcc('tools')">
+        <div class="al"><div class="ind ia"></div><div><div class="at">Marketing Tool Stack</div><div class="am">Connected, pending, and planned tools</div></div></div>
+        <div class="ar"><span class="sp sa">8 Tools</span><span class="ac" id="cv-tools">&#9660;</span></div>
+      </div>
+      <div class="ab" id="b-tools">
+        <table class="tbl">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th><th>AI-Managed</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Meta Ads API</strong></td><td>Paid social campaigns (IC/SH/FKI)</td><td><span class="sp sr">Token expired</span></td><td>Yes &mdash; after token refresh</td></tr>
+            <tr><td><strong>GHL / HighLevel</strong></td><td>CRM, lead routing, pipeline</td><td><span class="sp sg">Connected (PIT token)</span></td><td>Partial &mdash; lead scorer in flight</td></tr>
+            <tr><td><strong>QuickBooks</strong></td><td>Revenue attribution + P&amp;L</td><td><span class="sp sg">Live 3x daily sync</span></td><td>Yes</td></tr>
+            <tr><td><strong>Google Ads</strong></td><td>Search intent campaigns</td><td><span class="sp sr">Verify by May 13</span></td><td>After verification</td></tr>
+            <tr><td><strong>Apollo.io</strong></td><td>B2B outbound lead gen</td><td><span class="sp sa">API key pending (Kay)</span></td><td>After key setup</td></tr>
+            <tr><td><strong>Instantly.ai</strong></td><td>Cold email sequences</td><td><span class="sp sa">API key pending (Kay)</span></td><td>After key setup</td></tr>
+            <tr><td><strong>SynthFlow</strong></td><td>AI voice caller for hot leads</td><td><span class="sp sa">Leo WO in flight</span></td><td>After GHL connect</td></tr>
+            <tr><td><strong>Metricool</strong></td><td>Paid social monitoring</td><td><span class="sp sa">Upgrade pending ($22/mo)</span></td><td>After upgrade</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AI Automation Schedule -->
+    <div class="accordion">
+      <div class="ah" id="h-sched" onclick="tAcc('sched')">
+        <div class="al"><div class="ind ib"></div><div><div class="at">AI Automation Schedule</div><div class="am">What marketing tasks run automatically, every day</div></div></div>
+        <div class="ar"><span class="sp sb">Automated</span><span class="ac" id="cv-sched">&#9660;</span></div>
+      </div>
+      <div class="ab" id="b-sched">
+        <div class="arow"><span class="arlbl">Every 2 hours</span><span style="font-size:13px">Pulse report: Meta Ads spend + leads + CPL sent to Bennett email</span></div>
+        <div class="arow"><span class="arlbl">8 AM / 12 PM / 5 PM</span><span style="font-size:13px">QB sync: revenue vs spend updated in Marketing CC</span></div>
+        <div class="arow"><span class="arlbl">Daily (coming soon)</span><span style="font-size:13px">Council review: creative performance &rarr; kill/scale/hold recommendation per campaign</span></div>
+        <div class="arow"><span class="arlbl">On new GHL lead</span><span style="font-size:13px">Lead scorer: tier (hot/warm/cold) assigned &lt;60 seconds &mdash; in flight</span></div>
+        <div class="arow"><span class="arlbl">On appointment booked</span><span style="font-size:13px">Reminder sequence: SMS 24hr + 2hr + 1hr before call &mdash; in flight</span></div>
+        <div class="arow"><span class="arlbl">On no-show</span><span style="font-size:13px">Rebook sequence: 30min + 4hr + 24hr SMS targeting 40%+ rebook &mdash; in flight</span></div>
+        <div class="arow"><span class="arlbl">Weekly Monday</span><span style="font-size:13px">Marketing P&amp;L: spend vs revenue vs Glo Tanning benchmark reported to Bennett</span></div>
+      </div>
+    </div>
+
+    <!-- Glo Tanning Benchmark -->
+    <div class="accordion">
+      <div class="ah" id="h-glo" onclick="tAcc('glo')">
+        <div class="al"><div class="ind ib"></div><div><div class="at">The Benchmark &mdash; Glo Tanning</div><div class="am">Replication target: identify winning pattern, replicate across IC and SH</div></div></div>
+        <div class="ar"><span class="sp sb">$974K Revenue</span><span class="ac" id="cv-glo">&#9660;</span></div>
+      </div>
+      <div class="ab" id="b-glo">
+        <div class="arow"><span class="arlbl">All-time Glo Tanning revenue</span><span style="font-size:13px;font-weight:700;color:#0071E3">$974,000</span></div>
+        <div class="arow"><span class="arlbl">Source</span><span style="font-size:13px">QuickBooks verified &mdash; single deal, one franchise placement</span></div>
+        <div class="arow"><span class="arlbl">AI task</span><span style="font-size:13px">Identify the lead source, ad creative, and audience from Glo Tanning deal &rarr; replicate for IC and SH</span></div>
+        <div class="arow"><span class="arlbl">Metric to track</span><span style="font-size:13px">Cost Per Signed Deal (CPSD) &mdash; not CPL. CPL alone is a vanity metric for FKI.</span></div>
+        <div class="arow"><span class="arlbl">Current CPSD</span><span style="font-size:13px;color:#8E8E93">Not tracked yet &mdash; GHL won-opportunity attribution needed</span></div>
+        <div style="padding:12px 20px;border-top:1px solid #F2F2F7;font-size:12px;color:#6E6E73">Going from 0.28% &rarr; 2% end-to-end conversion on same lead pool = +25 deals/year = +$1.25M franchise fee revenue at ~$50K avg commission.</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="../hub/" class="fl">&#8592; Command Center Hub</a>
+      &nbsp;&middot;&nbsp;
+      <a href="../social/" class="fl">Social Media CC</a>
+      &nbsp;&middot;&nbsp;
+      <a href="../cpa/" class="fl">Cost Per Appointment CC</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://www.notion.so/357cf5514fd381b78a09c46e4c4d0628" target="_blank" class="fl">Sprint Board Row</a>
+      <div style="margin-top:8px">CEO Design Skill v1 &middot; council 4.58/5 &middot; autopilot + push-harder complete</div>
+    </div>
+
   </div>
 
-  <div class="card">
-    <div class="card-title">⚡ Quick Links</div>
-    <div class="ql-row">
-      <a class="ql-btn" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a>
-      <a class="ql-btn" href="https://app.metricool.com" target="_blank">📊 Metricool</a>
-      <a class="ql-btn" href="https://app.blaze.ai" target="_blank">🤖 Blaze AI</a>
-      <a class="ql-btn" href="https://adstellar.io" target="_blank">⭐ AdStellar</a>
-      <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">💬 #leo-auto</a>
-      <a class="ql-btn" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">📌 Sprint Board</a>
-    </div>
-  </div>
-</div>
-
-<!-- AD PIPELINE TAB -->
-<div id="tab-ads" class="tab-content">
-
-  <div class="note">Ads cycle through 4 stages: Creation → Review → Live → Paused/Killed. AdStellar auto-scores nightly at 6:30 AM MDT. Low CPAH = scale; high CPAH = kill.</div>
-
-  <div class="card">
-    <div class="card-title-lg">🎬 IC — Immediate Care</div>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-      <span class="badge badge-yellow">● Creation</span>
-      <span class="badge badge-blue">● Review</span>
-      <span class="badge badge-green">● Live</span>
-      <span style="font-size:10px;color:var(--muted);padding:2px 7px;font-weight:700">● Paused</span>
-    </div>
-
-    <div class="ad-card">
-      <div class="ad-stage stage-live"></div>
-      <div style="flex:1">
-        <div class="ad-name">IC — Bennett Bot Clone v2 (Zoe)</div>
-        <div class="ad-meta">Meta · Video · Franchise owner testimonial angle</div>
-      </div>
-      <div class="ad-cpl" style="color:var(--yellow)">CPL $109</div>
-    </div>
-    <div class="ad-card">
-      <div class="ad-stage stage-live"></div>
-      <div style="flex:1">
-        <div class="ad-name">IC — Territory Urgency (scarcity angle)</div>
-        <div class="ad-meta">Meta · Static image · "Your market is filling fast"</div>
-      </div>
-      <div class="ad-cpl" style="color:var(--muted)">—</div>
-    </div>
-    <div class="ad-card">
-      <div class="ad-stage stage-review"></div>
-      <div style="flex:1">
-        <div class="ad-name">IC — ROI Calculator Hook</div>
-        <div class="ad-meta">Meta · Video · In review — AdStellar scoring</div>
-      </div>
-      <div class="ad-cpl" style="color:var(--muted)">Pending</div>
-    </div>
-    <div class="ad-card">
-      <div class="ad-stage stage-creation"></div>
-      <div style="flex:1">
-        <div class="ad-name">IC — Arcads UGC v3 (Next batch)</div>
-        <div class="ad-meta">Arcads AI · Script in Blaze · Est. launch this week</div>
-      </div>
-      <div class="ad-cpl" style="color:var(--muted)">Not live</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title-lg">🏡 SH — Spray & Hardscape</div>
-
-    <div class="ad-card">
-      <div class="ad-stage stage-live"></div>
-      <div style="flex:1">
-        <div class="ad-name">SH — Bennett Bot Clone v2 (Frank)</div>
-        <div class="ad-meta">Meta · Video · Owner story angle · High performer</div>
-      </div>
-      <div class="ad-cpl" style="color:var(--green)">CPL $30</div>
-    </div>
-    <div class="ad-card">
-      <div class="ad-stage stage-live"></div>
-      <div style="flex:1">
-        <div class="ad-name">SH — Before/After Transformation</div>
-        <div class="ad-meta">Meta · Carousel · Seasonal landscaping angle</div>
-      </div>
-      <div class="ad-cpl" style="color:var(--green)">CPL $29</div>
-    </div>
-    <div class="ad-card">
-      <div class="ad-stage stage-creation"></div>
-      <div style="flex:1">
-        <div class="ad-name">SH — Arcads UGC v2 (Summer push)</div>
-        <div class="ad-meta">Arcads AI · Brief drafted · Est. launch 1 week</div>
-      </div>
-      <div class="ad-cpl" style="color:var(--muted)">Not live</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🤖 AdStellar CPAH Loop</div>
-    <table class="data-table">
-      <tr>
-        <th>Time</th><th>Action</th><th>Threshold</th>
-      </tr>
-      <tr>
-        <td>6:30 AM MDT</td>
-        <td>Pull per-ad CPAH from Meta API</td>
-        <td>—</td>
-      </tr>
-      <tr>
-        <td>6:31 AM</td>
-        <td>Score each ad vs brand benchmark</td>
-        <td>IC &lt;$300 / SH &lt;$150</td>
-      </tr>
-      <tr>
-        <td>6:32 AM</td>
-        <td>Post to #leo-auto with scale/kill flags</td>
-        <td>Automated</td>
-      </tr>
-      <tr>
-        <td>7:00 AM</td>
-        <td>Leo applies budget changes</td>
-        <td>±20% max/cycle</td>
-      </tr>
-    </table>
-  </div>
-</div>
-
-<!-- CONTENT PIPELINE TAB -->
-<div id="tab-content" class="tab-content">
-
-  <div class="note">Content lifecycle: Blaze AI generates → Piper queues in Metricool → Reed verifies publish → Leo audits daily. Below is the pipeline as of this week.</div>
-
-  <div class="card">
-    <div class="card-title-lg">📝 Content in Creation (This Week)</div>
-
-    <div class="platform-row">
-      <div class="platform-icon">🎥</div>
-      <div style="flex:1">
-        <div class="platform-name">IC — Franchise Discovery Day Recap</div>
-        <div class="platform-sub">Format: Reel · Script drafted in Blaze · Est. post: Thu</div>
-      </div>
-      <span class="badge badge-yellow">In Blaze</span>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📸</div>
-      <div style="flex:1">
-        <div class="platform-name">SH — Spring Transformation Before/After</div>
-        <div class="platform-sub">Format: Carousel · Photos sourced · Est. post: Wed</div>
-      </div>
-      <span class="badge badge-yellow">In Production</span>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">🎵</div>
-      <div style="flex:1">
-        <div class="platform-name">IC — "Why Franchise?" Short-form</div>
-        <div class="platform-sub">Format: TikTok + Reel · Bennett voiceover · Est. post: Fri</div>
-      </div>
-      <span class="badge badge-blue">In Review</span>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📝</div>
-      <div style="flex:1">
-        <div class="platform-name">SH — "Curb Appeal" Educational Post</div>
-        <div class="platform-sub">Format: Static + caption · Blaze AI · Queued in Metricool</div>
-      </div>
-      <span class="badge badge-green">Queued</span>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📘</div>
-      <div style="flex:1">
-        <div class="platform-name">IC — Testimonial Ad Creative (Arcads)</div>
-        <div class="platform-sub">Format: 30s video · Script submitted to Arcads · Est. 5 days</div>
-      </div>
-      <span class="badge badge-yellow">Pending Arcads</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title-lg">📅 Metricool Queue — Next 7 Days</div>
-    <table class="data-table">
-      <tr>
-        <th>Date</th><th>Brand</th><th>Platform</th><th>Type</th><th>Status</th>
-      </tr>
-      <tr>
-        <td>Mon</td><td>IC</td><td>Instagram</td><td>Reel</td>
-        <td><span class="badge badge-green">Scheduled</span></td>
-      </tr>
-      <tr>
-        <td>Mon</td><td>SH</td><td>Facebook</td><td>Static</td>
-        <td><span class="badge badge-green">Scheduled</span></td>
-      </tr>
-      <tr>
-        <td>Tue</td><td>IC</td><td>TikTok</td><td>Short Video</td>
-        <td><span class="badge badge-green">Scheduled</span></td>
-      </tr>
-      <tr>
-        <td>Tue</td><td>SH</td><td>Instagram</td><td>Carousel</td>
-        <td><span class="badge badge-green">Scheduled</span></td>
-      </tr>
-      <tr>
-        <td>Wed</td><td>IC</td><td>Facebook</td><td>Static</td>
-        <td><span class="badge badge-blue">In Review</span></td>
-      </tr>
-      <tr>
-        <td>Wed</td><td>SH</td><td>TikTok</td><td>Before/After</td>
-        <td><span class="badge badge-yellow">In Production</span></td>
-      </tr>
-      <tr>
-        <td>Thu</td><td>IC</td><td>Instagram</td><td>Reel</td>
-        <td><span class="badge badge-yellow">In Blaze</span></td>
-      </tr>
-      <tr>
-        <td>Fri</td><td>SH</td><td>Facebook</td><td>Educational</td>
-        <td><span class="badge badge-yellow">In Blaze</span></td>
-      </tr>
-      <tr>
-        <td>Fri</td><td>IC</td><td>TikTok</td><td>Short Video</td>
-        <td><span class="badge badge-yellow">In Production</span></td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🤖 Content Agent Roles</div>
-    <div class="platform-row">
-      <div class="platform-icon">🎨</div>
-      <div style="flex:1">
-        <div class="platform-name">Piper — Content Creator</div>
-        <div class="platform-sub">Blaze AI briefs, Metricool scheduling, caption drafts</div>
-      </div>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📡</div>
-      <div style="flex:1">
-        <div class="platform-name">Reed — Performance Analyst</div>
-        <div class="platform-sub">Pulse reports, ad scoring, CPAH tracking via Gemini Flash</div>
-      </div>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">🤖</div>
-      <div style="flex:1">
-        <div class="platform-name">Leo — Orchestrator</div>
-        <div class="platform-sub">Routes, audits daily output, posts to #leo-auto</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- DAILY OUTPUT TAB -->
-<div id="tab-daily" class="tab-content">
-
-  <div class="note">Target: 2 posts/day per brand across platforms = 4 total. Metricool handles scheduling. Reed confirms publish at 8 PM MDT nightly.</div>
-
-  <div class="card">
-    <div class="card-title-lg">📆 This Week — Daily Output Plan</div>
-
-    <div class="day-grid">
-      <div class="day-col">
-        <div class="day-label">MON</div>
-        <div class="day-item" style="background:rgba(79,142,247,0.2);color:var(--accent)">IC IG Reel</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.2);color:var(--green)">SH FB Static</div>
-        <div class="day-item" style="background:rgba(79,142,247,0.15);color:var(--accent)">IC Meta Ad</div>
-      </div>
-      <div class="day-col">
-        <div class="day-label">TUE</div>
-        <div class="day-item" style="background:rgba(79,142,247,0.2);color:var(--accent)">IC TikTok</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.2);color:var(--green)">SH IG Carousel</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.15);color:var(--green)">SH Meta Ad</div>
-      </div>
-      <div class="day-col">
-        <div class="day-label">WED</div>
-        <div class="day-item" style="background:rgba(79,142,247,0.2);color:var(--accent)">IC FB Static</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.2);color:var(--green)">SH TikTok</div>
-      </div>
-      <div class="day-col">
-        <div class="day-label">THU</div>
-        <div class="day-item" style="background:rgba(79,142,247,0.2);color:var(--accent)">IC IG Reel</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.2);color:var(--green)">SH FB Post</div>
-        <div class="day-item" style="background:rgba(79,142,247,0.15);color:var(--accent)">IC Meta Ad</div>
-      </div>
-      <div class="day-col">
-        <div class="day-label">FRI</div>
-        <div class="day-item" style="background:rgba(79,142,247,0.2);color:var(--accent)">IC TikTok</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.2);color:var(--green)">SH IG Static</div>
-      </div>
-      <div class="day-col">
-        <div class="day-label">SAT</div>
-        <div class="day-item" style="background:rgba(168,85,247,0.2);color:var(--purple)">IC Evergreen</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.2);color:var(--green)">SH Seasonal</div>
-      </div>
-      <div class="day-col">
-        <div class="day-label">SUN</div>
-        <div class="day-item" style="background:rgba(245,158,11,0.15);color:var(--yellow)">IC Weekly Recap</div>
-        <div class="day-item" style="background:rgba(34,197,94,0.15);color:var(--green)">SH Inspiration</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📊 Per-Platform Daily Targets</div>
-    <div class="platform-row">
-      <div class="platform-icon">📘</div>
-      <div style="flex:1">
-        <div class="platform-name">Facebook</div>
-        <div class="platform-sub">1 post/day per brand · Static + video mix</div>
-      </div>
-      <span class="badge badge-blue">2/day total</span>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📷</div>
-      <div style="flex:1">
-        <div class="platform-name">Instagram</div>
-        <div class="platform-sub">Feed post or Reel · Alt days per brand</div>
-      </div>
-      <span class="badge badge-blue">1-2/day total</span>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">🎵</div>
-      <div style="flex:1">
-        <div class="platform-name">TikTok</div>
-        <div class="platform-sub">Short-form video · 3–4x per brand per week</div>
-      </div>
-      <span class="badge badge-blue">1/day total</span>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📣</div>
-      <div style="flex:1">
-        <div class="platform-name">Meta Ads (Paid)</div>
-        <div class="platform-sub">Active A/B tests running continuously · AdStellar managed</div>
-      </div>
-      <span class="badge badge-green">Always On</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Today's Output — <span id="todayDate" style="color:var(--accent)"></span></div>
-    <div class="platform-row">
-      <div class="platform-icon">📷</div>
-      <div style="flex:1">
-        <div class="platform-name">IC Instagram</div>
-        <div class="platform-sub">Check Metricool for today's scheduled post</div>
-      </div>
-      <a href="https://app.metricool.com" target="_blank" class="badge badge-blue" style="text-decoration:none">Verify →</a>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📘</div>
-      <div style="flex:1">
-        <div class="platform-name">SH Facebook</div>
-        <div class="platform-sub">Check Metricool for today's scheduled post</div>
-      </div>
-      <a href="https://app.metricool.com" target="_blank" class="badge badge-green" style="text-decoration:none">Verify →</a>
-    </div>
-    <div class="platform-row">
-      <div class="platform-icon">📣</div>
-      <div style="flex:1">
-        <div class="platform-name">Meta Paid Ads</div>
-        <div class="platform-sub">Campaigns running · CPAH report in #leo-auto at 6:32 AM</div>
-      </div>
-      <a href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank" class="badge badge-green" style="text-decoration:none">Check →</a>
-    </div>
-  </div>
-</div>
-
-<!-- METRICS + CPAH TAB -->
-<div id="tab-metrics" class="tab-content">
-
-  <div class="note warn">⚠️ CPAH is folded into this tab. No separate CPAH dashboard. All cost-per-appointment tracking lives here alongside CPL and ROAS.</div>
-
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">IC CPAH</div>
-      <div class="kpi-value" style="color:var(--yellow)">—</div>
-      <div class="kpi-sub">Pulled nightly via AdStellar</div>
-      <div class="kpi-delta">Target ≤$300</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">SH CPAH</div>
-      <div class="kpi-value" style="color:var(--green)">—</div>
-      <div class="kpi-sub">Pulled nightly via AdStellar</div>
-      <div class="kpi-delta">Target ≤$150</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">IC CPL</div>
-      <div class="kpi-value" style="color:var(--yellow)">$109</div>
-      <div class="kpi-sub">Apr 29 · Meta Forms</div>
-      <div class="kpi-delta delta-dn">Target ≤$90</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">SH CPL</div>
-      <div class="kpi-value" style="color:var(--green)">$30</div>
-      <div class="kpi-sub">Apr 29 · Meta Forms</div>
-      <div class="kpi-delta delta-up">On target ✓</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">IC Show Rate</div>
-      <div class="kpi-value" style="color:var(--yellow)">50%</div>
-      <div class="kpi-sub">Appointments → shows</div>
-      <div class="kpi-delta delta-dn">Target ≥60%</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">SH ROAS</div>
-      <div class="kpi-value" style="color:var(--green)">1.41×</div>
-      <div class="kpi-sub">All-time Meta attribution</div>
-      <div class="kpi-delta delta-up">Positive ✓</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📊 CPL Trend — IC vs SH</div>
-
-    <div class="metric-bar-wrap">
-      <div class="metric-bar-header">
-        <span class="metric-bar-label">IC CPL $109 vs Target $90</span>
-        <span class="metric-bar-value" style="color:var(--yellow)">+21% over</span>
-      </div>
-      <div class="metric-bar-bg">
-        <div class="metric-bar-fill" style="width:82%;background:var(--yellow)"></div>
-      </div>
-    </div>
-
-    <div class="metric-bar-wrap">
-      <div class="metric-bar-header">
-        <span class="metric-bar-label">SH CPL $30 vs Target $35</span>
-        <span class="metric-bar-value" style="color:var(--green)">-14% under ✓</span>
-      </div>
-      <div class="metric-bar-bg">
-        <div class="metric-bar-fill" style="width:86%;background:var(--green)"></div>
-      </div>
-    </div>
-
-    <div class="metric-bar-wrap">
-      <div class="metric-bar-header">
-        <span class="metric-bar-label">IC Show Rate 50% vs Target 60%</span>
-        <span class="metric-bar-value" style="color:var(--yellow)">-10pts gap</span>
-      </div>
-      <div class="metric-bar-bg">
-        <div class="metric-bar-fill" style="width:50%;background:var(--yellow)"></div>
-      </div>
-    </div>
-
-    <div class="metric-bar-wrap">
-      <div class="metric-bar-header">
-        <span class="metric-bar-label">SH Show Rate 100% vs Target 60%</span>
-        <span class="metric-bar-value" style="color:var(--green)">+40pts ✓</span>
-      </div>
-      <div class="metric-bar-bg">
-        <div class="metric-bar-fill" style="width:100%;background:var(--green)"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">⚙️ CPAH Calculation Method</div>
-    <table class="data-table">
-      <tr>
-        <th>Step</th><th>Source</th><th>Formula</th>
-      </tr>
-      <tr>
-        <td>1. Pull ad spend</td>
-        <td>Meta API</td>
-        <td>Per ad set, daily</td>
-      </tr>
-      <tr>
-        <td>2. Count appointments</td>
-        <td>GHL API</td>
-        <td>Pipeline stage: Discovery</td>
-      </tr>
-      <tr>
-        <td>3. Attribute</td>
-        <td>GHL→Meta ad_id</td>
-        <td>4-tier resolution</td>
-      </tr>
-      <tr>
-        <td>4. Calculate CPAH</td>
-        <td>AdStellar</td>
-        <td>Spend ÷ Appointments showed</td>
-      </tr>
-      <tr>
-        <td>5. Score + alert</td>
-        <td>#leo-auto</td>
-        <td>6:32 AM MDT nightly</td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-title">💰 All-Time Meta Attribution</div>
-    <div style="font-size:24px;font-weight:800;color:var(--accent);margin-bottom:4px">$1,154,812</div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:12px">All-time revenue attributed to Meta ads (Apr 26 snapshot)</div>
-    <div class="platform-row" style="padding:6px 0">
-      <div style="flex:1"><div class="platform-name" style="font-size:12px">SH ROAS</div></div>
-      <span style="font-size:14px;font-weight:800;color:var(--green)">1.41×</span>
-    </div>
-    <div class="platform-row" style="padding:6px 0">
-      <div style="flex:1"><div class="platform-name" style="font-size:12px">IC ROAS</div></div>
-      <span style="font-size:14px;font-weight:800;color:var(--muted)">Update via Reed</span>
-    </div>
-  </div>
-</div>
-
-<!-- VERIFICATION TAB -->
-<div id="tab-verify" class="tab-content">
-
-  <div class="note">Reed runs daily verification at 8 PM MDT. Leo posts summary to #leo-auto. This tab shows what to check if you want to verify manually.</div>
-
-  <div class="card">
-    <div class="card-title-lg">✅ Daily Verification Checklist</div>
-
-    <div class="check-row">
-      <div class="check-icon">📣</div>
-      <div style="flex:1">
-        <div class="check-label">Meta Ads Active</div>
-        <div class="check-sub">IC + SH campaigns showing spend today</div>
-      </div>
-      <div class="check-time">
-        <a href="https://www.facebook.com/adsmanager" target="_blank" class="badge badge-blue" style="text-decoration:none">Check →</a>
-      </div>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">⭐</div>
-      <div style="flex:1">
-        <div class="check-label">CPAH Report in #leo-auto</div>
-        <div class="check-sub">AdStellar post at 6:32 AM MDT — scale/kill flags</div>
-      </div>
-      <div class="check-time">
-        <a href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank" class="badge badge-blue" style="text-decoration:none">Check →</a>
-      </div>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">📷</div>
-      <div style="flex:1">
-        <div class="check-label">IC Instagram — Today's post live</div>
-        <div class="check-sub">Check Metricool "Published" tab or IG directly</div>
-      </div>
-      <div class="check-time">
-        <a href="https://app.metricool.com" target="_blank" class="badge badge-blue" style="text-decoration:none">Metricool →</a>
-      </div>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">📘</div>
-      <div style="flex:1">
-        <div class="check-label">SH Facebook — Today's post live</div>
-        <div class="check-sub">Check Metricool "Published" tab or FB Page directly</div>
-      </div>
-      <div class="check-time">
-        <a href="https://app.metricool.com" target="_blank" class="badge badge-blue" style="text-decoration:none">Metricool →</a>
-      </div>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">🎵</div>
-      <div style="flex:1">
-        <div class="check-label">TikTok — Post live (on schedule days)</div>
-        <div class="check-sub">3–4× per brand per week · Check Metricool calendar</div>
-      </div>
-      <div class="check-time">
-        <a href="https://app.metricool.com" target="_blank" class="badge badge-blue" style="text-decoration:none">Check →</a>
-      </div>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">📝</div>
-      <div style="flex:1">
-        <div class="check-label">Blaze AI — Tomorrow's content ready</div>
-        <div class="check-sub">Queue should show ≥1 draft per brand for next day</div>
-      </div>
-      <div class="check-time">
-        <a href="https://app.blaze.ai" target="_blank" class="badge badge-blue" style="text-decoration:none">Blaze →</a>
-      </div>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">🤖</div>
-      <div style="flex:1">
-        <div class="check-label">Leo Reed Pulse Report</div>
-        <div class="check-sub">Daily ad performance + content summary in #leo-auto</div>
-      </div>
-      <div class="check-time">
-        <a href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank" class="badge badge-blue" style="text-decoration:none">Slack →</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🚨 Off-Track Triggers — Escalate to Leo</div>
-    <table class="data-table">
-      <tr><th>Signal</th><th>Threshold</th><th>Action</th></tr>
-      <tr>
-        <td>No CPAH report in #leo-auto</td>
-        <td>By 7 AM MDT</td>
-        <td>Tag @Leo in #leo-auto</td>
-      </tr>
-      <tr>
-        <td>IC CPL above $130</td>
-        <td>Single day</td>
-        <td>Leo pauses low-performing ad sets</td>
-      </tr>
-      <tr>
-        <td>Post not published by noon</td>
-        <td>Scheduled post</td>
-        <td>Piper re-queues in Metricool</td>
-      </tr>
-      <tr>
-        <td>Show rate drops below 40%</td>
-        <td>IC weekly avg</td>
-        <td>Council review + coaching loop fires</td>
-      </tr>
-      <tr>
-        <td>Meta CAPI events stop firing</td>
-        <td>>2hr gap</td>
-        <td>Leo checks GHL → Meta pixel bridge</td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-title">⚡ Quick Verify Links</div>
-    <div class="ql-row">
-      <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">💬 #leo-auto</a>
-      <a class="ql-btn" href="https://app.metricool.com" target="_blank">📊 Metricool Published</a>
-      <a class="ql-btn" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a>
-      <a class="ql-btn" href="https://adstellar.io" target="_blank">⭐ AdStellar</a>
-      <a class="ql-btn" href="https://app.blaze.ai" target="_blank">🤖 Blaze AI</a>
-      <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 GHL CRM</a>
-    </div>
-  </div>
-</div>
-
-<script>
-function showTab(name) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
-}
-const today = new Date();
-const el = document.getElementById('todayDate');
-if (el) el.textContent = today.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
-</script>
+  <script>
+    document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
+      month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+      timeZone: 'America/Denver'
+    }) + ' MDT';
+    function tRole(id) {
+      const b = document.getElementById(id + '-body');
+      const c = document.getElementById(id + '-chev');
+      b.classList.toggle('open');
+      c.innerHTML = b.classList.contains('open') ? '&#9650;' : '&#9660;';
+    }
+    function tAcc(id) {
+      const b = document.getElementById('b-' + id);
+      const c = document.getElementById('cv-' + id);
+      const h = document.getElementById('h-' + id);
+      b.classList.toggle('open');
+      c.classList.toggle('open');
+      h.classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
