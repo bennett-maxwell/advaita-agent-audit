@@ -1,225 +1,78 @@
----
-title: "20 Questions to Ask Your Franchise Broker Before You Sign Anything (2026)"
-keyword: "questions to ask franchise broker"
-slug: questions-to-ask-franchise-broker-2026
-date: 2026-05-05
-author: Franchise Ki Intelligence
-cta: mapki.franchiseki.com
----
+# Questions to Ask a Franchise Broker Before You Hire One in 2026
 
-# 20 Questions to Ask Your Franchise Broker Before You Sign Anything (2026)
+*Published by FranchiseKI | May 2026 | Reading time: 5 minutes*
 
-A franchise broker can be one of the most valuable people in your franchise buying journey — or one of the most expensive mistakes you make. The difference almost always comes down to one thing: asking the right questions before you trust them with one of the biggest financial decisions of your life.
+Not all franchise brokers and consultants are created equal. Before you trust someone with one of the most significant financial decisions of your life, you need to ask the right questions. Here's what to ask—and what the answers should sound like.
 
-This guide gives you 20 questions to vet your broker, understand the brands they're showing you, and protect yourself at every stage. Use it as a checklist. Print it. Take it into your first call.
+## Why This Matters
 
----
+The right franchise broker accelerates your search, helps you avoid costly mistakes, and connects you to brands that genuinely fit your profile. The wrong broker wastes your time and may push you toward brands that pay higher referral fees rather than brands that fit your goals.
 
-## The Broker Relationship First
+The good news: most reputable franchise consultants are paid by franchisors, so their service is free to you. But "free" doesn't mean you shouldn't evaluate them carefully.
 
-Before any brand questions, you need to understand who your broker is, how they're paid, and what their incentives actually are.
+## 10 Questions to Ask Before You Hire a Franchise Broker
 
-### Question 1: How are you compensated, and by whom?
+### 1. "How do you get compensated?"
 
-This is the most important question most buyers never ask.
+**What you want to hear:** "Franchisors pay us a referral fee when we introduce a client who signs a franchise agreement. Our service is completely free to you."
 
-Franchise brokers earn referral fees from franchisors — typically 40–50% of the franchise fee — when they place a buyer. This means the broker is paid by the brand, not by you. That's not inherently bad, but it means you need to understand the incentive structure.
+**Red flag:** Any broker asking for upfront fees from you before you've evaluated any franchises. This misaligns their incentives.
 
-A good broker will tell you this upfront and explain how they manage potential conflicts of interest. A broker who dodges this question or gives a vague answer is a red flag.
+### 2. "How many franchise brands do you work with?"
 
-**What a good answer sounds like:** "I earn a referral fee from the franchisor if you sign. My fee is built into the franchise fee you pay — it doesn't cost you anything extra. My incentive is to find you the right fit because my reputation depends on your success."
+**What you want to hear:** Access to hundreds or thousands of brands across diverse categories. A well-connected broker gives you options. A broker with access to only 20–30 brands may be steering you based on their limited network.
 
----
+**Context:** FranchiseKI works with 3,000+ brands across every major category.
 
-### Question 2: How many brands do you represent, and how were they selected?
+### 3. "Will you tell me which brands you receive higher referral fees for?"
 
-Some broker networks represent 300+ brands. Others are curated to 50–100. Neither is inherently better, but you want to understand the curation criteria.
+**What you want to hear:** Transparency. The best consultants disclose when referral fees vary and commit to recommending brands based on your fit, not their commission.
 
-**Ask:** Was the brand vetted for financial health? Do they only represent brands that have a certain franchisee satisfaction score? Are there brands they've removed from their portfolio, and why?
+### 4. "What's your process for matching me to a franchise?"
 
-A broker who has removed brands from their portfolio — and can tell you why — is showing you they have standards.
+**What you want to hear:** A structured process that starts with your financial profile, lifestyle goals, industry preferences, and risk tolerance—then narrows to specific brands that fit all criteria.
 
----
+**Red flag:** Starting with brand pitches before understanding what you're looking for.
 
-### Question 3: What's your background in franchising?
+### 5. "Can I speak with past clients?"
 
-Franchise brokers come from all backgrounds. Some are former franchisees who lived the experience. Some are business brokers who pivoted. Some are former franchise development directors. All of these can be excellent. What matters is that their experience translates to useful guidance for you.
+**What you want to hear:** "Absolutely. I can connect you with clients who are 6, 12, and 24 months into their franchise."
 
-Ask specifically: Have you personally owned a franchise? Have you placed buyers in the categories you're recommending to me? How many placements have you made in the past 12 months?
+**Why it matters:** Talking to past clients gives you unfiltered insight into whether the broker's process was thorough and whether the brands they recommended performed as described.
 
----
+### 6. "How many Discovery Days have you attended?"
 
-### Question 4: Do you have relationships with any brands that could bias your recommendations?
+**What you want to hear:** Experienced brokers have attended dozens (or hundreds) of Discovery Days. This firsthand knowledge helps them tell you what to watch for and what questions to ask during your own Discovery Day.
 
-Some brokers have preferred partnerships with certain brands — higher referral fees, special incentives, or quota relationships. You deserve to know if the broker showing you a particular brand is getting a higher commission for that placement.
+### 7. "Are you a member of any franchise professional organizations?"
 
----
+**What you want to hear:** Membership in the International Franchise Association (IFA) or the Franchise Brokers Association (FBA) signals commitment to professional standards and continuing education.
 
-### Question 5: What happens if I'm unhappy with the brands you show me?
+### 8. "What happens if I'm not satisfied with the brands you recommend?"
 
-A confident broker will tell you they'll either find better matches or help you exit the process gracefully. A broker who creates pressure to commit is a warning sign.
+**What you want to hear:** A clear commitment to continue working with you, expanding to other brand categories, and not pushing you toward a decision you're not confident in.
 
----
+### 9. "Do you have experience in my industry or target category?"
 
-## FDD and Financial Questions
+**What you want to hear:** If you're specifically interested in a food concept, ask whether they've worked with clients in that space. Category-specific knowledge helps—but a good generalist with strong analytical skills can be equally effective.
 
-Once you're looking at specific brands, these questions protect you during the FDD review phase.
+### 10. "What does the FDD review process look like with your support?"
 
-### Question 6: Does this brand provide an Item 19?
+**What you want to hear:** Guidance on interpreting the FDD, referrals to franchise attorneys for legal review, and help analyzing Item 19 financial performance representations.
 
-Item 19 of the FDD is the Financial Performance Representation — the closest thing franchising has to a profit and loss statement for existing franchisees. Not all brands provide it.
+**Red flag:** A broker who tells you the FDD is "just standard stuff" and minimizes the importance of careful review.
 
-If the brand you're considering does not have an Item 19, ask your broker: "Why not? Is the franchisor too early-stage to have data, or is there underperformance they're not disclosing?"
+## What a Great Franchise Consultant Does Differently
 
-Many strong brands do provide Item 19s. If your broker consistently shows you brands without them, that's worth scrutinizing.
+At FranchiseKI, our process includes:
+- In-depth profiling session to understand your financial parameters, lifestyle preferences, and industry interests
+- Data-driven brand matching using FDD financial data across 3,000+ brands
+- Ongoing support through every phase—from first call to franchise agreement signing
+- Referrals to SBA-approved lenders and franchise attorneys
 
-**At Franchise Ki**, we specifically ask brands about their Item 19 disclosure policy before adding them to our portfolio. See our current brands at [mapki.franchiseki.com](https://mapki.franchiseki.com).
+**You pay nothing.** Franchisors compensate us when a successful match is made.
 
----
-
-### Question 7: What does the Item 19 actually represent — gross revenue or net?
-
-This is where buyers get misled most often. An Item 19 showing "$800,000 average unit volume" sounds impressive — until you realize that's gross revenue before royalties, COGS, labor, rent, and other expenses.
-
-Ask your broker to walk you through a pro forma that converts the Item 19 gross numbers into net income estimates. Any good broker should have franchise-specific P&L models.
+→ Start your franchise search with a no-cost consultation at [mapki.franchiseki.com](https://mapki.franchiseki.com)
 
 ---
-
-### Question 8: What's the average breakeven point for franchisees in this system?
-
-Breakeven (the point where monthly revenue covers all costs) is the most practical financial metric for new franchisees. Get a realistic estimate, not the optimistic one from the brand's marketing deck.
-
----
-
-### Question 9: What's the total capital required — not just the franchise fee?
-
-Item 7 of the FDD covers estimated initial investment. Make sure your broker walks you through the full range, including:
-- Franchise fee
-- Build-out / equipment (if applicable)
-- Working capital (typically 3–6 months of operating expenses)
-- Training travel costs
-- Initial inventory
-- Grand opening marketing
-
-The franchise fee is often the smallest number. Total investment can be 5–10x the franchise fee for brick-and-mortar concepts.
-
----
-
-### Question 10: What financing options are realistically available for this brand, and what's the typical approval rate?
-
-Some brands are SBA-registered, making them eligible for faster loan processing. Ask your broker whether the brand is on the SBA Franchise Directory and what lenders they've seen approve deals in this system.
-
----
-
-## Territory Questions
-
-Territory is often the most negotiated — and most misunderstood — element of a franchise agreement.
-
-### Question 11: What type of territory protection does this franchise offer?
-
-Territory protection comes in several flavors:
-- **Exclusive territory** — no other franchisee (or company-owned unit) can operate within your defined area
-- **Protected territory** — similar to exclusive but may have carve-outs for certain channels
-- **Right of first refusal** — you get first shot at expansion opportunities in adjacent territories
-- **Non-exclusive** — limited or no protection (common in e-commerce or digital franchises)
-
-Ask specifically: "Has the franchisor ever encroached on a franchisee's territory, and how was it resolved?"
-
----
-
-### Question 12: Is my desired territory actually available?
-
-This seems obvious, but brokers sometimes show buyers brands before confirming territory availability. Confirm in writing that your target market is open before investing significant time in a brand.
-
----
-
-### Question 13: What's the population or customer density requirement for this territory?
-
-Most franchises set minimum population thresholds for viable territories. If your desired territory is below that threshold, the brand won't work regardless of other factors.
-
----
-
-## Support and Training Questions
-
-The franchise system's support infrastructure is what you're paying the royalty for. Vet it carefully.
-
-### Question 14: What does the initial training program look like, and where does it happen?
-
-Training programs range from 1 week at headquarters to 8 weeks of mixed remote and in-field training. Understand what you're getting into — especially if you're leaving a full-time job to attend.
-
-Ask: Who conducts the training? Is it corporate staff or franchisees? What's the failure rate of new franchisees during the training period?
-
----
-
-### Question 15: What ongoing support is provided after opening, and how is it structured?
-
-The question to ask is not "do they have support" (every brand will say yes) but "what does a support call actually look like, and how often can I use it?"
-
-Ask for specifics: dedicated field rep, online portal, peer network, monthly check-ins, performance benchmarking against other franchisees.
-
----
-
-### Question 16: What's the franchisee satisfaction score for this brand?
-
-The Franchise Business Review (FBR) conducts annual satisfaction surveys of franchisees in hundreds of systems. Ask if the brand participates and what their score is. Brands in the top quartile typically have satisfaction scores above 70%.
-
----
-
-## Validation Questions (to Ask Franchisees Directly)
-
-Your broker can introduce you to validation contacts, but also call franchisees directly from Item 20 of the FDD.
-
-### Question 17: What's the best question I should ask existing franchisees that you don't want me to ask?
-
-This is a semi-trick question — a good broker will actually tell you. It demonstrates whether they're representing your interests or the brand's interests. The answer will tell you a lot about their integrity.
-
----
-
-### Question 18: Have any franchisees in this system closed or been terminated in the last 3 years?
-
-Item 20 of the FDD lists terminated, non-renewed, and transferred franchisees. Your broker should help you understand the context behind any closures. A few closures in a large system is normal. A high closure rate is a serious concern.
-
----
-
-## Closing Questions
-
-Before you sign anything, confirm these.
-
-### Question 19: Have you reviewed this brand's franchise agreement with a franchise attorney, and what should I watch for?
-
-Your broker is not a lawyer. But a good broker should have seen enough FAs to flag common issues — one-sided renewal terms, aggressive transfer fees, limited cure periods on defaults.
-
-Regardless of what your broker says, hire a franchise attorney. This is non-negotiable. Expect to pay $1,500–$3,500 for a thorough review.
-
----
-
-### Question 20: What's your honest assessment of the downside — what does failure look like in this system, and why does it happen?
-
-If your broker can't articulate why franchisees in this system fail, they haven't done their homework. Understanding the failure modes is as important as understanding the success stories.
-
-A good answer might be: "The franchisees who struggle in this system are usually the ones who don't follow the model or who are undercapitalized. Here's what the data shows..."
-
----
-
-## How to Use This List
-
-Take these 20 questions into your broker relationship in stages:
-- Questions 1–5: Ask before you commit to working with any broker
-- Questions 6–13: Ask as you evaluate specific brands
-- Questions 14–18: Ask during due diligence and validation
-- Questions 19–20: Ask before signing
-
-The broker who handles all 20 questions with clarity and honesty is the broker worth working with.
-
----
-
-## Work With a Broker Who Welcomes Hard Questions
-
-At Franchise Ki, we built our process around full transparency. We welcome every question on this list — and we have detailed answers ready for all of them.
-
-**Start your search at [mapki.franchiseki.com/brand/[brand]](https://mapki.franchiseki.com)** to explore our current brand portfolio, see our curation standards, and book a no-pressure intake call.
-
----
-
-*Franchise Ki Intelligence | franchiseki.com | Updated May 2026*
-*This guide is educational and does not constitute legal or financial advice. All franchise transactions should involve independent legal counsel.*
+*FranchiseKI consultants are members of the International Franchise Association. We are compensated by franchisors, not by prospective franchisees.*
