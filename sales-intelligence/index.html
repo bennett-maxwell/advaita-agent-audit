@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Intelligence Command Center — FKI/Advaita</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif; color: #1D1D1F; min-height: 100vh; }
+  .topbar { background: #1D1D1F; color: #FFFFFF; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar-brand { font-size: 13px; font-weight: 500; letter-spacing: 0.04em; opacity: 0.7; text-transform: uppercase; }
+  .topbar-live { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #34C759; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  .header { padding: 48px 32px 32px; border-bottom: 1px solid #F2F2F7; }
+  .header-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8E8E93; margin-bottom: 8px; }
+  .header-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; color: #1D1D1F; }
+  .header-subtitle { margin-top: 10px; font-size: 17px; color: #6E6E73; font-weight: 400; }
+  .autonomy-bar-wrap { margin-top: 20px; display: flex; align-items: center; gap: 16px; }
+  .autonomy-bar-bg { flex: 1; max-width: 320px; height: 8px; background: #F2F2F7; border-radius: 99px; overflow: hidden; }
+  .autonomy-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #0071E3 0%, #34C759 100%); }
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #F2F2F7; border-top: 1px solid #F2F2F7; border-bottom: 1px solid #F2F2F7; }
+  .kpi-card { background: #FFFFFF; padding: 24px 28px; }
+  .kpi-number { font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+  .kpi-label { font-size: 12px; font-weight: 500; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; }
+  .kpi-sub { font-size: 11px; color: #C7C7CC; margin-top: 3px; }
+  .green { color: #34C759; }
+  .amber { color: #FF9F0A; }
+  .red { color: #FF3B30; }
+  .blue { color: #0071E3; }
+  .purple { color: #AF52DE; }
+  .main { padding: 32px; max-width: 1100px; }
+  .story-box { background: #F2F2F7; border-radius: 16px; padding: 24px 28px; margin-bottom: 32px; border-left: 4px solid #AF52DE; }
+  .story-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #AF52DE; margin-bottom: 8px; }
+  .story-text { font-size: 17px; font-weight: 500; color: #1D1D1F; line-height: 1.5; }
+  .accordion { border: 1px solid #E5E5EA; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+  .accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; cursor: pointer; background: #FFFFFF; border: none; width: 100%; text-align: left; transition: background 0.15s; }
+  .accordion-header:hover { background: #F9F9FB; }
+  .accordion-title { font-size: 17px; font-weight: 600; color: #1D1D1F; }
+  .accordion-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .badge-green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .badge-amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .badge-red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .badge-blue { background: rgba(0,113,227,0.12); color: #0071E3; }
+  .accordion-chevron { font-size: 16px; color: #8E8E93; transition: transform 0.2s; }
+  .accordion-chevron.open { transform: rotate(180deg); }
+  .accordion-body { border-top: 1px solid #F2F2F7; padding: 0 24px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.2s; }
+  .accordion-body.open { max-height: 2000px; padding: 24px 24px; }
+  .item-list { list-style: none; }
+  .item-list li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F9F9FB; font-size: 15px; }
+  .item-list li:last-child { border-bottom: none; }
+  .status-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .item-label { font-weight: 600; color: #1D1D1F; }
+  .item-detail { font-size: 13px; color: #8E8E93; margin-top: 2px; }
+  .pipeline-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+  .pipeline-card { background: #F9F9FB; border-radius: 12px; padding: 20px; }
+  .pipeline-metric { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .pipeline-label { font-size: 12px; color: #8E8E93; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+  .pipeline-vs { font-size: 11px; color: #C7C7CC; margin-top: 4px; }
+  .role-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .role-card { border: 1px solid #E5E5EA; border-radius: 16px; padding: 20px; background: #FAFAFA; }
+  .role-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .role-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+  .role-ai { background: #0071E3; }
+  .role-bennett { background: #AF52DE; }
+  .role-human { background: #34C759; }
+  .role-name { font-size: 15px; font-weight: 700; color: #1D1D1F; }
+  .role-type { font-size: 11px; color: #8E8E93; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  .role-items { list-style: none; }
+  .role-items li { font-size: 13px; color: #3C3C43; padding: 4px 0; border-bottom: 1px solid #F2F2F7; display: flex; align-items: center; gap: 6px; }
+  .role-items li:last-child { border-bottom: none; }
+  .mode-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .mode-card { background: #F2F2F7; border-radius: 12px; padding: 16px 18px; }
+  .mode-title { font-size: 14px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
+  .mode-desc { font-size: 12px; color: #8E8E93; }
+  .link-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,113,227,0.1); color: #0071E3; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 99px; text-decoration: none; margin-bottom: 16px; }
+  @media (max-width: 768px) {
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+    .header-title { font-size: 26px; }
+    .main { padding: 20px; }
+    .header { padding: 32px 20px 24px; }
+    .pipeline-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">FKI / Project Advaita</span>
+  <span class="topbar-live"><span class="live-dot"></span> Sales Intelligence Domain · Live</span>
+</div>
+
+<div class="header">
+  <div class="header-eyebrow">Advaita Vision — Sales Intelligence Domain</div>
+  <div class="header-title">Sales Intelligence Command Center</div>
+  <div class="header-subtitle">Call transcription, scoring, pre-call briefs, pattern intelligence</div>
+  <div class="autonomy-bar-wrap" style="margin-top:24px;">
+    <div>
+      <div style="font-size:32px;font-weight:700;color:#AF52DE;">45%</div>
+      <div style="font-size:13px;font-weight:600;color:#6E6E73;">Current Autonomy</div>
+    </div>
+    <div style="flex:1;max-width:280px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:12px;color:#8E8E93;">Current</span>
+        <span style="font-size:12px;color:#8E8E93;">Target 65%</span>
+      </div>
+      <div class="autonomy-bar-bg">
+        <div class="autonomy-bar-fill" style="width:69.2%;"></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#34C759;">65%</div>
+      <div style="font-size:13px;font-weight:600;color:#6E6E73;">Target</div>
+    </div>
+  </div>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi-card">
+    <div class="kpi-number green" style="font-size:26px;padding-top:4px;">Every Call</div>
+    <div class="kpi-label">Transcribed</div>
+    <div class="kpi-sub">Reed auto-pull active</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number green" style="font-size:24px;padding-top:4px;">Sam Live</div>
+    <div class="kpi-label">AI Coaching</div>
+    <div class="kpi-sub">Scoring all calls</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number amber" style="font-size:24px;padding-top:4px;">Partial</div>
+    <div class="kpi-label">Pre-Call Briefs</div>
+    <div class="kpi-sub">v5 skill live</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number red" style="font-size:20px;padding-top:8px;">Not Active</div>
+    <div class="kpi-label">Pattern Loop</div>
+    <div class="kpi-sub">Feedback cycle pending</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="story-box">
+    <div class="story-label">The Intelligence Edge</div>
+    <div class="story-text">Every call Bennett takes, the AI knows the prospect better than they know themselves. We're at 45% — full sales intelligence means every pattern feeds back into every future call.</div>
+  </div>
+
+  <!-- Accordion 1: Call Intelligence -->
+  <div class="accordion" id="acc-calls">
+    <button class="accordion-header" onclick="toggleAccordion('calls')">
+      <span class="accordion-title">Call Intelligence</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-blue">Core Active</span>
+        <span class="accordion-chevron open" id="chevron-calls">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body open" id="body-calls">
+      <ul class="item-list">
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Reed Transcript Pull</div>
+            <div class="item-detail">Auto-ingestion active. Every sales call captured and transcribed automatically through Reed integration.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Sam AI Scoring</div>
+            <div class="item-detail">Real-time call scoring live. Sam evaluates pace, objection handling, discovery quality, and close approach on every call.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Pre-Call Brief System (sales-meeting-prep-skill v5)</div>
+            <div class="item-detail">LIVE — 4-mode system operational. Daily 6AM auto-brief runs. dashboard.franchiseki.com/meeting-prep/ active.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🟡</span>
+          <div>
+            <div class="item-label">Post-Call Coaching</div>
+            <div class="item-detail">Partial — Sam debrief available on-demand. Automated post-call coaching workflow in development.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🔴</span>
+          <div>
+            <div class="item-label">Pattern Improvement Loop</div>
+            <div class="item-detail">Not active — Call patterns not yet feeding back into future brief customization or skill updates automatically.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Accordion 2: Pipeline Intelligence -->
+  <div class="accordion" id="acc-pipeline">
+    <button class="accordion-header" onclick="toggleAccordion('pipeline')">
+      <span class="accordion-title">Pipeline Intelligence</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-red">Below Target</span>
+        <span class="accordion-chevron" id="chevron-pipeline">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-pipeline">
+      <div class="pipeline-grid">
+        <div class="pipeline-card">
+          <div class="pipeline-metric blue">1,433</div>
+          <div class="pipeline-label">Total Opportunities</div>
+          <div class="pipeline-vs">Active pipeline</div>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-metric red">0.28%</div>
+          <div class="pipeline-label">End-to-End Conversion</div>
+          <div class="pipeline-vs">Target: 2.3% · Gap: 8x</div>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-metric red">31.9%</div>
+          <div class="pipeline-label">SH Show Rate</div>
+          <div class="pipeline-vs">Target: 70% · Gap: 38pp</div>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-metric red">20.3%</div>
+          <div class="pipeline-label">IC Show Rate</div>
+          <div class="pipeline-vs">Target: 70% · Gap: 49.7pp</div>
+        </div>
+      </div>
+      <ul class="item-list" style="margin-top:8px;">
+        <li>
+          <span class="status-icon">🔴</span>
+          <div>
+            <div class="item-label">Show Rate Crisis</div>
+            <div class="item-detail">SH and IC show rates are less than half of target. Pre-call brief system + confirmation sequences needed at scale.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🟡</span>
+          <div>
+            <div class="item-label">Conversion Gap</div>
+            <div class="item-detail">0.28% vs 2.3% target — show rate improvement drives conversion. Pattern loop will identify top drop-off points.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Accordion 3: Brand Knowledge -->
+  <div class="accordion" id="acc-knowledge">
+    <button class="accordion-header" onclick="toggleAccordion('knowledge')">
+      <span class="accordion-title">Brand Knowledge Base</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-green">Complete</span>
+        <span class="accordion-chevron" id="chevron-knowledge">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-knowledge">
+      <ul class="item-list">
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">IC Sales Intelligence Skill</div>
+            <div class="item-detail">Investment Concepts brand knowledge — products, objections, positioning, competitive landscape.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">SH Sales Intelligence Skill</div>
+            <div class="item-detail">SmartHome brand knowledge — packages, technician model, franchise details, ICP profile.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">SRP Sales Intelligence Skill</div>
+            <div class="item-detail">Snap Raise Pro brand knowledge — fundraising model, school demographics, deal structure.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">FKI Sales Intelligence Skill</div>
+            <div class="item-detail">Franchise Knowledge Intelligence — full franchise consulting model, discovery process, ICP.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Bennett Intelligence Layer</div>
+            <div class="item-detail">Bennett's sales history, coaching patterns, objection preferences, and best-call patterns loaded across all brand skills.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Accordion 4: Meeting Prep System -->
+  <div class="accordion" id="acc-prep">
+    <button class="accordion-header" onclick="toggleAccordion('prep')">
+      <span class="accordion-title">Meeting Prep System</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-green">Live</span>
+        <span class="accordion-chevron" id="chevron-prep">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-prep">
+      <a class="link-chip" href="https://dashboard.franchiseki.com/meeting-prep/" target="_blank" rel="noopener noreferrer">⚡ dashboard.franchiseki.com/meeting-prep/</a>
+      <ul class="item-list" style="margin-bottom:20px;">
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Daily 6AM Brief</div>
+            <div class="item-detail">Auto-runs each morning. Pulls today's calls, builds prospect dossiers, flags key talking points before Bennett wakes up.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">sales-meeting-prep-skill v5</div>
+            <div class="item-detail">Latest version live with 4-mode system. Supports all FKI brands.</div>
+          </div>
+        </li>
+      </ul>
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#8E8E93;margin-bottom:12px;">4 Operating Modes</div>
+      <div class="mode-grid">
+        <div class="mode-card">
+          <div class="mode-title">Personal Prep</div>
+          <div class="mode-desc">Individual prospect deep-dive — background, pain points, predicted objections, Bennett-specific talking points</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-title">Pipeline Review</div>
+          <div class="mode-desc">Today's call list with priority ranking, show-risk flags, and quick prep for each</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-title">Dashboard Mode</div>
+          <div class="mode-desc">Live ops view — pipeline health, conversion snapshots, action items surfaced</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-title">Admin Daily Ops</div>
+          <div class="mode-desc">Administrative brief — follow-ups needed, tasks overdue, team coordination items</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accordion 5: Role Cards -->
+  <div class="accordion" id="acc-roles">
+    <button class="accordion-header" onclick="toggleAccordion('roles')">
+      <span class="accordion-title">Role Cards</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-green">Defined</span>
+        <span class="accordion-chevron" id="chevron-roles">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-roles">
+      <div class="role-cards">
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-avatar role-ai">AI</div>
+            <div>
+              <div class="role-name">AI System</div>
+              <div class="role-type">Intelligence Layer</div>
+            </div>
+          </div>
+          <ul class="role-items">
+            <li>📞 Transcribe every call</li>
+            <li>📊 Score + coach via Sam</li>
+            <li>📋 Generate pre-call briefs</li>
+            <li>🧠 Build prospect dossiers</li>
+            <li>🔁 Pattern loop (in dev)</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-avatar role-bennett">B</div>
+            <div>
+              <div class="role-name">Bennett</div>
+              <div class="role-type">Closer</div>
+            </div>
+          </div>
+          <ul class="role-items">
+            <li>📱 Take the calls</li>
+            <li>🤝 Close the deals</li>
+            <li>✅ Read the briefs</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-avatar role-human">B+K</div>
+            <div>
+              <div class="role-name">Bailey + Keith</div>
+              <div class="role-type">Pipeline Team</div>
+            </div>
+          </div>
+          <ul class="role-items">
+            <li>📝 Accurate dispositions</li>
+            <li>✅ Show up to calls</li>
+            <li>📅 Keep calendar clean</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;padding-top:24px;border-top:1px solid #F2F2F7;display:flex;justify-content:space-between;align-items:center;">
+    <span style="font-size:12px;color:#C7C7CC;">dashboard.franchiseki.com/sales-intelligence/ · FKI Project Advaita</span>
+    <span style="font-size:12px;color:#C7C7CC;">Updated 2026-05-05</span>
+  </div>
+
+</div>
+
+<script>
+function toggleAccordion(id) {
+  const body = document.getElementById('body-' + id);
+  const chevron = document.getElementById('chevron-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>
