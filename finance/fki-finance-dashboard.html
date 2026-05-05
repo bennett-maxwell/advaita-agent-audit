@@ -1951,13 +1951,12 @@ function showTab(id) {
   if (!DATA) return;
   setTimeout(() => {
     try {
-      if (id === 'brands'   && charts.brands)   charts.brands.resize();
-      if (id === 'overview' && charts.overview) charts.overview.resize();
-      if (id === 'cashflow' && charts.cashflow) charts.cashflow.resize();
-      if (id === 'meta')      renderMeta(DATA);       // re-render to pick up canvas size
+      if (id === 'overview') charts.overview ? charts.overview.resize() : renderOverview(DATA);
+      if (id === 'cashflow')  renderCashflow(DATA);
+      if (id === 'meta')      renderMeta(DATA);
       if (id === 'combined')  renderCombined(DATA);
       if (id === 'ads')       renderAds(DATA);
-      if (id === 'brands')    renderBrands(DATA);     // full re-render for safety
+      if (id === 'brands')    renderBrands(DATA);
       if (id === 'funnel')    renderFunnel(DATA);
       if (id === 'cpa')       renderCPA();
     } catch(e) { console.error('tab switch render error', id, e); }
@@ -2021,14 +2020,9 @@ function render() {
 
   renderOverview(d);
   renderCards(d);
-  renderFunnel(d);
   renderAR(d);
-  renderBrands(d);
   renderRecurring(d);
-  renderCashflow(d);
-  renderMeta(d);
-  renderAds(d);
-  renderCombined(d);
+  // Other tabs render on first click via showTab() to avoid saturating Chart.js at load time
 }
 
 // ── Credit Cards ───────────────────────────────────────────────────────────
