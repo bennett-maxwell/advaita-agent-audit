@@ -1,167 +1,119 @@
 ---
-title: "The 2026 Franchise Due Diligence Checklist (Before You Sign Anything)"
-description: "A step-by-step checklist covering every critical aspect of franchise due diligence — from FDD review to validation calls."
+title: "Franchise Due Diligence Checklist 2026 — 47 Questions Before You Sign"
+description: "The complete franchise due diligence checklist. 47 questions across financials, operations, legal, territory, and franchisee validation — before you sign the franchise agreement."
 date: 2026-05-05
 author: Franchise KI
-tags: [franchise, due diligence, FDD, investing]
+tags: [franchise, due-diligence, FDD, investing, checklist]
 ---
 
-# The 2026 Franchise Due Diligence Checklist
+# Franchise Due Diligence Checklist 2026
 
-Signing a franchise agreement is a 10-year commitment worth $150,000 to $500,000 or more.
+Most people who buy a franchise regret it because they skipped due diligence. Not because franchising does not work — it does — but because they bought the wrong franchise without asking the right questions.
 
-Most people spend more time researching a car purchase.
+This checklist covers 47 questions across 6 categories. Go through each section before you sign anything.
 
-Here is the complete due diligence process we walk every client through before they sign anything.
+---
 
-## Phase 1: FDD Review (Weeks 1-2)
-
-The Franchise Disclosure Document is your bible. Every franchisor is required to give you one at least 14 days before you sign. Use every day of that window.
-
-### FDD Items to Analyze Closely
-
-**Item 1 — The Franchisor**
-- How long has the brand been franchising?
-- Is this a startup concept or an established system?
-- What is their corporate ownership history? Any private equity involvement?
-
-**Item 2 — Business Experience**
-- What are the backgrounds of the key executives?
-- Have they been involved in failed franchise systems before?
-
-**Item 3 — Litigation**
-- Red flag: Multiple unresolved lawsuits from franchisees
-- Acceptable: Occasional disputes over contract terms
-- Serious red flag: Class action suits or regulatory actions
-
-**Item 5 — Initial Fees**
-- Compare franchise fee to competitors
-- What's included vs. sold separately?
-
-**Item 7 — Estimated Initial Investment**
-- Is the range realistic? Compare Item 7 with actual franchisee opening costs (ask during validation)
-- Is working capital adequate? 6 months minimum is standard
-
-**Item 12 — Territory**
-- Read every clause. What exactly is "protected"?
-- Are there carve-outs for online, catering, or delivery?
-- What triggers can void your exclusivity?
+## Category 1: Financials (Items 19, 21, and Your Own Numbers)
 
 **Item 19 — Financial Performance Representations**
-- Not all franchisors provide this. If they don't, it's a yellow flag.
-- Compare AUVs (average unit volumes) to investment requirements
-- Look at median performance, not just top-quartile
 
-**Item 20 — Outlets and Franchisee Information**
-- How many units opened vs. closed in the last 3 years?
-- What is the transfer and termination rate?
-- Get the full franchisee contact list — you'll use it in validation
+1. Does the franchisor include an Item 19 in the FDD? (If not, why not — and what does that tell you?)
+2. What is the median gross revenue per unit? (Not the average — averages are inflated by top performers)
+3. What percentage of units are at or above the median?
+4. What is the revenue trend year-over-year? (Growing, flat, or declining?)
+5. How many units are represented in the Item 19 data? (A sample of 20 out of 500 units is useless)
+6. Does Item 19 include net profit, or only gross revenue? (Gross revenue without expense context is almost meaningless)
 
-**Item 21 — Financial Statements**
-- Is the franchisor financially healthy?
-- Negative equity or declining royalty revenue are warning signs
+**Item 21 — Franchisor Financial Statements**
 
-## Phase 2: Validation Calls (Weeks 2-3)
+7. Is the franchisor profitable at the corporate level?
+8. Are they growing revenue year-over-year?
+9. What is their cash position? Do they have the runway to support expansion?
+10. Have they been audited by a reputable CPA firm?
 
-This is the most valuable part of due diligence that most people rush or skip.
+**Your Personal Financials**
 
-### How Many Calls to Make
-- Minimum: 8-10 franchisee conversations
-- Target: 15-20 (more for higher-investment concepts)
-- Include: Franchisees of different ages, markets, and performance levels
-
-### Questions to Ask Every Franchisee
-
-**About the System:**
-- "If you were starting over, would you choose this brand?"
-- "What surprised you most — positively and negatively?"
-- "How responsive is corporate when you have a problem?"
-- "Has Item 7 (your investment estimate) been accurate?"
-
-**About Operations:**
-- "What does a typical week look like for you?"
-- "How long until you felt confident running the business?"
-- "What do you wish you'd known before signing?"
-
-**About Performance:**
-- "Are you hitting the Item 19 projections?"
-- "How long to break even?"
-- "Would you buy another unit?"
-
-### Red Flags in Validation
-- Franchisee seems scripted or evasive
-- Multiple franchisees mention the same unresolved complaint
-- Franchisor tries to steer you away from certain franchisees
-- Nobody will give you a straight answer on revenue
-
-## Phase 3: Legal and Financial Review (Week 3)
-
-### Hire a Franchise Attorney
-This is non-negotiable. Budget $1,500-3,500.
-
-A franchise attorney will:
-- Identify non-standard clauses in the franchise agreement
-- Flag unusual territory, termination, or transfer restrictions
-- Negotiate modifications (you can negotiate — most people don't know this)
-- Explain your exit options
-
-Find a franchise attorney through:
-- American Bar Association Franchise Forum directory
-- International Franchise Association approved list
-- Referrals from the franchisee validation contacts you made
-
-### Run Your Financial Model
-Build a 3-year P&L model. Include:
-- Revenue: Conservative, base, optimistic scenarios
-- COGS and direct costs
-- Labor (including your own if owner-operator)
-- Rent and occupancy
-- Royalties and marketing fund
-- Working capital draws
-
-If you can't get to breakeven in Year 2 under your conservative scenario, reconsider.
-
-### Secure Financing Before Signing
-- SBA 7(a) loans: Most common for franchises. 10-25 year terms. 
-- SBA Express: Faster approval, lower amounts
-- ROBS (Rollover for Business Startups): Use retirement funds. Tax implications — consult a CPA.
-- Home equity line: High risk, but some buyers use it
-- Franchisor financing: Some brands offer it. Usually more expensive.
-
-Approval takes 60-90 days. Start the process in parallel with due diligence.
-
-## Phase 4: Site Selection (For Location-Based Concepts)
-
-If your franchise requires a physical location:
-
-- Get written approval from the franchisor on your final site selection
-- Negotiate a co-tenancy clause (right to exit if anchor tenant leaves)
-- Personal guarantees on leases: Limit to 3-5 years if possible
-- Tenant improvement allowances: Negotiate hard. Landlords are motivated in 2026.
-
-## Phase 5: Final Go / No-Go Decision
-
-Before signing, confirm:
-- [ ] I understand every clause in the franchise agreement
-- [ ] My attorney has reviewed and I'm comfortable with exceptions
-- [ ] I've spoken to 15+ franchisees and feel confident
-- [ ] My financial model shows break-even by Year 2 (conservative case)
-- [ ] My territory is in writing, clearly defined, and protected
-- [ ] Financing is approved or I have clear path to funding
-- [ ] My family/partner is aligned and supportive
-- [ ] I have a manager candidate identified (for semi-absentee)
-- [ ] I have 6 months operating capital beyond the investment total
-
-## The One Question That Matters Most
-
-After all the analysis, the question I ask every client is simple:
-
-"Can you see yourself excited about this business in 5 years?"
-
-Due diligence confirms the financial case. But franchise ownership is a long commitment. The operators who thrive are the ones who genuinely believe in what they're selling.
+11. What are your total liquid assets available to invest (excluding retirement accounts)?
+12. What is your total investment budget including financing?
+13. What is your monthly income requirement during the ramp-up period (12-24 months)?
+14. What is your maximum break-even timeline? Can you sustain 18 months before profit?
+15. Have you stress-tested your projections at 60% of Item 19 median revenue?
 
 ---
 
-*Ready to start your franchise search? Franchise KI provides free discovery calls for qualified investors. We'll help you identify the right concept, the right territory, and the right financial structure.*
+## Category 2: Operations and Support
 
-[Schedule your discovery call →](https://franchiseki.com)
+16. What does the initial training program include, and how long does it last?
+17. Is there on-site support when you open, or just a manual and a phone number?
+18. What is the typical response time from the franchisor's support team?
+19. How many active franchisees are assigned to each support rep? (Over 50:1 is a red flag)
+20. Is the operations manual complete, up-to-date, and available for review before signing?
+21. What technology systems are you required to use, and what do they cost?
+22. What are the ongoing royalty and marketing fee rates?
+23. Are there mandatory purchases from the franchisor or approved suppliers? What are the margins?
+
+---
+
+## Category 3: Territory and Market
+
+24. Is your territory exclusive? What are the exact boundaries?
+25. Can the franchisor open corporate-owned locations in your market?
+26. Can they grant other franchisees digital or e-commerce rights that compete with your territory?
+27. What are the performance requirements to maintain your territory exclusivity?
+28. Has the territory been evaluated for demographic fit, traffic patterns, and competition?
+29. Are there any existing or planned locations nearby that would affect your market?
+
+---
+
+## Category 4: Legal (Items 3, 8, 12, and the Agreement Itself)
+
+30. How many lawsuits have franchisees filed against the franchisor in the last 3 years? (Item 3)
+31. Are there patterns in the lawsuits — multiple cases on the same issue?
+32. What are your renewal terms? Can the franchisor change the agreement at renewal?
+33. What are your transfer rights if you want to sell the franchise?
+34. What are the termination provisions? Under what conditions can the franchisor terminate you?
+35. What happens to your investment if the franchisor goes out of business?
+36. Have you had a franchise attorney — not a general business attorney — review the agreement?
+
+---
+
+## Category 5: Franchisee Validation (the Most Important Category)
+
+Item 20 of the FDD lists current franchisees with contact information. Call them.
+
+37. Would you sign again today, knowing what you know now?
+38. How long did it take you to reach break-even?
+39. What does corporate support actually look like in the first 90 days?
+40. What do you wish you had known before signing?
+41. Have there been any major system changes since you joined?
+42. Is the franchisor responsive when something goes wrong?
+43. Are there any pending legal issues you are aware of?
+
+Also call former franchisees (listed in Item 20 transfer section).
+
+44. Why did you leave the system?
+45. Would you recommend this franchise to someone in your situation?
+
+---
+
+## Category 6: Gut Check
+
+46. Have you visited an operating location — not a corporate showroom, but a franchisee's real unit on a random Tuesday?
+47. After all of this research, does the business still make sense for your skills, timeline, and lifestyle — not just on paper?
+
+---
+
+## How to Use This Checklist
+
+Work through each category in order. Track your answers in a spreadsheet. Flag every question where the answer raises uncertainty rather than confidence.
+
+At the end, count your flags. Five or more unresolved flags on a single franchise = walk away. One or two = negotiate or seek clarification before signing.
+
+The goal is not to find a perfect franchise — it does not exist. The goal is to eliminate preventable regrets.
+
+---
+
+**Want help working through this checklist on a specific franchise?**
+
+Franchise KI works with qualified buyers to evaluate franchise opportunities against this framework — at no cost to the buyer. [Schedule a discovery call](https://franchiseki.com).
