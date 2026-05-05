@@ -1,0 +1,1486 @@
+{
+  "generated_at": "2026-05-02 06:00 MDT",
+  "company": "Franchise KI LLC",
+  "brands": [
+    "Spoiled Rotten Photography",
+    "Indy Clover",
+    "Salad House",
+    "FKI/Consultant"
+  ],
+  "data_source": "live",
+  "cash_position": {
+    "closing_balance": 7000.0,
+    "opening_balance": 228105.96,
+    "net_change": 0.0,
+    "checking_balance": 7000.0,
+    "savings_balance": 0.0,
+    "available": true,
+    "override_active": true,
+    "qb_checking": 40005.96,
+    "qb_savings": 188100.0,
+    "qb_closing": 228105.96,
+    "override_as_of": "2026-04-23",
+    "override_reason": "QB bank feed last synced 2026-04-16 (7 days stale). Actual bank balance per Bennett 2026-04-23."
+  },
+  "pl": {
+    "revenue": 0.0,
+    "expenses": 936.61,
+    "net": -936.61,
+    "period": "2026-05-01 to 2026-05-02",
+    "line_items": [
+      {
+        "name": "Office expenses",
+        "amount": 936.61,
+        "section": "Expenses"
+      }
+    ]
+  },
+  "pl_prior": {
+    "revenue": 70601.5,
+    "expenses": 12152.14,
+    "net": 58449.36,
+    "period": "2026-04-01 to 2026-04-30"
+  },
+  "balance_sheet": {
+    "checking": 15404.46,
+    "savings": null,
+    "total_cash": 15404.46,
+    "as_of": "2026-04-22",
+    "chase_cc": 70393.79,
+    "divvy": 15728.07,
+    "amex_1005": 92756.87,
+    "amex_5003": 13750.0,
+    "total_cc_debt": 253371.4,
+    "bank_accounts": [
+      {
+        "name": "FKI (5000) - 1",
+        "balance": 40005.96,
+        "last_synced": "2026-04-25T19:32:34-07:00",
+        "subtype": "Checking"
+      },
+      {
+        "name": "FKI Savings (8833) - 1",
+        "balance": 188100.0,
+        "last_synced": "2026-04-16T14:54:15-07:00",
+        "subtype": "Savings"
+      }
+    ],
+    "cc_balances": [
+      {
+        "name": "9705 - Liam Chase",
+        "balance": 19109.14,
+        "last_synced": "2026-04-16T15:54:44-07:00"
+      },
+      {
+        "name": "Blue Business Plus Card (1005) - 3",
+        "balance": 92756.87,
+        "last_synced": "2026-04-16T14:54:29-07:00"
+      },
+      {
+        "name": "Blue Business Plus Card (5003) - 4",
+        "balance": 13750.0,
+        "last_synced": "2026-04-16T14:08:18-07:00"
+      },
+      {
+        "name": "BME Credit (0994) - 2",
+        "balance": 289.89,
+        "last_synced": "2026-04-06T11:25:54-07:00"
+      },
+      {
+        "name": "Divvy - Spend & Expense Credit Card",
+        "balance": 9752.79,
+        "last_synced": "2026-05-01T22:51:14-07:00"
+      },
+      {
+        "name": "PCE Credit (0864) - 2",
+        "balance": 40227.02,
+        "last_synced": "2026-04-16T15:54:57-07:00"
+      },
+      {
+        "name": "Personal Credit Card (1537) - 1",
+        "balance": 1116.62,
+        "last_synced": "2026-04-02T13:40:18-07:00"
+      }
+    ],
+    "total_assets": 268105.96,
+    "total_liabilities": 115971.03,
+    "equity": 384076.99
+  },
+  "ben_monthly_pl": [
+    {
+      "month": "2025-03",
+      "revenue": 0.0,
+      "cogs": 5494.66,
+      "opex": 13107.81,
+      "net": -18698.87
+    },
+    {
+      "month": "2025-04",
+      "revenue": 54750.0,
+      "cogs": 6996.7,
+      "opex": 25668.99,
+      "net": 21842.05
+    },
+    {
+      "month": "2025-05",
+      "revenue": 140000.0,
+      "cogs": 55839.43,
+      "opex": 15280.58,
+      "net": 68420.13
+    },
+    {
+      "month": "2025-06",
+      "revenue": 188000.0,
+      "cogs": 94908.84,
+      "opex": 20741.67,
+      "net": 72233.33
+    },
+    {
+      "month": "2025-07",
+      "revenue": 74014.66,
+      "cogs": 58776.18,
+      "opex": 34692.87,
+      "net": -19461.24
+    },
+    {
+      "month": "2025-08",
+      "revenue": 53132.37,
+      "cogs": 74600.54,
+      "opex": 27215.26,
+      "net": -48683.08
+    },
+    {
+      "month": "2025-09",
+      "revenue": 126000.0,
+      "cogs": 87657.0,
+      "opex": 28239.46,
+      "net": 9703.97
+    },
+    {
+      "month": "2025-10",
+      "revenue": 180000.0,
+      "cogs": 94395.69,
+      "opex": 28402.54,
+      "net": 56787.93
+    },
+    {
+      "month": "2025-11",
+      "revenue": 45000.0,
+      "cogs": 36763.67,
+      "opex": 18876.25,
+      "net": -11037.45
+    },
+    {
+      "month": "2026-01",
+      "revenue": 70000.0,
+      "cogs": 43234.87,
+      "opex": 37752.38,
+      "net": -11897.4
+    },
+    {
+      "month": "2026-02",
+      "revenue": 57101.5,
+      "cogs": 34162.64,
+      "opex": 18746.58,
+      "net": 3417.05
+    },
+    {
+      "month": "2026-03",
+      "revenue": 27892.0,
+      "cogs": 19642.98,
+      "opex": 29272.25,
+      "net": -21023.23,
+      "_source": "QB REST"
+    }
+  ],
+  "api_costs": {
+    "today": 0.0,
+    "month": 0.0,
+    "avg_7day": 0.0492,
+    "budget_daily": 10.0,
+    "budget_monthly": 300.0,
+    "tier": "OK",
+    "run_rate": 0.0,
+    "variance": -20.0,
+    "per_agent": {}
+  },
+  "recurring": [
+    {
+      "vendor": "Slack",
+      "amount": 176.41,
+      "amount_display": "$176.41/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "ChatGPT/OpenAI",
+      "amount": 301.49,
+      "amount_display": "$301.49/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-03-18",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": "reduce seat"
+    },
+    {
+      "vendor": "CRM subscription",
+      "amount": 14.99,
+      "amount_display": "$14.99/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Frame.io",
+      "amount": 80.59,
+      "amount_display": "$80.59/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-03-19",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Cassidy",
+      "amount": 79.0,
+      "amount_display": "$79.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "ElevenLabs Bennett",
+      "amount": 23.64,
+      "amount_display": "$23.64/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-03-22",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Skool",
+      "amount": 99.0,
+      "amount_display": "$99.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": "downgrade to 9/mo"
+    },
+    {
+      "vendor": "Amazon Prime",
+      "amount": 16.11,
+      "amount_display": "$16.11/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": ""
+    },
+    {
+      "vendor": "LinkedIn Bennett/Kay",
+      "amount": 107.44,
+      "amount_display": "$107.44/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-04-06",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Resemble AI",
+      "amount": 19.0,
+      "amount_display": "$19.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": "unknown"
+    },
+    {
+      "vendor": "Matterport",
+      "amount": 74.15,
+      "amount_display": "$74.15/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Backliner AI SEO",
+      "amount": 300.0,
+      "amount_display": "$300.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Kiln Utah Office Space",
+      "amount": 437.33,
+      "amount_display": "$437.33/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": "cancel ASAP"
+    },
+    {
+      "vendor": "Rcads.ai",
+      "amount": 110.0,
+      "amount_display": "$110.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": ""
+    },
+    {
+      "vendor": "Synthesia",
+      "amount": 31.16,
+      "amount_display": "$31.16/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": ""
+    },
+    {
+      "vendor": "Zeta",
+      "amount": 25.0,
+      "amount_display": "$25.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": "ask team first"
+    },
+    {
+      "vendor": "Consolidata AI",
+      "amount": 97.0,
+      "amount_display": "$97.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": "chargeback 3mo"
+    },
+    {
+      "vendor": "Monday BLS",
+      "amount": 225.65,
+      "amount_display": "$225.65/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "reduce",
+      "note": "reduce seats"
+    },
+    {
+      "vendor": "Prompt Smart",
+      "amount": 10.88,
+      "amount_display": "$10.88/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Cluely AI",
+      "amount": 15.0,
+      "amount_display": "$15.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Project Blue GHL iMessage",
+      "amount": 500.0,
+      "amount_display": "$500.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Loom",
+      "amount": 24.0,
+      "amount_display": "$24.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Google Workspace",
+      "amount": 663.66,
+      "amount_display": "$663.66/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2025-12-01",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Framer",
+      "amount": 21.7,
+      "amount_display": "$21.70/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-03-24",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "SEObot",
+      "amount": 99.0,
+      "amount_display": "$99.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "OGtool Reddit",
+      "amount": 100.0,
+      "amount_display": "$100.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": "Liam"
+    },
+    {
+      "vendor": "Riverside",
+      "amount": 290.88,
+      "amount_display": "$290.88/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": "check if annual"
+    },
+    {
+      "vendor": "Rayloom",
+      "amount": 445.0,
+      "amount_display": "$445.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Pay Signal House",
+      "amount": 60.0,
+      "amount_display": "$60.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Sales AI",
+      "amount": 1750.0,
+      "amount_display": "$1750.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "HixFields Inc",
+      "amount": 49.0,
+      "amount_display": "$49.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "review",
+      "note": "ask George"
+    },
+    {
+      "vendor": "HeyGen",
+      "amount": 121.17,
+      "amount_display": "$121.17/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-04-06",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "reduce",
+      "note": "reduce seats per George"
+    },
+    {
+      "vendor": "Make.com",
+      "amount": 11.38,
+      "amount_display": "$11.38/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-03-24",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Mxddie",
+      "amount": 100.0,
+      "amount_display": "$100.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "review",
+      "note": "check OGtool overlap"
+    },
+    {
+      "vendor": "Kapwing Pro",
+      "amount": 24.0,
+      "amount_display": "$24.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": ""
+    },
+    {
+      "vendor": "Zapier",
+      "amount": 32.22,
+      "amount_display": "$32.22/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-03-20",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "MSOQSN",
+      "amount": 36.0,
+      "amount_display": "$36.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": "unknown service"
+    },
+    {
+      "vendor": "Amazon Prime Divvy",
+      "amount": 62.8,
+      "amount_display": "$62.80/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "review",
+      "note": ""
+    },
+    {
+      "vendor": "LinkedIn Kay Divvy",
+      "amount": 61.08,
+      "amount_display": "$61.08/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "Gong annual",
+      "amount": 133.33,
+      "amount_display": "$133.33/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "cancel",
+      "note": "annual 1600 not using"
+    },
+    {
+      "vendor": "Mill Stream Office Rent",
+      "amount": 752.0,
+      "amount_display": "$752.00/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2026-01-05",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    },
+    {
+      "vendor": "LumenCenturyLink",
+      "amount": 84.26,
+      "amount_display": "$84.26/month",
+      "next_date": "[unknown]",
+      "days_until": 999,
+      "last_paid": "2025-10-23",
+      "card": "Chase Ink Business (\u2022\u20224521)",
+      "category": "Software",
+      "status": "active",
+      "note": ""
+    }
+  ],
+  "oneoffs": [],
+  "brand_breakdown": {
+    "Spoiled Rotten Photography": {
+      "cash_in": 0.0,
+      "cash_out": 0.0,
+      "net": 0.0
+    },
+    "Indy Clover": {
+      "cash_in": 0.0,
+      "cash_out": 0.0,
+      "net": 0.0
+    },
+    "Salad House": {
+      "cash_in": 0.0,
+      "cash_out": 0.0,
+      "net": 0.0
+    },
+    "FKI/Consultant": {
+      "cash_in": 0.0,
+      "cash_out": 0.0,
+      "net": 0.0
+    }
+  },
+  "weeks_13": [
+    {
+      "week": 1,
+      "start": "2026-04-27",
+      "end": "2026-05-03",
+      "label": "W1 Apr 27",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 229073.81,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 2,
+      "start": "2026-05-04",
+      "end": "2026-05-10",
+      "label": "W2 May 04",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 230041.66,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 3,
+      "start": "2026-05-11",
+      "end": "2026-05-17",
+      "label": "W3 May 11",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 231009.51,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 4,
+      "start": "2026-05-18",
+      "end": "2026-05-24",
+      "label": "W4 May 18",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 231977.36,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 5,
+      "start": "2026-05-25",
+      "end": "2026-05-31",
+      "label": "W5 May 25",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 232945.21,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 6,
+      "start": "2026-06-01",
+      "end": "2026-06-07",
+      "label": "W6 Jun 01",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 233913.06,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 7,
+      "start": "2026-06-08",
+      "end": "2026-06-14",
+      "label": "W7 Jun 08",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 234880.91,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 8,
+      "start": "2026-06-15",
+      "end": "2026-06-21",
+      "label": "W8 Jun 15",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 235848.76,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 9,
+      "start": "2026-06-22",
+      "end": "2026-06-28",
+      "label": "W9 Jun 22",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 236816.61,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 10,
+      "start": "2026-06-29",
+      "end": "2026-07-05",
+      "label": "W10 Jun 29",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 237784.46,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 11,
+      "start": "2026-07-06",
+      "end": "2026-07-12",
+      "label": "W11 Jul 06",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 238752.31,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 12,
+      "start": "2026-07-13",
+      "end": "2026-07-19",
+      "label": "W12 Jul 13",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 239720.16,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    },
+    {
+      "week": 13,
+      "start": "2026-07-20",
+      "end": "2026-07-26",
+      "label": "W13 Jul 20",
+      "cash_in": 13187.41,
+      "cash_out": 12219.56,
+      "net": 967.85,
+      "balance": 240688.01,
+      "negative": false,
+      "charges": [],
+      "basis": "Ben actuals (2026-02)",
+      "data_source": "live"
+    }
+  ],
+  "google_ads": {
+    "available": false,
+    "total_spend": 0.0,
+    "campaigns": [],
+    "error": "gateway unreachable"
+  },
+  "meta_ads": {
+    "available": false,
+    "error": null,
+    "today_spend": 0.0,
+    "today_leads": 0,
+    "today_cpl": 0.0,
+    "last_7_spend": 0.0,
+    "last_7_leads": 0,
+    "last_7_cpl": 0.0,
+    "last_30_spend": 0.0,
+    "last_30_leads": 0,
+    "last_30_cpl": 0.0,
+    "campaigns_7d": [],
+    "weekly_trend": [],
+    "active_campaigns": [],
+    "combined_daily_budget": 0.0,
+    "alerts": [],
+    "historical_6mo": {
+      "spend": 125985.0,
+      "leads": 4828,
+      "cpl": 26.09,
+      "note": "Notion snapshot Apr 11 2026"
+    },
+    "last_7_campaigns": []
+  },
+  "combined_ads": {
+    "total_spend_today": 0.0,
+    "total_spend_30d": 0.0,
+    "meta_spend_30d": 0.0,
+    "google_spend_30d": 0.0,
+    "organic_spend_30d": 0.0,
+    "meta_leads_30d": 0,
+    "blended_cpl_30d": 0,
+    "meta_pct": 0,
+    "google_pct": 0,
+    "daily_budget_total": 0.0
+  },
+  "ghl_appointments": {
+    "available": true,
+    "error": null,
+    "windows": {
+      "wtd": {
+        "Indy Clover": {
+          "booked": 1,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 1
+        },
+        "Salad House": {
+          "booked": 5,
+          "showed": 1,
+          "noshow": 0,
+          "cancelled": 1,
+          "confirmed": 3
+        },
+        "Spoiled Rotten Photography": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        },
+        "FKI/Consultant": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        }
+      },
+      "mtd": {
+        "Indy Clover": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        },
+        "Salad House": {
+          "booked": 3,
+          "showed": 1,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 2
+        },
+        "Spoiled Rotten Photography": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        },
+        "FKI/Consultant": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        }
+      },
+      "d7": {
+        "Indy Clover": {
+          "booked": 1,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 1
+        },
+        "Salad House": {
+          "booked": 5,
+          "showed": 1,
+          "noshow": 0,
+          "cancelled": 1,
+          "confirmed": 3
+        },
+        "Spoiled Rotten Photography": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        },
+        "FKI/Consultant": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        }
+      },
+      "d30": {
+        "Indy Clover": {
+          "booked": 7,
+          "showed": 2,
+          "noshow": 1,
+          "cancelled": 1,
+          "confirmed": 3
+        },
+        "Salad House": {
+          "booked": 50,
+          "showed": 16,
+          "noshow": 16,
+          "cancelled": 10,
+          "confirmed": 8
+        },
+        "Spoiled Rotten Photography": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        },
+        "FKI/Consultant": {
+          "booked": 0,
+          "showed": 0,
+          "noshow": 0,
+          "cancelled": 0,
+          "confirmed": 0
+        }
+      }
+    },
+    "totals": {
+      "wtd": {
+        "booked": 6,
+        "showed": 1,
+        "noshow": 0,
+        "cancelled": 1,
+        "confirmed": 4
+      },
+      "mtd": {
+        "booked": 3,
+        "showed": 1,
+        "noshow": 0,
+        "cancelled": 0,
+        "confirmed": 2
+      },
+      "d7": {
+        "booked": 6,
+        "showed": 1,
+        "noshow": 0,
+        "cancelled": 1,
+        "confirmed": 4
+      },
+      "d30": {
+        "booked": 57,
+        "showed": 18,
+        "noshow": 17,
+        "cancelled": 11,
+        "confirmed": 11
+      }
+    },
+    "wtd": 6,
+    "mtd": 3,
+    "contacts_by_campaign": {
+      "available": true,
+      "error": null,
+      "total_contacts": 3000,
+      "no_attribution_count": 2973,
+      "no_attribution_pct": 99.1,
+      "by_campaign": {
+        "(no campaign)": {
+          "leads": 2973,
+          "booked": 4,
+          "held": 1,
+          "no_answer": 9,
+          "cancelled": 0,
+          "booking_survey": 0,
+          "no_show": 0,
+          "not_qualified": 3
+        },
+        "[IC] Leadform \u2013 FNL - 12 Feb - CBO": {
+          "leads": 6,
+          "booked": 1,
+          "held": 0,
+          "no_answer": 4,
+          "cancelled": 0,
+          "booking_survey": 0,
+          "no_show": 1,
+          "not_qualified": 0
+        },
+        "120241391955120432": {
+          "leads": 18,
+          "booked": 7,
+          "held": 1,
+          "no_answer": 9,
+          "cancelled": 1,
+          "booking_survey": 0,
+          "no_show": 4,
+          "not_qualified": 2
+        },
+        "[SH] Leadform \u2013 FNL - 12 Feb - CBO": {
+          "leads": 3,
+          "booked": 1,
+          "held": 0,
+          "no_answer": 2,
+          "cancelled": 0,
+          "booking_survey": 0,
+          "no_show": 0,
+          "not_qualified": 0
+        }
+      },
+      "window_days": 30
+    }
+  },
+  "qb_income_audit": {
+    "booked_income": 0.0,
+    "cash_received": 0,
+    "deposits_total": 0,
+    "payments_total": 0,
+    "receipts_total": 0,
+    "variance": 0.0,
+    "deposits": [],
+    "payments": [],
+    "receipts": [],
+    "deposits_90d": [
+      {
+        "date": "2026-02-20",
+        "total": 17500.0,
+        "account": "Sales",
+        "amount": 17500.0,
+        "memo": "ORIG CO NAME:Glo Tanning ORIG ID:XXXXXX9000 DESC DATE: CO ENTRY DESCR:INV045 SEC:CCD TRACE#:XXXXXXXX0243513 EED:260220 IND ID: IND NAME:Franchise KI LLC Glo Tan ning PAYING BILL INV045 VIA RAMP TRN: XXXXXX3513 TC"
+      },
+      {
+        "date": "2026-02-10",
+        "total": 15000.0,
+        "account": "Sales",
+        "amount": 15000.0,
+        "memo": "ORIG CO NAME:Glo Tanning ORIG ID:XXXXXX9000 DESC DATE: CO ENTRY DESCR:044 SEC:CCD TRACE#:XXXXXXXX1213326 EED:260210 IND ID: IND NAME:Franchise KI LLC Glo Tannin g PAYING BILL 044 VIA RAM P TRN: XXXXXX3326 TC"
+      },
+      {
+        "date": "2026-04-14",
+        "total": 10000.0,
+        "account": "SRP Startup Advance",
+        "amount": 10000.0,
+        "memo": "ORIG CO NAME:WWW-VRU THE PURP ORIG ID:XXXXXX9622 DESC DATE:260414 CO ENTRY DESCR:TPC VENDORSEC:CCD TRACE#:XXXXXXXX0571868 EED:260414 IND ID: IND NAME:FRANCHISE KI LLC INV-SRP01 TRN: XXXXXX1868 TC"
+      },
+      {
+        "date": "2026-03-14",
+        "total": 10000.0,
+        "account": "SRP Startup Advance",
+        "amount": 10000.0,
+        "memo": "ORIG CO NAME:WWW-VRU THE PURP ORIG ID:XXXXXX9622 DESC DATE:260316 CO ENTRY DESCR:TPC VENDORSEC:CCD TRACE#:XXXXXXXX8061556 EED:260316 IND ID: IND NAME:FRANCHISE KI LLC INV-SRP01 TRN: XXXXXX1556 TC"
+      },
+      {
+        "date": "2026-03-31",
+        "total": 500.0,
+        "account": "Owner investments",
+        "amount": 500.0,
+        "memo": "Online Transfer from CHK ...5655 transaction#: XXXXXXX5448"
+      },
+      {
+        "date": "2026-04-14",
+        "total": 6000.0,
+        "account": "Services",
+        "amount": 6000.0,
+        "memo": "BOOK TRANSFER CREDIT B/O: INDY CLOVER FRANCHISING LLC LINDON UT XXXXX-2175 US REF: IDAHO FALLS TRN: XXXXXX6104 ES"
+      },
+      {
+        "date": "2026-03-20",
+        "total": 4473.0,
+        "account": "Services",
+        "amount": 4473.0,
+        "memo": "BOOK TRANSFER CREDIT B/O: RYKR CONSULTING, LLC ESCONDIDO CA XXXXX-1226 US REF: INV-04 GARY AND JULIA HOARD - REFERRAL TRN: XXXXXX6079 ES"
+      },
+      {
+        "date": "2026-03-26",
+        "total": 10000.0,
+        "account": "Sales",
+        "amount": 10000.0,
+        "memo": "ORIG CO NAME:MARTIN WELCH ORIG ID:TXXXXX7665 DESC DATE:260326 CO ENTRY DESCR:SENDER SEC:CIE TRACE#:XXXXXXXX4549552 EED:260326 IND ID:FRANCHISE KI IND NAME:X5264 6168 ONLNE TRNSFRXXXX1070 TRN: XXXXXX9552 TC"
+      },
+      {
+        "date": "2026-03-06",
+        "total": 13419.0,
+        "account": "Services",
+        "amount": 13419.0,
+        "memo": "BOOK TRANSFER CREDIT B/O: RYKR CONSULTING, LLC ESCONDIDO CA XXXXX-1226 US REF: INV 03 GARY AND JULIA HOARD REFERRAL TRN: XXXXXX6065 ES"
+      },
+      {
+        "date": "2026-02-23",
+        "total": 24601.5,
+        "account": "Services",
+        "amount": 24601.5,
+        "memo": "BOOK TRANSFER CREDIT B/O: RYKR CONSULTING, LLC ESCONDIDO CA XXXXX-1226 US REF: SACHIN REF FEE INV 02 TRN: XXXXXX6054 ES"
+      }
+    ],
+    "payments_90d": [],
+    "receipts_90d": [
+      {
+        "date": "2026-04-24",
+        "amount": 24601.5,
+        "customer": "Mirko Marrone (FranChoice)",
+        "memo": "Broker fee INV-MM001 \u2014 Mirko Marrone / FranChoice \u2014 Terry Peery / Skin Experts"
+      }
+    ],
+    "deposits_90d_total": 111493.5
+  },
+  "qb_balance_detail": {
+    "checking": 40005.96,
+    "savings": 188100.0,
+    "bank_accounts": [
+      {
+        "name": "FKI (5000) - 1",
+        "balance": 40005.96,
+        "last_synced": "2026-04-25T19:32:34-07:00",
+        "subtype": "Checking"
+      },
+      {
+        "name": "FKI Savings (8833) - 1",
+        "balance": 188100.0,
+        "last_synced": "2026-04-16T14:54:15-07:00",
+        "subtype": "Savings"
+      }
+    ],
+    "cc_balances": [
+      {
+        "name": "9705 - Liam Chase",
+        "balance": 19109.14,
+        "last_synced": "2026-04-16T15:54:44-07:00"
+      },
+      {
+        "name": "Blue Business Plus Card (1005) - 3",
+        "balance": 92756.87,
+        "last_synced": "2026-04-16T14:54:29-07:00"
+      },
+      {
+        "name": "Blue Business Plus Card (5003) - 4",
+        "balance": 13750.0,
+        "last_synced": "2026-04-16T14:08:18-07:00"
+      },
+      {
+        "name": "BME Credit (0994) - 2",
+        "balance": 289.89,
+        "last_synced": "2026-04-06T11:25:54-07:00"
+      },
+      {
+        "name": "Divvy - Spend & Expense Credit Card",
+        "balance": 9752.79,
+        "last_synced": "2026-05-01T22:51:14-07:00"
+      },
+      {
+        "name": "PCE Credit (0864) - 2",
+        "balance": 40227.02,
+        "last_synced": "2026-04-16T15:54:57-07:00"
+      },
+      {
+        "name": "Personal Credit Card (1537) - 1",
+        "balance": 1116.62,
+        "last_synced": "2026-04-02T13:40:18-07:00"
+      }
+    ]
+  },
+  "credit_cards": {
+    "available": true,
+    "cards": [
+      {
+        "qb_name": "9705 - Liam Chase",
+        "display_name": "Chase 9705 (Liam)",
+        "issuer": "Chase",
+        "last4": "9705",
+        "balance": 19109.14,
+        "credit_limit": null,
+        "utilization": null,
+        "available": null,
+        "statement_close_day": 25,
+        "payment_due_day": 20,
+        "next_due": "2026-05-20",
+        "days_until_due": 18,
+        "minimum_due": 382.18,
+        "autopay": false,
+        "autopay_source": "",
+        "apr": 0,
+        "notes": "Set credit_limit from last Chase statement.",
+        "last_synced": "2026-04-16T15:54:44-07:00"
+      },
+      {
+        "qb_name": "Blue Business Plus Card (1005) - 3",
+        "display_name": "Amex Blue Business Plus 1005",
+        "issuer": "American Express",
+        "last4": "1005",
+        "balance": 92756.87,
+        "credit_limit": null,
+        "utilization": null,
+        "available": null,
+        "statement_close_day": 28,
+        "payment_due_day": 25,
+        "next_due": "2026-05-25",
+        "days_until_due": 23,
+        "minimum_due": 1855.14,
+        "autopay": false,
+        "autopay_source": "",
+        "apr": 0,
+        "notes": "Amex Blue Business Plus is a charge card with no preset limit \u2014 leave null unless Amex assigned one.",
+        "last_synced": "2026-04-16T14:54:29-07:00"
+      },
+      {
+        "qb_name": "Blue Business Plus Card (5003) - 4",
+        "display_name": "Amex Blue Business Plus 5003",
+        "issuer": "American Express",
+        "last4": "5003",
+        "balance": 13750.0,
+        "credit_limit": null,
+        "utilization": null,
+        "available": null,
+        "statement_close_day": 28,
+        "payment_due_day": 25,
+        "next_due": "2026-05-25",
+        "days_until_due": 23,
+        "minimum_due": 275.0,
+        "autopay": false,
+        "autopay_source": "",
+        "apr": 0,
+        "notes": "Second Amex BBP card.",
+        "last_synced": "2026-04-16T14:08:18-07:00"
+      },
+      {
+        "qb_name": "BME Credit (0994) - 2",
+        "display_name": "BME Credit 0994",
+        "issuer": "BME",
+        "last4": "0994",
+        "balance": 289.89,
+        "credit_limit": null,
+        "utilization": null,
+        "available": null,
+        "statement_close_day": 1,
+        "payment_due_day": 25,
+        "next_due": "2026-05-25",
+        "days_until_due": 23,
+        "minimum_due": 25.0,
+        "autopay": false,
+        "autopay_source": "",
+        "apr": 0,
+        "notes": "Fill from BME statement.",
+        "last_synced": "2026-04-06T11:25:54-07:00"
+      },
+      {
+        "qb_name": "Divvy - Spend & Expense Credit Card",
+        "display_name": "Divvy (BILL Spend)",
+        "issuer": "BILL (Divvy)",
+        "last4": "----",
+        "balance": 9752.79,
+        "credit_limit": null,
+        "utilization": null,
+        "available": null,
+        "statement_close_day": 30,
+        "payment_due_day": 25,
+        "next_due": "2026-05-25",
+        "days_until_due": 23,
+        "minimum_due": 195.06,
+        "autopay": true,
+        "autopay_source": "FKI Checking 5000",
+        "apr": 0,
+        "notes": "Divvy credit line is dynamic. Pull current limit from app.bill.com.",
+        "last_synced": "2026-05-01T22:51:14-07:00"
+      },
+      {
+        "qb_name": "PCE Credit (0864) - 2",
+        "display_name": "PCE Credit 0864",
+        "issuer": "PCE",
+        "last4": "0864",
+        "balance": 40227.02,
+        "credit_limit": null,
+        "utilization": null,
+        "available": null,
+        "statement_close_day": 1,
+        "payment_due_day": 25,
+        "next_due": "2026-05-25",
+        "days_until_due": 23,
+        "minimum_due": 804.54,
+        "autopay": false,
+        "autopay_source": "",
+        "apr": 0,
+        "notes": "Fill from PCE statement.",
+        "last_synced": "2026-04-16T15:54:57-07:00"
+      },
+      {
+        "qb_name": "Personal Credit Card (1537) - 1",
+        "display_name": "Personal 1537",
+        "issuer": "Personal",
+        "last4": "1537",
+        "balance": 1116.62,
+        "credit_limit": null,
+        "utilization": null,
+        "available": null,
+        "statement_close_day": 25,
+        "payment_due_day": 20,
+        "next_due": "2026-05-20",
+        "days_until_due": 18,
+        "minimum_due": 25.0,
+        "autopay": false,
+        "autopay_source": "",
+        "apr": 0,
+        "notes": "Personal card \u2014 track separately from FKI business.",
+        "last_synced": "2026-04-02T13:40:18-07:00"
+      }
+    ],
+    "total_balance": 177002.33,
+    "total_limit": null,
+    "total_available": null
+  },
+  "qb_sync_status": {
+    "latest_bank_sync": "2026-04-25T19:32:34-07:00",
+    "hours_stale": 153.5,
+    "stale": true,
+    "bank_accounts": [
+      {
+        "name": "FKI (5000) - 1",
+        "balance": 40005.96,
+        "last_synced": "2026-04-25T19:32:34-07:00",
+        "subtype": "Checking"
+      },
+      {
+        "name": "FKI Savings (8833) - 1",
+        "balance": 188100.0,
+        "last_synced": "2026-04-16T14:54:15-07:00",
+        "subtype": "Savings"
+      }
+    ]
+  }
+}
