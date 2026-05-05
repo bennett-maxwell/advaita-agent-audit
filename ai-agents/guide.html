@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 7 AI Agents Running My Franchise Company — Bennett Maxwell</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #3496FF;
+    --dark: #1B2626;
+    --mid: #243232;
+    --light-bg: #F7FAFE;
+    --white: #FFFFFF;
+    --border: #E2EBF8;
+    --text: #1B2626;
+    --muted: #5A7080;
+    --blue-light: #EBF4FF;
+    --blue-mid: #CCDFFE;
+    --green: #22C55E;
+    --amber: #F59E0B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #F0F4F8;
+    color: var(--text);
+  }
+
+  /* PAGE SHELL */
+  .page {
+    width: 816px;
+    min-height: 1056px;
+    background: var(--white);
+    margin: 0 auto 32px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  }
+
+  /* TOP ACCENT BAR */
+  .accent-bar {
+    height: 5px;
+    background: linear-gradient(90deg, var(--blue) 0%, #5BB0FF 100%);
+  }
+
+  /* PAGE HEADER */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 56px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-dot {
+    width: 28px;
+    height: 28px;
+    background: var(--blue);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand-dot span { color: #fff; font-size: 14px; font-weight: 800; }
+
+  .brand-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.3px;
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .page-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ===============================
+     PAGE 1 — COVER
+  =============================== */
+  .cover-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: calc(1056px - 5px - 73px);
+  }
+
+  .cover-hero {
+    background: var(--dark);
+    flex: 1;
+    padding: 56px 56px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(52,150,255,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cover-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(52,150,255,0.15);
+    border: 1px solid rgba(52,150,255,0.35);
+    border-radius: 20px;
+    padding: 6px 16px;
+    margin-bottom: 32px;
+  }
+
+  .cover-eyebrow span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #7FC4FF;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .cover-eyebrow-dot {
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.10;
+    letter-spacing: -1.5px;
+    margin-bottom: 24px;
+    max-width: 580px;
+  }
+
+  .cover-title em {
+    font-style: normal;
+    color: var(--blue);
+  }
+
+  .cover-subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+
+  .cover-stats {
+    display: flex;
+    gap: 32px;
+  }
+
+  .cover-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cover-stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -1px;
+  }
+
+  .cover-stat-num span { color: var(--blue); }
+
+  .cover-stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .cover-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.12);
+    align-self: stretch;
+    margin: 4px 0;
+  }
+
+  .cover-footer {
+    padding: 28px 56px;
+    background: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cover-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .author-avatar {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--blue) 0%, #1A70D8 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+
+  .author-title {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .cover-badge {
+    background: var(--blue-light);
+    border: 1px solid var(--blue-mid);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue);
+  }
+
+  /* ===============================
+     SECTION HEADER
+  =============================== */
+  .section-body { padding: 48px 56px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 560px;
+    margin-bottom: 32px;
+  }
+
+  /* OVERVIEW GRID */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .overview-card {
+    background: var(--light-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .overview-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--blue);
+    margin-bottom: 6px;
+  }
+
+  .overview-card-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .overview-card-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* CALLOUT BOX */
+  .callout {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 100%);
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .callout-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .callout-text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .callout-text strong { color: var(--white); font-style: normal; }
+
+  /* ===============================
+     AGENT CARDS
+  =============================== */
+  .agent-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--blue);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .agent-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .agent-num-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .agent-num {
+    width: 28px; height: 28px;
+    background: var(--blue);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .agent-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.3px;
+  }
+
+  .agent-role-tag {
+    background: var(--blue-light);
+    border: 1px solid var(--blue-mid);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--blue);
+    white-space: nowrap;
+  }
+
+  .agent-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .agent-metrics {
+    display: flex;
+    gap: 20px;
+  }
+
+  .agent-metric {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .agent-metric-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .agent-metric-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  /* COMPACT AGENT (2-per-row) */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .agent-mini {
+    background: var(--light-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    position: relative;
+  }
+
+  .agent-mini-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .agent-mini-num {
+    width: 24px; height: 24px;
+    background: var(--blue);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .agent-mini-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+
+  .agent-mini-role {
+    font-size: 10px;
+    color: var(--blue);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .agent-mini-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .agent-mini-result {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mini-result-pill {
+    background: #DCFCE7;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #15803D;
+  }
+
+  /* ===============================
+     PAGE 4 — HOW TO BUILD
+  =============================== */
+  .steps-list { margin-bottom: 28px; }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 36px; height: 36px;
+    background: var(--dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content {}
+
+  .step-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .tool-chip {
+    background: var(--light-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tool-icon { font-size: 16px; }
+
+  .tool-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  /* ===============================
+     PAGE 5 — CTA
+  =============================== */
+  .cta-body {
+    background: var(--dark);
+    min-height: calc(1056px - 5px - 73px);
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-body::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(52,150,255,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cta-body::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(52,150,255,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cta-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.12;
+    letter-spacing: -1.2px;
+    margin-bottom: 20px;
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    max-width: 500px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .cta-step-num {
+    width: 32px; height: 32px;
+    background: rgba(52,150,255,0.2);
+    border: 1px solid rgba(52,150,255,0.4);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--blue);
+    flex-shrink: 0;
+  }
+
+  .cta-step-text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.80);
+    line-height: 1.4;
+  }
+
+  .cta-step-text strong { color: var(--white); }
+
+  .cta-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: -0.2px;
+  }
+
+  .btn-secondary {
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .cta-contact {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-contact-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .cta-contact-info {
+    display: flex;
+    gap: 32px;
+  }
+
+  .cta-contact-item {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .cta-contact-item strong { color: var(--white); }
+
+  /* PRINT STYLES */
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; }
+    @page { margin: 0; size: 8.5in 11in; }
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(27,38,38,0.95);
+    backdrop-filter: blur(10px);
+    padding: 12px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .toolbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .toolbar-actions { display: flex; gap: 12px; align-items: center; }
+
+  .btn-print {
+    background: var(--blue);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 7px;
+    border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+  }
+
+  .page-wrapper {
+    padding-top: 64px;
+    padding-bottom: 48px;
+  }
+
+  @media print { .toolbar { display: none; } .page-wrapper { padding-top: 0; } }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="toolbar-title">7 AI Agents — Lead Magnet PDF</span>
+  <div class="toolbar-actions">
+    <span style="font-size:12px;color:rgba(255,255,255,0.4);">5 pages · FKI Brand</span>
+    <button class="btn-outline" onclick="window.print()">Print to PDF</button>
+    <button class="btn-print" onclick="window.print()">⬇ Download PDF</button>
+  </div>
+</div>
+
+<div class="page-wrapper">
+
+<!-- =============================== -->
+<!-- PAGE 1 — COVER                  -->
+<!-- =============================== -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="page-header">
+    <div class="brand">
+      <div class="brand-dot"><span>K</span></div>
+      <div>
+        <div class="brand-name">Franchise KI</div>
+        <div class="brand-sub">franchiseki.com</div>
+      </div>
+    </div>
+    <span class="page-label">Exclusive Guide</span>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-hero">
+      <div class="cover-eyebrow">
+        <div class="cover-eyebrow-dot"></div>
+        <span>Inside the System</span>
+      </div>
+      <h1 class="cover-title">The <em>7 AI Agents</em> Running My Franchise Company</h1>
+      <p class="cover-subtitle">What they do, how much they cost, and how you can build the same system for your business.</p>
+      <div class="cover-stats">
+        <div class="cover-stat">
+          <div class="cover-stat-num">7<span>×</span></div>
+          <div class="cover-stat-label">AI Agents Active</div>
+        </div>
+        <div class="cover-divider"></div>
+        <div class="cover-stat">
+          <div class="cover-stat-num"><span>$</span>10</div>
+          <div class="cover-stat-label">Per Week Total Cost</div>
+        </div>
+        <div class="cover-divider"></div>
+        <div class="cover-stat">
+          <div class="cover-stat-num">80<span>%</span></div>
+          <div class="cover-stat-label">Tasks Automated</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div class="cover-author">
+        <div class="author-avatar">B</div>
+        <div>
+          <div class="author-name">Bennett Maxwell</div>
+          <div class="author-title">CEO, Franchise KI · AI Franchise Entrepreneur</div>
+        </div>
+      </div>
+      <div class="cover-badge">Free Resource · 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<!-- PAGE 2 — OVERVIEW               -->
+<!-- =============================== -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="page-header">
+    <div class="brand">
+      <div class="brand-dot"><span>K</span></div>
+      <div>
+        <div class="brand-name">Franchise KI</div>
+        <div class="brand-sub">franchiseki.com</div>
+      </div>
+    </div>
+    <span class="page-label">Page 1 of 5 · The Overview</span>
+  </div>
+
+  <div class="section-body">
+    <div class="section-label">The Backstory</div>
+    <h2 class="section-title">I run a franchise brokerage with 7 AI agents.</h2>
+    <p class="section-desc">18 months ago I started replacing manual work with AI. Here is what I have now, what it costs, and why it changed everything.</p>
+
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="overview-card-label">What I do</div>
+        <div class="overview-card-value">Franchise Brokerage</div>
+        <div class="overview-card-note">Matching buyers with franchise opportunities via FKI + MapKi</div>
+      </div>
+      <div class="overview-card">
+        <div class="overview-card-label">YTD Revenue 2026</div>
+        <div class="overview-card-value" style="color:var(--blue);">$225,596</div>
+        <div class="overview-card-note">Jan–May 2026 · QuickBooks verified</div>
+      </div>
+      <div class="overview-card">
+        <div class="overview-card-label">AI Fleet Weekly Cost</div>
+        <div class="overview-card-value">Under $10</div>
+        <div class="overview-card-note">For the entire 7-agent system running 24/7</div>
+      </div>
+      <div class="overview-card">
+        <div class="overview-card-label">Time Reclaimed Per Week</div>
+        <div class="overview-card-value">20+ hours</div>
+        <div class="overview-card-note">Across lead processing, reporting, content, and finance</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">💡</div>
+      <p class="callout-text">"My goal is simple: <strong>I show up, take calls, and close deals.</strong> Every other function in the business runs itself — and gets smarter every week without anyone touching it. That is what this guide is about."</p>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="section-label" style="margin-bottom:12px;">The 5 Domains I Automated</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;">
+        <div style="text-align:center;padding:16px 8px;background:var(--light-bg);border:1px solid var(--border);border-radius:10px;">
+          <div style="font-size:20px;margin-bottom:6px;">📢</div>
+          <div style="font-size:10px;font-weight:700;color:var(--dark);line-height:1.3;">Lead Acquisition</div>
+        </div>
+        <div style="text-align:center;padding:16px 8px;background:var(--light-bg);border:1px solid var(--border);border-radius:10px;">
+          <div style="font-size:20px;margin-bottom:6px;">⚡</div>
+          <div style="font-size:10px;font-weight:700;color:var(--dark);line-height:1.3;">Lead Processing</div>
+        </div>
+        <div style="text-align:center;padding:16px 8px;background:var(--light-bg);border:1px solid var(--border);border-radius:10px;">
+          <div style="font-size:20px;margin-bottom:6px;">🧠</div>
+          <div style="font-size:10px;font-weight:700;color:var(--dark);line-height:1.3;">Sales Intelligence</div>
+        </div>
+        <div style="text-align:center;padding:16px 8px;background:var(--light-bg);border:1px solid var(--border);border-radius:10px;">
+          <div style="font-size:20px;margin-bottom:6px;">⚙️</div>
+          <div style="font-size:10px;font-weight:700;color:var(--dark);line-height:1.3;">Operations</div>
+        </div>
+        <div style="text-align:center;padding:16px 8px;background:var(--light-bg);border:1px solid var(--border);border-radius:10px;">
+          <div style="font-size:20px;margin-bottom:6px;">📊</div>
+          <div style="font-size:10px;font-weight:700;color:var(--dark);line-height:1.3;">Financial Control</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<!-- PAGE 3 — AGENTS 1–4             -->
+<!-- =============================== -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="page-header">
+    <div class="brand">
+      <div class="brand-dot"><span>K</span></div>
+      <div>
+        <div class="brand-name">Franchise KI</div>
+        <div class="brand-sub">franchiseki.com</div>
+      </div>
+    </div>
+    <span class="page-label">Page 2 of 5 · Agents 1–4</span>
+  </div>
+
+  <div class="section-body">
+    <div class="section-label">The AI Fleet</div>
+    <h2 class="section-title">Meet the first 4 agents.</h2>
+    <p class="section-desc">Each one handles a specific function. Together, they cover 80% of what used to require a full team.</p>
+
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-num-badge">
+          <div class="agent-num">1</div>
+          <div>
+            <div class="agent-name">The Council</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">Decision Support · 5 AI Advisors</div>
+          </div>
+        </div>
+        <div class="agent-role-tag">🏛 Operations</div>
+      </div>
+      <p class="agent-desc">Runs any question through 5 AI advisors who score 0–5, debate, and must reach agreement before the system can act. I use it for every major decision: vendor selection, ad strategy, hiring, pricing. The advisors are the Contrarian, the Financial Pragmatist, the Expansionist, the Outside Expert, and the Executor.</p>
+      <div class="agent-metrics">
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">~3 hrs saved/week</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">Eliminates solo decision bias</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">Runs in under 60 seconds</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-num-badge">
+          <div class="agent-num">2</div>
+          <div>
+            <div class="agent-name">Reed — Intelligence Gatherer</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">Transcription + Weekly Synthesis</div>
+          </div>
+        </div>
+        <div class="agent-role-tag">🧠 Sales Intel</div>
+      </div>
+      <p class="agent-desc">Transcribes every meeting, synthesizes the week into a single intelligence brief, and sends a morning pulse email every 2 hours. Every call gets captured and fed into the system automatically.</p>
+      <div class="agent-metrics">
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">~5 hrs saved/week</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">100% meeting coverage</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">Runs every 2 hours</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-num-badge">
+          <div class="agent-num">3</div>
+          <div>
+            <div class="agent-name">Sam — Sales Call Coach</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">Scoring + Coaching · Post-Call Automation</div>
+          </div>
+        </div>
+        <div class="agent-role-tag">📞 Sales Intel</div>
+      </div>
+      <p class="agent-desc">Scores every sales call on the Klaff, Voss, and Belfort frameworks and delivers coaching notes automatically after each call. My sales reps receive personalized coaching without any manager involvement.</p>
+      <div class="agent-metrics">
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">Replaced $15K/yr Gong</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">Auto-coaching every rep</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">Pattern insights weekly</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-num-badge">
+          <div class="agent-num">4</div>
+          <div>
+            <div class="agent-name">The Speed-to-Lead Bot</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">60-Second Response · Lead Qualification</div>
+          </div>
+        </div>
+        <div class="agent-role-tag">⚡ Lead Processing</div>
+      </div>
+      <p class="agent-desc">Contacts every new lead within 60 seconds of opt-in, qualifies them, and books appointments automatically. We had 506 unassigned leads going cold daily. This agent now handles every single one without human involvement until Bennett's discovery call.</p>
+      <div class="agent-metrics">
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">391% better conversion at 60s</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">506 leads handled/cycle</span></div>
+        <div class="agent-metric"><div class="agent-metric-dot"></div><span class="agent-metric-text">Zero human touch until close</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<!-- PAGE 4 — AGENTS 5–7 + HOW TO   -->
+<!-- =============================== -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="page-header">
+    <div class="brand">
+      <div class="brand-dot"><span>K</span></div>
+      <div>
+        <div class="brand-name">Franchise KI</div>
+        <div class="brand-sub">franchiseki.com</div>
+      </div>
+    </div>
+    <span class="page-label">Page 3 of 5 · Agents 5–7 &amp; How to Build</span>
+  </div>
+
+  <div class="section-body">
+    <div class="section-label">The AI Fleet — Continued</div>
+    <h2 class="section-title" style="font-size:26px;margin-bottom:6px;">Agents 5, 6 &amp; 7</h2>
+    <p class="section-desc" style="margin-bottom:20px;">The final three cover revenue generation, financial control, and content creation.</p>
+
+    <div class="agents-grid" style="margin-bottom:32px;">
+      <div class="agent-mini">
+        <div class="agent-mini-header">
+          <div class="agent-mini-num">5</div>
+          <div>
+            <div class="agent-mini-name">The Ad Machine</div>
+            <div class="agent-mini-role">Lead Acquisition</div>
+          </div>
+        </div>
+        <p class="agent-mini-desc">Monitors Meta Ads CPL daily, flags underperforming ads, suggests creative changes. Self-managing 80% of ad decisions on $8,894/month in spend.</p>
+        <div class="agent-mini-result"><span class="mini-result-pill">80% self-managing</span></div>
+      </div>
+
+      <div class="agent-mini">
+        <div class="agent-mini-header">
+          <div class="agent-mini-num">6</div>
+          <div>
+            <div class="agent-mini-name">Fred — CFO Agent</div>
+            <div class="agent-mini-role">Financial Control</div>
+          </div>
+        </div>
+        <p class="agent-mini-desc">Monitors spend in real time, auto-generates P&L weekly, flags financial anomalies. 13-week cash flow forecast updated automatically every day.</p>
+        <div class="agent-mini-result"><span class="mini-result-pill">13-week forecast auto</span></div>
+      </div>
+
+      <div class="agent-mini" style="grid-column:span 2;">
+        <div class="agent-mini-header">
+          <div class="agent-mini-num">7</div>
+          <div>
+            <div class="agent-mini-name">The Content Engine</div>
+            <div class="agent-mini-role">Lead Acquisition · Organic</div>
+          </div>
+        </div>
+        <p class="agent-mini-desc">Mines every meeting transcript for social content, drafts 15 posts per week in my voice. All LinkedIn and social content generated from my own recorded words — zero fabrication, $0 cost.</p>
+        <div class="agent-mini-result"><span class="mini-result-pill">15 posts/week from transcripts</span><span style="margin-left:8px;font-size:10px;font-weight:600;color:var(--muted);">Sounds exactly like me</span></div>
+      </div>
+    </div>
+
+    <div style="height:1px;background:var(--border);margin-bottom:28px;"></div>
+
+    <div class="section-label">Build Your Own</div>
+    <h2 class="section-title" style="font-size:24px;margin-bottom:6px;">4 steps to deploy your first agent.</h2>
+    <p class="section-desc" style="margin-bottom:20px;">Start with one. Stack from there.</p>
+
+    <div class="steps-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Pick your biggest pain point</div>
+          <div class="step-desc">Lead follow-up, sales coaching, financial reporting, or content creation. The highest-ROI first agent for most businesses: speed-to-lead.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Choose a starting agent and wire it to your CRM</div>
+          <div class="step-desc">6–8 weeks to deploy first working agent. GHL + Claude Sonnet + Hyperagent is the stack I recommend.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Run it, test it, improve it weekly</div>
+          <div class="step-desc">The agent gets smarter from every call, every email, every campaign result. The compound effect starts at week 4.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Stack agents once the first one works</div>
+          <div class="step-desc">Each new agent builds on the last. By agent 4, the fleet starts coordinating automatically.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-chip"><span class="tool-icon">🤖</span><span class="tool-name">Hyperagent</span></div>
+      <div class="tool-chip"><span class="tool-icon">🧠</span><span class="tool-name">Claude Sonnet</span></div>
+      <div class="tool-chip"><span class="tool-icon">📱</span><span class="tool-name">Go High Level</span></div>
+      <div class="tool-chip"><span class="tool-icon">📊</span><span class="tool-name">QuickBooks</span></div>
+      <div class="tool-chip"><span class="tool-icon">📁</span><span class="tool-name">Google Drive</span></div>
+      <div class="tool-chip"><span class="tool-icon">📢</span><span class="tool-name">Meta Ads</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== -->
+<!-- PAGE 5 — CTA                    -->
+<!-- =============================== -->
+<div class="page">
+  <div class="accent-bar"></div>
+  <div class="page-header" style="background:var(--dark);border-bottom-color:rgba(255,255,255,0.08);">
+    <div class="brand">
+      <div class="brand-dot"><span>K</span></div>
+      <div>
+        <div class="brand-name" style="color:rgba(255,255,255,0.9);">Franchise KI</div>
+        <div class="brand-sub" style="color:rgba(255,255,255,0.35);">franchiseki.com</div>
+      </div>
+    </div>
+    <span class="page-label" style="color:rgba(255,255,255,0.4);">Page 5 of 5 · Work With Me</span>
+  </div>
+
+  <div class="cta-body">
+    <div class="cta-eyebrow">Next Step</div>
+    <h2 class="cta-title">Want this system built for your business?</h2>
+    <p class="cta-desc">I am building the exact AI agent system you just read about for my own franchise company. Now I am deploying the same system for other $5M+ revenue businesses.</p>
+
+    <div class="cta-steps">
+      <div class="cta-step">
+        <div class="cta-step-num">1</div>
+        <div class="cta-step-text"><strong>One AI agent, one week to deploy.</strong> We start with your highest-ROI use case — usually speed-to-lead or sales coaching.</div>
+      </div>
+      <div class="cta-step">
+        <div class="cta-step-num">2</div>
+        <div class="cta-step-text"><strong>It makes you one deal in the first month.</strong> The fee pays for itself before you decide if you want to continue.</div>
+      </div>
+      <div class="cta-step">
+        <div class="cta-step-num">3</div>
+        <div class="cta-step-text"><strong>You own the system, not a subscription.</strong> After deployment, it is yours. I teach your team to run it.</div>
+      </div>
+    </div>
+
+    <div class="cta-actions">
+      <a href="https://franchiseki.com" class="btn-primary">Apply at franchiseki.com →</a>
+      <span class="btn-secondary">Or DM "AGENTS" on LinkedIn</span>
+    </div>
+
+    <div class="cta-contact">
+      <div class="cta-contact-label">Contact</div>
+      <div class="cta-contact-info">
+        <div class="cta-contact-item"><strong>Email</strong> · bennett@franchiseki.com</div>
+        <div class="cta-contact-item"><strong>LinkedIn</strong> · /in/bennettmaxwell35</div>
+        <div class="cta-contact-item"><strong>Web</strong> · franchiseki.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end page-wrapper -->
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FKI Social Media Command Center</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background: #F5F5F7; color: #1D1D1F; min-height: 100vh; }
+    .page-header { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 24px 40px; display: flex; align-items: flex-start; justify-content: space-between; }
+    .page-header h1 { font-size: 20px; font-weight: 700; color: #1D1D1F; }
+    .page-header .subtitle { font-size: 13px; color: #6E6E73; margin-top: 3px; }
+    .kpi-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .kpi-pill { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
+    .kpi-green { background: rgba(52,199,89,0.08); color: #34C759; border-color: rgba(52,199,89,0.3); }
+    .kpi-amber { background: rgba(255,159,10,0.08); color: #FF9F0A; border-color: rgba(255,159,10,0.3); }
+    .kpi-blue { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.3); }
+    .kpi-red { background: rgba(255,59,48,0.08); color: #FF3B30; border-color: rgba(255,59,48,0.3); }
+    .back-link { display: block; color: #0071E3; text-decoration: none; font-size: 13px; padding: 10px 40px; background: #FFFFFF; border-bottom: 1px solid #F2F2F7; }
+    .main { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
+    .kpi-strip { background: #FFFFFF; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 20px; }
+    .kpi-block { padding: 20px 16px; text-align: center; border-right: 1px solid #E5E5EA; }
+    .kpi-block:last-child { border-right: none; }
+    .kpi-num { font-size: 32px; font-weight: 700; }
+    .kpi-lbl { font-size: 10px; color: #6E6E73; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .kn-g { color: #34C759; } .kn-a { color: #FF9F0A; } .kn-b { color: #0071E3; } .kn-r { color: #FF3B30; }
+    .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .role-card { background: #FFFFFF; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); overflow: hidden; }
+    .role-header { padding: 16px 20px; border-bottom: 1px solid #F2F2F7; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .role-header:hover { background: #F9F9F9; }
+    .role-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .role-count { font-size: 28px; font-weight: 700; margin-top: 2px; }
+    .role-sub { font-size: 12px; color: #6E6E73; margin-top: 2px; }
+    .role-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .role-body.open { max-height: 600px; }
+    .role-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 20px; border-bottom: 1px solid #F5F5F7; font-size: 13px; }
+    .role-item:last-child { border-bottom: none; }
+    .role-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .ra .role-title { color: #34C759; } .ra .role-count { color: #34C759; } .ra .role-header { border-left: 3px solid #34C759; } .ra .role-dot { background: #34C759; }
+    .rb .role-title { color: #FF9F0A; } .rb .role-count { color: #FF9F0A; } .rb .role-header { border-left: 3px solid #FF9F0A; } .rb .role-dot { background: #FF9F0A; }
+    .rc .role-title { color: #0071E3; } .rc .role-count { color: #0071E3; } .rc .role-header { border-left: 3px solid #0071E3; } .rc .role-dot { background: #0071E3; }
+    .sec-title { font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.06em; margin: 20px 0 10px; }
+    .accordion { margin-bottom: 8px; }
+    .acc-hdr { background: #FFFFFF; border-radius: 10px; padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.07); user-select: none; }
+    .acc-hdr.open { border-radius: 10px 10px 0 0; }
+    .acc-hdr:hover { background: #F9F9F9; }
+    .acc-left { display: flex; align-items: center; gap: 12px; }
+    .ind { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .ig { background: #34C759; } .ia { background: #FF9F0A; } .ir { background: #FF3B30; } .ib { background: #0071E3; } .igr { background: #8E8E93; }
+    .acc-title { font-size: 14px; font-weight: 600; }
+    .acc-meta { font-size: 12px; color: #6E6E73; margin-top: 1px; }
+    .acc-right { display: flex; align-items: center; gap: 10px; }
+    .acc-chev { font-size: 11px; color: #8E8E93; transition: transform 0.2s; }
+    .acc-chev.open { transform: rotate(180deg); }
+    .acc-body { background: #FFFFFF; border-radius: 0 0 10px 10px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .acc-body.open { max-height: 1400px; }
+    .sp { padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .sg { background: rgba(52,199,89,0.1); color: #34C759; } .sa { background: rgba(255,159,10,0.1); color: #FF9F0A; } .sr { background: rgba(255,59,48,0.1); color: #FF3B30; } .sb { background: rgba(0,113,227,0.1); color: #0071E3; } .sgr { background: rgba(142,142,147,0.1); color: #8E8E93; }
+    .acc-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 20px; border-bottom: 1px solid #F5F5F7; font-size: 13px; gap: 12px; }
+    .acc-row:last-child { border-bottom: none; }
+    .arl { color: #6E6E73; flex-shrink: 0; }
+    .acc-tbl { width: 100%; border-collapse: collapse; }
+    .acc-tbl th { font-size: 10px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.05em; padding: 9px 20px; text-align: left; border-bottom: 1px solid #F2F2F7; }
+    .acc-tbl td { font-size: 12px; padding: 10px 20px; border-bottom: 1px solid #F5F5F7; }
+    .acc-tbl tr:last-child td { border-bottom: none; }
+    .folder-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 16px 20px; }
+    .fc-card { background: #F5F5F7; border-radius: 8px; padding: 14px 10px; text-align: center; cursor: pointer; text-decoration: none; color: #1D1D1F; transition: background 0.15s; display: block; }
+    .fc-card:hover { background: #EBEBF0; }
+    .fc-icon { font-size: 22px; margin-bottom: 5px; }
+    .fc-name { font-size: 12px; font-weight: 600; }
+    .fc-sub { font-size: 10px; color: #6E6E73; margin-top: 2px; }
+    .plat-row { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid #F5F5F7; }
+    .plat-row:last-child { border-bottom: none; }
+    .plat-ico { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #F5F5F7; font-size: 16px; flex-shrink: 0; font-weight: 700; }
+    .pn { font-size: 13px; font-weight: 600; } .po { font-size: 11px; color: #6E6E73; } .pnt { font-size: 10px; color: #8E8E93; }
+    .act-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 20px; border-bottom: 1px solid #F5F5F7; font-size: 13px; }
+    .act-row:last-child { border-bottom: none; }
+    .act-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .act-time { font-size: 11px; color: #8E8E93; min-width: 70px; flex-shrink: 0; }
+    .alert-bar { background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); border-radius: 10px; padding: 12px 20px; margin-bottom: 20px; }
+    .al-lbl { font-size: 11px; font-weight: 700; color: #FF3B30; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+    .al-txt { font-size: 13px; color: #1D1D1F; }
+    .pillars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 16px 20px; }
+    .pillar-box { background: #F5F5F7; border-radius: 8px; padding: 12px; }
+    .pb-title { font-size: 12px; font-weight: 600; color: #1D1D1F; }
+    .pb-sub { font-size: 11px; color: #6E6E73; margin-top: 3px; line-height: 1.4; }
+    .footer { text-align: center; padding: 24px 20px; font-size: 12px; color: #8E8E93; }
+    a.fl { color: #0071E3; text-decoration: none; }
+    a.fl:hover { text-decoration: underline; }
+    .progress-bar { background: #F5F5F7; border-radius: 100px; height: 6px; margin: 8px 20px 12px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #FF9F0A, #34C759); border-radius: 100px; }
+    @media (max-width: 700px) {
+      .page-header { flex-direction: column; gap: 12px; padding: 16px 20px; }
+      .main { padding: 16px 12px; }
+      .kpi-strip { grid-template-columns: 1fr 1fr; }
+      .kpi-block:nth-child(2) { border-right: none; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .folder-grid { grid-template-columns: repeat(2, 1fr); }
+      .back-link { padding: 10px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../hub/" class="back-link">&#8592; FKI Command Center Hub</a>
+
+  <div class="page-header">
+    <div>
+      <h1>Social Media Command Center</h1>
+      <div class="subtitle">CEO Design Skill v1 &middot; business-audit v2 &middot; council 4.46/5 &middot; <span id="ts"></span></div>
+    </div>
+    <div class="kpi-row">
+      <span class="kpi-pill kpi-green">1 Platform Live</span>
+      <span class="kpi-pill kpi-blue">60 Posts Ready</span>
+      <span class="kpi-pill kpi-amber">27% Automated</span>
+      <span class="kpi-pill kpi-red">2 Blockers</span>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="alert-bar">
+      <div class="al-lbl">Action Required</div>
+      <div class="al-txt">LinkedIn recovery ends May 7 &middot; Meta Ads token expired April 30 &middot; Metricool upgrade pending (Kay, $22/mo)</div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi-block"><div class="kpi-num kn-g">1</div><div class="kpi-lbl">Platform Live</div></div>
+      <div class="kpi-block"><div class="kpi-num kn-b">60</div><div class="kpi-lbl">Posts Ready</div></div>
+      <div class="kpi-block"><div class="kpi-num kn-b">136+</div><div class="kpi-lbl">Voice Quotes</div></div>
+      <div class="kpi-block"><div class="kpi-num kn-a">27%</div><div class="kpi-lbl">Automated</div></div>
+    </div>
+
+    <!-- ROLE CARDS -->
+    <div class="sec-title">Who Owns What &mdash; Click to Expand</div>
+    <div class="roles-grid">
+
+      <div class="role-card ra">
+        <div class="role-header" onclick="toggleRole('ai')">
+          <div>
+            <div class="role-title">AI &mdash; Runs This</div>
+            <div class="role-count">15</div>
+            <div class="role-sub">automated daily tasks</div>
+          </div>
+          <span id="ai-chev">&#9660;</span>
+        </div>
+        <div class="role-body open" id="ai-body">
+          <div class="role-item"><div class="role-dot"></div>Mine Bennett transcripts weekly (Mon 6 AM MDT)</div>
+          <div class="role-item"><div class="role-dot"></div>Write all post text in Bennett&rsquo;s exact verified voice</div>
+          <div class="role-item"><div class="role-dot"></div>Enforce 55-rule guardrails before every post</div>
+          <div class="role-item"><div class="role-dot"></div>Post to LinkedIn via API (urn:li:person:jePE-Wwb03)</div>
+          <div class="role-item"><div class="role-dot"></div>Rotate 4 pillars: Build Log / AI Thesis / Skill Drop / Results</div>
+          <div class="role-item"><div class="role-dot"></div>Maintain 136+ verified Voice Library (grows weekly)</div>
+          <div class="role-item"><div class="role-dot"></div>Respond to LinkedIn comments + like 5-10 posts daily</div>
+          <div class="role-item"><div class="role-dot"></div>Curate 84-photo real brand library (IC + SH locations)</div>
+          <div class="role-item"><div class="role-dot"></div>Generate UGC video via HeyGen Bennett Bot (Leo WO)</div>
+          <div class="role-item"><div class="role-dot"></div>Maintain 30-day rolling content calendar</div>
+          <div class="role-item"><div class="role-dot"></div>Daily council review of ad creative performance</div>
+          <div class="role-item"><div class="role-dot"></div>Alert on IC CPL spike ($76 vs $45 target)</div>
+          <div class="role-item"><div class="role-dot"></div>Block blocked-state content (IC: TX/NC/SC/FL/KY/ME/OR/UT)</div>
+          <div class="role-item"><div class="role-dot"></div>Audit tool usage &mdash; flag anything not running daily</div>
+          <div class="role-item"><div class="role-dot"></div>Email Christelle every Sunday with weekly batch</div>
+        </div>
+      </div>
+
+      <div class="role-card rb">
+        <div class="role-header" onclick="toggleRole('bennett')">
+          <div>
+            <div class="role-title">Bennett &mdash; 2 Things</div>
+            <div class="role-count">2</div>
+            <div class="role-sub">required to unlock full automation</div>
+          </div>
+          <span id="bennett-chev">&#9660;</span>
+        </div>
+        <div class="role-body open" id="bennett-body">
+          <div class="role-item"><div class="role-dot"></div><div><strong>Meta Ads token refresh</strong><br><span style="font-size:12px;color:#6E6E73">Expired April 30. Business Manager &rarr; System Users &rarr; Generate token. 3 min. Campaigns blind without this.</span></div></div>
+          <div class="role-item"><div class="role-dot"></div><div><strong>Google Ads verification &mdash; deadline May 13</strong><br><span style="font-size:12px;color:#6E6E73">ads.google.com &rarr; submit ID docs. Account pauses if missed. $500 promo credit expires May 7.</span></div></div>
+          <div style="padding:12px 20px;font-size:12px;color:#8E8E93;border-top:1px solid #F5F5F7">Everything else is handled. Bennett never writes content, never schedules, never approves per-post.</div>
+        </div>
+      </div>
+
+      <div class="role-card rc">
+        <div class="role-header" onclick="toggleRole('christelle')">
+          <div>
+            <div class="role-title">Christelle &mdash; 3 Weekly</div>
+            <div class="role-count">3</div>
+            <div class="role-sub">review &middot; upload &middot; monitor</div>
+          </div>
+          <span id="christelle-chev">&#9660;</span>
+        </div>
+        <div class="role-body open" id="christelle-body">
+          <div class="role-item"><div class="role-dot"></div><div><strong>Monday (20 min)</strong><br><span style="font-size:12px;color:#6E6E73">Review 60+ pre-drafted posts in Social Queue. Light edits or approve. AI wrote everything.</span></div></div>
+          <div class="role-item"><div class="role-dot"></div><div><strong>Weekdays (as needed)</strong><br><span style="font-size:12px;color:#6E6E73">Upload visual assets to Metricool. AI handles text; Christelle handles imagery uploads.</span></div></div>
+          <div class="role-item"><div class="role-dot"></div><div><strong>Post-publish (30&ndash;60 min)</strong><br><span style="font-size:12px;color:#6E6E73">Monitor first hour of engagement. Flag unusual comments for Squirrel response.</span></div></div>
+          <div style="padding:12px 20px;font-size:12px;color:#8E8E93;border-top:1px solid #F5F5F7"><strong>Kay Labang:</strong> Upgrade Metricool to Standard ($22/mo) + connect brand Instagram accounts.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTOMATION PROGRESS -->
+    <div style="background:#FFFFFF;border-radius:10px;padding:16px 20px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:600">Social Automation Progress</div>
+        <div style="font-size:13px;font-weight:700;color:#FF9F0A">27% &rarr; 100%</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:27%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8E8E93">
+        <span>Today: 1 platform live, 60 posts ready</span>
+        <span>Full automation: all 5 platforms + daily HeyGen</span>
+      </div>
+    </div>
+
+    <!-- STORY FOR GEORGE -->
+    <div class="accordion" style="margin-bottom:20px">
+      <div class="acc-hdr open" id="h-story" onclick="toggleAcc('story')">
+        <div class="acc-left">
+          <div class="ind ib"></div>
+          <div>
+            <div class="acc-title">The Story for George</div>
+            <div class="acc-meta">5-point narrative &mdash; what this system is and why it matters</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <span class="sp sb">Demo Script</span>
+          <span class="acc-chev open" id="cv-story">&#9660;</span>
+        </div>
+      </div>
+      <div class="acc-body open" id="b-story">
+
+        <!-- Point 1 -->
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:#0071E3;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">01</div>
+            <div style="font-size:13px;font-weight:700;color:#1D1D1F">What the AI Does</div>
+          </div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Mines 100+ hours of Bennett&rsquo;s recorded voice weekly &mdash; he never writes a word</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Writes every post in his exact verified voice using 136+ confirmed quotes</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Posts to LinkedIn automatically via API &mdash; no human approval needed per post</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#0071E3;flex-shrink:0">&rarr;</span>Runs 55 safety rules before every post &mdash; legal, brand, and timing protection</div>
+          </div>
+        </div>
+
+        <!-- Point 2 -->
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:#34C759;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">02</div>
+            <div style="font-size:13px;font-weight:700;color:#1D1D1F">What&rsquo;s Automated Right Now</div>
+          </div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Voice mining runs every Monday at 6 AM &mdash; no one touches it</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>60 posts already written and queued &mdash; Bennett wrote zero of them</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Daily LinkedIn engagement: likes franchise posts, responds to comments</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Intelligence report emailed to Bennett every 2 hours &mdash; he sees the whole picture</div>
+          </div>
+        </div>
+
+        <!-- Point 3 -->
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:#FF9F0A;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">03</div>
+            <div style="font-size:13px;font-weight:700;color:#1D1D1F">What&rsquo;s Coming in 30 Days</div>
+          </div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>One $22/mo upgrade (Metricool) turns on Instagram, Facebook, TikTok, and X instantly</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>AI video posts daily &mdash; HeyGen creates talking-head videos as Bennett, voice-cloned</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>14 posts per week across all 5 platforms &mdash; for 4 different brands simultaneously</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#FF9F0A;flex-shrink:0">&rarr;</span>Full autonomy: content produced, scheduled, posted, and reported &mdash; zero human hours</div>
+          </div>
+        </div>
+
+        <!-- Point 4 -->
+        <div style="padding:18px 20px;border-bottom:1px solid #F2F2F7">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:#AF52DE;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">04</div>
+            <div style="font-size:13px;font-weight:700;color:#1D1D1F">What Bennett Does</div>
+          </div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#AF52DE;flex-shrink:0">&rarr;</span><div>Refresh the Meta Ads token &mdash; <strong>3 minutes, one time</strong> (expired April 30)</div></div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#AF52DE;flex-shrink:0">&rarr;</span><div>Verify the Google Ads account &mdash; <strong>before May 13</strong> or account pauses</div></div>
+            <div style="font-size:13px;color:#6E6E73;display:flex;gap:8px;padding-top:4px"><span style="flex-shrink:0">&mdash;</span>That&rsquo;s it. Every other action in this system is handled by AI, Kay, or Christelle.</div>
+          </div>
+        </div>
+
+        <!-- Point 5 -->
+        <div style="padding:18px 20px">
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:#34C759;text-transform:uppercase;letter-spacing:0.08em;min-width:24px">05</div>
+            <div style="font-size:13px;font-weight:700;color:#1D1D1F">The ROI</div>
+          </div>
+          <div style="padding-left:36px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span><strong>$0</strong> content writing cost vs $3,000&ndash;8,000/month for a social media agency</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span><strong>14 posts/week</strong> at zero hours of Bennett&rsquo;s time &mdash; he&rsquo;s never the bottleneck</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span><strong>4 brands</strong> (Indy Clover, Salad House, SRP, FKI) all covered by the same system</div>
+            <div style="font-size:13px;color:#1D1D1F;display:flex;gap:8px"><span style="color:#34C759;flex-shrink:0">&rarr;</span>Scales infinitely &mdash; no hiring, no briefing, no per-post approvals, ever</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ACCORDIONS -->
+    <div class="sec-title">Full System Detail &mdash; Click Any Section</div>
+
+    <!-- What's Working -->
+    <div class="accordion">
+      <div class="acc-hdr open" id="h-wrk" onclick="toggleAcc('wrk')">
+        <div class="acc-left"><div class="ind ig"></div><div><div class="acc-title">What&rsquo;s Working</div><div class="acc-meta">6 systems confirmed live and running</div></div></div>
+        <div class="acc-right"><span class="sp sg">6 Live</span><span class="acc-chev open" id="cv-wrk">&#9660;</span></div>
+      </div>
+      <div class="acc-body open" id="b-wrk">
+        <div class="acc-row"><span class="arl">LinkedIn API</span><span class="sp sg">Direct post publishing</span></div>
+        <div class="acc-row"><span class="arl">Voice Mining Skill</span><span class="sp sg">Running Mon 6 AM MDT</span></div>
+        <div class="acc-row"><span class="arl">Social Guardrails (55 rules)</span><span class="sp sg">Enforced before every post</span></div>
+        <div class="acc-row"><span class="arl">Brand Photo Library</span><span class="sp sg">84 real photos &mdash; IC + SH</span></div>
+        <div class="acc-row"><span class="arl">30-Day Content Calendar</span><span class="sp sg">May 5&ndash;Jun 3 (68 posts, 4 brands)</span></div>
+        <div class="acc-row"><span class="arl">Voice Library</span><span class="sp sg">136+ verified quotes, growing weekly</span></div>
+      </div>
+    </div>
+
+    <!-- What's Blocked -->
+    <div class="accordion">
+      <div class="acc-hdr" id="h-blk" onclick="toggleAcc('blk')">
+        <div class="acc-left"><div class="ind ir"></div><div><div class="acc-title">What&rsquo;s Blocked</div><div class="acc-meta">4 blockers preventing full automation</div></div></div>
+        <div class="acc-right"><span class="sp sr">4 Blocked</span><span class="acc-chev" id="cv-blk">&#9660;</span></div>
+      </div>
+      <div class="acc-body" id="b-blk">
+        <div class="acc-row"><div><div>Meta Ads token expired April 30</div><div style="font-size:11px;color:#8E8E93">Campaigns running blind. No ROAS visibility.</div></div><span class="sp sr">Bennett Gate</span></div>
+        <div class="acc-row"><div><div>Metricool on Free plan &mdash; IG/FB/TikTok/X locked</div><div style="font-size:11px;color:#8E8E93">$22/mo Standard plan unlocks all 4 platforms.</div></div><span class="sp sa">Kay Task</span></div>
+        <div class="acc-row"><div><div>LinkedIn recovery mode (posts back-to-back May 5)</div><div style="font-size:11px;color:#8E8E93">Next eligible post: May 7, 2026 7:30 AM MDT.</div></div><span class="sp sa">Resolves May 7</span></div>
+        <div class="acc-row"><div><div>HeyGen AI video not in daily pipeline</div><div style="font-size:11px;color:#8E8E93">Leo WO dispatched. Avatar ready. Needs wiring.</div></div><span class="sp sb">Leo WO</span></div>
+      </div>
+    </div>
+
+    <!-- Tool Stack -->
+    <div class="accordion">
+      <div class="acc-hdr" id="h-tls" onclick="toggleAcc('tls')">
+        <div class="acc-left"><div class="ind ia"></div><div><div class="acc-title">Tool Stack</div><div class="acc-meta">9 tools &middot; 3 live &middot; 4 pending &middot; 2 not connected</div></div></div>
+        <div class="acc-right"><span class="sp sa">9 Tools</span><span class="acc-chev" id="cv-tls">&#9660;</span></div>
+      </div>
+      <div class="acc-body" id="b-tls">
+        <table class="acc-tbl">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th><th>Daily?</th><th>Owner</th></tr></thead>
+          <tbody>
+            <tr><td><strong>LinkedIn API</strong></td><td>Post publishing</td><td><span class="sp sg">Live</span></td><td>Soon (May 7)</td><td>AI (Squirrel)</td></tr>
+            <tr><td><strong>Voice Mining</strong></td><td>Transcript &rarr; content</td><td><span class="sp sg">Live</span></td><td>Weekly &rarr; daily goal</td><td>AI (Squirrel)</td></tr>
+            <tr><td><strong>ElevenLabs</strong></td><td>Bennett voice clone</td><td><span class="sp sg">Connected</span></td><td>Not yet</td><td>AI (Squirrel)</td></tr>
+            <tr><td><strong>HeyGen</strong></td><td>AI talking-head video</td><td><span class="sp sa">Via Leo WO</span></td><td>Not yet</td><td>Leo / Ivan</td></tr>
+            <tr><td><strong>Metricool</strong></td><td>Cross-platform scheduling</td><td><span class="sp sa">Upgrade needed</span></td><td>Not yet</td><td>Kay Labang</td></tr>
+            <tr><td><strong>Canva</strong></td><td>Visual design</td><td><span class="sp sa">Skill built</span></td><td>Not yet</td><td>Christelle</td></tr>
+            <tr><td><strong>CapCut</strong></td><td>Video editing / Reels</td><td><span class="sp sa">Skill built</span></td><td>Not yet</td><td>Christelle</td></tr>
+            <tr><td><strong>Arcads</strong></td><td>AI UGC ads</td><td><span class="sp sr">Not connected</span></td><td>No</td><td>Unassigned</td></tr>
+            <tr><td><strong>Social Guardrails</strong></td><td>55-rule safety layer</td><td><span class="sp sg">Live</span></td><td>Yes &mdash; every post</td><td>AI (Squirrel)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Platform Status -->
+    <div class="accordion">
+      <div class="acc-hdr" id="h-plt" onclick="toggleAcc('plt')">
+        <div class="acc-left"><div class="ind ia"></div><div><div class="acc-title">Platform Status</div><div class="acc-meta">LinkedIn live &middot; 4 pending Metricool ($22/mo unlock)</div></div></div>
+        <div class="acc-right"><span class="sp sb">5 Platforms</span><span class="acc-chev" id="cv-plt">&#9660;</span></div>
+      </div>
+      <div class="acc-body" id="b-plt">
+        <div class="plat-row"><div class="plat-ico">in</div><div style="flex:1"><div class="pn">LinkedIn</div><div class="po">AI posts directly via API</div><div class="pnt">Recovery mode &mdash; resumes May 7</div></div><span class="sp sa">Recovery</span></div>
+        <div class="plat-row"><div class="plat-ico">IG</div><div style="flex:1"><div class="pn">Instagram</div><div class="po">Christelle via Metricool</div><div class="pnt">Unlocks after Metricool Standard upgrade</div></div><span class="sp sa">Pending</span></div>
+        <div class="plat-row"><div class="plat-ico">FB</div><div style="flex:1"><div class="pn">Facebook</div><div class="po">Christelle via Metricool</div><div class="pnt">Unlocks after Metricool Standard upgrade</div></div><span class="sp sa">Pending</span></div>
+        <div class="plat-row"><div class="plat-ico">TK</div><div style="flex:1"><div class="pn">TikTok</div><div class="po">Christelle via Metricool</div><div class="pnt">Unlocks after Metricool Standard upgrade</div></div><span class="sp sa">Pending</span></div>
+        <div class="plat-row"><div class="plat-ico">X</div><div style="flex:1"><div class="pn">X / Twitter</div><div class="po">Christelle via Metricool</div><div class="pnt">Build In Public strategy ready (skill built)</div></div><span class="sp sa">Pending</span></div>
+      </div>
+    </div>
+
+    <!-- Content Pipeline -->
+    <div class="accordion">
+      <div class="acc-hdr" id="h-con" onclick="toggleAcc('con')">
+        <div class="acc-left"><div class="ind ig"></div><div><div class="acc-title">Content Pipeline</div><div class="acc-meta">60 posts ready &middot; 4 pillars &middot; 30-day calendar &middot; 136+ quotes</div></div></div>
+        <div class="acc-right"><span class="sp sg">60 Ready</span><span class="acc-chev" id="cv-con">&#9660;</span></div>
+      </div>
+      <div class="acc-body" id="b-con">
+        <div class="pillars-grid">
+          <div class="pillar-box"><div class="pb-title">Build Log &mdash; 3x/week</div><div class="pb-sub">What Bennett is building. MapKi as ongoing series #1+</div></div>
+          <div class="pillar-box"><div class="pb-title">AI Thesis &mdash; 3x/week</div><div class="pb-sub">&ldquo;Training an employee that sticks with you forever&rdquo;</div></div>
+          <div class="pillar-box"><div class="pb-title">Skill Drop &mdash; 2x/week</div><div class="pb-sub">&ldquo;Comment [skill] for DM playbook&rdquo; &mdash; 80 skills = 40 weeks</div></div>
+          <div class="pillar-box"><div class="pb-title">Results &mdash; 2x/week</div><div class="pb-sub">Screenshots, metrics, AI running the business proof</div></div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #F2F2F7">
+          <div style="font-size:11px;font-weight:600;color:#6E6E73;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Browse Content Folders</div>
+          <div class="folder-grid">
+            <a class="fc-card" href="https://drive.google.com/drive/folders/1qDIvwu2vG8rrLpnRFdZ-xgqs_-WDQCGZ" target="_blank"><div class="fc-icon">&#128221;</div><div class="fc-name">Social Posts</div><div class="fc-sub">60 ready</div></a>
+            <a class="fc-card" href="https://drive.google.com/drive/folders/1OCsM4d5I3av0IMN-gtaGpuXWAQ9DU8cE" target="_blank"><div class="fc-icon">&#128247;</div><div class="fc-name">Brand Photos</div><div class="fc-sub">84 real</div></a>
+            <a class="fc-card" href="https://drive.google.com/drive/folders/12OuDA00JCQOz-LFXTkbgA8ulrBlUe6Yj" target="_blank"><div class="fc-icon">&#128197;</div><div class="fc-name">30-Day Calendar</div><div class="fc-sub">May 5&ndash;Jun 3</div></a>
+            <a class="fc-card" href="https://www.notion.so/357cf5514fd381929fe8c059d6f0d883" target="_blank"><div class="fc-icon">&#127908;</div><div class="fc-name">Voice Library</div><div class="fc-sub">136+ quotes</div></a>
+          </div>
+        </div>
+        <div class="acc-row"><span class="arl">Ad Creatives (IC + SH)</span><span class="sp sa">In Build</span></div>
+        <div class="acc-row"><span class="arl">UGC Videos (HeyGen)</span><span class="sp sa">Leo WO in flight</span></div>
+        <div class="acc-row"><span class="arl">LinkedIn Text Posts</span><span class="sp sg">60 Ready</span></div>
+        <div class="acc-row"><span class="arl">AdStellar Content</span><span class="sp sgr">Tracker pending</span></div>
+        <div class="acc-row"><span class="arl">Reels / TikToks</span><span class="sp sr">Not started</span></div>
+      </div>
+    </div>
+
+    <!-- Daily AI Schedule -->
+    <div class="accordion">
+      <div class="acc-hdr" id="h-sch" onclick="toggleAcc('sch')">
+        <div class="acc-left"><div class="ind ib"></div><div><div class="acc-title">Daily AI Schedule</div><div class="acc-meta">What runs automatically, every day, without anyone touching it</div></div></div>
+        <div class="acc-right"><span class="sp sb">Automated</span><span class="acc-chev" id="cv-sch">&#9660;</span></div>
+      </div>
+      <div class="acc-body" id="b-sch">
+        <div class="act-row"><div class="act-dot" style="background:#34C759"></div><div class="act-time">6:00 AM Mon</div><div>Voice mining &mdash; mines newest transcripts, drafts 15 posts/week</div></div>
+        <div class="act-row"><div class="act-dot" style="background:#0071E3"></div><div class="act-time">7:00 AM daily</div><div>Morning Pulse &mdash; sends intelligence report to Bennett email</div></div>
+        <div class="act-row"><div class="act-dot" style="background:#0071E3"></div><div class="act-time">9:00 AM weekdays</div><div>LinkedIn engagement &mdash; likes 5-10 posts, responds to comments</div></div>
+        <div class="act-row"><div class="act-dot" style="background:#FF9F0A"></div><div class="act-time">Every 2 hours</div><div>Pulse report &mdash; scans all systems, sends status to Bennett</div></div>
+        <div class="act-row"><div class="act-dot" style="background:#34C759"></div><div class="act-time">Before every post</div><div>Social guardrails check &mdash; 55-rule safety scan, legal blocks</div></div>
+        <div class="act-row"><div class="act-dot" style="background:#FF9F0A"></div><div class="act-time">Sunday 8 PM</div><div>Email Christelle &mdash; weekly Social Queue batch (60 posts)</div></div>
+        <div class="act-row"><div class="act-dot" style="background:#8E8E93"></div><div class="act-time">Coming soon</div><div>Daily council review of ad creative performance + IC CPL alert</div></div>
+        <div class="act-row"><div class="act-dot" style="background:#8E8E93"></div><div class="act-time">Coming soon</div><div>HeyGen UGC video (1 talking-head/day) &mdash; Leo WO in flight</div></div>
+      </div>
+    </div>
+
+    <!-- Performance -->
+    <div class="accordion">
+      <div class="acc-hdr" id="h-perf" onclick="toggleAcc('perf')">
+        <div class="acc-left"><div class="ind igr"></div><div><div class="acc-title">Performance Metrics</div><div class="acc-meta">Partial data &mdash; full metrics available after May 7 + Metricool upgrade</div></div></div>
+        <div class="acc-right"><span class="sp sgr">Partial</span><span class="acc-chev" id="cv-perf">&#9660;</span></div>
+      </div>
+      <div class="acc-body" id="b-perf">
+        <div class="acc-row"><span class="arl">Posts published this week</span><span style="font-size:13px;font-weight:600;color:#FF9F0A">0 (recovery &mdash; resumes May 7)</span></div>
+        <div class="acc-row"><span class="arl">Posts ready in queue</span><span style="font-size:13px;font-weight:600;color:#34C759">60</span></div>
+        <div class="acc-row"><span class="arl">IC Meta Ads CPL</span><span style="font-size:13px;font-weight:600;color:#FF3B30">$76.24 vs $45 target &mdash; fix in flight</span></div>
+        <div class="acc-row"><span class="arl">SH Meta Ads CPL</span><span style="font-size:13px;font-weight:600;color:#34C759">$38.53 &mdash; on target</span></div>
+        <div class="acc-row"><span class="arl">Social automation score</span><span style="font-size:13px;font-weight:600;color:#FF9F0A">27% of 100%</span></div>
+        <div class="acc-row"><span class="arl">LinkedIn engagement</span><span style="font-size:13px;color:#8E8E93">Available May 7</span></div>
+        <div class="acc-row"><span class="arl">IG / FB / TikTok / X metrics</span><span style="font-size:13px;color:#8E8E93">Pending Metricool upgrade</span></div>
+      </div>
+    </div>
+
+    <!-- Brand Accounts -->
+    <div class="accordion">
+      <div class="acc-hdr" id="h-brd" onclick="toggleAcc('brd')">
+        <div class="acc-left"><div class="ind ib"></div><div><div class="acc-title">Brand Accounts</div><div class="acc-meta">Bennett personal + 4 FKI brands &mdash; each with distinct buyer persona</div></div></div>
+        <div class="acc-right"><span class="sp sb">5 Accounts</span><span class="acc-chev" id="cv-brd">&#9660;</span></div>
+      </div>
+      <div class="acc-body" id="b-brd">
+        <div class="acc-row"><div><div style="font-weight:500">Bennett Maxwell (Personal)</div><div style="font-size:11px;color:#6E6E73">AI + Franchising &middot; LinkedIn urn:li:person:jePE-Wwb03</div></div><span class="sp sa">Recovery &rarr; May 7</span></div>
+        <div class="acc-row"><div><div style="font-weight:500">Indy Clover</div><div style="font-size:11px;color:#6E6E73">Community hub franchise &middot; Buyer: W2 professional, community-driven (NOT investor)</div></div><span class="sp sa">Pending Metricool</span></div>
+        <div class="acc-row"><div><div style="font-weight:500">Salad House</div><div style="font-size:11px;color:#6E6E73">Fast casual franchise &middot; Buyer: ROI / investor mindset</div></div><span class="sp sa">Pending Metricool</span></div>
+        <div class="acc-row"><div><div style="font-weight:500">Spoiled Rotten Photography</div><div style="font-size:11px;color:#6E6E73">Milestone photography franchise &middot; Emotion-first content</div></div><span class="sp sa">Pending Metricool</span></div>
+        <div class="acc-row"><div><div style="font-weight:500">FKI / 2nd Opinion</div><div style="font-size:11px;color:#6E6E73">Franchise broker brand &middot; Audience: AI + franchise prospects</div></div><span class="sp sa">Pending Metricool</span></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="../hub/" class="fl">&#8592; Command Center Hub</a> &nbsp;&middot;&nbsp;
+      <a href="https://www.notion.so/357cf5514fd38197b49fd749867ac1f5" target="_blank" class="fl">40-Item Plan (Notion)</a> &nbsp;&middot;&nbsp;
+      <a href="https://github.com/bennett-maxwell/advaita-agent-audit/commit/01ce8a9" target="_blank" class="fl">GitHub</a>
+      <div style="margin-top:8px">CEO Design Skill v1 &middot; council 4.46/5 &middot; push-harder x2 complete</div>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
+      month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+      timeZone: 'America/Denver'
+    }) + ' MDT';
+    function toggleRole(id) {
+      const b = document.getElementById(id + '-body');
+      const c = document.getElementById(id + '-chev');
+      b.classList.toggle('open');
+      c.innerHTML = b.classList.contains('open') ? '&#9650;' : '&#9660;';
+    }
+    function toggleAcc(id) {
+      const b = document.getElementById('b-' + id);
+      const c = document.getElementById('cv-' + id);
+      const h = document.getElementById('h-' + id);
+      b.classList.toggle('open');
+      c.classList.toggle('open');
+      h.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

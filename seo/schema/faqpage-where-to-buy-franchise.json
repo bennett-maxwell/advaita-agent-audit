@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where can I buy a franchise?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can buy a franchise through three main channels: directly from a franchisor's corporate sales team, through a franchise consultant or broker network like Franchise Ki, or via franchise resale marketplaces such as BizBuySell. Franchise Ki recommends starting with a consultant for unbiased, AI-matched recommendations across 800+ brands."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the cheapest franchise to buy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The cheapest franchises start under $10,000 — typically home-based service brands in cleaning, lawn care, tutoring, and senior care. Examples include Jan-Pro, Cruise Planners, Dream Vacations, and Stratus Building Solutions. Always verify total investment in the FDD's Item 7, not just the franchise fee."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I buy a new franchise location or a resale?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on your goals. New territories offer prime markets and franchisor support; resales offer existing cash flow, customer base, and faster ROI. Franchise Ki evaluates both options against your specific financial profile during free consulting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I verify a franchise opportunity is legitimate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Always request and read the Franchise Disclosure Document (FDD) before signing anything. Verify the franchisor is registered in your state. Speak with at least 5 current franchisees. Check Item 19 (financial performance), Item 20 (franchisee turnover), and Item 21 (financial statements). Franchise Ki performs this due diligence as part of every match."
+      }
+    }
+  ]
+}

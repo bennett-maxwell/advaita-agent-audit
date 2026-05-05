@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MapKi Command Center — FKI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh}
+.header{background:linear-gradient(135deg,#0f2027,#1a3a4a);padding:28px 40px;border-bottom:1px solid rgba(16,185,129,.3)}
+.header-top{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:700;color:#10b981}
+.logo span{color:#6ee7b7;font-size:14px;font-weight:400;margin-left:8px}
+.badge{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);color:#6ee7b7;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
+.subtitle{color:#94a3b8;font-size:13px;margin-top:6px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:28px 40px}
+.kpi{background:#1e2530;border:1px solid #2d3748;border-radius:12px;padding:20px}
+.kpi-label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.kpi-value{font-size:32px;font-weight:800;margin:8px 0 4px;color:#10b981}
+.kpi-sub{font-size:12px;color:#64748b}
+.kpi-value.amber{color:#f59e0b}
+.kpi-value.red{color:#ef4444}
+.kpi-value.blue{color:#3b82f6}
+.section{padding:0 40px 28px}
+.section-title{font-size:14px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:#2d3748}
+.card{background:#1e2530;border:1px solid #2d3748;border-radius:12px;padding:20px;margin-bottom:12px}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.card-title{font-size:15px;font-weight:600;color:#f1f5f9}
+.status-pill{padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase}
+.pill-green{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+.pill-amber{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}
+.pill-red{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+.card-meta{font-size:12px;color:#64748b;margin-top:4px}
+.prog-bar{background:#0f1117;border-radius:6px;height:6px;overflow:hidden;margin-top:8px}
+.prog-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#10b981,#6ee7b7);transition:width .3s}
+.prog-fill.amber{background:linear-gradient(90deg,#f59e0b,#fcd34d)}
+.prog-fill.red{background:linear-gradient(90deg,#ef4444,#fca5a5)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #2d3748;font-size:13px}
+.info-row:last-child{border-bottom:none}
+.info-label{color:#64748b}
+.info-value{color:#e2e8f0;font-weight:500;font-family:monospace;font-size:12px}
+.action-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:#10b981;color:#0f1117}
+.btn-secondary{background:#2d3748;color:#94a3b8;border:1px solid #374151}
+.alert{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-left:4px solid #ef4444;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:13px}
+.alert-title{color:#fca5a5;font-weight:600;margin-bottom:4px}
+.alert-body{color:#94a3b8}
+.ownership-card{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.05));border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:20px}
+.timeline{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.tl-item{display:flex;gap:12px;align-items:flex-start}
+.tl-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.tl-dot.done{background:#10b981}
+.tl-dot.active{background:#f59e0b}
+.tl-dot.future{background:#374151}
+.tl-content{font-size:13px;color:#94a3b8}
+.tl-content strong{color:#e2e8f0}
+.footer{padding:20px 40px;border-top:1px solid #2d3748;display:flex;justify-content:space-between;font-size:11px;color:#374151}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">MapKi <span>Command Center</span></div>
+      <div class="subtitle">FKI Franchise Directory — 3,239 brands — Updated 2026-05-05</div>
+    </div>
+    <div class="badge">LIVE</div>
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi-label">Total Brands</div>
+    <div class="kpi-value">3,239</div>
+    <div class="kpi-sub">in Convex database</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">FKI Brands</div>
+    <div class="kpi-value blue">3</div>
+    <div class="kpi-sub">IC · SH · SRP (Diamond)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">JSON-LD Pages</div>
+    <div class="kpi-value">3,239</div>
+    <div class="kpi-sub">AI search indexable</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Enrichment %</div>
+    <div class="kpi-value amber">~35%</div>
+    <div class="kpi-sub">est. — run Ivan to verify</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Critical Alerts</div>
+  <div class="alert">
+    <div class="alert-title">PROJECT ORPHANED — NOW FIXED (2026-05-05)</div>
+    <div class="alert-body">Brent Attaway (Phase B owner) departed FKI 2026-05-04. Project had no Notion hub, no owner. Transferred to Madison Lanz. Notion hub created. Leo WO dispatched to resume Tiffany enrichment pipeline.</div>
+  </div>
+  <div class="alert" style="background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.3);border-left-color:#f59e0b">
+    <div class="alert-title" style="color:#fcd34d">DIAMOND SKILL DEP NEEDS FIX</div>
+    <div class="alert-body">mapki-skill-current.md v2.5 references deleted diamond-skill fileId 1ChyJEIJ1dv1eiwt6Sneekf4H-9K89SXD. Must update to canonical 1CVpWQLYHUlfnJroKtcpamM7SZSNdtvPT. Leo WO dispatched.</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Project Status</div>
+  <div class="grid-2">
+    <div class="ownership-card">
+      <div class="card-title" style="margin-bottom:12px">Ownership Timeline</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-content"><strong>Phase A — Viktor</strong> (Mar 2026) — Pipeline built, Vercel deploy, initial enrichment</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-content"><strong>Phase B — Brent</strong> (Apr 2026) — Content/growth handoff. Brent departed May 4.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot active"></div>
+          <div class="tl-content"><strong>Phase C — Madison + Squirrel</strong> (May 2026, current) — Operational hub created, enrichment pipeline resuming</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot future"></div>
+          <div class="tl-content"><strong>Phase D — Full Autonomy</strong> — Tiffany enriches daily, Squirrel monitors, brand pages rank for AI search</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:12px">Infrastructure</div>
+      <div class="info-row"><span class="info-label">Live URL</span><span class="info-value">mapki.franchiseki.com</span></div>
+      <div class="info-row"><span class="info-label">Backend</span><span class="info-value">Convex (polished-salamander...)</span></div>
+      <div class="info-row"><span class="info-label">CDN</span><span class="info-value">Cloudflare</span></div>
+      <div class="info-row"><span class="info-label">AI Model</span><span class="info-value">Tiffany (llama3.2 @ :11434)</span></div>
+      <div class="info-row"><span class="info-label">IC Brand ID</span><span class="info-value">k972kpcjc1fsb3ss...</span></div>
+      <div class="info-row"><span class="info-label">Field Map</span><span class="info-value">42 fields · _field_map.json</span></div>
+      <div class="info-row"><span class="info-label">Skill</span><span class="info-value">mapki-skill v2.5 · 1DN3RLCb...</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Brand Progress</div>
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Indy Clover</div>
+        <div class="card-meta">IC · FKI brand · Diamond verified April 2026</div>
+      </div>
+      <div class="status-pill pill-green">Diamond</div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+    <div style="font-size:11px;color:#64748b;margin-top:6px">22 territory pins · 54+ non-empty fields · Live: mapki.franchiseki.com/brand/indy-clover</div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Salad House</div>
+        <div class="card-meta">SH · FKI brand · FDD-verified</div>
+      </div>
+      <div class="status-pill pill-amber">Partial</div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill amber" style="width:75%"></div></div>
+    <div style="font-size:11px;color:#64748b;margin-top:6px">~45 fields enriched · territory pins needed · Live: mapki.franchiseki.com/brand/salad-house</div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Spoiled Rotten Photography</div>
+        <div class="card-meta">SRP · FKI brand · mobile service model</div>
+      </div>
+      <div class="status-pill pill-amber">Partial</div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill amber" style="width:65%"></div></div>
+    <div style="font-size:11px;color:#64748b;margin-top:6px">~40 fields enriched · Live: mapki.franchiseki.com/brand/spoiled-rotten-photography</div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">External Brands (3,236)</div>
+        <div class="card-meta">FDD-only canon · Tiffany enrichment pipeline</div>
+      </div>
+      <div class="status-pill pill-red">Est. ~35% Complete</div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill red" style="width:35%"></div></div>
+    <div style="font-size:11px;color:#64748b;margin-top:6px">Estimated — Leo WO dispatched to sample exact completion rate. Tiffany pipeline resuming.</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Drive File Index</div>
+  <div class="card">
+    <div class="info-row"><span class="info-label">mapki-skill-current.md v2.5</span><span class="info-value">1DN3RLCbTDsMABSkilPxhhkGJ8dSDk7Lk</span></div>
+    <div class="info-row"><span class="info-label">mapki-rebuild-spec.md</span><span class="info-value">1ueBYPUeWznNjksqQyghlxY2yfgsBi7NV</span></div>
+    <div class="info-row"><span class="info-label">mapki-analytics.md</span><span class="info-value">19BPNXIsJjfxvaTxky1lMBA4ivNS3WXTH</span></div>
+    <div class="info-row"><span class="info-label">IC Brand Page Copy (FDD)</span><span class="info-value">1k0KoV2EV2ruY7ac2tHsqNi8J04sJj79F</span></div>
+    <div class="info-row"><span class="info-label">SH Brand Page Copy (FDD)</span><span class="info-value">1Gcfcc0_sYWdMRcTQeOFiOy03nmwDfUh-</span></div>
+    <div class="info-row"><span class="info-label">MapKI FDD Library (Apr 2026)</span><span class="info-value">17tqshhbcWvw4XYRWDikPNcyQ2c8yKSMH</span></div>
+    <div class="info-row"><span class="info-label">mapki-github-cloudflare.md</span><span class="info-value">1pJKcX9WJm0D7fJtMlmrlRrNLSKNJ8Rw3</span></div>
+    <div class="info-row"><span class="info-label">mapki-dashboard.html</span><span class="info-value">1hj8L50mxeCMDbwVqhmODjtpRvuKU2xSq</span></div>
+    <div class="info-row"><span class="info-label">MapKi Phase B Handoff (Brent)</span><span class="info-value">1DsZsSk_i8_VvoyJOwcZwrp8hMyp5fXPcLBNFeAhizvI</span></div>
+    <div class="info-row"><span class="info-label">mapki_all_brands.json</span><span class="info-value">1Yv6FXLvnNfW_K05wMWpj-utbAW6IiDAj</span></div>
+    <div class="action-row">
+      <a href="https://www.notion.so/MapKi-Project-Hub-Master-Tracker-357cf5514fd381a09c9ef52210d35665" target="_blank" rel="noopener" class="btn btn-primary">Notion Hub</a>
+      <a href="https://mapki.franchiseki.com" target="_blank" rel="noopener" class="btn btn-secondary">Live Site</a>
+      <a href="https://polished-salamander-762.convex.cloud" target="_blank" rel="noopener" class="btn btn-secondary">Convex API</a>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>MapKi Command Center v1.0 · Built 2026-05-05 · Squirrel + Council v13</span>
+  <span>dashboard.franchiseki.com/mapki/</span>
+</div>
+</body>
+</html>

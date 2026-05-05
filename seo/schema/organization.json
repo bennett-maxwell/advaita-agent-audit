@@ -1,0 +1,34 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Franchise Ki",
+  "alternateName": ["FKI", "FranchiseKi"],
+  "url": "https://franchiseki.com",
+  "logo": "https://franchiseki.com/logo.png",
+  "description": "AI-powered franchise consulting firm matching qualified buyers with vetted franchise opportunities across 800+ brands.",
+  "foundingDate": "2024",
+  "founder": {
+    "@type": "Person",
+    "name": "Bennett Maxwell"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/franchise-ki",
+    "https://twitter.com/franchiseki",
+    "https://www.facebook.com/franchiseki",
+    "https://www.youtube.com/@franchiseki"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "email": "hello@franchiseki.com",
+    "availableLanguage": "English"
+  },
+  "areaServed": "US",
+  "knowsAbout": [
+    "Franchise Consulting",
+    "Franchise Matching",
+    "AI-Powered Franchise Search",
+    "Franchise Disclosure Document Analysis",
+    "Franchise Financing"
+  ]
+}

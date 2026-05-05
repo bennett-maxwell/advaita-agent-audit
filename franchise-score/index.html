@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FranchiseScore™ — Find Your Franchise Fit | Franchise KI</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F5F5F7; color: #1D1D1F; min-height: 100vh; }
+  .header { background: #1D1D1F; color: white; padding: 20px 24px; text-align: center; }
+  .header h1 { font-size: 24px; font-weight: 700; }
+  .header p { font-size: 14px; color: #8E8E93; margin-top: 4px; }
+  .container { max-width: 700px; margin: 0 auto; padding: 32px 20px; }
+  .score-display { background: white; border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .score-ring { width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; flex-direction: column; border: 8px solid #E5E5EA; position: relative; transition: all 0.5s; }
+  .score-num { font-size: 48px; font-weight: 800; line-height: 1; }
+  .score-label { font-size: 12px; color: #8E8E93; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .score-verdict { font-size: 18px; font-weight: 600; margin-top: 12px; }
+  .score-sub { font-size: 14px; color: #6E6E73; margin-top: 4px; }
+  .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .card h3 { font-size: 13px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+  .question { margin-bottom: 20px; }
+  .question label { font-size: 15px; font-weight: 500; color: #1D1D1F; display: block; margin-bottom: 10px; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option { display: flex; align-items: center; padding: 10px 14px; border: 1.5px solid #E5E5EA; border-radius: 8px; cursor: pointer; transition: all 0.15s; font-size: 14px; }
+  .option:hover { border-color: #0071E3; background: #F0F8FF; }
+  .option input { margin-right: 10px; accent-color: #0071E3; }
+  .option.selected { border-color: #0071E3; background: #EBF4FF; }
+  .btn { background: #0071E3; color: white; border: none; border-radius: 10px; padding: 14px 28px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 8px; transition: background 0.15s; }
+  .btn:hover { background: #0077ED; }
+  .brand-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; }
+  .brand-card { border: 1.5px solid #E5E5EA; border-radius: 10px; padding: 16px; text-align: center; }
+  .brand-card.match { border-color: #34C759; background: #F0FFF4; }
+  .brand-name { font-size: 15px; font-weight: 600; color: #1D1D1F; margin-bottom: 4px; }
+  .brand-score { font-size: 24px; font-weight: 800; }
+  .brand-sub { font-size: 12px; color: #6E6E73; margin-top: 2px; }
+  .match-badge { background: #34C75914; color: #34C759; border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 600; display: inline-block; margin-top: 6px; }
+  .cta { background: #1D1D1F; color: white; border-radius: 12px; padding: 24px; text-align: center; margin-top: 24px; }
+  .cta h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .cta p { font-size: 14px; color: #8E8E93; margin-bottom: 16px; }
+  .cta-btn { background: #0071E3; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hidden { display: none; }
+  .progress { background: #E5E5EA; height: 4px; border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
+  .progress-bar { height: 4px; background: #0071E3; border-radius: 2px; transition: width 0.3s; width: 0%; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>FranchiseScore™</h1>
+  <p>Your AI-powered franchise fit score — built on verified franchise data</p>
+</div>
+
+<div class="container">
+
+  <!-- Score Display (hidden until calculated) -->
+  <div class="score-display hidden" id="scoreDisplay">
+    <div class="score-ring" id="scoreRing">
+      <div class="score-num" id="scoreNum">0</div>
+      <div class="score-label">/ 100</div>
+    </div>
+    <div class="score-verdict" id="scoreVerdict"></div>
+    <div class="score-sub" id="scoreSub"></div>
+
+    <div style="margin-top:24px;">
+      <div style="font-size:11px;font-weight:600;color:#6E6E73;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Your Best Matches</div>
+      <div class="brand-cards" id="brandCards"></div>
+    </div>
+  </div>
+
+  <!-- Questions -->
+  <div id="questionsForm">
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+    <div class="card">
+      <h3>Financial Readiness</h3>
+
+      <div class="question">
+        <label>How much liquid capital do you have available? (Cash, retirement savings, home equity)</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="capital" value="0"> Less than $50,000</label>
+          <label class="option"><input type="radio" name="capital" value="30"> $50,000 – $99,999</label>
+          <label class="option"><input type="radio" name="capital" value="60"> $100,000 – $199,999</label>
+          <label class="option"><input type="radio" name="capital" value="90"> $200,000 – $499,999</label>
+          <label class="option"><input type="radio" name="capital" value="100"> $500,000+</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>What's your estimated net worth?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="networth" value="0"> Under $100,000</label>
+          <label class="option"><input type="radio" name="networth" value="30"> $100,000 – $299,999</label>
+          <label class="option"><input type="radio" name="networth" value="60"> $300,000 – $999,999</label>
+          <label class="option"><input type="radio" name="networth" value="90"> $1,000,000+</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Operating Preference</h3>
+
+      <div class="question">
+        <label>How much time per week are you planning to invest?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="time" value="70"> 5-15 hours (semi-absentee)</label>
+          <label class="option"><input type="radio" name="time" value="85"> 15-30 hours (active oversight)</label>
+          <label class="option"><input type="radio" name="time" value="100"> 30-50 hours (hands-on operator)</label>
+          <label class="option"><input type="radio" name="time" value="100"> 50+ hours (full immersion)</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>What's your primary goal?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="goal" value="ic"> Supplement income / lifestyle business</label>
+          <label class="option"><input type="radio" name="goal" value="sh"> Strong ROI / investment return</label>
+          <label class="option"><input type="radio" name="goal" value="srp"> Community impact / mission-driven</label>
+          <label class="option"><input type="radio" name="goal" value="both"> Replace corporate income / full-time business</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Experience & Background</h3>
+
+      <div class="question">
+        <label>What's your professional background?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="background" value="70"> Corporate / W-2 employee</label>
+          <label class="option"><input type="radio" name="background" value="80"> Sales or marketing</label>
+          <label class="option"><input type="radio" name="background" value="90"> Management or operations</label>
+          <label class="option"><input type="radio" name="background" value="100"> Prior business owner</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>Have you ever owned a business before?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="experience" value="60"> No — this would be my first</label>
+          <label class="option"><input type="radio" name="experience" value="75"> Side business or freelance</label>
+          <label class="option"><input type="radio" name="experience" value="90"> Yes — one business</label>
+          <label class="option"><input type="radio" name="experience" value="100"> Yes — multiple businesses</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Timeline</h3>
+
+      <div class="question">
+        <label>When are you looking to open?</label>
+        <div class="options">
+          <label class="option"><input type="radio" name="timeline" value="100"> Within 6 months</label>
+          <label class="option"><input type="radio" name="timeline" value="80"> 6-12 months</label>
+          <label class="option"><input type="radio" name="timeline" value="60"> 1-2 years</label>
+          <label class="option"><input type="radio" name="timeline" value="40"> Just exploring</label>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="calculateScore()">Calculate My FranchiseScore™</button>
+  </div>
+
+  <div class="cta" id="ctaBlock" style="display:none;">
+    <h3>Ready to take the next step?</h3>
+    <p>A Franchise KI advisor will match you with the right brand for your specific situation — no pressure, no guessing.</p>
+    <a href="https://franchiseki.com" class="cta-btn" target="_blank" rel="noopener noreferrer">Talk to a Franchise Advisor →</a>
+  </div>
+
+  <p style="text-align:center;font-size:12px;color:#8E8E93;margin-top:24px;">FranchiseScore™ is an educational tool based on verified franchise industry data. Investment ranges: Indy Clover $165K-$225K (SBA approved Feb 2026, Item 19 median net $104K/yr), Salad House $600K-$800K (AUV $1.6M, 20 NJ/NY locations), Spoiled Rotten Photography $50K-$75K. This is not an offer to sell a franchise. See Item 7 of the applicable FDD for full details. Franchise KI · franchiseki.com</p>
+</div>
+
+<script>
+function calculateScore() {
+  const capital = parseInt(document.querySelector('input[name="capital"]:checked')?.value || 0);
+  const networth = parseInt(document.querySelector('input[name="networth"]:checked')?.value || 0);
+  const time = parseInt(document.querySelector('input[name="time"]:checked')?.value || 0);
+  const background = parseInt(document.querySelector('input[name="background"]:checked')?.value || 0);
+  const experience = parseInt(document.querySelector('input[name="experience"]:checked')?.value || 0);
+  const timeline = parseInt(document.querySelector('input[name="timeline"]:checked')?.value || 0);
+  const goal = document.querySelector('input[name="goal"]:checked')?.value || 'both';
+
+  const score = Math.round((capital * 0.25) + (networth * 0.15) + (time * 0.15) + (background * 0.15) + (experience * 0.15) + (timeline * 0.15));
+
+  // Brand matching
+  const icScore = goal === 'ic' ? Math.min(score + 10, 100) : score;
+  const shScore = goal === 'sh' ? Math.min(score + 10, 100) : Math.max(score - 5, 0);
+  const srpScore = goal === 'srp' ? Math.min(score + 15, 100) : Math.max(score - 10, 0);
+
+  // Show results
+  document.getElementById('questionsForm').style.display = 'none';
+  document.getElementById('scoreDisplay').classList.remove('hidden');
+  document.getElementById('ctaBlock').style.display = 'block';
+
+  const ring = document.getElementById('scoreRing');
+  const num = document.getElementById('scoreNum');
+
+  let color = score >= 75 ? '#34C759' : score >= 50 ? '#FF9F0A' : '#FF3B30';
+  ring.style.borderColor = color;
+  num.style.color = color;
+  num.textContent = score;
+
+  const verdict = score >= 80 ? 'Strong Candidate' : score >= 60 ? 'Good Candidate' : score >= 40 ? 'Consider Exploring' : 'Build More Foundation First';
+  const sub = score >= 80 ? 'Your profile aligns well with franchise ownership. Schedule a discovery call.' : score >= 60 ? 'You meet core requirements. A few areas to strengthen before signing.' : 'Learn more about your options before committing capital.';
+
+  document.getElementById('scoreVerdict').textContent = verdict;
+  document.getElementById('scoreSub').textContent = sub;
+
+  const brands = [
+    { name: 'Indy Clover', score: icScore, sub: 'Community hub · $165K-$225K · SBA approved', match: icScore >= 70 },
+    { name: 'Salad House', score: shScore, sub: 'Fast casual · AUV $1.6M · 20 locations', match: shScore >= 70 },
+    { name: 'Spoiled Rotten Photography', score: srpScore, sub: 'Studio franchise · $50K-$75K · mission-driven', match: srpScore >= 60 }
+  ];
+
+  const cards = document.getElementById('brandCards');
+  cards.innerHTML = brands.map(b => `
+    <div class="brand-card ${b.match ? 'match' : ''}">
+      <div class="brand-name">${b.name}</div>
+      <div class="brand-score" style="color:${b.score >= 70 ? '#34C759' : b.score >= 50 ? '#FF9F0A' : '#8E8E93'}">${b.score}</div>
+      <div class="brand-sub">${b.sub}</div>
+      ${b.match ? '<div class="match-badge">Recommended</div>' : ''}
+    </div>
+  `).join('');
+}
+
+// Style selected options
+document.querySelectorAll('.option input').forEach(input => {
+  input.addEventListener('change', function() {
+    document.querySelectorAll(`input[name="${this.name}"]`).forEach(i => i.parentElement.classList.remove('selected'));
+    this.parentElement.classList.add('selected');
+    // Update progress
+    const total = document.querySelectorAll('.question').length;
+    const answered = new Set([...document.querySelectorAll('input[type="radio"]:checked')].map(i => i.name)).size;
+    document.getElementById('progressBar').style.width = (answered / total * 100) + '%';
+  });
+});
+</script>
+</body>
+</html>
