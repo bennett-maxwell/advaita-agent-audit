@@ -5,227 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:,">
 <title>Finance Dashboard · FKI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a0f; color:#e0e0e6; min-height:100vh; }
-
-/* GATE */
-#gate-view { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:24px; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a0f; color:#e0e0e6; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; }
 .gate-card { width:min(420px,100%); background:#14141f; border:1px solid #22c55e33; border-radius:20px; padding:36px 30px; display:grid; gap:18px; text-align:center; box-shadow:0 18px 60px rgba(0,0,0,.32); }
 .icon-wrap { width:64px; height:64px; margin:0 auto; background:#22c55e1a; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:28px; }
-.gate-h1 { font-size:22px; color:#4ade80; letter-spacing:-.3px; }
-.gate-sub { color:#8b8b9f; font-size:13px; line-height:1.5; }
+h1 { font-size:22px; color:#4ade80; letter-spacing:-.3px; }
+.sub { color:#8b8b9f; font-size:13px; line-height:1.5; }
 .input-wrap { position:relative; }
 input[type="password"],input[type="text"] { width:100%; min-height:48px; background:#0f0f1a; border:1px solid #22c55e30; border-radius:10px; padding:13px 48px 13px 16px; color:#e0e0e6; font-size:16px; outline:none; font-family:'SF Mono',Menlo,monospace; letter-spacing:1px; }
 input:focus { border-color:#22c55e80; box-shadow:0 0 0 3px rgba(34,197,94,.08); }
 input.error { border-color:#ef4444; animation:shake .3s ease; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
 .toggle-pw { position:absolute; right:12px; top:50%; transform:translateY(-50%); min-width:44px; min-height:44px; border:0; background:transparent; color:#8b8b9f; cursor:pointer; font-size:15px; }
-.gate-submit { width:100%; min-height:48px; border:0; border-radius:10px; background:#22c55e; color:#06100a; font-size:15px; font-weight:800; cursor:pointer; }
-.gate-submit:disabled { opacity:.6; cursor:not-allowed; }
+.submit { width:100%; min-height:48px; border:0; border-radius:10px; background:#22c55e; color:#06100a; font-size:15px; font-weight:800; cursor:pointer; }
+.submit:disabled { opacity:.6; cursor:not-allowed; }
 .error-msg { color:#f87171; font-size:13px; display:none; }
 .error-msg.show { display:block; }
 .back-link { color:#6b7280; font-size:12px; text-decoration:none; min-height:44px; display:inline-flex; align-items:center; justify-content:center; }
-
-/* DASHBOARD */
-#dash-view { display:none; padding:16px; max-width:1200px; margin:0 auto; }
-.dash-hdr { display:flex; justify-content:space-between; align-items:center; padding-bottom:16px; border-bottom:1px solid #1a2030; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
-.dash-hdr h1 { font-size:18px; font-weight:700; color:#fff; }
-.dash-sub { font-size:11px; color:#475569; margin-top:3px; }
-.dash-sub a { color:#475569; text-decoration:none; }
-.dash-badge { background:#0d2137; border:1px solid #1e3a5f; border-radius:6px; padding:5px 11px; font-size:11px; color:#38bdf8; white-space:nowrap; }
-
-/* Tabs */
-.tabs { display:flex; gap:0; margin-bottom:20px; border-bottom:1px solid #1a2030; }
-.tab-btn { padding:11px 20px; font-size:13px; font-weight:600; background:transparent; border:none; border-bottom:2px solid transparent; color:#475569; cursor:pointer; font-family:'Inter',sans-serif; transition:all .15s; }
-.tab-btn.active { color:#22c55e; border-bottom-color:#22c55e; }
-.tab-btn:hover:not(.active) { color:#94a3b8; }
-.tab-panel { display:none; }
-.tab-panel.active { display:block; }
-
-/* Live Finance Tab */
-.lf-card { background:#14141f; border:1px solid #22c55e33; border-radius:16px; padding:40px 32px; text-align:center; max-width:480px; margin:48px auto; }
-.lf-icon { font-size:44px; margin-bottom:18px; }
-.lf-card h2 { color:#4ade80; font-size:20px; margin-bottom:10px; }
-.lf-card p { color:#8b8b9f; font-size:13px; line-height:1.6; margin-bottom:28px; }
-.lf-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; background:#22c55e; color:#06100a; font-weight:800; font-size:15px; padding:14px 30px; border-radius:10px; text-decoration:none; }
-.lf-btn:hover { background:#16a34a; }
-
-/* Forecast styles */
-.mbar { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:18px; }
-.mc { background:#0d1a2e; border:1px solid #1e2d4a; border-radius:10px; padding:14px; }
-.mc .lb { font-size:10px; color:#64748b; text-transform:uppercase; letter-spacing:.7px; margin-bottom:5px; }
-.mc .vl { font-size:20px; font-weight:700; color:#fff; }
-.mc .sb { font-size:10px; color:#475569; margin-top:3px; }
-.mc.mc-g .vl { color:#22c55e; } .mc.mc-a .vl { color:#f59e0b; } .mc.mc-r .vl { color:#ef4444; }
-.sec { background:#0d1a2e; border:1px solid #1e2d4a; border-radius:10px; margin-bottom:18px; overflow:hidden; }
-.sh { padding:14px 18px; border-bottom:1px solid #1e2d4a; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
-.st { font-size:11px; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:.8px; }
-.sc-btns { display:flex; gap:5px; flex-wrap:wrap; }
-.sc-btn { padding:5px 12px; border-radius:6px; border:1px solid #1e3a5f; background:transparent; color:#64748b; font-size:11px; cursor:pointer; font-family:'Inter',sans-serif; }
-.sc-btn.on { background:#1e3a5f; border-color:#38bdf8; color:#38bdf8; }
-table { width:100%; border-collapse:collapse; }
-th { padding:9px 13px; text-align:left; font-size:10px; font-weight:600; color:#475569; text-transform:uppercase; letter-spacing:.7px; border-bottom:1px solid #1e2d4a; }
-td { padding:10px 13px; font-size:12px; border-bottom:1px solid #111c2e; }
-tr:last-child td { border-bottom:none; }
-tr:hover td { background:#0a1525; }
-.fv-g { color:#22c55e; font-weight:600; } .fv-r { color:#ef4444; font-weight:600; } .fv-a { color:#f59e0b; font-weight:600; }
-.fv-w { color:#e2e8f0; font-weight:500; } .fv-wl { color:#94a3b8; font-weight:500; } .fv-dr { color:#475569; font-size:11px; }
-.flags { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; padding:14px 18px; }
-.fl { background:#0a1525; border-left:3px solid #f59e0b; border-radius:0 6px 6px 0; padding:9px 12px; font-size:11px; color:#94a3b8; }
-.fl strong { color:#f59e0b; display:block; margin-bottom:2px; font-size:10px; }
-.fl.fl-risk { border-left-color:#ef4444; } .fl.fl-risk strong { color:#ef4444; }
-.ccg { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:14px 18px; }
-.cc-item { background:#0a1525; border:1px solid #1e2d4a; border-radius:8px; padding:11px 13px; }
-.cc-item .cc-n { font-size:10px; color:#64748b; margin-bottom:3px; } .cc-item .cc-v { font-size:17px; font-weight:700; color:#ef4444; } .cc-item .cc-x { font-size:10px; color:#475569; margin-top:3px; }
-.cc-item.cc-alert { border-color:#dc2626; background:#120808; } .cc-item.cc-alert .cc-n { color:#ef4444; }
-.cc-total { padding:11px 18px; border-top:1px solid #1e2d4a; display:flex; justify-content:space-between; align-items:center; }
-.cc-total .cc-lbl { font-size:11px; color:#64748b; } .cc-total .cc-lbl-sub { font-size:10px; color:#475569; margin-top:2px; } .cc-total .cc-amt { font-size:19px; font-weight:700; color:#ef4444; }
-.chart-w { padding:14px 18px; height:220px; }
-.bf { background:#0a1525; border-radius:8px; padding:9px 13px; text-align:center; margin:10px 18px; }
-.bf .bf-lbl { font-size:10px; color:#64748b; text-transform:uppercase; letter-spacing:.7px; margin-bottom:3px; } .bf .bf-val { font-size:22px; font-weight:700; }
-.tbl-summary { background:#0a1525; } .tbl-summary td { border-top:2px solid #1e3a5f; font-weight:700; font-size:12px; padding:12px 13px; }
-.fc-foot { text-align:center; padding:16px 0 6px; font-size:10px; color:#1e3a5f; }
-@media(max-width:900px) { .mbar { grid-template-columns:repeat(3,1fr); } .ccg { grid-template-columns:repeat(2,1fr); } .flags { grid-template-columns:1fr; } .dash-hdr { flex-direction:column; } }
-@media(max-width:560px) { .mbar { grid-template-columns:repeat(2,1fr); } .ccg { grid-template-columns:1fr; } th,td { padding:7px 9px; } }
 </style>
 </head>
 <body>
-
-<!-- GATE (public) -->
-<div id="gate-view">
-  <main class="gate-card">
-    <div class="icon-wrap">&#x1F4B0;</div>
-    <h1 class="gate-h1">Finance Dashboard</h1>
-    <p class="gate-sub">FKI team access only.</p>
-    <div class="input-wrap">
-      <input type="password" id="pw" placeholder="Password" autofocus autocomplete="current-password">
-      <button class="toggle-pw" type="button" onclick="togglePw()" aria-label="Toggle password visibility">Show</button>
-    </div>
-    <div class="error-msg" id="errMsg">Incorrect password. Try again.</div>
-    <button class="gate-submit" id="submitBtn" onclick="handleSubmit()">Unlock Finance</button>
-    <a class="back-link" href="../hub/">&larr; Command Center</a>
-  </main>
-</div>
-
-<!-- DASHBOARD (post-auth) -->
-<div id="dash-view">
-  <div class="dash-hdr">
-    <div>
-      <h1>FKI Finance Command Center</h1>
-      <p class="dash-sub">Franchise KI LLC &nbsp;|&nbsp; <a href="../hub/">&larr; Command Center</a></p>
-    </div>
-    <div class="dash-badge">dashboard.franchiseki.com/finance</div>
+<main class="gate-card">
+  <div class="icon-wrap">💰</div>
+  <h1>Finance Dashboard</h1>
+  <p class="sub">FKI team access only.</p>
+  <div class="input-wrap">
+    <input type="password" id="pw" placeholder="Password" autofocus autocomplete="current-password">
+    <button class="toggle-pw" type="button" onclick="togglePw()">Show</button>
   </div>
-
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('live',this)">&#x1F4CA; Live Finance</button>
-    <button class="tab-btn" onclick="showTab('forecast',this)">&#x1F4C8; 13-Week Forecast</button>
-  </div>
-
-  <!-- TAB 1: LIVE FINANCE -->
-  <div id="tab-live" class="tab-panel active">
-    <div class="lf-card">
-      <div class="lf-icon">&#x1F4CA;</div>
-      <h2>Live Finance Dashboard</h2>
-      <p>Real-time QuickBooks data &mdash; revenue by brand, cash position, P&amp;L, ad spend, and pipeline numbers. Served live from the finance agent on iMac.</p>
-      <a class="lf-btn" href="https://openclaws-imac.tail503ee0.ts.net:8732" rel="noreferrer" target="_blank">Open Live Dashboard &rarr;</a>
-    </div>
-  </div>
-
-  <!-- TAB 2: 13-WEEK FORECAST -->
-  <div id="tab-forecast" class="tab-panel">
-    <div class="mbar">
-      <div class="mc mc-g"><div class="lb">Current Cash (QB Verified)</div><div class="vl">$228,000</div><div class="sb">Checking acct &middot; May 4, 2026</div></div>
-      <div class="mc mc-g"><div class="lb">Conservative End (Aug 2)</div><div class="vl">$361K</div><div class="sb">+$133K net over 13 wks</div></div>
-      <div class="mc mc-g"><div class="lb">Upside w/ $80K AR</div><div class="vl">$441K</div><div class="sb">+$80K AR collected in full</div></div>
-      <div class="mc mc-a"><div class="lb">Weekly Burn Rate</div><div class="vl">$5,071</div><div class="sb">$22,071/mo avg (Jan&ndash;May 4)</div></div>
-      <div class="mc mc-g"><div class="lb">Weekly Revenue Avg</div><div class="vl">$15,323</div><div class="sb">Net/wk: +$10,252</div></div>
-    </div>
-    <div class="sec">
-      <div class="sh"><span class="st">Assumption Flags &amp; Risk Signals</span></div>
-      <div class="flags">
-        <div class="fl"><strong>Starting Balance &mdash; QB Verified</strong>$228,000 checking as of May 4, 2026. Savings acct excluded (phantom balance per prior audit).</div>
-        <div class="fl"><strong>$80K AR Upside &mdash; Pending Collection</strong>$80K AR outstanding. Upside scenario assumes full collection in the 13-week window. Collection timing unconfirmed.</div>
-        <div class="fl fl-risk"><strong>&#9888; March Anomaly &mdash; Watch Q3</strong>March 2026: $41.9K expense month (contractor spike &mdash; 1.9&times; normal burn). If this pattern repeats in Q3, a single month can wipe $20K+ from cash.</div>
-        <div class="fl"><strong>QB Working Model &mdash; Not Audited</strong>Jan&ndash;May 4, 2026 data. April expenses may be incomplete. Revenue is lumpy; weekly smoothing is an approximation. CC debt ($175K) not reflected in cash.</div>
-      </div>
-    </div>
-    <div class="sec">
-      <div class="sh">
-        <span class="st">13-Week Rolling Cash Flow Forecast (May 5 &ndash; Aug 2, 2026)</span>
-        <div class="sc-btns">
-          <button class="sc-btn on" onclick="setSc('base',this)">Base (QB Avg)</button>
-          <button class="sc-btn" onclick="setSc('conservative',this)">Conservative</button>
-          <button class="sc-btn" onclick="setSc('upside',this)">Upside (+$80K AR)</button>
-        </div>
-      </div>
-      <div style="padding:8px 18px 2px;display:flex;gap:20px;font-size:10px;color:#475569;flex-wrap:wrap">
-        <span><span style="color:#ef4444">&#9679;</span> Below $100K Monitor</span>
-        <span><span style="color:#f59e0b">&#9679;</span> $100K&ndash;$250K Healthy</span>
-        <span><span style="color:#22c55e">&#9679;</span> Above $250K Strong</span>
-        <span id="snote" style="color:#475569;font-style:italic;font-size:10px">Base: QB avg $15,323/wk revenue</span>
-      </div>
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>Wk</th><th>Date Range</th><th>Inflow</th><th>Outflow</th><th>Net</th><th>Balance</th><th></th></tr></thead>
-          <tbody id="fc-body"></tbody>
-          <tfoot id="fc-tfoot"></tfoot>
-        </table>
-      </div>
-      <div class="bf"><div class="bf-lbl">Ending Cash Balance (Week 13 &mdash; Aug 2, 2026)</div><div class="bf-val" id="fc-end">&mdash;</div></div>
-    </div>
-    <div class="sec">
-      <div class="sh"><span class="st">Running Cash Balance &mdash; All Scenarios</span><span style="font-size:11px;color:#475569;font-style:italic">Reference lines: $250K strong / $100K monitor</span></div>
-      <div class="chart-w"><canvas id="fc-chart"></canvas></div>
-    </div>
-    <div class="sec">
-      <div class="sh"><span class="st">Credit Card Debt Tracker</span><span style="font-size:11px;color:#ef4444;font-weight:600">Total: $175,281</span></div>
-      <div class="ccg">
-        <div class="cc-item"><div class="cc-n">Amex Blue Business Plus 1005</div><div class="cc-v">$92,757</div><div class="cc-x">Largest liability &mdash; priority paydown</div></div>
-        <div class="cc-item"><div class="cc-n">PCE 0864</div><div class="cc-v">$40,227</div><div class="cc-x">Second largest exposure</div></div>
-        <div class="cc-item"><div class="cc-n">Amex Blue Business Plus 5003</div><div class="cc-v">$13,750</div><div class="cc-x">&nbsp;</div></div>
-        <div class="cc-item"><div class="cc-n">Liam Chase 9705</div><div class="cc-v">$19,109</div><div class="cc-x">Verify ownership / allocation</div></div>
-        <div class="cc-item"><div class="cc-n">Divvy</div><div class="cc-v">$9,438</div><div class="cc-x">&nbsp;</div></div>
-        <div class="cc-item cc-alert"><div class="cc-n">Personal 1537 &mdash; CO-MINGLING ALERT</div><div class="cc-v">$1,117</div><div class="cc-x">Remove from books immediately. Personal charges on business entity.</div></div>
-      </div>
-      <div class="cc-total"><div><div class="cc-lbl">Total CC Debt</div><div class="cc-lbl-sub">SRP Startup Advance liability: $20,000 additional</div></div><div class="cc-amt">$175,281</div></div>
-    </div>
-    <div class="sec">
-      <div class="sh"><span class="st">YTD Actuals &mdash; Jan&ndash;Apr 2026 (Cash Basis, QuickBooks)</span></div>
-      <table>
-        <thead><tr><th>Month</th><th>Revenue</th><th>Expenses</th><th>Net Income</th><th>Margin</th><th>Note</th></tr></thead>
-        <tbody>
-          <tr><td class="fv-wl">January 2026</td><td class="fv-g">$70,000</td><td class="fv-r">$48,761</td><td class="fv-g">$21,239</td><td class="fv-w">30.3%</td><td class="fv-dr">&mdash;</td></tr>
-          <tr><td class="fv-wl">February 2026</td><td class="fv-g">$57,102</td><td class="fv-r">$22,905</td><td class="fv-g">$34,197</td><td class="fv-g">59.9%</td><td class="fv-dr">&mdash;</td></tr>
-          <tr><td class="fv-wl">March 2026</td><td class="fv-a">$27,892</td><td class="fv-r">$41,900</td><td class="fv-r">($14,008)</td><td class="fv-r">-50.2%</td><td style="color:#ef4444;font-size:10px">&#9888; Contractor spike &mdash; watch Q3</td></tr>
-          <tr><td class="fv-wl">April 2026</td><td class="fv-g">$70,602</td><td class="fv-a">$12,152</td><td class="fv-g">$58,450</td><td class="fv-g">82.8%</td><td class="fv-dr">Apr expenses may be incomplete in QB</td></tr>
-          <tr class="tbl-summary"><td>YTD Total</td><td class="fv-g">$225,596</td><td class="fv-r">$125,718</td><td class="fv-g">$99,878</td><td class="fv-g">44.3%</td><td class="fv-dr">Jan&ndash;Apr 2026</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="fc-foot">Franchise KI LLC &nbsp;|&nbsp; 13-Week Cash Flow Forecast &nbsp;|&nbsp; QB source: billing@franchiseki.com, Jan&ndash;May 4 2026 &nbsp;|&nbsp; Working model &mdash; not audited</div>
-  </div><!-- end tab-forecast -->
-</div><!-- end dash-view -->
-
+  <div class="error-msg" id="errMsg">Incorrect password. Try again.</div>
+  <button class="submit" id="submitBtn" onclick="handleSubmit()">Unlock Finance →</button>
+  <a class="back-link" href="../hub/">← Command Center</a>
+</main>
 <script>
 const TARGET = '79be51d4d1fdf8514b206fb5eb08a386a7867ff075de818042a9eaafbb6bf7cd';
 const SESSION_KEY = 'fki_finance_auth';
-if (sessionStorage.getItem(SESSION_KEY) === 'ok') showDashboard();
+if (sessionStorage.getItem(SESSION_KEY) === 'ok') location.replace('./fki-finance-dashboard.html');
 async function sha256(str) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 async function handleSubmit() {
   const input = document.getElementById('pw');
-  const password = input.value;
-  if (!password) return;
+  if (!input.value) return;
   document.getElementById('submitBtn').disabled = true;
-  if (await sha256(password) === TARGET) {
+  if (await sha256(input.value) === TARGET) {
     sessionStorage.setItem(SESSION_KEY, 'ok');
-    showDashboard();
+    location.replace('./fki-finance-dashboard.html');
   } else {
     input.classList.add('error'); input.value = ''; input.focus();
     document.getElementById('errMsg').classList.add('show');
@@ -233,71 +60,13 @@ async function handleSubmit() {
     setTimeout(() => input.classList.remove('error'), 400);
   }
 }
-function showDashboard() {
-  document.getElementById('gate-view').style.display = 'none';
-  document.getElementById('dash-view').style.display = 'block';
-  renderForecast('base');
-}
-function showTab(name, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'forecast' && !window._fcChartDrawn) { drawFcChart(); window._fcChartDrawn = true; }
-}
 function togglePw() {
-  const input = document.getElementById('pw');
-  const btn = document.querySelector('.toggle-pw');
-  input.type = input.type === 'password' ? 'text' : 'password';
-  btn.textContent = input.type === 'password' ? 'Show' : 'Hide';
+  const i = document.getElementById('pw');
+  const b = document.querySelector('.toggle-pw');
+  i.type = i.type === 'password' ? 'text' : 'password';
+  b.textContent = i.type === 'password' ? 'Show' : 'Hide';
 }
 document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') handleSubmit(); });
-
-const FC_S0 = 228000, FC_BURN = 5071, FC_AR = 80000;
-const FC_WEEKS = [
-  ['May 5','May 11'],['May 12','May 18'],['May 19','May 25'],['May 26','Jun 1'],
-  ['Jun 2','Jun 8'],['Jun 9','Jun 15'],['Jun 16','Jun 22'],['Jun 23','Jun 29'],
-  ['Jun 30','Jul 6'],['Jul 7','Jul 13'],['Jul 14','Jul 20'],['Jul 21','Jul 27'],['Jul 28','Aug 2']
-];
-const FC_SCENARIOS = {
-  base:         { r:15323, lump:0,      label:'Base: QB avg $15,323/wk → $361K ending (Aug 2)' },
-  conservative: { r:9231,  lump:0,      label:'Conservative: 1 deal/mo = $9,231/wk → $282K ending' },
-  upside:       { r:15323, lump:FC_AR,  label:'Upside: QB avg + $80K AR collected → $441K ending (Aug 2)' }
-};
-function fcFmt(n) { const a=Math.abs(n); const s='$'+a.toLocaleString('en-US',{maximumFractionDigits:0}); return n<0?'('+s+')':s; }
-function fcCls(v) { return v<100000?'fv-r':v<250000?'fv-a':'fv-g'; }
-function fcDot(v) { return v<100000?'🔴':v<250000?'🟡':'🟢'; }
-function fcRows(k) {
-  const cfg=FC_SCENARIOS[k]; let b=FC_S0,ti=0,to=0;
-  return FC_WEEKS.map((w,i)=>{ const days=i===12?5:7; const inf=Math.round(cfg.r/7*days)+(i===0?cfg.lump:0); const out=Math.round(FC_BURN/7*days); b+=inf-out;ti+=inf;to+=out; return {w,inf,out,net:inf-out,b,ti,to}; });
-}
-function renderForecast(k) {
-  const d=fcRows(k);
-  document.getElementById('snote').textContent=FC_SCENARIOS[k].label;
-  document.getElementById('fc-body').innerHTML=d.map((r,i)=>`<tr><td class="fv-wl">W${i+1}</td><td class="fv-dr">${r.w[0]} &ndash; ${r.w[1]}, 2026</td><td class="${fcCls(r.inf)}">${fcFmt(r.inf)}</td><td class="fv-r">(${fcFmt(r.out).replace(/[()]/g,'')})</td><td class="${fcCls(r.net)}">${fcFmt(r.net)}</td><td class="${fcCls(r.b)}">${fcFmt(r.b)}</td><td>${fcDot(r.b)}</td></tr>`).join('');
-  const last=d[12];
-  document.getElementById('fc-tfoot').innerHTML=`<tr class="tbl-summary"><td colspan="2">13-Wk Total</td><td class="fv-g">${fcFmt(last.ti)}</td><td class="fv-r">(${fcFmt(last.to).replace(/[()]/g,'')})</td><td class="${fcCls(last.ti-last.to)}">${fcFmt(last.ti-last.to)}</td><td colspan="2" class="${fcCls(last.b)}">Ending: ${fcFmt(last.b)}</td></tr>`;
-  const endEl=document.getElementById('fc-end'); endEl.textContent=fcFmt(last.b); endEl.className='bf-val '+fcCls(last.b);
-}
-function fcBals(k) {
-  const cfg=FC_SCENARIOS[k]; let b=FC_S0; const result=[FC_S0];
-  FC_WEEKS.forEach((_,i)=>{ const days=i===12?5:7; const inf=Math.round(cfg.r/7*days)+(i===0?cfg.lump:0); const out=Math.round(FC_BURN/7*days); b+=inf-out; result.push(b); });
-  return result;
-}
-let fcChart=null;
-function drawFcChart() {
-  const labels=['Start',...FC_WEEKS.map((_,i)=>'W'+(i+1))];
-  const datasets=[
-    {label:'Base (QB Avg)',data:fcBals('base'),borderColor:'#38bdf8',borderWidth:2,pointRadius:2,tension:.3,fill:false},
-    {label:'Conservative',data:fcBals('conservative'),borderColor:'#f59e0b',borderWidth:2,pointRadius:2,tension:.3,fill:false},
-    {label:'Upside (+$80K AR)',data:fcBals('upside'),borderColor:'#22c55e',borderWidth:2,pointRadius:2,tension:.3,fill:false}
-  ];
-  if(fcChart)fcChart.destroy();
-  const ctx=document.getElementById('fc-chart').getContext('2d');
-  fcChart=new Chart(ctx,{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#64748b',font:{size:10,family:'Inter'},boxWidth:16}},tooltip:{backgroundColor:'#0d1a2e',borderColor:'#1e2d4a',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#e2e8f0',callbacks:{label:c=>' '+c.dataset.label+': $'+Math.abs(c.raw).toLocaleString()}}},scales:{x:{grid:{color:'#111c2e'},ticks:{color:'#475569',font:{size:9}}},y:{grid:{color:'#111c2e'},ticks:{color:'#475569',font:{size:9},callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
-  Chart.register({id:'fki-thresholds',afterDraw(ch){const{ctx:c,chartArea:{left,right,top,bottom},scales:{y}}=ch;if(!y)return;[[250000,'#22c55e','$250K'],[100000,'#f59e0b','$100K'],[0,'#ef4444','$0']].forEach(([v,col,lbl])=>{const yp=y.getPixelForValue(v);if(yp<top||yp>bottom)return;c.save();c.setLineDash([4,4]);c.strokeStyle=col;c.lineWidth=1;c.globalAlpha=.5;c.beginPath();c.moveTo(left,yp);c.lineTo(right,yp);c.stroke();c.globalAlpha=.9;c.fillStyle=col;c.font='9px Inter';c.fillText(lbl,left+4,yp-3);c.restore();});}});
-}
-function setSc(k,btn){document.querySelectorAll('.sc-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderForecast(k);}
 </script>
 </body>
 </html>
