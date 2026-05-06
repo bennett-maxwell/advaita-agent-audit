@@ -1,0 +1,104 @@
+{
+  "date": "2026-05-05",
+  "generated_at": "2026-05-05T23:00:00-06:00",
+  "summary": {
+    "total_audits": 47,
+    "red": 4,
+    "yellow": 9,
+    "green": 34,
+    "human_gates": 3,
+    "skills_checked": 126,
+    "agents_checked": 13,
+    "projects_checked": 8
+  },
+  "findings": [
+    {"id": "F001", "type": "agent", "name": "Fred", "severity": "red", "finding": "Daily state reset frozen since May 3 — cost tracking stale", "recommended_fix": "Re-seed Fred state via fred-cost-monitor-v5.py --reset", "status": "fixed", "fixed_at": "2026-05-05T12:45:00Z"},
+    {"id": "F002", "type": "skill", "name": "diy-skill", "severity": "yellow", "finding": "last_updated field missing from frontmatter", "recommended_fix": "Patch Drive SKILL.md with last_updated: 2026-05-05", "status": "in_progress", "assigned_to": "Ivan-CC"},
+    {"id": "F003", "type": "agent", "name": "Leo bridge", "severity": "red", "finding": "Duplicate loop detected in leo-socket-bridge — heartbeat missing", "recommended_fix": "Restart bridge + add PID lock guard", "status": "fixed", "fixed_at": "2026-05-05T12:31:00Z"},
+    {"id": "F004", "type": "project", "name": "UTM-CPA Pipeline", "severity": "yellow", "finding": "GitHub push broken — advaita-agent-audit repo not cloned", "recommended_fix": "Clone repo and re-run github-auto-commit.sh", "status": "fixed", "fixed_at": "2026-05-05T12:45:00Z"},
+    {"id": "F005", "type": "agent", "name": "Piper", "severity": "red", "finding": "1,017 leads incorrectly assigned to Bailey Maxwell (human)", "recommended_fix": "Requires GHL user ID for Piper + reassignment script", "status": "blocked", "blocked_reason": "Bennett gate: need Piper GHL user ID"},
+    {"id": "F006", "type": "skill", "name": "angie-weekly-audit-skill", "severity": "yellow", "finding": "SKILL.md references angie-audit.py but LaunchAgent runs angie-report-cards.py", "recommended_fix": "Reconcile into angie-audit-v3.py, update SKILL.md and plist", "status": "in_progress", "assigned_to": "Ivan-CC"},
+    {"id": "F007", "type": "agent", "name": "Tiffany (Ollama)", "severity": "red", "finding": "Unreachable at 100.91.17.106:11434 — dim 33 RED in business audit", "recommended_fix": "Check Tailscale connection, restart Ollama on Tiffany machine", "status": "open", "blocked_reason": "Bennett gate: physical access to Tiffany machine"},
+    {"id": "F008", "type": "project", "name": "GHL Facebook OAuth", "severity": "yellow", "finding": "UTM tracking pipeline blocked: GHL Facebook OAuth not connected", "recommended_fix": "Bennett must connect Facebook account in GHL", "status": "blocked", "blocked_reason": "Bennett gate: FB OAuth click in GHL UI"},
+    {"id": "F009", "type": "skill", "name": "watchtower-skill", "severity": "yellow", "finding": "Python path mismatch after Python 3.14 upgrade", "recommended_fix": "Update shebang to /usr/local/bin/python3", "status": "fixed", "fixed_at": "2026-05-05T13:01:00Z"},
+    {"id": "F010", "type": "agent", "name": "CPAH LaunchAgent", "severity": "yellow", "finding": "LaunchAgent not loaded — CPAH dashboard not auto-starting", "recommended_fix": "launchctl load ai.openclaw.cpah-per-ad.plist", "status": "fixed", "fixed_at": "2026-05-05T13:01:00Z"}
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "theme": "Lead Acquisition",
+      "question": "SH ads are at 0.84x ROAS (losing money) while FKI ads are at 15x ROAS. How should we reallocate budget this week?",
+      "options": {
+        "A": "Pause SH ads entirely, move 100% to FKI",
+        "B": "Keep SH at 20% budget, scale FKI with remaining 80%",
+        "C": "Give SH 2 more weeks to optimize before cutting",
+        "D": "Cut SH to $500/day minimum, scale FKI aggressively"
+      },
+      "recommended": "D",
+      "rationale": "Minimum spend keeps SH data flowing while FKI compounds at 15x",
+      "advaita_alignment": "Lead Acquisition domain — CPL self-optimizes via budget allocation"
+    },
+    {
+      "id": 2,
+      "theme": "Lead Processing",
+      "question": "1,017 leads are incorrectly assigned to Bailey (human) instead of Piper (AI). What priority should resolving this be?",
+      "options": {
+        "A": "P0 — fix today, re-route all leads to Piper immediately",
+        "B": "P1 — fix this week, assign Piper GHL user ID first",
+        "C": "P2 — fix next sprint, document for Leo",
+        "D": "Leave it — Bailey can handle these manually"
+      },
+      "recommended": "B",
+      "rationale": "Needs Piper GHL user ID first (Bennett gate) before mass reassignment",
+      "advaita_alignment": "Lead Processing — every opt-in routed without human touch"
+    },
+    {
+      "id": 3,
+      "theme": "Operations",
+      "question": "Tiffany (Ollama server) has been unreachable for 24h+ affecting lead scoring. What's the contingency?",
+      "options": {
+        "A": "Route all scoring to Claude API (Anthropic) as fallback permanently",
+        "B": "Fix Tiffany first, then restore Ollama as primary",
+        "C": "Run scoring on iMac locally using Ollama, keep Tiffany for other tasks",
+        "D": "Pause pipeline until Tiffany is back online"
+      },
+      "recommended": "A",
+      "rationale": "Claude API scoring via appointment-setter is already live on :8743 — leverage it",
+      "advaita_alignment": "Operations — zero human touch in scoring pipeline"
+    },
+    {
+      "id": 4,
+      "theme": "Financial Control",
+      "question": "QuickBooks shows $40K checking and $253K in CC debt. What financial priority should Fred track daily?",
+      "options": {
+        "A": "CC debt paydown velocity — flag if not decreasing week-over-week",
+        "B": "Cash runway — alert if checking drops below $25K",
+        "C": "Both: CC velocity + cash floor with weekly P&L vs actuals",
+        "D": "Revenue first — focus Fred on income tracking, not debt"
+      },
+      "recommended": "C",
+      "rationale": "Two metrics together give full picture — either alone misses the other risk",
+      "advaita_alignment": "Financial Control — no surprises, every dollar tracked"
+    },
+    {
+      "id": 5,
+      "theme": "Sales Intelligence",
+      "question": "What should Angie prioritize auditing most deeply in her next weekly cycle?",
+      "options": {
+        "A": "Skills freshness — 126 skills, many may be stale or stub-only",
+        "B": "Agent diamond rates — Leo/Ivan/Mack completion velocity",
+        "C": "Project velocity — Sprint Board Yellow tasks older than 72h",
+        "D": "Financial projections — Fred accuracy vs actuals"
+      },
+      "recommended": "A",
+      "rationale": "126 skills with no systematic freshness check is the biggest silent drift risk",
+      "advaita_alignment": "Operations — agents self-improve via skill quality enforcement"
+    }
+  ],
+  "waiting_on_bennett": [
+    {"id": "F005", "item": "Piper GHL user ID — 1,017 leads mis-routed to Bailey"},
+    {"id": "F007", "item": "Tiffany machine access — Ollama restart"},
+    {"id": "F008", "item": "GHL Facebook OAuth — UTM pipeline blocked"}
+  ],
+  "feedback_submitted": false
+}
