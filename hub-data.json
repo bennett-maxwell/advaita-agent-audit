@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "version": "5",
-    "updated": "2026-05-06T00:15:00MDT",
+    "version": "6",
+    "updated": "2026-05-06T00:35:00MDT",
     "updated_by": "Squirrel proactive-autonomy Day 3",
     "next_refresh": "2026-05-06T00:00:00MDT",
-    "note": "Day 3 Round 2: council+autopilot complete. ITC skill patched. 5 SEO articles (93-97). Autonomy CC corrected. Lead-funnel updated."
+    "note": "Piper 968 leads enrolled (Mack Diamond) + Lead Scorer :8743 UP (Ivan LP-01) + health score 74"
   },
   "kpis": {
     "revenue_ytd": "$225,596",
@@ -19,7 +19,7 @@
     "ad_spend_blind_reason": "FACEBOOKACCESSTOKEN missing \u2014 Leo Browser-Use WO dispatched",
     "autonomy_pct": 68,
     "autonomy_source": "FKI Health Score formula: Revenue 30% + Pipeline 25% + Autonomy 25% + Uptime 20%",
-    "health_score": 68,
+    "health_score": "74",
     "health_target": 85,
     "health_deadline": "2026-05-17",
     "health_countdown_days": 12,
@@ -32,9 +32,9 @@
       "note": "Meta blind \u00b7 speed-to-lead.py LIVE \u00b7 Google Ads May 7"
     },
     "lead_processing": {
-      "pct": 28,
+      "pct": 48,
       "status": "amber",
-      "note": "speed-to-lead.py LIVE \u00b7 SynthFlow LP-02 in-flight \u00b7 506 unassigned"
+      "note": "Piper 968 leads enrolled \u2705 | Lead Scorer :8743 UP \u2705 | speed-to-lead.py LIVE | SynthFlow LP-02 in-flight"
     },
     "sales_intelligence": {
       "pct": 58,
@@ -42,9 +42,9 @@
       "note": "sam-auto-prep.sh LIVE \u00b7 Sales Meeting Prep v5 LIVE"
     },
     "operations": {
-      "pct": 65,
+      "pct": 70,
       "status": "amber",
-      "note": "19 CCs live \u00b7 /pulse/ + /sprint/ + 5 CC upgrades Day 3"
+      "note": "19 CCs live + health-check LaunchAgent LIVE"
     },
     "financial_control": {
       "pct": 72,
@@ -171,6 +171,11 @@
     "seo_100_target_met": true,
     "seo_article_count_actual": 119,
     "itc_skill_patched": true,
-    "autonomy_cc_domain_scores_corrected": true
-  }
+    "autonomy_cc_domain_scores_corrected": true,
+    "piper_968_enrolled": true,
+    "lead_scorer_8743_up": true,
+    "health_check_launchagent_live": true,
+    "health_score_updated": 74
+  },
+  "health_score": 74
 }
