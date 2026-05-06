@@ -1,475 +1,780 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lead Processing Command Center — Franchise Ki</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif; background: #FFFFFF; color: #1D1D1F; line-height: 1.5; }
-  
-  /* Header */
-  .site-header { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; }
-  .site-header .logo { font-size: 15px; font-weight: 600; color: #1D1D1F; letter-spacing: -0.3px; }
-  .site-header .status-pill { display: flex; align-items: center; gap: 6px; background: #FFF0F0; border: 1px solid #FF3B30; border-radius: 100px; padding: 4px 12px; font-size: 12px; font-weight: 600; color: #FF3B30; }
-  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #FF3B30; animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lead Processing Command Center — FKI</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* Hero */
-  .hero { background: #FFFFFF; padding: 48px 40px 32px; border-bottom: 1px solid #E5E5EA; }
-  .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #6E6E73; margin-bottom: 8px; }
-  .hero-title { font-size: 40px; font-weight: 700; letter-spacing: -1.5px; color: #1D1D1F; line-height: 1.1; margin-bottom: 12px; }
-  .hero-subtitle { font-size: 15px; color: #6E6E73; font-weight: 400; max-width: 680px; }
-  .hero-meta { display: flex; align-items: center; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
-  .hero-autonomy { display: flex; align-items: center; gap: 10px; }
-  .autonomy-label { font-size: 13px; color: #6E6E73; font-weight: 500; }
-  .autonomy-bar { width: 200px; height: 8px; background: #F2F2F7; border-radius: 100px; overflow: hidden; }
-  .autonomy-fill { height: 100%; width: 22%; background: #FF3B30; border-radius: 100px; }
-  .autonomy-value { font-size: 15px; font-weight: 700; color: #FF3B30; }
-  .target-badge { font-size: 12px; font-weight: 600; color: #0071E3; background: #F0F7FF; border: 1px solid #0071E3; border-radius: 100px; padding: 4px 12px; }
+    :root {
+      --bg: #FFFFFF;
+      --surface: #F2F2F7;
+      --surface-2: #E5E5EA;
+      --border: #C6C6C8;
+      --label: #8E8E93;
+      --text: #1C1C1E;
+      --text-secondary: #3A3A3C;
+      --green: #34C759;
+      --amber: #FF9F0A;
+      --red: #FF3B30;
+      --blue: #007AFF;
+      --indigo: #5856D6;
+      --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    }
 
-  /* KPI Strip */
-  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid #E5E5EA; }
-  .kpi-card { padding: 24px 32px; border-right: 1px solid #E5E5EA; }
-  .kpi-card:last-child { border-right: none; }
-  .kpi-number { font-size: 36px; font-weight: 700; letter-spacing: -1px; color: #1D1D1F; line-height: 1; margin-bottom: 4px; }
-  .kpi-number.red { color: #FF3B30; }
-  .kpi-number.amber { color: #FF9F0A; }
-  .kpi-label { font-size: 12px; font-weight: 600; letter-spacing: 0.3px; color: #6E6E73; text-transform: uppercase; }
-  .kpi-sub { font-size: 11px; color: #AEAEB2; margin-top: 2px; }
+    body {
+      background: var(--bg);
+      font-family: var(--font);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* Content */
-  .content { max-width: 1200px; margin: 0 auto; padding: 40px; }
+    /* ── Header ── */
+    .header {
+      padding: 24px 24px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--text);
+    }
+    .header-sub {
+      font-size: 13px;
+      color: var(--label);
+      margin-top: 3px;
+      letter-spacing: -0.1px;
+    }
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.1px;
+    }
+    .pill-red   { background: #FF3B3015; color: var(--red); }
+    .pill-amber { background: #FF9F0A15; color: var(--amber); }
+    .pill-green { background: #34C75915; color: var(--green); }
+    .pill-blue  { background: #007AFF15; color: var(--blue); }
+    .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
-  /* Accordion */
-  .accordion { border: 1px solid #E5E5EA; border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
-  .accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; cursor: pointer; background: #FFFFFF; user-select: none; transition: background 0.15s; }
-  .accordion-header:hover { background: #F9F9FB; }
-  .accordion-header-left { display: flex; align-items: center; gap: 12px; }
-  .accordion-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-  .accordion-icon.blue { background: #E8F3FF; }
-  .accordion-icon.red { background: #FFF0F0; }
-  .accordion-icon.amber { background: #FFF8EC; }
-  .accordion-icon.green { background: #EDFAF3; }
-  .accordion-icon.purple { background: #F5F0FF; }
-  .accordion-title { font-size: 16px; font-weight: 600; color: #1D1D1F; }
-  .accordion-badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 100px; }
-  .badge-red { background: #FFF0F0; color: #FF3B30; border: 1px solid #FF3B30; }
-  .badge-green { background: #EDFAF3; color: #34C759; border: 1px solid #34C759; }
-  .badge-amber { background: #FFF8EC; color: #FF9F0A; border: 1px solid #FF9F0A; }
-  .accordion-chevron { font-size: 12px; color: #AEAEB2; transition: transform 0.2s; }
-  .accordion-body { display: none; padding: 0 24px 24px; border-top: 1px solid #E5E5EA; background: #FAFAFA; }
-  .accordion-body.open { display: block; }
-  .accordion-chevron.open { transform: rotate(180deg); }
+    /* ── L1 KPI Strip ── */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 20px 24px;
+    }
+    @media (max-width: 700px) {
+      .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+    .kpi-card {
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .kpi-card:hover { border-color: var(--border); }
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1;
+      color: var(--text);
+    }
+    .kpi-value.kpi-red    { color: var(--red); }
+    .kpi-value.kpi-amber  { color: var(--amber); }
+    .kpi-value.kpi-green  { color: var(--green); }
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--label);
+      margin-top: 2px;
+    }
 
-  /* Funnel Table */
-  .funnel-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-  .funnel-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #6E6E73; padding: 10px 16px; text-align: left; background: #F2F2F7; border-bottom: 1px solid #E5E5EA; }
-  .funnel-table td { font-size: 14px; padding: 12px 16px; border-bottom: 1px solid #E5E5EA; color: #1D1D1F; vertical-align: middle; }
-  .funnel-table tr:last-child td { border-bottom: none; }
-  .funnel-table tr:hover td { background: #F9F9FB; }
-  .stage-name { font-weight: 600; }
-  .drop-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 100px; }
-  .drop-red { background: #FFF0F0; color: #FF3B30; }
-  .drop-amber { background: #FFF8EC; color: #FF9F0A; }
-  .count-large { font-size: 22px; font-weight: 700; color: #1D1D1F; }
-  .count-signed { font-size: 22px; font-weight: 700; color: #34C759; }
-  .vs-row { display: flex; align-items: center; gap: 24px; margin-top: 16px; padding: 16px; background: #F2F2F7; border-radius: 12px; }
-  .vs-item { text-align: center; }
-  .vs-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #6E6E73; }
-  .vs-value { font-size: 28px; font-weight: 700; letter-spacing: -1px; margin-top: 2px; }
-  .vs-value.bad { color: #FF3B30; }
-  .vs-value.good { color: #34C759; }
-  .vs-divider { width: 1px; height: 50px; background: #E5E5EA; }
+    /* ── Accordion ── */
+    .accordion-wrap {
+      padding: 0 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .accordion {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 18px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--bg);
+      transition: background 0.1s;
+      gap: 12px;
+    }
+    .accordion-header:hover { background: var(--surface); }
+    .accordion-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .accordion-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .icon-red    { background: #FF3B3015; }
+    .icon-amber  { background: #FF9F0A15; }
+    .icon-blue   { background: #007AFF15; }
+    .icon-green  { background: #34C75915; }
+    .icon-indigo { background: #5856D615; }
+    .accordion-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--text);
+    }
+    .accordion-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--label);
+      background: var(--surface);
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+    .accordion-chevron {
+      color: var(--label);
+      font-size: 13px;
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+      flex-shrink: 0;
+    }
+    .accordion.open .accordion-chevron { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .accordion.open .accordion-body { max-height: 1400px; }
+    .accordion-content {
+      padding: 0 18px 18px;
+      border-top: 1px solid var(--border);
+    }
 
-  /* Show Rate Grid */
-  .show-rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-  .show-rate-card { background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 12px; padding: 20px; }
-  .show-rate-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #6E6E73; margin-bottom: 8px; }
-  .show-rate-value { font-size: 42px; font-weight: 700; letter-spacing: -2px; color: #FF3B30; line-height: 1; }
-  .show-rate-target { font-size: 13px; color: #6E6E73; margin-top: 6px; }
-  .show-rate-bar { width: 100%; height: 8px; background: #F2F2F7; border-radius: 100px; margin-top: 12px; overflow: hidden; }
-  .show-rate-fill { height: 100%; border-radius: 100px; }
+    /* ── Fix Priority Queue ── */
+    .fix-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .fix-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--surface);
+      border-radius: 10px;
+    }
+    .fix-rank {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .rank-1 { background: var(--red);   color: #fff; }
+    .rank-2 { background: var(--red);   color: #fff; }
+    .rank-3 { background: var(--amber); color: #fff; }
+    .rank-4 { background: var(--amber); color: #fff; }
+    .rank-5 { background: var(--amber); color: #fff; }
+    .fix-body { flex: 1; }
+    .fix-id {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--label);
+      text-transform: uppercase;
+    }
+    .fix-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 1px;
+    }
+    .fix-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+    .fix-status { align-self: center; flex-shrink: 0; }
 
-  /* Automation Items */
-  .auto-list { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
-  .auto-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 10px; }
-  .auto-status { font-size: 18px; flex-shrink: 0; }
-  .auto-name { font-size: 14px; font-weight: 600; color: #1D1D1F; }
-  .auto-detail { font-size: 12px; color: #6E6E73; margin-top: 1px; }
-  .status-live { background: #EDFAF3; border-color: #34C759; }
-  .status-pending { background: #FFF0F0; border-color: #FF3B30; }
-  .status-warn { background: #FFF8EC; border-color: #FF9F0A; }
+    /* ── Pipeline Funnel ── */
+    .funnel-wrap { margin-top: 14px; }
+    .funnel-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .funnel-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      width: 140px;
+      flex-shrink: 0;
+    }
+    .funnel-bar-wrap {
+      flex: 1;
+      height: 24px;
+      background: var(--surface);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .funnel-bar {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      min-width: 32px;
+      transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .funnel-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      width: 48px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .funnel-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #FF3B3008;
+      border: 1px solid #FF3B3025;
+      border-radius: 10px;
+    }
+    .funnel-stat { text-align: center; }
+    .funnel-stat-val { font-size: 20px; font-weight: 700; letter-spacing: -0.6px; }
+    .funnel-stat-lbl { font-size: 11px; color: var(--label); margin-top: 2px; }
 
-  /* Action Plan */
-  .action-list { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 8px; counter-reset: action-counter; }
-  .action-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 10px; counter-increment: action-counter; }
-  .action-num { min-width: 28px; height: 28px; background: #0071E3; color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
-  .action-text { font-size: 14px; font-weight: 500; color: #1D1D1F; line-height: 1.4; }
-  .action-priority { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
-  .priority-critical { background: #FFF0F0; color: #FF3B30; }
-  .priority-high { background: #FFF8EC; color: #FF9F0A; }
-  .priority-medium { background: #E8F3FF; color: #0071E3; }
+    /* ── Revenue Impact ── */
+    .revenue-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 600px) { .revenue-grid { grid-template-columns: 1fr 1fr; } }
+    .rev-card {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .rev-val {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      color: var(--text);
+    }
+    .rev-lbl {
+      font-size: 11px;
+      color: var(--label);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .rev-highlight {
+      grid-column: 1 / -1;
+      background: #FF3B3008;
+      border: 1px solid #FF3B3030;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .rev-highlight-val {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      color: var(--red);
+    }
+    .rev-highlight-lbl {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
 
-  /* Role Cards */
-  .role-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
-  .role-card { background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 16px; overflow: hidden; }
-  .role-card-header { padding: 20px 20px 16px; border-bottom: 1px solid #E5E5EA; }
-  .role-card-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
-  .role-card-title { font-size: 16px; font-weight: 700; color: #1D1D1F; }
-  .role-card-sub { font-size: 12px; color: #6E6E73; font-weight: 500; margin-top: 2px; }
-  .role-card-body { padding: 16px 20px; }
-  .role-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 1px solid #F2F2F7; }
-  .role-item:last-child { border-bottom: none; }
-  .role-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
-  .role-dot.blue { background: #0071E3; }
-  .role-dot.green { background: #34C759; }
-  .role-dot.amber { background: #FF9F0A; }
-  .role-text { font-size: 13px; color: #1D1D1F; line-height: 1.4; }
+    /* ── System Architecture ── */
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+    .arch-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .arch-box {
+      padding: 8px 12px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1.5px solid transparent;
+    }
+    .arch-box-ok    { background: #34C75912; border-color: #34C75935; color: #1D7A35; }
+    .arch-box-fail  { background: #FF3B3012; border-color: #FF3B3035; color: var(--red); }
+    .arch-box-warn  { background: #FF9F0A12; border-color: #FF9F0A35; color: #B06000; }
+    .arch-box-base  { background: var(--surface); border-color: var(--border); color: var(--text-secondary); }
+    .arch-status { font-size: 10px; font-weight: 600; color: var(--label); }
+    .arch-arrow {
+      font-size: 16px;
+      color: var(--border);
+      line-height: 1;
+      padding-top: 2px;
+    }
 
-  /* Story Box */
-  .story-box { background: #F2F2F7; border-radius: 16px; padding: 24px 28px; margin-bottom: 32px; border-left: 4px solid #0071E3; }
-  .story-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #0071E3; margin-bottom: 8px; }
-  .story-line { font-size: 17px; font-weight: 600; color: #1D1D1F; line-height: 1.5; margin-bottom: 6px; }
-  .story-line span { color: #FF3B30; }
-  .story-line span.blue { color: #0071E3; }
+    /* ── Resources ── */
+    .resource-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .resource-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--surface);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.1s;
+      cursor: pointer;
+    }
+    .resource-item:hover { background: var(--surface-2); }
+    .resource-icon-wrap {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .resource-body { flex: 1; }
+    .resource-name { font-size: 14px; font-weight: 600; }
+    .resource-desc { font-size: 12px; color: var(--label); margin-top: 2px; }
+    .resource-arrow { color: var(--label); font-size: 14px; }
 
-  /* Footer */
-  footer { border-top: 1px solid #E5E5EA; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
-  .footer-text { font-size: 12px; color: #AEAEB2; }
-</style>
+    /* ── Section divider / timestamp ── */
+    .section-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 10px 24px 0;
+    }
+    .section-meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+  </style>
 </head>
 <body>
 
-<!-- Site Header -->
-<header class="site-header">
-  <span class="logo">Franchise Ki Intelligence</span>
-  <div class="status-pill">
-    <span class="status-dot"></span>
-    LIVE — Lead Processing CC
-  </div>
-</header>
-
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-eyebrow">dashboard.franchiseki.com / lead-processing</div>
-  <h1 class="hero-title">Lead Processing<br>Command Center</h1>
-  <div class="hero-subtitle">Autonomous sales pipeline status — Project Advaita / Squirrel Sprint</div>
-  <div class="hero-meta">
-    <div class="hero-autonomy">
-      <span class="autonomy-label">Autonomy Level</span>
-      <div class="autonomy-bar"><div class="autonomy-fill"></div></div>
-      <span class="autonomy-value">22% 🔴 CRITICAL</span>
+<!-- ── Header ── -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">Lead Processing Command Center</div>
+      <div class="header-sub">GHL Location 14RD8KklxR9G4e0Rf7v2 · Leo WO ts 1778025041 · Updated May 5 2026</div>
     </div>
-    <span class="target-badge">Target: 60% in 30 days</span>
-  </div>
-</section>
-
-<!-- KPI Strip -->
-<div class="kpi-strip">
-  <div class="kpi-card">
-    <div class="kpi-number red">506</div>
-    <div class="kpi-label">Unassigned Leads</div>
-    <div class="kpi-sub">Going cold daily — no owner</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-number red">0.28%</div>
-    <div class="kpi-label">End-to-End Conversion</div>
-    <div class="kpi-sub">Industry avg: 2.3%</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-number red">31.9%</div>
-    <div class="kpi-label">SH Show Rate</div>
-    <div class="kpi-sub">Target: 70%</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-number red">20.3%</div>
-    <div class="kpi-label">IC Show Rate</div>
-    <div class="kpi-sub">Target: 70%</div>
+    <div class="header-meta">
+      <span class="pill pill-red"><span class="pill-dot"></span>CRITICAL</span>
+      <span class="pill pill-blue">FKI</span>
+    </div>
   </div>
 </div>
 
-<!-- Main Content -->
-<div class="content">
+<!-- ── L1 KPI Strip ── -->
+<div class="section-meta">
+  <span class="section-meta-label">Live KPIs</span>
+  <span class="pill pill-red"><span class="pill-dot"></span>4 of 4 below target</span>
+</div>
+<div class="kpi-strip">
+  <div class="kpi-card">
+    <div class="kpi-label">Autonomy Level</div>
+    <div class="kpi-value kpi-red">22%</div>
+    <div class="kpi-sub">Target 85% · Critical gap</div>
+    <span class="pill pill-red" style="width:fit-content;margin-top:4px"><span class="pill-dot"></span>CRITICAL</span>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Unassigned Leads</div>
+    <div class="kpi-value kpi-red">506</div>
+    <div class="kpi-sub">Going cold daily · No auto-assign</div>
+    <span class="pill pill-amber" style="width:fit-content;margin-top:4px"><span class="pill-dot"></span>BLEEDING</span>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Show Rate SH / IC</div>
+    <div class="kpi-value kpi-amber" style="font-size:24px;letter-spacing:-0.5px">31.9<span style="font-size:16px;font-weight:500">/</span>20.3<span style="font-size:16px;font-weight:500">%</span></div>
+    <div class="kpi-sub">Target 70% · No reminders deployed</div>
+    <span class="pill pill-amber" style="width:fit-content;margin-top:4px"><span class="pill-dot"></span>BELOW TARGET</span>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Leo WO Status</div>
+    <div class="kpi-value" style="font-size:20px;letter-spacing:-0.3px;color:var(--indigo)">Fix WO</div>
+    <div class="kpi-sub">ts 1778025041 · 5 items open</div>
+    <span class="pill pill-blue" style="width:fit-content;margin-top:4px;background:#5856D615;color:var(--indigo)"><span class="pill-dot"></span>IN QUEUE</span>
+  </div>
+</div>
 
-  <!-- Story for Outsiders -->
-  <div class="story-box">
-    <div class="story-eyebrow">For Outsiders — The One-Paragraph Brief</div>
-    <div class="story-line">The Problem: <span>1 in 357 leads becomes a signed franchise.</span></div>
-    <div class="story-line">The Fix: <span class="blue">Speed-to-lead under 60 seconds changes everything.</span></div>
-    <div class="story-line">We're wiring the autonomous salesforce now — <span>22% done, 60% target in 30 days.</span></div>
+<!-- ── Accordions ── -->
+<div class="accordion-wrap">
+
+  <!-- 1. Fix Priority Queue -->
+  <div class="accordion open" id="acc-fix">
+    <div class="accordion-header" onclick="toggleAccordion('acc-fix')">
+      <div class="accordion-title-group">
+        <div class="accordion-icon icon-red">🔧</div>
+        <span class="accordion-title">Fix Priority Queue</span>
+        <span class="accordion-badge">5 items</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="pill pill-red"><span class="pill-dot"></span>CRITICAL</span>
+        <span class="accordion-chevron">▼</span>
+      </div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="fix-list">
+          <div class="fix-item">
+            <div class="fix-rank rank-1">1</div>
+            <div class="fix-body">
+              <div class="fix-id">LP-07</div>
+              <div class="fix-name">Bulk-assign 506 unassigned leads</div>
+              <div class="fix-desc">Immediate triage — assign all cold leads in GHL pipeline before further decay. No tooling required, manual or Zap.</div>
+            </div>
+            <div class="fix-status"><span class="pill pill-red"><span class="pill-dot"></span>P0</span></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-rank rank-2">2</div>
+            <div class="fix-body">
+              <div class="fix-id">LP-02</div>
+              <div class="fix-name">Connect SynthFlow to GHL Location</div>
+              <div class="fix-desc">SynthFlow AI voice agent NOT connected to GHL 14RD8KklxR9G4e0Rf7v2. Wire inbound/outbound webhook + auth token.</div>
+            </div>
+            <div class="fix-status"><span class="pill pill-red"><span class="pill-dot"></span>P0</span></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-rank rank-3">3</div>
+            <div class="fix-body">
+              <div class="fix-id">LP-01</div>
+              <div class="fix-name">Wire Lead Scorer to GHL ContactCreate webhook</div>
+              <div class="fix-desc">FastAPI scoring service is LIVE at :8743 but not receiving GHL ContactCreate events. Add webhook endpoint + field mapping.</div>
+            </div>
+            <div class="fix-status"><span class="pill pill-amber"><span class="pill-dot"></span>P1</span></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-rank rank-4">4</div>
+            <div class="fix-body">
+              <div class="fix-id">LP-09</div>
+              <div class="fix-name">Deploy 3-Touch Reminder Sequences</div>
+              <div class="fix-desc">No automated reminder cadence exists. Build GHL Workflow: confirm → T-24h → T-1h SMS/email/voice for all booked appointments.</div>
+            </div>
+            <div class="fix-status"><span class="pill pill-amber"><span class="pill-dot"></span>P1</span></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-rank rank-5">5</div>
+            <div class="fix-body">
+              <div class="fix-id">LP-10</div>
+              <div class="fix-name">Deploy No-Show Rebook Automation</div>
+              <div class="fix-desc">No no-show recovery flow. Build GHL Workflow triggered on appointment-no-show status: 2-touch rebook SMS + call attempt within 2h.</div>
+            </div>
+            <div class="fix-status"><span class="pill pill-amber"><span class="pill-dot"></span>P1</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Accordion 1: Pipeline Funnel (auto-expanded) -->
-  <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">
-      <div class="accordion-header-left">
-        <div class="accordion-icon blue">📊</div>
+  <!-- 2. Pipeline Funnel -->
+  <div class="accordion" id="acc-funnel">
+    <div class="accordion-header" onclick="toggleAccordion('acc-funnel')">
+      <div class="accordion-title-group">
+        <div class="accordion-icon icon-blue">📊</div>
         <span class="accordion-title">Pipeline Funnel</span>
-        <span class="accordion-badge badge-red">0.28% vs 2.3% Industry</span>
+        <span class="accordion-badge">1,433 opps</span>
       </div>
-      <span class="accordion-chevron open">▼</span>
-    </div>
-    <div class="accordion-body open">
-      <table class="funnel-table">
-        <thead>
-          <tr>
-            <th>Stage</th>
-            <th>Count</th>
-            <th>Drop Rate</th>
-            <th>Signal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="stage-name">New Lead</span></td>
-            <td><span class="count-large">1,064</span></td>
-            <td>—</td>
-            <td>Top of funnel entry point</td>
-          </tr>
-          <tr>
-            <td><span class="stage-name">Interested</span></td>
-            <td><span class="count-large">125</span></td>
-            <td><span class="drop-badge drop-red">🔴 88% drop</span></td>
-            <td>Largest leak — no speed-to-lead</td>
-          </tr>
-          <tr>
-            <td><span class="stage-name">Intro Call (IC)</span></td>
-            <td><span class="count-large">139</span></td>
-            <td><span class="drop-badge drop-amber">↑ Slight recovery</span></td>
-            <td>Show rate only 20.3%</td>
-          </tr>
-          <tr>
-            <td><span class="stage-name">Territory Check</span></td>
-            <td><span class="count-large">58</span></td>
-            <td><span class="drop-badge drop-red">🔴 58% drop</span></td>
-            <td>Blocked states filtering out</td>
-          </tr>
-          <tr>
-            <td><span class="stage-name">Financial Review</span></td>
-            <td><span class="count-large">21</span></td>
-            <td><span class="drop-badge drop-red">🔴 64% drop</span></td>
-            <td>Liquidity qualification gate</td>
-          </tr>
-          <tr>
-            <td><span class="stage-name">Signed</span></td>
-            <td><span class="count-signed">3</span></td>
-            <td><span class="drop-badge drop-red">🔴 86% drop</span></td>
-            <td>Close rate improving</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="vs-row">
-        <div class="vs-item">
-          <div class="vs-label">Our Rate</div>
-          <div class="vs-value bad">0.28%</div>
-        </div>
-        <div class="vs-divider"></div>
-        <div class="vs-item">
-          <div class="vs-label">Industry Avg</div>
-          <div class="vs-value good">2.3%</div>
-        </div>
-        <div class="vs-divider"></div>
-        <div class="vs-item">
-          <div class="vs-label">Gap to Close</div>
-          <div class="vs-value bad">8.2x</div>
-        </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="pill pill-red">0.28% conversion</span>
+        <span class="accordion-chevron">▼</span>
       </div>
-    </div>
-  </div>
-
-  <!-- Accordion 2: Show Rate Dashboard -->
-  <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">
-      <div class="accordion-header-left">
-        <div class="accordion-icon red">📅</div>
-        <span class="accordion-title">Show Rate Dashboard</span>
-        <span class="accordion-badge badge-red">Both Metrics Critical</span>
-      </div>
-      <span class="accordion-chevron">▼</span>
     </div>
     <div class="accordion-body">
-      <div class="show-rate-grid">
-        <div class="show-rate-card">
-          <div class="show-rate-label">Strategy Session (SH)</div>
-          <div class="show-rate-value">31.9%</div>
-          <div class="show-rate-target">Target: 70% &nbsp;|&nbsp; Gap: 38.1 pts 🔴</div>
-          <div class="show-rate-bar"><div class="show-rate-fill" style="width:31.9%; background:#FF3B30;"></div></div>
-          <div style="font-size:11px;color:#AEAEB2;margin-top:8px;">Root cause: No 3-touch reminder workflows — they are unpublished</div>
-        </div>
-        <div class="show-rate-card">
-          <div class="show-rate-label">Intro Call (IC)</div>
-          <div class="show-rate-value">20.3%</div>
-          <div class="show-rate-target">Target: 70% &nbsp;|&nbsp; Gap: 49.7 pts 🔴</div>
-          <div class="show-rate-bar"><div class="show-rate-fill" style="width:20.3%; background:#FF3B30;"></div></div>
-          <div style="font-size:11px;color:#AEAEB2;margin-top:8px;">Root cause: 75% no-show — SynthFlow not connected, rebook workflows pending</div>
+      <div class="accordion-content">
+        <div class="funnel-wrap">
+          <div class="funnel-row">
+            <div class="funnel-label">Total Opps</div>
+            <div class="funnel-bar-wrap">
+              <div class="funnel-bar" style="width:100%;background:var(--blue)">1,433</div>
+            </div>
+            <div class="funnel-count">1,433</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-label">Appointments Set</div>
+            <div class="funnel-bar-wrap">
+              <div class="funnel-bar" style="width:8.7%;background:var(--indigo)">125</div>
+            </div>
+            <div class="funnel-count">125</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-label">Appointments Held</div>
+            <div class="funnel-bar-wrap">
+              <div class="funnel-bar" style="width:9.7%;background:#5AC8FA">139</div>
+            </div>
+            <div class="funnel-count">139</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-label">Discovery Done</div>
+            <div class="funnel-bar-wrap">
+              <div class="funnel-bar" style="width:4.0%;background:var(--amber)">58</div>
+            </div>
+            <div class="funnel-count">58</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-label">Proposal Sent</div>
+            <div class="funnel-bar-wrap">
+              <div class="funnel-bar" style="width:1.5%;background:#FF6B35">21</div>
+            </div>
+            <div class="funnel-count">21</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-label">Signed</div>
+            <div class="funnel-bar-wrap">
+              <div class="funnel-bar" style="width:0.28%;background:var(--red);min-width:36px">3</div>
+            </div>
+            <div class="funnel-count">3</div>
+          </div>
+          <div class="funnel-footer">
+            <div class="funnel-stat">
+              <div class="funnel-stat-val" style="color:var(--red)">0.28%</div>
+              <div class="funnel-stat-lbl">End-to-End Conversion</div>
+            </div>
+            <div style="color:var(--border);font-size:20px">vs</div>
+            <div class="funnel-stat">
+              <div class="funnel-stat-val" style="color:var(--green)">2.3%</div>
+              <div class="funnel-stat-lbl">Industry Benchmark</div>
+            </div>
+            <div style="color:var(--border);font-size:20px">=</div>
+            <div class="funnel-stat">
+              <div class="funnel-stat-val" style="color:var(--red)">8.2×</div>
+              <div class="funnel-stat-lbl">Below Industry</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Accordion 3: Automation Status -->
-  <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">
-      <div class="accordion-header-left">
-        <div class="accordion-icon amber">⚡</div>
-        <span class="accordion-title">Automation Status</span>
-        <span class="accordion-badge badge-amber">1 Live / 5 Pending</span>
+  <!-- 3. Revenue Impact -->
+  <div class="accordion" id="acc-rev">
+    <div class="accordion-header" onclick="toggleAccordion('acc-rev')">
+      <div class="accordion-title-group">
+        <div class="accordion-icon icon-red">💸</div>
+        <span class="accordion-title">Revenue Impact</span>
+        <span class="accordion-badge">at risk</span>
       </div>
-      <span class="accordion-chevron">▼</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="pill pill-red">$166,980 exposed</span>
+        <span class="accordion-chevron">▼</span>
+      </div>
     </div>
     <div class="accordion-body">
-      <ul class="auto-list">
-        <li class="auto-item status-live">
-          <span class="auto-status">✅</span>
-          <div>
-            <div class="auto-name">Lead Scorer FastAPI :8744</div>
-            <div class="auto-detail">LIVE — Scoring all inbound leads in real time</div>
+      <div class="accordion-content">
+        <div class="revenue-grid">
+          <div class="rev-card">
+            <div class="rev-val">506</div>
+            <div class="rev-lbl">Unassigned leads going cold</div>
           </div>
-        </li>
-        <li class="auto-item status-pending">
-          <span class="auto-status">🔴</span>
-          <div>
-            <div class="auto-name">Webhook to GHL</div>
-            <div class="auto-detail">PENDING — Connector not published; lead scores stuck in FastAPI, not routing to GHL</div>
+          <div class="rev-card">
+            <div class="rev-val">$330</div>
+            <div class="rev-lbl">CPAH IC (cost per acquired human / IC)</div>
           </div>
-        </li>
-        <li class="auto-item status-pending">
-          <span class="auto-status">🔴</span>
-          <div>
-            <div class="auto-name">SynthFlow AI Voice</div>
-            <div class="auto-detail">NOT CONNECTED — Speed-to-lead &lt;60s call capability offline</div>
+          <div class="rev-card">
+            <div class="rev-val">$166,980</div>
+            <div class="rev-lbl">Total pipeline value at risk</div>
           </div>
-        </li>
-        <li class="auto-item status-pending">
-          <span class="auto-status">🔴</span>
-          <div>
-            <div class="auto-name">3-Touch Reminder Workflows</div>
-            <div class="auto-detail">PENDING — Workflows exist but UNPUBLISHED. Root cause of 75% no-show rate</div>
+          <div class="rev-highlight">
+            <div>
+              <div class="rev-highlight-val">$166,980</div>
+              <div class="rev-highlight-lbl">506 leads × $330 CPAH IC = pipeline value bleeding daily without auto-assign</div>
+            </div>
+            <span class="pill pill-red"><span class="pill-dot"></span>IMMEDIATE ACTION REQUIRED</span>
           </div>
-        </li>
-        <li class="auto-item status-pending">
-          <span class="auto-status">🔴</span>
-          <div>
-            <div class="auto-name">No-Show Rebook Automation</div>
-            <div class="auto-detail">PENDING — No-shows fall into void; zero automated rebook sequence</div>
-          </div>
-        </li>
-        <li class="auto-item status-warn">
-          <span class="auto-status">⚠️</span>
-          <div>
-            <div class="auto-name">506 Unassigned Leads</div>
-            <div class="auto-detail">CRITICAL — Going cold daily with no owner assignment or follow-up</div>
-          </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Accordion 4: 30-Day Action Plan -->
-  <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">
-      <div class="accordion-header-left">
-        <div class="accordion-icon blue">🎯</div>
-        <span class="accordion-title">30-Day Action Plan — Sprint to 60% Autonomy</span>
-        <span class="accordion-badge badge-red">12 Items</span>
+  <!-- 4. System Architecture -->
+  <div class="accordion" id="acc-arch">
+    <div class="accordion-header" onclick="toggleAccordion('acc-arch')">
+      <div class="accordion-title-group">
+        <div class="accordion-icon icon-indigo">🏗️</div>
+        <span class="accordion-title">System Architecture</span>
+        <span class="accordion-badge">4 of 7 broken</span>
       </div>
-      <span class="accordion-chevron">▼</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="pill pill-amber">Partial</span>
+        <span class="accordion-chevron">▼</span>
+      </div>
     </div>
     <div class="accordion-body">
-      <ul class="action-list">
-        <li class="action-item"><span class="action-num">1</span><span class="action-text">Publish 3-Touch Reminder Workflows in GHL immediately — stops 75% no-show bleed <span class="action-priority priority-critical">CRITICAL</span></span></li>
-        <li class="action-item"><span class="action-num">2</span><span class="action-text">Connect SynthFlow to GHL — enable AI voice speed-to-lead &lt;60 seconds <span class="action-priority priority-critical">CRITICAL</span></span></li>
-        <li class="action-item"><span class="action-num">3</span><span class="action-text">Wire Webhook: FastAPI Lead Scorer :8744 → GHL pipeline routing <span class="action-priority priority-critical">CRITICAL</span></span></li>
-        <li class="action-item"><span class="action-num">4</span><span class="action-text">Assign all 506 unassigned leads to Bailey+Keith with auto-disposition queue <span class="action-priority priority-critical">CRITICAL</span></span></li>
-        <li class="action-item"><span class="action-num">5</span><span class="action-text">Build No-Show Rebook sequence: auto-text + 15-min rebook link within 5 min of missed call <span class="action-priority priority-high">HIGH</span></span></li>
-        <li class="action-item"><span class="action-num">6</span><span class="action-text">Deploy AI lead scoring live routing: A-tier leads get SynthFlow call in &lt;60s, B-tier get SMS <span class="action-priority priority-high">HIGH</span></span></li>
-        <li class="action-item"><span class="action-num">7</span><span class="action-text">Publish IC confirmation sequence: Day-of reminder + Zoom link at T-24h, T-1h, T-15min <span class="action-priority priority-high">HIGH</span></span></li>
-        <li class="action-item"><span class="action-num">8</span><span class="action-text">Build SH (Strategy Session) calendar automation — auto-confirm + Day-Of kit email <span class="action-priority priority-high">HIGH</span></span></li>
-        <li class="action-item"><span class="action-num">9</span><span class="action-text">Deploy blocked-state filter at lead intake — instant auto-reply for CT/IL/MN/WA/TX/NC/SC/FL/KY/ME/OR/UT <span class="action-priority priority-medium">MEDIUM</span></span></li>
-        <li class="action-item"><span class="action-num">10</span><span class="action-text">Wire GHL → Squirrel reporting pipeline for real-time KPI dashboard updates <span class="action-priority priority-medium">MEDIUM</span></span></li>
-        <li class="action-item"><span class="action-num">11</span><span class="action-text">Automate Financial pre-screen: send $150k liquidity qualifier survey before territory call <span class="action-priority priority-medium">MEDIUM</span></span></li>
-        <li class="action-item"><span class="action-num">12</span><span class="action-text">Stand up Weekly Autonomy Score Report — auto-email Bennett every Monday 8am MT <span class="action-priority priority-medium">MEDIUM</span></span></li>
-      </ul>
+      <div class="accordion-content">
+        <div class="arch-flow">
+          <div class="arch-node">
+            <div class="arch-box arch-box-ok">Lead Opt-in</div>
+            <div class="arch-status">✅ LIVE</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-box arch-box-ok">GHL Chatbot</div>
+            <div class="arch-status">✅ LIVE</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-box arch-box-fail">SynthFlow</div>
+            <div class="arch-status">❌ NOT CONNECTED</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-box arch-box-fail">Auto-Book</div>
+            <div class="arch-status">❌ NOT DEPLOYED</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-box arch-box-fail">Reminders</div>
+            <div class="arch-status">❌ NOT DEPLOYED</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-box arch-box-warn">Sam Score</div>
+            <div class="arch-status">⚠️ NOT WIRED</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-box arch-box-fail">Piper Update</div>
+            <div class="arch-status">❌ BLOCKED</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Accordion 5: Role Cards -->
-  <div class="accordion">
-    <div class="accordion-header" onclick="toggleAccordion(this)">
-      <div class="accordion-header-left">
-        <div class="accordion-icon purple">👥</div>
-        <span class="accordion-title">Role Cards — Who Does What</span>
-        <span class="accordion-badge badge-green">AI | Bennett | Team</span>
+  <!-- 5. Resources -->
+  <div class="accordion" id="acc-res">
+    <div class="accordion-header" onclick="toggleAccordion('acc-res')">
+      <div class="accordion-title-group">
+        <div class="accordion-icon icon-green">🔗</div>
+        <span class="accordion-title">Resources</span>
+        <span class="accordion-badge">3 links</span>
       </div>
-      <span class="accordion-chevron">▼</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="accordion-chevron">▼</span>
+      </div>
     </div>
     <div class="accordion-body">
-      <div class="role-cards">
-        <div class="role-card">
-          <div class="role-card-header" style="background:#F0F7FF;">
-            <span class="role-card-emoji">🤖</span>
-            <div class="role-card-title">Squirrel AI</div>
-            <div class="role-card-sub">Autonomous Layer — No Human Touch</div>
+      <div class="accordion-content">
+        <div class="resource-list">
+          <div class="resource-item">
+            <div class="resource-icon-wrap" style="background:#FF9F0A15">📋</div>
+            <div class="resource-body">
+              <div class="resource-name">Leo Work Order — ts 1778025041</div>
+              <div class="resource-desc">LP-07 bulk-assign · LP-02 SynthFlow · LP-01 Scorer · LP-09 reminders · LP-10 rebook</div>
+            </div>
+            <div class="resource-arrow">›</div>
           </div>
-          <div class="role-card-body">
-            <div class="role-item"><span class="role-dot blue"></span><span class="role-text">Lead scoring and A/B/C tier assignment via FastAPI :8744</span></div>
-            <div class="role-item"><span class="role-dot blue"></span><span class="role-text">SynthFlow speed-to-lead call &lt;60 seconds (when connected)</span></div>
-            <div class="role-item"><span class="role-dot blue"></span><span class="role-text">3-touch reminder sequences — SMS + email + voicemail</span></div>
-            <div class="role-item"><span class="role-dot blue"></span><span class="role-text">No-show rebook outreach — auto-trigger within 5 min</span></div>
-            <div class="role-item"><span class="role-dot blue"></span><span class="role-text">Blocked state filtering and instant rejection response</span></div>
-            <div class="role-item"><span class="role-dot blue"></span><span class="role-text">Weekly KPI reports and anomaly alerts to Bennett</span></div>
+          <div class="resource-item">
+            <div class="resource-icon-wrap" style="background:#34C75915">📄</div>
+            <div class="resource-body">
+              <div class="resource-name">Autonomous Salesforce Skill — Drive Doc</div>
+              <div class="resource-desc">Architecture reference, webhook specs, GHL field mappings</div>
+            </div>
+            <div class="resource-arrow">›</div>
           </div>
-        </div>
-        <div class="role-card">
-          <div class="role-card-header" style="background:#EDFAF3;">
-            <span class="role-card-emoji">👔</span>
-            <div class="role-card-title">Bennett</div>
-            <div class="role-card-sub">Gates Only — Calls + Close</div>
-          </div>
-          <div class="role-card-body">
-            <div class="role-item"><span class="role-dot green"></span><span class="role-text">Strategy Session (SH) — franchise match presentation</span></div>
-            <div class="role-item"><span class="role-dot green"></span><span class="role-text">Financial review gate — liquidity and fit qualification</span></div>
-            <div class="role-item"><span class="role-dot green"></span><span class="role-text">Discovery Day coordination with franchisor</span></div>
-            <div class="role-item"><span class="role-dot green"></span><span class="role-text">FDD review guidance and Item 19 walk-through</span></div>
-            <div class="role-item"><span class="role-dot green"></span><span class="role-text">Signing ceremony and onboarding handoff</span></div>
-            <div class="role-item"><span class="role-dot green"></span><span class="role-text">Exception handling — escalations from AI</span></div>
-          </div>
-        </div>
-        <div class="role-card">
-          <div class="role-card-header" style="background:#FFF8EC;">
-            <span class="role-card-emoji">🎯</span>
-            <div class="role-card-title">Bailey + Keith</div>
-            <div class="role-card-sub">Dispositions + Show Up</div>
-          </div>
-          <div class="role-card-body">
-            <div class="role-item"><span class="role-dot amber"></span><span class="role-text">Intro Call (IC) — first human touchpoint after AI qualifier</span></div>
-            <div class="role-item"><span class="role-dot amber"></span><span class="role-text">Lead disposition: Interested / Not Fit / Reschedule</span></div>
-            <div class="role-item"><span class="role-dot amber"></span><span class="role-text">Territory discovery conversation — state + city fit</span></div>
-            <div class="role-item"><span class="role-dot amber"></span><span class="role-text">506 unassigned lead outreach queue ownership</span></div>
-            <div class="role-item"><span class="role-dot amber"></span><span class="role-text">No-show personal follow-up (if AI rebook fails)</span></div>
-            <div class="role-item"><span class="role-dot amber"></span><span class="role-text">GHL stage updates and pipeline hygiene</span></div>
+          <div class="resource-item">
+            <div class="resource-icon-wrap" style="background:#007AFF15">⚙️</div>
+            <div class="resource-body">
+              <div class="resource-name">GHL Pipeline — Location 14RD8KklxR9G4e0Rf7v2</div>
+              <div class="resource-desc">1,433 opportunities · 0.28% end-to-end conversion · 506 unassigned</div>
+            </div>
+            <div class="resource-arrow">›</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-</div><!-- /content -->
-
-<footer>
-  <span class="footer-text">Lead Processing Command Center &nbsp;|&nbsp; Project Advaita / Squirrel Sprint &nbsp;|&nbsp; Updated 2026-05-05</span>
-  <span class="footer-text">Franchise Ki Intelligence &nbsp;|&nbsp; dashboard.franchiseki.com/lead-processing/</span>
-</footer>
+</div>
 
 <script>
-function toggleAccordion(header) {
-  const body = header.nextElementSibling;
-  const chevron = header.querySelector('.accordion-chevron');
-  body.classList.toggle('open');
-  chevron.classList.toggle('open');
-}
+  function toggleAccordion(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
 </script>
-
 </body>
 </html>
