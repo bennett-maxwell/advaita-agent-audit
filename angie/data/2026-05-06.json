@@ -1,6 +1,7 @@
 {
   "date": "2026-05-06",
   "generated_at": "2026-05-06T07:00:00-06:00",
+  "ntfy_topic": "fki-angie-3311333518714776",
   "summary": {
     "total_audits": 14,
     "red": 5,
@@ -13,16 +14,16 @@
   },
   "waiting_on_bennett": [
     {
-      "item": "Google Ads advertiser verification \u2014 deadline MAY 13, phone confirmation needed at ads.google.com (CID 340-719-9643)",
-      "id": "GATE-001 / Sprint 357cf5...be900"
+      "item": "Google Ads advertiser verification \u2014 MAY 13 deadline. Phone confirmation at ads.google.com (CID 340-719-9643)",
+      "id": "GATE-001"
     },
     {
-      "item": "GHL PIT token expired (403) \u2014 renew at app.crmx.app > Settings > Private Integrations then text to Leo",
-      "id": "GATE-002 / attribution-daily.py line 32"
+      "item": "GHL PIT token expired (403) \u2014 renew at app.crmx.app > Settings > Private Integrations, text new token to Leo",
+      "id": "GATE-002"
     },
     {
       "item": "Legal: CFP Default Certificate \u2014 filing deadline MAY 27. Contact Justin/Ron at Heideman law.",
-      "id": "GATE-003 / Sprint 34fc...4a8d"
+      "id": "GATE-003"
     }
   ],
   "findings": [
@@ -32,8 +33,8 @@
       "name": "IC Meta Ads CPL Crisis",
       "severity": "red",
       "status": "in_progress",
-      "finding": "Investor Headlines v1.1 adset spending $76/lead vs $45 target \u2014 wrong creative angle for community-hub IC buyer. $1,296 wasted last 7 days.",
-      "recommended_fix": "Leo WO ts 1777986496 in flight to upload community-hub creative + pause Investor Headlines when new adset < $60 CPL."
+      "finding": "Investor Headlines v1.1 running $76/lead vs $45 target. $1,296 wasted last 7 days. Wrong angle for community-hub buyer.",
+      "recommended_fix": "Leo WO ts 1777986496 in flight \u2014 upload community-hub creative, parallel test, pause when new adset hits <$60 CPL."
     },
     {
       "id": "F002",
@@ -41,8 +42,8 @@
       "name": "Lead Processing 22% Autonomy",
       "severity": "red",
       "status": "in_progress",
-      "finding": "506 unassigned leads going cold. SynthFlow NOT connected to GHL. Speed-to-lead > 30 minutes vs <60 second target.",
-      "recommended_fix": "Leo WO ts 1778019989 dispatched for 16 CLI tasks. SynthFlow + GHL wiring is critical path to 70%+ autonomy."
+      "finding": "506 unassigned leads going cold. SynthFlow NOT connected to GHL. Speed-to-lead >30 min vs <60 sec target.",
+      "recommended_fix": "Leo WO ts 1778019989 has 16 CLI tasks including SynthFlow + GHL wiring. Critical path to 70%+ autonomy."
     },
     {
       "id": "F003",
@@ -51,17 +52,17 @@
       "severity": "red",
       "status": "blocked",
       "finding": "FACEBOOK_ACCESS_TOKEN expired Apr 30. Campaigns running blind. CPL kill switch dormant.",
-      "recommended_fix": "Meta Business Manager > System Users > generate new token > forward to Leo for ~/.env update.",
-      "blocked_reason": "Requires Meta Business Manager access \u2014 Leo browser WO in flight"
+      "recommended_fix": "Meta Business Manager > System Users > generate new token > Leo updates ~/.env.",
+      "blocked_reason": "Browser automation WO in flight via Leo"
     },
     {
       "id": "F004",
-      "type": "agent",
+      "type": "project",
       "name": "Google Ads $500 Credit",
       "severity": "red",
       "status": "open",
-      "finding": "MAY 7 deadline \u2014 $500 promotional credit requires $500 ad spend by tomorrow to claim. CID 340-719-9643.",
-      "recommended_fix": "Bennett or Leo must log into ads.google.com and launch a campaign today."
+      "finding": "MAY 7 TOMORROW \u2014 $500 promotional credit requires $500 ad spend to claim. CID 340-719-9643.",
+      "recommended_fix": "Log into ads.google.com and launch a campaign TODAY to claim the credit."
     },
     {
       "id": "F005",
@@ -69,107 +70,107 @@
       "name": "Cash Runway 5.2 Weeks",
       "severity": "red",
       "status": "open",
-      "finding": "Zero-deal runway is 5.2 weeks. Weekly burn $7,659. Two zero-deal months = negative cash by July.",
-      "recommended_fix": "Prioritize closing 1 deal this week. Pipeline: 1,433 opps, 125 Interested, 3 signed (0.28% conversion)."
+      "finding": "Zero-deal runway is 5.2 weeks. Weekly burn $7,659. Two zero-deal months = negative by July.",
+      "recommended_fix": "Close 1 deal this week. 1,433 opps in pipeline, 3 signed (0.28% conversion). Activate speed-to-lead."
     },
     {
       "id": "F006",
       "type": "project",
-      "name": "LinkedIn Recovery Period",
+      "name": "LinkedIn Recovery",
       "severity": "yellow",
       "status": "in_progress",
-      "finding": "Account in 24-48hr recovery after 4-posts-in-10-min incident on May 5. Next eligible post: Wed May 7 7:30 AM MDT.",
-      "recommended_fix": "DIY Skill post scheduled May 7 7:30 AM. 4-3-2-1 framework resumes: 4 posts/week Tue-Fri."
+      "finding": "Account in recovery after 4-posts-in-10-min incident May 5. Next post: Wed May 7 7:30 AM MDT.",
+      "recommended_fix": "DIY Skill post queued May 7 7:30 AM. 4-3-2-1 resumes: 4 posts/week Tue-Fri."
     },
     {
       "id": "F007",
       "type": "skill",
-      "name": "Hub-data.json Not Live",
+      "name": "Hub KPIs Stale",
       "severity": "yellow",
       "status": "in_progress",
-      "finding": "Leo WO ts 1778015056 in flight to wire hub-data.json live refresh from Pulse. Hub KPIs still showing cached values from Day 2.",
-      "recommended_fix": "Wait for Leo WO ts 1778015056 to complete. Verify hub-data.json updates at next Pulse cycle."
+      "finding": "Leo WO ts 1778015056 in flight to wire hub-data.json live refresh from Pulse. KPIs showing cached values.",
+      "recommended_fix": "Verify Leo WO ts 1778015056 complete. hub-data.json should update at each Pulse cycle."
     },
     {
       "id": "F008",
       "type": "project",
-      "name": "15 LinkedIn Posts Ready",
+      "name": "15 Posts Ready",
       "severity": "green",
       "status": "fixed",
-      "finding": "15 council-approved posts (4.24/5) queued: 5 LinkedIn May 7-9 + 3 voice showcase + AI Daily Briefing + 5 IC/SH brand posts.",
-      "recommended_fix": "None needed. Christelle scheduling via Metricool. First post May 7 7:30 AM MDT."
+      "finding": "15 council-approved posts (4.24/5) queued: 5 LinkedIn May 7-9 + voice showcase + brand posts.",
+      "recommended_fix": "None needed. Christelle scheduling. First post May 7 7:30 AM MDT."
     }
   ],
   "questions": [
     {
       "id": 1,
       "theme": "LEAD PROCESSING \u2014 URGENT",
-      "question": "506 leads unassigned + SynthFlow not connected. Leo WO in flight. What's your priority signal for this week?",
+      "question": "506 leads unassigned + SynthFlow not connected. Leo WO in flight. What's your priority signal?",
       "options": {
         "A": "SynthFlow + GHL wiring is #1 \u2014 block everything else until done",
-        "B": "Keep it moving but don't block other sprints",
-        "C": "Manually assign the 506 leads to Bailey/Keith first, then wire SynthFlow",
+        "B": "Keep moving but don't block other sprints",
+        "C": "Manually assign 506 leads to Bailey/Keith first, then wire SynthFlow",
         "D": "Hold \u2014 review pipeline quality before auto-assigning"
       },
       "recommended": "A",
-      "rationale": "Lead Processing at 22% is the biggest autonomy gap. Every day of delay = cold leads losing conversion probability by 80%.",
-      "advaita_alignment": "Lead Processing 22% -> 70%+ is the single biggest Advaita autonomy unlock"
+      "rationale": "Lead Processing at 22% is the biggest autonomy gap. Every day of delay = cold leads losing 80% conversion probability.",
+      "advaita_alignment": "Lead Processing 22% \u2192 70%+ is the single biggest Advaita unlock"
     },
     {
       "id": 2,
       "theme": "META ADS \u2014 IC CPL CRISIS",
-      "question": "IC Investor Headlines adset at $76/lead (target $45). New community-hub creative ready. What's your call?",
+      "question": "IC 'Investor Headlines' adset at $76/lead (target $45). New community-hub creative ready. Call?",
       "options": {
         "A": "Pause Investor Headlines immediately \u2014 stop the bleeding now",
-        "B": "Run both in parallel for 48hrs then decide",
+        "B": "Run both in parallel 48hrs then decide",
         "C": "Kill IC ads entirely until creative is proven",
         "D": "Reduce IC budget 50% while testing new creative"
       },
       "recommended": "B",
-      "rationale": "Leo WO ts 1777986496 already sets up parallel test. Pausing immediately risks losing momentum; parallel 48hr test gives data before full kill.",
-      "advaita_alignment": "Lead Acquisition \u2014 IC CPL needs to hit <$50 to scale the funnel"
+      "rationale": "Leo WO ts 1777986496 already sets up parallel test. Pausing immediately risks losing momentum; 48hr data tells us if new creative works.",
+      "advaita_alignment": "Lead Acquisition \u2014 IC CPL must hit <$50 to scale funnel"
     },
     {
       "id": 3,
       "theme": "CASH RUNWAY \u2014 CRITICAL",
-      "question": "5.2 weeks zero-deal runway. What's the #1 action to close deals faster this week?",
+      "question": "5.2 weeks zero-deal runway. What's the #1 deal-acceleration move this week?",
       "options": {
-        "A": "Daily pipeline review with Bailey/Keith \u2014 hold them accountable on Discovery Day conversions",
-        "B": "Activate SynthFlow speed-to-lead so hot leads get called in 60 seconds",
-        "C": "Run a re-engagement campaign on the 21 Financial Review and 12 Biz Plan leads",
-        "D": "All of the above simultaneously"
+        "A": "Daily pipeline review \u2014 Bailey/Keith accountability on Discovery Day conversions",
+        "B": "SynthFlow speed-to-lead \u2014 first call within 60 seconds of opt-in",
+        "C": "Re-engage 21 Financial Review + 12 Biz Plan near-close leads",
+        "D": "All three simultaneously"
       },
       "recommended": "D",
-      "rationale": "5.2 weeks is critical. Each track attacks a different bottleneck: speed-to-lead fixes top-of-funnel, re-engagement targets near-close leads, accountability drives close rate.",
-      "advaita_alignment": "Financial Control \u2014 runway survival requires pipeline velocity this week"
+      "rationale": "5.2 weeks is critical. Each track hits a different bottleneck: speed-to-lead = top funnel, re-engage = near-close, accountability = close rate.",
+      "advaita_alignment": "Financial Control \u2014 runway survival requires pipeline velocity now"
     },
     {
       "id": 4,
       "theme": "GOOGLE ADS \u2014 DEADLINE TOMORROW",
-      "question": "$500 Google Ads promo credit expires MAY 7 (tomorrow). Advertiser verification also due May 13. What do you want Leo to do?",
+      "question": "$500 Google Ads credit expires MAY 7 (tomorrow). What's the play?",
       "options": {
-        "A": "Leo browser-use to start a franchise consultant Google Ads campaign today to claim the credit",
-        "B": "I'll handle it myself at ads.google.com \u2014 block 10 min tonight",
-        "C": "Skip the credit \u2014 not worth the distraction",
-        "D": "Ask Kay to handle the phone verification step, Leo handles the campaign"
+        "A": "Leo browser-use to launch a franchise consultant campaign today to claim it",
+        "B": "I'll log in tonight at ads.google.com \u2014 block 10 minutes",
+        "C": "Skip it \u2014 not worth the distraction",
+        "D": "Kay handles the phone verification, Leo handles the campaign"
       },
       "recommended": "A",
-      "rationale": "$500 free ad credit is worth capturing. Leo can set up a basic franchise keyword campaign via browser-use. Verification just needs phone confirm \u2014 not biometric.",
-      "advaita_alignment": "Lead Acquisition \u2014 Google Ads adds a non-Meta lead channel for IC/SH/FKI"
+      "rationale": "$500 free credit is worth 10 leads. Leo can set up a basic franchise keyword campaign via browser-use. Verification is phone-only \u2014 not biometric.",
+      "advaita_alignment": "Lead Acquisition \u2014 Google Ads adds a non-Meta channel for IC/SH/FKI"
     },
     {
       "id": 5,
-      "theme": "CONTENT \u2014 PERSONAL BRAND",
-      "question": "LinkedIn recovery ends tomorrow. 15 posts ready. What cadence do you want for the next 7 days?",
+      "theme": "CONTENT \u2014 LINKEDIN RECOVERY",
+      "question": "LinkedIn recovery ends tomorrow. 15 posts ready. Cadence for next 7 days?",
       "options": {
-        "A": "Stick to the 4-3-2-1 plan: 1 post/day Tue-Fri at 7:30 AM or 12 PM MDT",
+        "A": "4-3-2-1 plan: 1 post/day Tue-Fri at 7:30 AM or 12 PM MDT",
         "B": "2 posts/day to make up for the recovery gap",
-        "C": "Post only the 5 scheduled LinkedIn posts, hold the rest",
+        "C": "Post only the 5 scheduled posts, hold the rest",
         "D": "Skip this week \u2014 focus on deals not content"
       },
       "recommended": "A",
-      "rationale": "4-3-2-1 framework (4 posts/week, 3 pillars, 2 audiences, 1 lead magnet) was council-verified 4.46/5. Rushing post-recovery risks algorithm penalty.",
-      "advaita_alignment": "Sales Intelligence \u2014 LinkedIn is the primary organic funnel for AI Franchise Kit"
+      "rationale": "4-3-2-1 (4 posts/week, 3 pillars, 2 audiences, 1 lead magnet) was council-verified 4.46/5. Rushing post-recovery risks algorithm penalty.",
+      "advaita_alignment": "Sales Intelligence \u2014 LinkedIn is the primary organic AI Franchise Kit funnel"
     }
   ]
 }
