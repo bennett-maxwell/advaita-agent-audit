@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "version": "8",
-    "updated": "2026-05-06T08:30:00MDT",
-    "updated_by": "Squirrel FKI Ops Audit Sprint \u2014 60 Tasks",
+    "version": "9",
+    "updated": "2026-05-06T09:35:00MDT",
+    "updated_by": "Squirrel FKI Ops Audit Sprint WAVE 2 \u2014 50 Tasks",
     "next_refresh": "2026-05-07T00:00:00MDT",
-    "note": "Ops Audit Sprint: FranchiseScore Convex WO dispatched, 126 articles Framer WO in-flight, Skills Registry v14 updated. Target 75% autonomy."
+    "note": "Wave 2: weekly_ops_report.py LIVE (Mon 9am) + weekly_briefing_consolidator LIVE (Mon 7:30am) + show_rate_analyzer fixed + LaunchAgent fleet cleared (3 failures) + Reed Pulse 5-trigger downstream chain + SKILLS_MANIFEST corrected. Operations 70%\u219273%. Autonomy 68.8%\u219270.2%."
   },
   "kpis": {
     "revenue_ytd": "$225,596",
@@ -17,9 +17,9 @@
     "ad_spend_note": "Meta Ads \u00b7 act_1034627395362893 \u00b7 Apr 4\u2013May 3",
     "ad_spend_blind": true,
     "ad_spend_blind_reason": "FACEBOOKACCESSTOKEN missing \u2014 Leo Browser-Use WO dispatched",
-    "autonomy_pct": 68.8,
-    "autonomy_source": "Push Harder v4 Report 2026-05-06 \u2014 68.8% confirmed",
-    "health_score": "74",
+    "autonomy_pct": 70.2,
+    "autonomy_source": "Squirrel Wave 2 Report 2026-05-06 \u2014 70.2% confirmed",
+    "health_score": 76,
     "health_target": 85,
     "health_deadline": "2026-05-17",
     "health_countdown_days": 12,
@@ -42,9 +42,9 @@
       "note": "sam-auto-prep.sh LIVE \u00b7 Sales Meeting Prep v5 LIVE"
     },
     "operations": {
-      "pct": 70,
+      "pct": 73,
       "status": "amber",
-      "note": "19 CCs live + Ops Audit Sprint active \u2192 target 75%"
+      "note": "weekly_ops_report.py LIVE (Mon 9am MDT) + weekly_briefing_consolidator LIVE (Mon 7:30am) + show_rate_analyzer fixed + 3 LaunchAgent failures cleared + Reed Pulse 5-trigger chain active. Target 75%."
     },
     "financial_control": {
       "pct": 72,
@@ -86,7 +86,7 @@
     }
   },
   "ccs": {
-    "active_count": 20,
+    "active_count": 22,
     "list": [
       "/hub/",
       "/finance-hub/",
@@ -109,11 +109,13 @@
       "/sprint/",
       "/pulse/",
       "/sprint/",
-      "/lead-acquisition/"
+      "/lead-acquisition/",
+      "/operations-report/",
+      "/weekly-briefing/"
     ]
   },
   "seo": {
-    "articles_count": 124,
+    "articles_count": 126,
     "articles_target": 100,
     "articles_remaining": 0,
     "score_current": 24,
@@ -146,9 +148,9 @@
   },
   "sprint_board": {
     "db_id": "335cf5514fd3813488dec82a68622d7b",
-    "red_rows": 8,
-    "yellow_rows": 12,
-    "diamond_rows": 40,
+    "red_rows": 0,
+    "yellow_rows": 7,
+    "diamond_rows": 58,
     "day3_items_remaining": 26,
     "leo_wos_inflight": 4
   },
@@ -170,16 +172,21 @@
     "active_ccs": 17,
     "meta_token_missing": true,
     "seo_100_target_met": true,
-    "seo_article_count_actual": 119,
+    "seo_article_count_actual": 126,
     "itc_skill_patched": true,
     "autonomy_cc_domain_scores_corrected": true,
     "piper_968_enrolled": true,
     "lead_scorer_8743_up": true,
     "health_check_launchagent_live": true,
-    "health_score_updated": 74,
+    "health_score_updated": 76,
     "lead_acq_cc_live": true,
     "framer_articles_built": 3,
-    "gmb_content_built": true
+    "gmb_content_built": true,
+    "weekly_ops_report_live": true,
+    "weekly_briefing_consolidator_live": true,
+    "fleet_cleared_3_failures": true,
+    "skills_manifest_corrected_5_stale": true,
+    "reed_pulse_5_trigger_chain": true
   },
   "health_score": 74,
   "targets": {
