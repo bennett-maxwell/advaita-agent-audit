@@ -1,25 +1,25 @@
 {
-  "updated": "2026-05-05T22:00:01.579440Z",
+  "updated": "2026-05-06T02:00:01.609153Z",
   "window_days": 30,
   "demo_mode": false,
   "kpis": {
-    "total_spend": 8117,
+    "total_spend": 8133,
     "total_leads": 376,
-    "blended_cpl": 21.59,
-    "ic_spend": 4275,
+    "blended_cpl": 21.63,
+    "ic_spend": 4291,
     "ic_leads": 194,
-    "ic_cpl": 22.04,
+    "ic_cpl": 22.12,
     "ic_booked": 60,
     "ic_showed": 14,
     "ic_show_pct": 23.3,
     "ic_revenue": 21000,
-    "ic_roas": 4.91,
+    "ic_roas": 4.89,
     "sh_spend": 3841,
     "sh_leads": 182,
     "sh_cpl": 21.11,
-    "sh_booked": 44,
+    "sh_booked": 43,
     "sh_showed": 11,
-    "sh_show_pct": 25.0,
+    "sh_show_pct": 25.6,
     "sh_revenue": 25000,
     "sh_roas": 6.51,
     "fki_revenue": 70386,
@@ -32,9 +32,9 @@
       "meta_snapshot": [
         {
           "brand": "IC",
-          "spend": 4275,
+          "spend": 4291,
           "leads": 194,
-          "cpl": 22.04,
+          "cpl": 22.12,
           "show_pct": 23.3,
           "booked": 60
         },
@@ -43,8 +43,8 @@
           "spend": 3841,
           "leads": 182,
           "cpl": 21.11,
-          "show_pct": 25.0,
-          "booked": 44
+          "show_pct": 25.6,
+          "booked": 43
         }
       ]
     },
