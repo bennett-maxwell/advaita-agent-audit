@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Angie — Audit Command Center</title>
+  <title>Angie &#8212; Audit Command Center</title>
   <style>
     :root {
       --bg:        #0d0f14;
@@ -32,8 +32,6 @@
       padding-bottom: 100px;
       -webkit-font-smoothing: antialiased;
     }
-
-    /* ── Header ── */
     .header {
       background: linear-gradient(135deg, #1a1f2e 0%, #12161f 100%);
       padding: 52px 20px 16px;
@@ -51,8 +49,6 @@
       padding: 3px 8px; border-radius: 20px;
       letter-spacing: 0.5px; white-space: nowrap;
     }
-
-    /* ── Date nav ── */
     .date-nav {
       display: flex; align-items: center; justify-content: center;
       gap: 12px; padding: 12px 20px 10px;
@@ -78,8 +74,6 @@
       padding: 4px 10px; border-radius: 8px;
       border: none; cursor: pointer;
     }
-
-    /* ── Summary cards ── */
     .summary-row {
       display: flex; gap: 8px; padding: 14px 16px 8px;
       overflow-x: auto; scrollbar-width: none;
@@ -101,8 +95,6 @@
     .stat-card.green  .val { color: var(--green); }
     .stat-card.blue   .val { color: var(--accent); }
     .stat-card.purple .val { color: var(--purple); }
-
-    /* ── Sections ── */
     .section { padding: 0 16px 4px; }
     .section-title {
       font-size: 12px; font-weight: 700; color: var(--muted);
@@ -114,8 +106,6 @@
       font-size: 10px; font-weight: 700;
       padding: 2px 8px; border-radius: 20px; font-feature-settings: 'tnum';
     }
-
-    /* ── Finding cards ── */
     .finding-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 14px;
@@ -152,8 +142,6 @@
     .sev-red    { background: var(--red); box-shadow: 0 0 6px var(--red); }
     .sev-yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
     .sev-green  { background: var(--green); }
-
-    /* ── Bennett gates ── */
     .gate-card {
       background: #1a0d0d; border: 1px solid #5a1a1a;
       border-radius: var(--radius); padding: 14px;
@@ -162,8 +150,6 @@
     .gate-icon { font-size: 18px; flex-shrink: 0; }
     .gate-text { font-size: 13px; font-weight: 600; }
     .gate-id { font-size: 10px; color: var(--muted); margin-top: 2px; font-family: 'SF Mono', monospace; }
-
-    /* ── Questions ── */
     .q-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 16px;
@@ -206,11 +192,7 @@
       line-height: 1.5; display: none;
     }
     .q-rationale.show { display: block; }
-
-    /* ── Comment box ── */
-    .comment-section {
-      padding: 0 16px; margin-bottom: 12px;
-    }
+    .comment-section { padding: 0 16px; margin-bottom: 12px; }
     .comment-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
     .comment-box {
       width: 100%; background: var(--card); border: 1px solid var(--border);
@@ -219,8 +201,6 @@
       min-height: 70px; outline: none;
     }
     .comment-box:focus { border-color: var(--accent); }
-
-    /* ── Submit ── */
     .submit-section { padding: 0 16px 16px; }
     .submit-btn {
       width: 100%; padding: 16px;
@@ -233,18 +213,27 @@
     .submit-btn:hover { opacity: 0.9; }
     .submit-btn:disabled { opacity: 0.4; cursor: default; }
     .submit-btn.sent { background: linear-gradient(135deg, var(--green) 0%, #16a34a 100%); }
-
-    /* ── No data ── */
-    .no-data {
-      text-align: center; padding: 60px 20px;
-      color: var(--muted); font-size: 14px;
+    .fallback-box {
+      margin-top: 12px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 12px;
     }
+    .fallback-label {
+      font-size: 10px; color: var(--yellow); font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+    }
+    .fallback-textarea {
+      width: 100%; background: transparent; border: none;
+      color: var(--text); font-size: 11px; font-family: 'SF Mono', monospace;
+      resize: vertical; min-height: 120px; outline: none; line-height: 1.6;
+    }
+    .copy-btn {
+      margin-top: 8px; width: 100%; padding: 10px;
+      background: var(--yellow); color: #000; font-size: 13px; font-weight: 700;
+      border: none; border-radius: 10px; cursor: pointer; font-family: var(--font);
+    }
+    .no-data { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 14px; }
     .no-data-icon { font-size: 48px; margin-bottom: 12px; }
-
-    /* ── Loading ── */
     .loading { text-align: center; padding: 40px; color: var(--muted); }
-
-    /* ── Toast ── */
     .toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
       background: var(--green); color: #fff;
@@ -262,7 +251,7 @@
 <div class="header">
   <div class="header-row">
     <div>
-      <h1>🔍 <span>Angie</span> Audit</h1>
+      <h1>&#127885; <span>Angie</span> Audit</h1>
       <div class="header-sub" id="header-sub">Loading...</div>
     </div>
     <div class="live-badge">DAILY BRIEF</div>
@@ -270,9 +259,9 @@
 </div>
 
 <div class="date-nav">
-  <button class="date-btn" id="btn-prev" onclick="changeDate(-1)">‹</button>
-  <span class="date-label" id="date-label">—</span>
-  <button class="date-btn" id="btn-next" onclick="changeDate(1)" disabled>›</button>
+  <button class="date-btn" id="btn-prev" onclick="changeDate(-1)">&#8249;</button>
+  <span class="date-label" id="date-label">&#8212;</span>
+  <button class="date-btn" id="btn-next" onclick="changeDate(1)" disabled>&#8250;</button>
   <button class="today-btn" onclick="goToday()">Today</button>
 </div>
 
@@ -283,13 +272,11 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────────────
-let currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+let currentDate = new Date().toISOString().split('T')[0];
 let currentData = null;
-let answers = {}; // {qId: 'A'|'B'|'C'|'D'}
+let answers = {};
 let submitted = false;
 
-// ── Date helpers ──────────────────────────────────────────────────────────────
 function fmtDate(d) {
   const dt = new Date(d + 'T12:00:00');
   return dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
@@ -299,29 +286,23 @@ function addDays(d, n) {
   dt.setDate(dt.getDate() + n);
   return dt.toISOString().split('T')[0];
 }
-function isToday(d) {
-  return d === new Date().toISOString().split('T')[0];
-}
+function isToday(d) { return d === new Date().toISOString().split('T')[0]; }
 
 function changeDate(delta) {
   currentDate = addDays(currentDate, delta);
-  answers = {};
-  submitted = false;
+  answers = {}; submitted = false;
   loadDate(currentDate);
 }
 function goToday() {
   currentDate = new Date().toISOString().split('T')[0];
-  answers = {};
-  submitted = false;
+  answers = {}; submitted = false;
   loadDate(currentDate);
 }
 
-// ── Data loading ──────────────────────────────────────────────────────────────
 async function loadDate(date) {
   document.getElementById('date-label').textContent = fmtDate(date);
   document.getElementById('btn-next').disabled = isToday(date);
   document.getElementById('main-content').innerHTML = '<div class="loading">Loading audit data...</div>';
-
   try {
     const res = await fetch(`/angie/data/${date}.json?_=${Date.now()}`);
     if (!res.ok) throw new Error('no data');
@@ -330,7 +311,7 @@ async function loadDate(date) {
   } catch(e) {
     document.getElementById('main-content').innerHTML = `
       <div class="no-data">
-        <div class="no-data-icon">🌙</div>
+        <div class="no-data-icon">&#127833;</div>
         <div>No audit data for ${fmtDate(date)}</div>
         <div style="margin-top:8px;font-size:12px;">Angie runs nightly at 11pm MDT</div>
       </div>`;
@@ -338,107 +319,77 @@ async function loadDate(date) {
   }
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
 function render(data) {
   const s = data.summary;
   document.getElementById('header-sub').textContent =
-    `Generated ${new Date(data.generated_at).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'})} · ${s.agents_checked} agents · ${s.skills_checked} skills · ${s.projects_checked} projects`;
+    `Generated ${new Date(data.generated_at).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})} · ${s.agents_checked} agents · ${s.skills_checked} skills · ${s.projects_checked} projects`;
 
   const findings = data.findings || [];
-  const red    = findings.filter(f => f.severity === 'red');
-  const yellow = findings.filter(f => f.severity === 'yellow');
-  const fixed  = findings.filter(f => f.status === 'fixed');
-  const inProg = findings.filter(f => f.status === 'in_progress');
-  const blocked = findings.filter(f => f.status === 'blocked');
-  const open   = findings.filter(f => f.status === 'open');
+  const red     = findings.filter(f => f.severity === 'red');
+  const yellow  = findings.filter(f => f.severity === 'yellow');
+  const fixed   = findings.filter(f => f.status === 'fixed');
+  const inProg  = findings.filter(f => f.status === 'in_progress');
   const waitingOnBennett = data.waiting_on_bennett || [];
 
   let html = '';
 
-  // Summary cards
   html += `<div class="summary-row">
     <div class="stat-card"><div class="val">${s.total_audits}</div><div class="lbl">Audits</div></div>
-    <div class="stat-card red"><div class="val">${s.red}</div><div class="lbl">🔴 Red</div></div>
-    <div class="stat-card yellow"><div class="val">${s.yellow}</div><div class="lbl">🟡 Yellow</div></div>
-    <div class="stat-card green"><div class="val">${s.green}</div><div class="lbl">✅ Green</div></div>
-    <div class="stat-card purple"><div class="val">${s.human_gates}</div><div class="lbl">👤 Human</div></div>
+    <div class="stat-card red"><div class="val">${s.red}</div><div class="lbl">&#128308; Red</div></div>
+    <div class="stat-card yellow"><div class="val">${s.yellow}</div><div class="lbl">&#9889; Yellow</div></div>
+    <div class="stat-card green"><div class="val">${s.green}</div><div class="lbl">&#10003; Green</div></div>
+    <div class="stat-card purple"><div class="val">${s.human_gates}</div><div class="lbl">&#128100; Human</div></div>
   </div>`;
 
-  // Waiting on Bennett
   if (waitingOnBennett.length > 0) {
-    html += `<div class="section">
-      <div class="section-title" style="color: #f87171;">⚠️ Waiting on You <span class="badge" style="background:#3b1515;color:#f87171;">${waitingOnBennett.length}</span></div>`;
+    html += `<div class="section"><div class="section-title" style="color:#f87171;">&#9888;&#65039; Waiting on You <span class="badge" style="background:#3b1515;color:#f87171;">${waitingOnBennett.length}</span></div>`;
     waitingOnBennett.forEach(g => {
-      html += `<div class="gate-card">
-        <div class="gate-icon">🔒</div>
-        <div>
-          <div class="gate-text">${g.item}</div>
-          <div class="gate-id">${g.id}</div>
-        </div>
-      </div>`;
+      html += `<div class="gate-card"><div class="gate-icon">&#128146;</div><div><div class="gate-text">${g.item}</div><div class="gate-id">${g.id}</div></div></div>`;
     });
     html += `</div>`;
   }
 
-  // Red findings
   if (red.length > 0) {
-    html += `<div class="section">
-      <div class="section-title" style="color: var(--red);">🔴 Critical Findings <span class="badge">${red.length}</span></div>`;
+    html += `<div class="section"><div class="section-title" style="color:var(--red);">&#128308; Critical <span class="badge">${red.length}</span></div>`;
     red.forEach(f => html += findingCard(f));
     html += `</div>`;
   }
-
-  // Yellow findings
   if (yellow.length > 0) {
-    html += `<div class="section">
-      <div class="section-title" style="color: var(--yellow);">🟡 Warnings <span class="badge">${yellow.length}</span></div>`;
+    html += `<div class="section"><div class="section-title" style="color:var(--yellow);">&#9889; Warnings <span class="badge">${yellow.length}</span></div>`;
     yellow.forEach(f => html += findingCard(f));
     html += `</div>`;
   }
-
-  // Fixed today
   if (fixed.length > 0) {
-    html += `<div class="section">
-      <div class="section-title" style="color: var(--green);">✅ Fixed This Cycle <span class="badge">${fixed.length}</span></div>`;
+    html += `<div class="section"><div class="section-title" style="color:var(--green);">&#10003; Fixed <span class="badge">${fixed.length}</span></div>`;
     fixed.forEach(f => html += findingCard(f));
     html += `</div>`;
   }
-
-  // In progress
   if (inProg.length > 0) {
-    html += `<div class="section">
-      <div class="section-title" style="color: var(--accent);">⚙️ In Progress <span class="badge">${inProg.length}</span></div>`;
+    html += `<div class="section"><div class="section-title" style="color:var(--accent);">&#9881;&#65039; In Progress <span class="badge">${inProg.length}</span></div>`;
     inProg.forEach(f => html += findingCard(f));
     html += `</div>`;
   }
 
-  // Questions
   if (data.questions && data.questions.length > 0) {
-    html += `<div class="section">
-      <div class="section-title" style="color: var(--accent);">💬 Daily Questions <span class="badge">${data.questions.length}</span></div>`;
-    html += `<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Click to answer · Recommended answer marked ★ · Submit sends to Leo</div>`;
-    data.questions.forEach(q => {
-      html += questionCard(q);
-    });
+    html += `<div class="section"><div class="section-title" style="color:var(--accent);">&#128172; Daily Questions <span class="badge">${data.questions.length}</span></div>`;
+    html += `<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Tap to answer · &#9733; = recommended · Hit Copy then paste into AI chat</div>`;
+    data.questions.forEach(q => html += questionCard(q));
     html += `</div>`;
 
-    // Comment box
     html += `<div class="comment-section">
-      <div class="comment-label">Optional — Additional feedback or instructions for the team:</div>
-      <textarea class="comment-box" id="comment-box" placeholder="Type anything... Leo will route it. e.g. 'Kill SH ads today' or 'Check on the Piper assignment issue'"></textarea>
+      <div class="comment-label">Optional — additional note for Leo:</div>
+      <textarea class="comment-box" id="comment-box" placeholder="e.g. Kill SH ads today | Check Piper assignment | GHL PIT needs renewal"></textarea>
     </div>`;
 
-    // Submit
     html += `<div class="submit-section">
       <button class="submit-btn" id="submit-btn" onclick="submitAnswers()">
-        📤 Send to Leo
+        &#128203; Copy Answers &#8594; Paste in AI Chat
       </button>
+      <div id="fallback-container"></div>
     </div>`;
   }
 
   document.getElementById('main-content').innerHTML = html;
-
-  // Re-attach event listeners
   document.querySelectorAll('.finding-card').forEach(card => {
     card.addEventListener('click', () => {
       const exp = card.querySelector('.finding-expand');
@@ -451,9 +402,8 @@ function findingCard(f) {
   const typeClass = `type-${f.type}`;
   const sevClass  = `sev-${f.severity}`;
   const statusClass = `status-${f.status}`;
-  const statusLabels = { fixed: '✅ Fixed', in_progress: '⚙️ In Progress', blocked: '🔒 Blocked', open: '🔴 Open' };
-  const blockedNote = f.blocked_reason ? `<div style="font-size:11px;color:var(--red);margin-top:6px;">🔒 ${f.blocked_reason}</div>` : '';
-  const fixedNote = f.fixed_at ? `<div style="font-size:10px;color:var(--muted);margin-top:4px;">Fixed ${new Date(f.fixed_at).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</div>` : '';
+  const statusLabels = { fixed: '&#10003; Fixed', in_progress: '&#9881;&#65039; In Progress', blocked: '&#128146; Blocked', open: '&#128308; Open' };
+  const blockedNote = f.blocked_reason ? `<div style="font-size:11px;color:var(--red);margin-top:6px;">&#128146; ${f.blocked_reason}</div>` : '';
   return `<div class="finding-card">
     <div class="finding-header">
       <div class="sev-dot ${sevClass}"></div>
@@ -464,7 +414,6 @@ function findingCard(f) {
         </div>
         <div class="finding-text">${f.finding}</div>
         <span class="status-pill ${statusClass}">${statusLabels[f.status] || f.status}</span>
-        ${fixedNote}
       </div>
     </div>
     <div class="finding-expand">
@@ -476,31 +425,27 @@ function findingCard(f) {
 }
 
 function questionCard(q) {
-  const letters = ['A','B','C','D'];
   let optHtml = '';
   for (const [k, v] of Object.entries(q.options)) {
     const isRec = k === q.recommended;
     optHtml += `<button class="q-btn${isRec?' recommended':''}" id="qbtn-${q.id}-${k}" onclick="selectAnswer(${q.id},'${k}',this)">
       <div class="q-letter">${k}</div>
       <div class="q-btn-text">${v}</div>
-      ${isRec ? '<span class="q-rec-tag">★ rec</span>' : ''}
+      ${isRec ? '<span class="q-rec-tag">&#9733; rec</span>' : ''}
     </button>`;
   }
   return `<div class="q-card">
     <div class="q-theme">${q.theme}</div>
     <div class="q-text">${q.question}</div>
     <div class="q-options">${optHtml}</div>
-    <div class="q-rationale" id="qrat-${q.id}">💡 ${q.rationale} <span style="color:var(--accent);font-size:10px;">(${q.advaita_alignment})</span></div>
+    <div class="q-rationale" id="qrat-${q.id}">&#128161; ${q.rationale} <span style="color:var(--accent);font-size:10px;">(${q.advaita_alignment})</span></div>
   </div>`;
 }
 
 function selectAnswer(qId, letter, btn) {
-  // Deselect all buttons for this question
   document.querySelectorAll(`[id^="qbtn-${qId}-"]`).forEach(b => b.classList.remove('selected'));
-  // Select this one
   btn.classList.add('selected');
   answers[qId] = letter;
-  // Show rationale
   const rat = document.getElementById(`qrat-${qId}`);
   if (rat) rat.classList.add('show');
 }
@@ -509,33 +454,58 @@ async function submitAnswers() {
   if (submitted) return;
   const btn = document.getElementById('submit-btn');
   const comment = document.getElementById('comment-box')?.value?.trim() || '';
+  const qs = currentData?.questions || [];
 
-  const payload = {
-    date: currentDate,
-    answers: answers,
-    comment: comment,
-    total_questions: currentData?.questions?.length || 0,
-    answered: Object.keys(answers).length
-  };
+  // Build formatted message for AI chat
+  let msg = 'ANGIE AUDIT — ' + fmtDate(currentDate) + '\n';
+  msg += '────────────────────\n';
+  let answered = 0;
+  qs.forEach(q => {
+    const ans = answers[q.id];
+    if (ans) {
+      msg += 'Q' + q.id + ': ' + q.question + '\n→ ' + ans + ': ' + q.options[ans] + '\n\n';
+      answered++;
+    } else {
+      msg += 'Q' + q.id + ': ' + q.question + '\n→ (skipped)\n\n';
+    }
+  });
+  if (comment) msg += 'Note: ' + comment + '\n\n';
+  msg += 'Please route these answers to Leo and act on them immediately.';
 
   btn.disabled = true;
-  btn.innerHTML = '⏳ Sending...';
+  btn.innerHTML = '&#9203; Copying...';
 
+  // Try clipboard API first
   try {
-    const res = await fetch('/angie/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) throw new Error('server error');
+    await navigator.clipboard.writeText(msg);
     submitted = true;
     btn.classList.add('sent');
-    btn.innerHTML = '✅ Sent to Leo';
-    showToast('Answers sent to Leo! 🎯');
+    btn.innerHTML = '✓ Copied — Now paste in your AI chat';
+    showToast('Copied! Paste into Hyperagent or Claude →');
   } catch(e) {
-    btn.disabled = false;
-    btn.innerHTML = '📤 Send to Leo';
-    showToast('Send failed — try again', true);
+    // Clipboard failed (iOS Safari sometimes requires user gesture) - show fallback
+    submitted = true;
+    btn.classList.add('sent');
+    btn.innerHTML = '✓ Ready — See below';
+    const container = document.getElementById('fallback-container');
+    container.innerHTML = `
+      <div class="fallback-box">
+        <div class="fallback-label">&#9888; Tap all → Copy → Paste in your AI chat:</div>
+        <textarea class="fallback-textarea" id="fallback-text" readonly>${msg}</textarea>
+        <button class="copy-btn" onclick="copyFallback()">&#128203; Tap to Select All &amp; Copy</button>
+      </div>`;
+  }
+}
+
+function copyFallback() {
+  const ta = document.getElementById('fallback-text');
+  ta.select();
+  ta.setSelectionRange(0, 99999);
+  try {
+    document.execCommand('copy');
+    showToast('Copied! Paste into Hyperagent →');
+  } catch(e) {
+    showToast('Select the text above and copy manually', true);
   }
 }
 
@@ -543,10 +513,9 @@ function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast show' + (isError ? ' error' : '');
-  setTimeout(() => t.className = 'toast', 3000);
+  setTimeout(() => t.className = 'toast', 3500);
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
 loadDate(currentDate);
 </script>
 </body>
