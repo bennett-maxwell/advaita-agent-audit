@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-06T19:45:02Z",
+  "updated": "2026-05-06T20:00:03Z",
   "demo_mode": false,
   "agents": [
     {
@@ -14,8 +14,8 @@
       "tasks_max": 5,
       "current_task": null,
       "current_skill": null,
-      "last_active_rel": "21h ago",
-      "memory_updated_rel": "21h ago",
+      "last_active_rel": "22h ago",
+      "memory_updated_rel": "22h ago",
       "notion_project": null,
       "color_class": "mack-color",
       "text_class": "mack-color-text"
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": "[LIVENESS-PROBE-1778096700] <@U0AG6G4BEM9> reply 'ACK' \u2014 automated health check",
+      "current_task": ":bar_chart: *MapKI Overnight Check* \u2014 May 6 14:00 MDT\n\u2022 NASAA miner: restarted (",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -56,7 +56,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "19 LaunchAgents \u00b7 4 cloudflared \u00b7 21 python3 procs",
+      "current_task": "22 LaunchAgents \u00b7 4 cloudflared \u00b7 30 python3 procs",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "15m ago",
@@ -74,7 +74,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #72 \u00b7 45389 uploaded \u00b7 disk 465GB",
+      "current_task": "FDD extractor \u00b7 run #75 \u00b7 45389 uploaded \u00b7 disk 465GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -110,10 +110,10 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 4,
-      "current_task": ":dart: *ANGIE AUDIT ANSWERS \u2014 2026-05-05*",
+      "current_task": "GEO Slack Inbound Setup WO \u2014 Council v15 verdict 4.5/5 PASS.",
       "current_skill": null,
-      "last_active_rel": "36m ago",
-      "memory_updated_rel": "36m ago",
+      "last_active_rel": "6m ago",
+      "memory_updated_rel": "6m ago",
       "notion_project": null,
       "color_class": "hyper-color",
       "text_class": "hyper-color-text"
@@ -121,8 +121,8 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 61,
-    "ivan_ram_pct": 52,
+    "ivan_cpu_pct": 89,
+    "ivan_ram_pct": 53,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
     "active_crons": 71,
@@ -140,8 +140,8 @@
       "agent-status"
     ],
     "tiffany_ollama_status": "offline",
-    "ivan_launchagents_active": 19,
-    "ivan_python_procs": 21,
+    "ivan_launchagents_active": 22,
+    "ivan_python_procs": 30,
     "ivan_cloudflared_procs": 4,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
