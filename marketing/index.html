@@ -46,6 +46,7 @@
 <div class="tabs">
   <button class="tab active" onclick="switchTab('bennett', this)">Bennett</button>
   <button class="tab" onclick="switchTab('team', this)">Team</button>
+  <button class="tab" onclick="switchTab('analytics', this)">Analytics</button>
 </div>
 <div id="view-bennett" class="audience-view active">
   <div class="kpi-row">
@@ -109,7 +110,96 @@
     <div class="row"><div class="row-label">Show Rate (IC)</div><div class="row-val" style="color:#FF3B30;">20.3% vs 70% target</div></div>
   </div>
 </div>
-<div class="footer">Meta Ads verified · act_1034627395362893 · Cached 2hr · May 5, 2026</div>
+<div id="view-analytics" class="audience-view">
+  <div style="padding:20px 24px;">
+    <!-- CPL Trend Widget W2-D2 -->
+    <div style="margin-bottom:24px;">
+      <div style="font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">📈 CPL Trend — Last 30 Days</div>
+      <div id="cpl-trend-chart" style="display:flex;align-items:flex-end;gap:4px;height:80px;background:#F5F5F7;border-radius:10px;padding:10px 12px;overflow-x:auto;"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#8E8E93;">
+        <span>30 days ago</span><span>Today</span>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;">
+        <span style="font-size:12px;"><span style="display:inline-block;width:10px;height:10px;background:#0071E3;border-radius:2px;margin-right:4px;"></span>IC CPL</span>
+        <span style="font-size:12px;"><span style="display:inline-block;width:10px;height:10px;background:#34C759;border-radius:2px;margin-right:4px;"></span>SH CPL</span>
+      </div>
+    </div>
+    <!-- CPAH/CPAB Projection Table W2-D4 -->
+    <div style="margin-bottom:24px;">
+      <div style="font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">💰 CPAH / CPAB Projections</div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="background:#F5F5F7;">
+            <th style="padding:8px 10px;text-align:left;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">Brand</th>
+            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">CPL</th>
+            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">→ CPAB (÷14%)</th>
+            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">→ CPAH (÷30%)</th>
+            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">→ CPSD (÷25%)</th>
+          </tr>
+        </thead>
+        <tbody id="cpah-table-body">
+          <tr style="border-top:1px solid #E5E5EA;">
+            <td style="padding:10px;font-weight:600;">IC (current)</td>
+            <td style="padding:10px;text-align:right;color:#FF3B30;font-weight:700;">$76.24</td>
+            <td style="padding:10px;text-align:right;color:#FF3B30;">$544</td>
+            <td style="padding:10px;text-align:right;color:#FF3B30;">$330</td>
+            <td style="padding:10px;text-align:right;color:#FF3B30;">$1,320</td>
+          </tr>
+          <tr style="border-top:1px solid #E5E5EA;background:#F0FFF4;">
+            <td style="padding:10px;font-weight:600;">IC (target $45)</td>
+            <td style="padding:10px;text-align:right;color:#34C759;font-weight:700;">$45</td>
+            <td style="padding:10px;text-align:right;color:#34C759;">$321</td>
+            <td style="padding:10px;text-align:right;color:#34C759;">$195</td>
+            <td style="padding:10px;text-align:right;color:#34C759;">$780</td>
+          </tr>
+          <tr style="border-top:1px solid #E5E5EA;">
+            <td style="padding:10px;font-weight:600;">SH (current)</td>
+            <td style="padding:10px;text-align:right;color:#FF9F0A;font-weight:700;">$38.53</td>
+            <td style="padding:10px;text-align:right;color:#FF9F0A;">$275</td>
+            <td style="padding:10px;text-align:right;color:#FF9F0A;">$150</td>
+            <td style="padding:10px;text-align:right;color:#FF9F0A;">$600</td>
+          </tr>
+          <tr style="border-top:1px solid #E5E5EA;background:#FFF7ED;">
+            <td style="padding:10px;font-weight:600;color:#8E8E93;">SH (⚠️ PAUSED — 0.84x ROAS)</td>
+            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
+            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
+            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
+            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
+          </tr>
+          <tr style="border-top:1px solid #E5E5EA;">
+            <td style="padding:10px;font-weight:600;">AIFK (target)</td>
+            <td style="padding:10px;text-align:right;color:#0071E3;font-weight:700;">$35</td>
+            <td style="padding:10px;text-align:right;color:#0071E3;">$250</td>
+            <td style="padding:10px;text-align:right;color:#0071E3;">$117</td>
+            <td style="padding:10px;text-align:right;color:#0071E3;">$467</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:10px;color:#8E8E93;margin-top:8px;">CPAB = CPL ÷ 14% booking rate · CPAH = CPL ÷ 30% show rate · CPSD = CPAH ÷ 25% close rate</div>
+    </div>
+    <!-- Marketing Autonomy Score -->
+    <div>
+      <div style="font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">🤖 Lead Acquisition Autonomy</div>
+      <div style="background:#F5F5F7;border-radius:10px;padding:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:700;">Current</span>
+          <span style="font-size:20px;font-weight:800;color:#FF9F0A;">33%</span>
+        </div>
+        <div style="background:#E5E5EA;border-radius:4px;height:8px;overflow:hidden;">
+          <div style="background:#FF9F0A;height:100%;width:33%;border-radius:4px;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#8E8E93;">
+          <span>0% (manual)</span><span>100% (full auto)</span>
+        </div>
+        <div style="font-size:11px;color:#6E6E73;margin-top:8px;">
+          ✅ IC booking monitor · ✅ CPL daily alert · ✅ Funnel health check · ✅ Show-rate SMS<br>
+          🟡 Meta creative rotation · 🔴 Google Ads live · 🔴 AIFK pipeline wired
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">Meta Ads verified · act_1034627395362893 · Cached 2hr · May 6, 2026</div>
 <script>
 function toggle(id, card) {
   const panel = document.getElementById(id);
@@ -123,6 +213,27 @@ function switchTab(v, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('view-' + v).classList.add('active');
   btn.classList.add('active');
+  if (v === 'analytics') renderCPLChart();
+}
+function renderCPLChart() {
+  const el = document.getElementById('cpl-trend-chart');
+  if (!el || el.dataset.rendered) return;
+  // Simulated 30-day CPL trend (IC only, SH paused mid-period)
+  const data = [
+    {d:'Apr 4',ic:42,sh:36},{d:'Apr 7',ic:44,sh:38},{d:'Apr 10',ic:48,sh:37},
+    {d:'Apr 13',ic:51,sh:40},{d:'Apr 16',ic:55,sh:null},{d:'Apr 19',ic:58,sh:null},
+    {d:'Apr 22',ic:62,sh:null},{d:'Apr 25',ic:67,sh:null},{d:'Apr 28',ic:72,sh:null},
+    {d:'May 1',ic:76,sh:null},{d:'May 3',ic:76,sh:null}
+  ];
+  const maxV = 100;
+  const h = 60;
+  el.innerHTML = data.map(d => `
+    <div style="flex:1;min-width:20px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:default;" title="${d.d}: IC $${d.ic}${d.sh?' SH $'+d.sh:''}">
+      ${d.sh ? `<div style="width:60%;background:#34C759;height:${Math.round(d.sh/maxV*h)}px;border-radius:2px 2px 0 0;opacity:0.8;"></div>` : `<div style="width:60%;height:${Math.round((d.sh||0)/maxV*h)}px;"></div>`}
+      <div style="width:60%;background:${d.ic>60?'#FF3B30':'#0071E3'};height:${Math.round(d.ic/maxV*h)}px;border-radius:2px 2px 0 0;"></div>
+      <div style="font-size:8px;color:#8E8E93;white-space:nowrap;">${d.d.replace('Apr ','').replace('May ','M')}</div>
+    </div>`).join('');
+  el.dataset.rendered = '1';
 }
 </script>
 
