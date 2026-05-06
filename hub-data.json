@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "version": "4.1",
-    "updated": "2026-05-05T23:45:00MDT",
+    "version": "5",
+    "updated": "2026-05-06T00:15:00MDT",
     "updated_by": "Squirrel proactive-autonomy Day 3",
     "next_refresh": "2026-05-06T00:00:00MDT",
-    "note": "Corrected: SEO 114 articles (target 100 MET), CCs 19 active"
+    "note": "Day 3 Round 2: council+autopilot complete. ITC skill patched. 5 SEO articles (93-97). Autonomy CC corrected. Lead-funnel updated."
   },
   "kpis": {
     "revenue_ytd": "$225,596",
@@ -29,12 +29,12 @@
     "lead_acquisition": {
       "pct": 15,
       "status": "red",
-      "note": "Meta blind \u00b7 FACEBOOKACCESSTOKEN missing \u00b7 Google Ads May 7 deadline"
+      "note": "Meta blind \u00b7 speed-to-lead.py LIVE \u00b7 Google Ads May 7"
     },
     "lead_processing": {
       "pct": 28,
       "status": "amber",
-      "note": "speed-to-lead.py LIVE \u00b7 SynthFlow LP-02 pending \u00b7 506 unassigned"
+      "note": "speed-to-lead.py LIVE \u00b7 SynthFlow LP-02 in-flight \u00b7 506 unassigned"
     },
     "sales_intelligence": {
       "pct": 58,
@@ -44,7 +44,7 @@
     "operations": {
       "pct": 65,
       "status": "amber",
-      "note": "17 CCs live (2 added Day 3)"
+      "note": "19 CCs live \u00b7 /pulse/ + /sprint/ + 5 CC upgrades Day 3"
     },
     "financial_control": {
       "pct": 72,
@@ -112,7 +112,7 @@
     ]
   },
   "seo": {
-    "articles_count": 114,
+    "articles_count": 119,
     "articles_target": 100,
     "articles_remaining": 0,
     "score_current": 24,
@@ -169,6 +169,8 @@
     "active_ccs": 17,
     "meta_token_missing": true,
     "seo_100_target_met": true,
-    "seo_article_count_actual": 114
+    "seo_article_count_actual": 119,
+    "itc_skill_patched": true,
+    "autonomy_cc_domain_scores_corrected": true
   }
 }
