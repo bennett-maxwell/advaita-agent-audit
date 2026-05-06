@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-06T14:00:03Z",
+  "updated": "2026-05-06T14:15:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": ":arrows_counterclockwise: [monitor] Extractor down \u2014 restarting",
+      "current_task": "[LIVENESS-PROBE-1778076900] <@U0AG6G4BEM9> reply 'ACK' \u2014 automated health check",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -56,7 +56,7 @@
       "status": "active",
       "tasks_running": 5,
       "tasks_max": 5,
-      "current_task": "27 LaunchAgents \u00b7 4 cloudflared \u00b7 32 python3 procs",
+      "current_task": "18 LaunchAgents \u00b7 4 cloudflared \u00b7 20 python3 procs",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "15m ago",
@@ -74,7 +74,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #3 \u00b7 45389 uploaded \u00b7 disk 467GB",
+      "current_task": "FDD extractor \u00b7 run #6 \u00b7 45389 uploaded \u00b7 disk 467GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -110,10 +110,10 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 4,
-      "current_task": ":white_check_mark: *Squirrel AliveMode \u2014 GHL Credential Cycle COMPLETE* | 2026-0",
+      "current_task": ":repeat: *BROWSER-USE WO @Leo \u2014 GHL PIT Token Renewal + SynthFlow Install*",
       "current_skill": null,
-      "last_active_rel": "6m ago",
-      "memory_updated_rel": "6m ago",
+      "last_active_rel": "7m ago",
+      "memory_updated_rel": "7m ago",
       "notion_project": null,
       "color_class": "hyper-color",
       "text_class": "hyper-color-text"
@@ -121,8 +121,8 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 88,
-    "ivan_ram_pct": 29,
+    "ivan_cpu_pct": 89,
+    "ivan_ram_pct": 36,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
     "active_crons": 71,
@@ -140,8 +140,8 @@
       "agent-status"
     ],
     "tiffany_ollama_status": "offline",
-    "ivan_launchagents_active": 27,
-    "ivan_python_procs": 32,
+    "ivan_launchagents_active": 18,
+    "ivan_python_procs": 20,
     "ivan_cloudflared_procs": 4,
     "claude_sessions_mack": 0,
     "claude_sessions_ivan": 0
