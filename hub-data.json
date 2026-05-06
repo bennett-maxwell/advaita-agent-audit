@@ -195,5 +195,15 @@
       "SynthFlow LP-02"
     ],
     "bennett_gate_blocking_la_50": "FACEBOOKACCESSTOKEN \u2014 Meta Biz Mgr > System Users > Generate Token"
-  }
+  },
+  "lead_processing_pct": 28,
+  "unassigned_leads": 1,
+  "show_rate_sh": 33.2,
+  "show_rate_ic": 30.9,
+  "speed_to_lead_status": "live_launchagent",
+  "fred_auto_kill_status": "live_launchagent",
+  "attribution_roas_ic": 4.89,
+  "attribution_roas_sh": 6.51,
+  "noshow_90day_count": 109,
+  "noshow_90day_waste": 32700
 }
