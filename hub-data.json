@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "version": "7",
-    "updated": "2026-05-06T01:00:00MDT",
-    "updated_by": "Squirrel proactive-autonomy Day 3",
-    "next_refresh": "2026-05-06T00:00:00MDT",
-    "note": "PA Run 4: 50% target plan. /lead-acquisition/ CC added. 6 Leo WOs for LA 15%->50%."
+    "version": "8",
+    "updated": "2026-05-06T08:30:00MDT",
+    "updated_by": "Squirrel FKI Ops Audit Sprint \u2014 60 Tasks",
+    "next_refresh": "2026-05-07T00:00:00MDT",
+    "note": "Ops Audit Sprint: FranchiseScore Convex WO dispatched, 126 articles Framer WO in-flight, Skills Registry v14 updated. Target 75% autonomy."
   },
   "kpis": {
     "revenue_ytd": "$225,596",
@@ -17,8 +17,8 @@
     "ad_spend_note": "Meta Ads \u00b7 act_1034627395362893 \u00b7 Apr 4\u2013May 3",
     "ad_spend_blind": true,
     "ad_spend_blind_reason": "FACEBOOKACCESSTOKEN missing \u2014 Leo Browser-Use WO dispatched",
-    "autonomy_pct": 68,
-    "autonomy_source": "FKI Health Score formula: Revenue 30% + Pipeline 25% + Autonomy 25% + Uptime 20%",
+    "autonomy_pct": 68.8,
+    "autonomy_source": "Push Harder v4 Report 2026-05-06 \u2014 68.8% confirmed",
     "health_score": "74",
     "health_target": 85,
     "health_deadline": "2026-05-17",
@@ -44,7 +44,7 @@
     "operations": {
       "pct": 70,
       "status": "amber",
-      "note": "19 CCs live + health-check LaunchAgent LIVE"
+      "note": "19 CCs live + Ops Audit Sprint active \u2192 target 75%"
     },
     "financial_control": {
       "pct": 72,
