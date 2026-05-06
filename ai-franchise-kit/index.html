@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Franchise Kit — Build Your AI Agent System | Franchise KI</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '731853659590910');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=731853659590910&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1444,15 +1452,38 @@ bennett@franchiseki.com | DM me on LinkedIn: /in/bennettmaxwell35</div>
   </div>
 </section>
 
-<!-- FINAL CTA -->
-<div class="final-cta">
+<!-- FINAL CTA + LEAD FORM -->
+<div class="final-cta" id="contact">
   <div class="final-cta-inner">
-    <h2>Ready to run your business on AI?</h2>
-    <p>One agent. One week. One deal to pay for itself. The system we built for Franchise KI — now available for your business.</p>
-    <div class="final-cta-actions">
-      <a href="mailto:bennett@franchiseki.com?subject=AI Franchise Kit - Let's Talk" class="btn-lg">Email Bennett Directly →</a>
-      <span style="font-size:14px;color:rgba(255,255,255,0.45);">or DM "AGENTS" on LinkedIn</span>
-    </div>
+    <h2>See if your market is available</h2>
+    <p>Tell us about your business. We'll check territory availability and send you the full AI Kit overview — no pitch call required.</p>
+
+    <form id="aifk-lead-form" style="max-width:480px;margin:0 auto 24px;display:flex;flex-direction:column;gap:14px;" onsubmit="submitAIFKForm(event)">
+      <input type="text" id="lead-name" placeholder="Your name" required
+        style="padding:14px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:15px;outline:none;">
+      <input type="email" id="lead-email" placeholder="Business email" required
+        style="padding:14px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:15px;outline:none;">
+      <input type="tel" id="lead-phone" placeholder="Phone number"
+        style="padding:14px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:15px;outline:none;">
+      <select id="lead-state" style="padding:14px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(27,38,38,0.95);color:#fff;font-size:15px;outline:none;">
+        <option value="">Your state / territory</option>
+        <option>California</option><option>Florida</option><option>New York</option><option>Texas</option>
+        <option>Georgia</option><option>Arizona</option><option>Colorado</option><option>Nevada</option>
+        <option>Ohio</option><option>Pennsylvania</option><option>Michigan</option><option>Virginia</option>
+        <option>Other</option>
+      </select>
+      <button type="submit" id="aifk-submit-btn" class="btn-lg" style="border:none;cursor:pointer;font-size:16px;">
+        Check My Territory →
+      </button>
+      <div id="aifk-form-status" style="font-size:14px;color:#22C55E;text-align:center;display:none;"></div>
+    </form>
+
+    <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:8px;">
+      <strong style="color:rgba(255,255,255,0.5);">FDD Disclosure:</strong> Investment ranges from $165,000–$225,000. Results shown are for illustrative purposes. See Item 7 and Item 19 of the Franchise Disclosure Document for complete financial performance representations and investment details before making any investment decision.
+    </p>
+    <p style="font-size:12px;color:rgba(255,255,255,0.2);margin-top:6px;">
+      Not available in TX, NC, SC, FL, KY, ME, OR, UT. This is not an offer to sell a franchise where prohibited.
+    </p>
   </div>
 </div>
 
@@ -1534,6 +1565,44 @@ bennett@franchiseki.com | DM me on LinkedIn: /in/bennettmaxwell35</div>
   }
 
   updateROI();
+
+  // ── AI FRANCHISE KIT LEAD FORM ──
+  async function submitAIFKForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('aifk-submit-btn');
+    const status = document.getElementById('aifk-form-status');
+    const name = document.getElementById('lead-name').value.trim();
+    const email = document.getElementById('lead-email').value.trim();
+    const phone = document.getElementById('lead-phone').value.trim();
+    const state = document.getElementById('lead-state').value;
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    // Fire Meta lead event
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', { content_name: 'AI Franchise Kit', content_category: 'franchise_inquiry' });
+    }
+
+    try {
+      const res = await fetch('/api/aifk-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, state, timestamp: new Date().toISOString() })
+      });
+      status.style.display = 'block';
+      status.textContent = "✅ Got it! We'll check your territory and reach out within 24 hours.";
+      btn.textContent = 'Submitted ✓';
+      document.getElementById('aifk-lead-form').reset();
+    } catch(err) {
+      // Fallback: mailto
+      status.style.display = 'block';
+      status.style.color = '#F59E0B';
+      status.textContent = 'Please email bennett@franchiseki.com directly — form is temporarily unavailable.';
+      btn.textContent = 'Check My Territory →';
+      btn.disabled = false;
+    }
+  }
 </script>
 </body>
 </html>
