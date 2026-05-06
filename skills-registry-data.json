@@ -1,0 +1,201 @@
+{
+  "last_updated": "2026-05-06",
+  "updated_by": "Squirrel overnight-sprint-skill v1.0",
+  "total_skills": 24,
+  "skills": [
+    {
+      "name": "business-audit-skill",
+      "version": "v2",
+      "fileId": "1w7pnvUEhmHZjRYGRCPJ643OXlFSJ-2r2",
+      "council_score": 4.78,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "council-skill",
+      "version": "v14",
+      "fileId": "1MpUHqm5dMHY1dF_kqm88pVCj7FT49ZYr",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "autopilot-skill",
+      "version": "v9",
+      "fileId": "1JRj5QNrHsn3EJpmyOys7cshXLRSaPZus",
+      "council_score": 4.6,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "extra-push-skill",
+      "version": "v1",
+      "fileId": "16pUBt5cfyyMStxlGD5sC2Mm_MULzAvW3",
+      "council_score": 4.4,
+      "status": "ACTIVE",
+      "renamed_from": "push-harder-skill"
+    },
+    {
+      "name": "closeout-skill",
+      "version": "v11",
+      "fileId": "1TD0Gcg-akazN7VZFwp8QfGRb-6arKl75",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "proactive-autonomy-skill",
+      "version": "v1",
+      "fileId": "1g130INlLTyadLGNXTU3saGT8Sr4zc3bR",
+      "council_score": 4.4,
+      "status": "ACTIVE",
+      "new": true
+    },
+    {
+      "name": "idea-to-completion-skill",
+      "version": "v1",
+      "fileId": "1ojt4RtBKhpf5lNrpnFzlXwPXAgFrCmJ0",
+      "council_score": 4.3,
+      "status": "ACTIVE",
+      "new": true
+    },
+    {
+      "name": "overnight-sprint-skill",
+      "version": "v1",
+      "fileId": "1qaN2-RuOHNDZmhHl5kKSwJxKhP7tx2Jy",
+      "council_score": 4.4,
+      "status": "STAGING - Leo to move to subfolder",
+      "new": true
+    },
+    {
+      "name": "diamond-skill",
+      "version": "v2",
+      "fileId": "1CVpWQLYHUlfnJroKtcpamM7SZSNdtvPT",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "troubleshoot-skill",
+      "version": "v5.0",
+      "fileId": "1I13dA9Tcn-N0ETowd6dhZG46F5Wu3krK",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "social-media-guardrails-skill",
+      "version": "v1",
+      "fileId": "18FWAm3Typ1rtfGwZRolWmY2BZlGybM3D",
+      "council_score": 4.4,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "linkedin-social-media-skill",
+      "version": "v2",
+      "fileId": "1L_PZlEmNIm3U0mYMWSJo-uWLX-eavo8e",
+      "council_score": 4.36,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "autonomous-salesforce-skill",
+      "version": "v2.0",
+      "fileId": "1izfvsQfOsvQ5DWnaMvrJAdT9nZ1qtx9q",
+      "council_score": 4.7,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "george-video-production-skill",
+      "version": "v1",
+      "fileId": "1WMBAJuHCdeogwyT2Ju8und8YwpKi0gm-",
+      "council_score": 4.54,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "agent-handoff-skill",
+      "version": "v1",
+      "fileId": "1IckG8cca2qdSL1p5_OdXdI0NP9RshnRP",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "visual-explainer-skill",
+      "version": "v1",
+      "fileId": "1yXX3fVEJfKUqqnO3A9Yl6L8j9riKbXBN",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "command-center-skill",
+      "version": "v1",
+      "fileId": "1rRQZeByaqEtHrBWgokvNIflO4CXgsdcN",
+      "council_score": 4.52,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "ceo-design-skill",
+      "version": "v1",
+      "fileId": "143bWCEbxiF4wdQXnVa87e6hNv_CDV3zq",
+      "council_score": 4.4,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "skill-creator-skill",
+      "version": "v4",
+      "fileId": "1E80N6GhsM3sZa5e4NnRcHlNhWRZpmxtP",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "leo-audit-skill",
+      "version": "v5.2",
+      "fileId": "1ZcDVcS4x6jCPI83GXsNK_bqhpUOwwxrZ",
+      "council_score": 4.6,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "voice-mining-skill",
+      "version": "v1",
+      "fileId": "18zDTzTYNrcKwXnJSzy3GOf_9FzRCSSTu",
+      "council_score": 4.4,
+      "status": "STAGING"
+    },
+    {
+      "name": "brand-photography-sourcing-mandate",
+      "version": "v2",
+      "fileId": "1sgFdFjfR_Q_XHy7YZcJoyrcSRYvjZnnY",
+      "council_score": 4.4,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "agent-memory-skill",
+      "version": "v2",
+      "fileId": "1Pvh1jxP6piD46p8IayqMa5Z3T-2MTO9V",
+      "council_score": 4.5,
+      "status": "ACTIVE"
+    },
+    {
+      "name": "diy-skill",
+      "version": "v2",
+      "fileId": "1Q_aoV8wuAa8I4gB8d1cybnYev9tex5bH",
+      "council_score": 4.3,
+      "status": "ACTIVE"
+    }
+  ],
+  "recent_changes": [
+    {
+      "date": "2026-05-05",
+      "change": "push-harder-skill renamed to extra-push-skill v1"
+    },
+    {
+      "date": "2026-05-05",
+      "change": "NEW: proactive-autonomy-skill v1 added"
+    },
+    {
+      "date": "2026-05-05",
+      "change": "NEW: idea-to-completion-skill v1 added"
+    },
+    {
+      "date": "2026-05-05",
+      "change": "council-skill upgraded to v14"
+    },
+    {
+      "date": "2026-05-06",
+      "change": "NEW: overnight-sprint-skill v1 added"
+    }
+  ]
+}
