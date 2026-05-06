@@ -1,216 +1,97 @@
 {
-  "_meta": {
-    "version": "9",
-    "updated": "2026-05-06T09:35:00MDT",
-    "updated_by": "Squirrel FKI Ops Audit Sprint WAVE 2 \u2014 50 Tasks",
-    "next_refresh": "2026-05-07T00:00:00MDT",
-    "note": "Wave 2: weekly_ops_report.py LIVE (Mon 9am) + weekly_briefing_consolidator LIVE (Mon 7:30am) + show_rate_analyzer fixed + LaunchAgent fleet cleared (3 failures) + Reed Pulse 5-trigger downstream chain + SKILLS_MANIFEST corrected. Operations 70%\u219273%. Autonomy 68.8%\u219270.2%."
+  "last_updated": "2026-05-06T16:07Z",
+  "updated_by": "Squirrel overnight-sprint-skill v1.0",
+  "revenue": {
+    "ytd": 225596,
+    "net_income_ytd": 131484,
+    "source": "QuickBooks API \u2014 verified 2026-05-06"
   },
-  "kpis": {
-    "revenue_ytd": "$225,596",
-    "revenue_source": "QuickBooks QB API \u00b7 billing@franchiseki.com \u00b7 verified",
-    "runway_weeks": "5.2",
-    "runway_note": "Zero-deal scenario \u00b7 weekly burn $7,659",
-    "leads_pipeline": "1433",
-    "leads_source": "GHL pipeline vUMUWSpK5v217qHsFH5k",
-    "ad_spend_30d": "$8,894",
-    "ad_spend_note": "Meta Ads \u00b7 act_1034627395362893 \u00b7 Apr 4\u2013May 3",
-    "ad_spend_blind": true,
-    "ad_spend_blind_reason": "FACEBOOKACCESSTOKEN missing \u2014 Leo Browser-Use WO dispatched",
-    "autonomy_pct": 70.2,
-    "autonomy_source": "Squirrel Wave 2 Report 2026-05-06 \u2014 70.2% confirmed",
-    "health_score": 76,
-    "health_target": 85,
-    "health_deadline": "2026-05-17",
-    "health_countdown_days": 12,
-    "blockers_red": 8
+  "runway": {
+    "checking_balance": 40006,
+    "undeposited_funds": 80000,
+    "note": "$80K undeposited \u2014 possible 2 new deals. Investigating.",
+    "weekly_burn": 7659,
+    "weeks_zero_deal_conservative": 5.2,
+    "weeks_with_undeposited": 15.7
   },
-  "domains": {
-    "lead_acquisition": {
-      "pct": 15,
-      "status": "red",
-      "note": "Meta blind \u00b7 speed-to-lead.py LIVE \u00b7 Google Ads May 7"
-    },
-    "lead_processing": {
-      "pct": 48,
-      "status": "amber",
-      "note": "Piper 968 leads enrolled \u2705 | Lead Scorer :8743 UP \u2705 | speed-to-lead.py LIVE | SynthFlow LP-02 in-flight"
-    },
-    "sales_intelligence": {
-      "pct": 58,
-      "status": "amber",
-      "note": "sam-auto-prep.sh LIVE \u00b7 Sales Meeting Prep v5 LIVE"
-    },
-    "operations": {
-      "pct": 73,
-      "status": "amber",
-      "note": "weekly_ops_report.py LIVE (Mon 9am MDT) + weekly_briefing_consolidator LIVE (Mon 7:30am) + show_rate_analyzer fixed + 3 LaunchAgent failures cleared + Reed Pulse 5-trigger chain active. Target 75%."
-    },
-    "financial_control": {
-      "pct": 72,
-      "status": "green",
-      "note": "fred-auto-kill.sh LIVE \u00b7 QB 3x/day sync"
+  "cc_debt": {
+    "total_net": 135531,
+    "correction_note": "Angie 2026-05-06 said $253K \u2014 QB actual is $135,531. Angie figure was wrong.",
+    "breakdown": {
+      "amex_1005": 92757,
+      "pce_0864": 40227,
+      "divvy": 9313,
+      "amex_5003": 13750,
+      "liam_chase_credit": -19109
     }
   },
-  "financials": {
-    "checking_balance": "$40,006",
-    "checking_source": "Chase 5000 \u00b7 QB live bank feed",
-    "cc_debt_total": "$175,281",
-    "cc_amex_balance": "$92,757",
-    "cc_amex_utilization_pct": 74,
-    "cc_pce_balance": "$40,227",
-    "cc_pce_utilization_pct": 80,
-    "weekly_burn": "$7,659",
-    "monthly_expenses_avg": "$33,184",
-    "ar_outstanding": "$0",
-    "ar_note": "INV-001 PAID 2026-05-05 \u00b7 QB Payment 738"
+  "pipeline": {
+    "total_opps": 7073,
+    "ic_booked": 60,
+    "ic_showed": 0,
+    "ic_show_rate": "0.0%",
+    "show_rate_fix": "3-touch SMS deployed tonight (P0)"
   },
-  "legal": {
-    "cfp_default_certificate": {
-      "status": "red",
-      "deadline": "2026-05-27",
-      "days_remaining": 22,
-      "case": "250905143"
-    },
-    "ironcreek_r15": {
-      "status": "red",
-      "deadline": "2026-05-18",
-      "days_remaining": 13,
-      "note": "Bennett legal gate \u00b7 draft prepared"
-    },
-    "google_ads_verify": {
-      "status": "amber",
-      "deadline": "2026-05-07",
-      "days_remaining": 2,
-      "note": "Leo Browser-Use WO dispatched \u00b7 $500 credit + advertiser verify"
-    }
+  "leads": {
+    "unassigned": 1017,
+    "routing_fix": "1,017 leads routing to Piper (P0 tonight)"
   },
-  "ccs": {
-    "active_count": 22,
-    "list": [
-      "/hub/",
-      "/finance-hub/",
-      "/marketing/",
-      "/meeting-prep/",
-      "/social/",
-      "/autonomy/",
-      "/seo/",
-      "/mapki/",
-      "/cpa/",
-      "/software/",
-      "/employees/",
-      "/legal/",
-      "/lead-funnel/",
-      "/advaita/",
-      "/daily-digest/",
-      "/skills-registry/",
-      "/content-engine/",
-      "/pulse/",
-      "/sprint/",
-      "/pulse/",
-      "/sprint/",
-      "/lead-acquisition/",
-      "/operations-report/",
-      "/weekly-briefing/"
-    ]
+  "autonomy": {
+    "overall_pct": 68.8,
+    "prev_pct": 62.0,
+    "delta": "+6.8%",
+    "lead_processing": 22,
+    "lead_acquisition": 33,
+    "financial_control": 20,
+    "sales_intelligence": 22,
+    "operations": 68.8
   },
-  "seo": {
-    "articles_count": 126,
-    "articles_target": 100,
-    "articles_remaining": 0,
-    "score_current": 24,
-    "score_target": 68,
-    "citations_verified": 1,
-    "citations_target": 5,
-    "citations_deadline": "2026-06-05",
-    "note": "TARGET MET: 114 articles (100 target exceeded). SEO article sprint complete."
+  "skills_count": 24,
+  "launchagents_active": "10/100",
+  "services": {
+    "ghl_webhook_8742": "UP",
+    "appointment_setter_8743": "UP",
+    "lead_scorer": "UP",
+    "mapki_funnel_8745": "UP",
+    "tiffany_ollama": "OFFLINE \u2014 Claude API fallback active"
   },
-  "social": {
-    "linkedin_status": "recovered",
-    "linkedin_first_post": "2026-05-07 07:30 MDT",
-    "linkedin_recovery_note": "24hr recovery complete",
-    "posts_queued": 5
-  },
-  "pulse": {
-    "active": true,
-    "skill_version": "v8",
-    "delivery_channels": [
-      "bennett@franchiseki.com",
-      "#leo-bennett"
+  "active_ccs": [
+    "/hub/",
+    "/finance-hub/",
+    "/marketing/",
+    "/social/",
+    "/autonomy/",
+    "/seo/",
+    "/mapki/",
+    "/meeting-prep/",
+    "/lead-funnel/",
+    "/legal/",
+    "/advaita/",
+    "/daily-digest/",
+    "/skills-registry/",
+    "/operations/",
+    "/cpa/",
+    "/franchise-ranking/"
+  ],
+  "sprint_in_progress": {
+    "overnight_sprint_all_domains": "2026-05-06",
+    "domains": [
+      "Sales",
+      "Marketing",
+      "Finance",
+      "Social Media",
+      "Operations"
     ],
-    "schedule": "Every 2hr 8AM-8PM MDT + 7AM + 6PM",
-    "last_run": "2026-05-05",
-    "trigger_chain_active": true,
-    "blind_sources": [
-      "Meta Ads"
-    ],
-    "digest_items": 2
+    "total_items_planned": 100,
+    "leo_wos_dispatched": 4,
+    "sales_wo_ts": "1778083739",
+    "marketing_wo_ts": "1778083760",
+    "social_wo_ts": "1778083800",
+    "operations_wo_ts": "1778083782"
   },
-  "sprint_board": {
-    "db_id": "335cf5514fd3813488dec82a68622d7b",
-    "red_rows": 0,
-    "yellow_rows": 7,
-    "diamond_rows": 58,
-    "day3_items_remaining": 26,
-    "leo_wos_inflight": 4
-  },
-  "flags": {
-    "fred_kill_live": true,
-    "speed_to_lead_live": true,
-    "meta_root_cause_known": true,
-    "sam_prep_live": true,
-    "linkedin_recovered": true,
-    "pulse_cc_live": true,
-    "sprint_cc_live": true,
-    "seo_89_articles": true,
-    "daily_digest_live": true,
-    "skills_registry_live": true,
-    "content_engine_live": true,
-    "google_ads_deadline_days": 2,
-    "ironcreek_deadline_days": 13,
-    "cfp_deadline_days": 22,
-    "active_ccs": 17,
-    "meta_token_missing": true,
-    "seo_100_target_met": true,
-    "seo_article_count_actual": 126,
-    "itc_skill_patched": true,
-    "autonomy_cc_domain_scores_corrected": true,
-    "piper_968_enrolled": true,
-    "lead_scorer_8743_up": true,
-    "health_check_launchagent_live": true,
-    "health_score_updated": 76,
-    "lead_acq_cc_live": true,
-    "framer_articles_built": 3,
-    "gmb_content_built": true,
-    "weekly_ops_report_live": true,
-    "weekly_briefing_consolidator_live": true,
-    "fleet_cleared_3_failures": true,
-    "skills_manifest_corrected_5_stale": true,
-    "reed_pulse_5_trigger_chain": true
-  },
-  "health_score": 74,
-  "targets": {
-    "lead_acquisition_target": 50,
-    "lead_processing_target": 50,
-    "all_domains_50_deadline": "2026-05-10",
-    "leo_wos_for_lead_acq": [
-      "Google Ads Browser-Use",
-      "GMB Profile",
-      "Yelp",
-      "BBB",
-      "Framer API 3 articles",
-      "SynthFlow LP-02"
-    ],
-    "bennett_gate_blocking_la_50": "FACEBOOKACCESSTOKEN \u2014 Meta Biz Mgr > System Users > Generate Token"
-  },
-  "lead_processing_pct": 28,
-  "unassigned_leads": 1,
-  "show_rate_sh": 33.2,
-  "show_rate_ic": 30.9,
-  "speed_to_lead_status": "live_launchagent",
-  "fred_auto_kill_status": "live_launchagent",
-  "attribution_roas_ic": 4.89,
-  "attribution_roas_sh": 6.51,
-  "noshow_90day_count": 109,
-  "noshow_90day_waste": 32700
+  "known_gates_for_bennett": [
+    "Google Ads advertiser verification by May 13 (phone confirmation only)",
+    "Ironcreek legal deadline May 18 \u2014 Heideman law contact",
+    "Tiffany wake (Garlon Maxwell) if Leo can't reach via SSH"
+  ]
 }

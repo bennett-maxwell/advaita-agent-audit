@@ -1,0 +1,45 @@
+{
+  "last_updated": "2026-05-06T16:07Z",
+  "sprints": [
+    {
+      "domain": "All Domains",
+      "date": "2026-05-06",
+      "items_planned": 100,
+      "diamonds_verified": 0,
+      "status": "IN PROGRESS",
+      "health_check_pass": true,
+      "leo_wos_dispatched": 4,
+      "leo_wos_confirmed": 0,
+      "key_p0_items": [
+        "Sales: 3-touch SMS reminders (IC 0% show rate)",
+        "Sales: 1,017 leads Bailey\u2192Piper",
+        "Sales: SynthFlow GHL connection",
+        "Marketing: SH budget 20%, scale FKI 80%",
+        "Marketing: IC community-hub creative test",
+        "Marketing: Google Ads verification May 13",
+        "Finance: $80K undeposited funds investigation",
+        "Social: LinkedIn scheduler fires May 7 7:30 AM",
+        "Operations: FranchiseScore deployment",
+        "Operations: Tiffany recovery"
+      ]
+    }
+  ],
+  "domain_baselines": {
+    "Finance": 20,
+    "Sales": 22,
+    "Marketing": 33,
+    "Social Media": 22,
+    "Operations": 68.8
+  },
+  "known_bugs_active": [
+    "Tiffany (Ollama) offline \u2014 Claude API haiku fallback active",
+    "1,017 leads on Bailey \u2192 Piper reroute pending Leo WO",
+    "SynthFlow not connected to GHL \u2014 Leo WO dispatched",
+    "3-touch SMS reminders not live \u2014 Leo WO dispatched",
+    "FranchiseScore not deployed to Convex \u2014 Leo WO dispatched"
+  ],
+  "verified_corrections": [
+    "CC debt: Angie said $253K, QB actual is $135,531 (direct API pull 2026-05-06)",
+    "Undeposited funds: $80K \u2014 source unknown, needs investigation"
+  ]
+}
