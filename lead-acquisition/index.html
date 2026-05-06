@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Acquisition — 50% Roadmap | FKI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif; background: #FFFFFF; color: #1D1D1F; min-height: 100vh; }
+  .header { background: #1D1D1F; color: #fff; padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-icon { width: 36px; height: 36px; background: #FF3B30; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .header-title { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .header-sub { font-size: 12px; color: #8E8E93; margin-top: 2px; }
+  .alert-badge { background: #FF3B30; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid #F2F2F7; }
+  .kpi { padding: 16px 20px; border-right: 1px solid #F2F2F7; }
+  .kpi:last-child { border-right: none; }
+  .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
+  .kpi-label { font-size: 11px; color: #6E6E73; font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-sub { font-size: 12px; color: #8E8E93; margin-top: 2px; }
+  .red { color: #FF3B30; } .amber { color: #FF9F0A; } .green { color: #34C759; } .blue { color: #0071E3; }
+  .alert-banner { background: #FFF3F0; border-left: 4px solid #FF3B30; padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
+  .alert-banner span { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .info-banner { background: #F0FFF4; border-left: 4px solid #34C759; padding: 12px 20px; }
+  .info-banner span { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .section { border-bottom: 1px solid #F2F2F7; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; user-select: none; }
+  .section-header:hover { background: #FAFAFA; }
+  .section-title { font-size: 14px; font-weight: 600; color: #1D1D1F; display: flex; align-items: center; gap: 8px; }
+  .section-pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+  .pill-red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .pill-amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .pill-green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .pill-gray { background: #F2F2F7; color: #6E6E73; }
+  .section-chevron { font-size: 12px; color: #8E8E93; transition: transform 0.2s; }
+  .section-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .section-content.open { max-height: 2000px; }
+  .section-chevron.open { transform: rotate(180deg); }
+  .section-body { padding: 0 20px 16px; }
+  .row-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #F9F9FB; }
+  .row-item:last-child { border-bottom: none; }
+  .row-label { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .row-value { font-size: 12px; color: #6E6E73; }
+  .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .b-red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .b-amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .b-green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .b-blue { background: rgba(0,113,227,0.12); color: #0071E3; }
+  .b-gray { background: #F2F2F7; color: #6E6E73; }
+  /* Progress bars */
+  .prog-row { margin-bottom: 10px; }
+  .prog-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .prog-label { font-size: 13px; font-weight: 600; }
+  .prog-pct { font-size: 13px; font-weight: 700; }
+  .prog-track { height: 8px; background: #F2F2F7; border-radius: 4px; overflow: hidden; position: relative; }
+  .prog-fill { height: 100%; border-radius: 4px; }
+  .prog-target { position: absolute; top: 0; bottom: 0; width: 2px; background: #1D1D1F; opacity: 0.3; }
+  .prog-note { font-size: 11px; color: #8E8E93; margin-top: 3px; }
+  /* Roadmap items */
+  .roadmap-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F9F9FB; }
+  .roadmap-item:last-child { border-bottom: none; }
+  .roadmap-num { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; margin-top: 1px; }
+  .rn-red { background: #FF3B30; }
+  .rn-amber { background: #FF9F0A; }
+  .rn-green { background: #34C759; }
+  .rn-blue { background: #0071E3; }
+  .roadmap-text { flex: 1; }
+  .roadmap-title { font-size: 13px; font-weight: 600; color: #1D1D1F; }
+  .roadmap-desc { font-size: 12px; color: #6E6E73; margin-top: 2px; }
+  .roadmap-impact { font-size: 11px; font-weight: 700; margin-top: 3px; }
+  .roadmap-owner { font-size: 11px; color: #8E8E93; margin-left: auto; flex-shrink: 0; }
+  .footer { padding: 14px 20px; background: #FAFAFA; display: flex; align-items: center; justify-content: space-between; }
+  .footer-text { font-size: 11px; color: #8E8E93; }
+  .footer-link { font-size: 12px; color: #0071E3; text-decoration: none; font-weight: 500; }
+  @media (max-width: 640px) { .kpi-strip { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-icon">🎯</div>
+    <div>
+      <div class="header-title">Lead Acquisition — 50% Roadmap</div>
+      <div class="header-sub">Current: 15% 🔴 → Target: 50%+ | 6 Leo WOs dispatched</div>
+    </div>
+  </div>
+  <div class="alert-badge">⚠️ 15%</div>
+</div>
+
+<!-- Meta token alert -->
+<div class="alert-banner">
+  <span style="background:#FF3B30;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">BENNETT GATE</span>
+  <span>Meta FACEBOOKACCESSTOKEN missing → campaigns blind 6+ days. Biz Mgr → System Users → Generate Token.</span>
+</div>
+<div class="alert-banner" style="background:#FFF8F0;border-color:#FF9F0A;">
+  <span style="background:#FF9F0A;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">2 DAYS</span>
+  <span>Google Ads May 7 — $500 credit expires + advertiser verification required. Leo Browser-Use WO dispatched.</span>
+</div>
+
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <div class="kpi-value red">15%</div>
+    <div class="kpi-label">Current Score</div>
+    <div class="kpi-sub">2 of ~13 sub-features live</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value amber">50%</div>
+    <div class="kpi-label">Target</div>
+    <div class="kpi-sub">~7 more sub-features needed</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value blue">6</div>
+    <div class="kpi-label">Leo WOs Dispatched</div>
+    <div class="kpi-sub">Google Ads · GMB · Yelp · BBB · Framer · SynthFlow</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value green">124</div>
+    <div class="kpi-label">SEO Articles Live</div>
+    <div class="kpi-sub">100-article target exceeded</div>
+  </div>
+</div>
+
+<!-- Sub-feature breakdown -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">📊 Sub-Feature Breakdown (Why 15%) <span class="section-pill pill-red">2/13 passing</span></div>
+    <div class="section-chevron open">▼</div>
+  </div>
+  <div class="section-content open">
+    <div class="section-body">
+      <div class="row-item"><div class="row-label">Meta Ads campaigns live</div><div class="badge b-green">✅ +8%</div></div>
+      <div class="row-item"><div class="row-label">Meta Ads reporting</div><div class="badge b-red">❌ Token missing</div></div>
+      <div class="row-item"><div class="row-label">Google Ads</div><div class="badge b-amber">⏳ Leo WO May 7</div></div>
+      <div class="row-item"><div class="row-label">LinkedIn organic</div><div class="badge b-green">✅ May 7 7:30AM +4%</div></div>
+      <div class="row-item"><div class="row-label">LinkedIn daily cron</div><div class="badge b-amber">⏳ Invocation created</div></div>
+      <div class="row-item"><div class="row-label">SEO content (124 articles)</div><div class="badge b-green">✅ +3%</div></div>
+      <div class="row-item"><div class="row-label">Framer blog (AI-indexed)</div><div class="badge b-amber">⏳ 3 articles → Leo publish</div></div>
+      <div class="row-item"><div class="row-label">AI citations (1/5 keywords)</div><div class="badge b-amber">🟡 Building</div></div>
+      <div class="row-item"><div class="row-label">Social brand accounts (IG/FB/TikTok)</div><div class="badge b-red">❌ Metricool upgrade pending</div></div>
+      <div class="row-item"><div class="row-label">MapKi → GHL lead capture</div><div class="badge b-amber">⏳ WO-A1 dispatched</div></div>
+      <div class="row-item"><div class="row-label">GMB listing</div><div class="badge b-amber">⏳ Leo WO</div></div>
+      <div class="row-item"><div class="row-label">Yelp / BBB listings</div><div class="badge b-amber">⏳ Leo WO</div></div>
+      <div class="row-item"><div class="row-label">Content engine cron (WO-B8)</div><div class="badge b-amber">⏳ Dispatched</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 50% Roadmap -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">🗺️ Path to 50% <span class="section-pill pill-amber">7 items needed</span></div>
+    <div class="section-chevron open">▼</div>
+  </div>
+  <div class="section-content open">
+    <div class="section-body">
+      <div style="margin-bottom:10px;font-size:12px;color:#6E6E73;">Each item = ~4-8% Lead Acquisition improvement. Need 7 more to reach 50%.</div>
+      <div class="roadmap-item">
+        <div class="roadmap-num rn-red">!</div>
+        <div class="roadmap-text">
+          <div class="roadmap-title">Meta FACEBOOKACCESSTOKEN</div>
+          <div class="roadmap-desc">Campaigns blind 6+ days. Biz Mgr → System Users → Generate Token → Leo updates ~/.env</div>
+          <div class="roadmap-impact amber">+8% Lead Acq</div>
+        </div>
+        <div class="roadmap-owner">Bennett gate</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num rn-red">!</div>
+        <div class="roadmap-text">
+          <div class="roadmap-title">Google Ads — May 7 (2 DAYS)</div>
+          <div class="roadmap-desc">$500 credit + advertiser verification. Leo Browser-Use WO dispatched. Immediate paid traffic.</div>
+          <div class="roadmap-impact amber">+8% Lead Acq</div>
+        </div>
+        <div class="roadmap-owner">Leo WO</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num rn-amber">2</div>
+        <div class="roadmap-text">
+          <div class="roadmap-title">MapKi → GHL Lead Capture (WO-A1)</div>
+          <div class="roadmap-desc">Convex mutation → GHL contact → Piper 60s assign. Mack's wave dispatched to Ivan.</div>
+          <div class="roadmap-impact green">+6% Lead Acq</div>
+        </div>
+        <div class="roadmap-owner">Leo/Ivan</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num rn-amber">3</div>
+        <div class="roadmap-text">
+          <div class="roadmap-title">GMB Profile Live</div>
+          <div class="roadmap-desc">Google My Business for FranchiseKI — content built, Leo Browser-Use to submit.</div>
+          <div class="roadmap-impact green">+6% Lead Acq</div>
+        </div>
+        <div class="roadmap-owner">Leo WO</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num rn-amber">4</div>
+        <div class="roadmap-text">
+          <div class="roadmap-title">Content Engine Cron (WO-B8)</div>
+          <div class="roadmap-desc">270-post LinkedIn calendar auto-publishing. 5 brand tracks. Mon-Fri daily posts.</div>
+          <div class="roadmap-impact green">+6% Lead Acq</div>
+        </div>
+        <div class="roadmap-owner">Leo/Ivan</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num rn-blue">5</div>
+        <div class="roadmap-text">
+          <div class="roadmap-title">Framer Blog — 3 AI-Citation Articles</div>
+          <div class="roadmap-desc">franchiseki.com/blogs IS indexed by Exa/ChatGPT. 3 articles built → Leo publishes via Framer API.</div>
+          <div class="roadmap-impact green">+4% Lead Acq</div>
+        </div>
+        <div class="roadmap-owner">Leo Framer API</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num rn-blue">6</div>
+        <div class="roadmap-text">
+          <div class="roadmap-title">Yelp + BBB Listings</div>
+          <div class="roadmap-desc">Directory submissions for local SEO + AI citation signals. Leo Browser-Use.</div>
+          <div class="roadmap-impact green">+4% Lead Acq</div>
+        </div>
+        <div class="roadmap-owner">Leo WO</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Progress bars -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">📈 Projected Score After WOs Complete</div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div style="margin-bottom:12px;font-size:12px;color:#6E6E73;">Target line = 50%. Current fill = actual.</div>
+      <div class="prog-row">
+        <div class="prog-header"><div class="prog-label">Now (2 items live)</div><div class="prog-pct red">15%</div></div>
+        <div class="prog-track"><div class="prog-fill" style="width:15%;background:#FF3B30;"></div><div class="prog-target" style="left:50%;"></div></div>
+        <div class="prog-note">Meta Ads running + SEO content</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-header"><div class="prog-label">After Leo WOs complete (no Meta token)</div><div class="prog-pct amber">42%</div></div>
+        <div class="prog-track"><div class="prog-fill" style="width:42%;background:#FF9F0A;"></div><div class="prog-target" style="left:50%;"></div></div>
+        <div class="prog-note">+ Google Ads + GMB + Yelp + BBB + Framer + MapKi→GHL + Content cron</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-header"><div class="prog-label">After Meta token refresh (Bennett)</div><div class="prog-pct green">52%</div></div>
+        <div class="prog-track"><div class="prog-fill" style="width:52%;background:#34C759;"></div><div class="prog-target" style="left:50%;"></div></div>
+        <div class="prog-note">+ Meta reporting live → TARGET MET ✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Leo WOs dispatched -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">🚀 Leo WOs Dispatched <span class="section-pill pill-blue">6 In-Flight</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div class="row-item"><div class="row-label">Google Ads May 7 Browser-Use</div><div class="badge b-red">URGENT 2d</div></div>
+      <div class="row-item"><div class="row-label">GMB Profile Submission</div><div class="badge b-amber">In-flight</div></div>
+      <div class="row-item"><div class="row-label">Yelp Business Listing</div><div class="badge b-amber">In-flight</div></div>
+      <div class="row-item"><div class="row-label">BBB Profile</div><div class="badge b-amber">In-flight</div></div>
+      <div class="row-item"><div class="row-label">Framer API — 3 articles</div><div class="badge b-amber">In-flight</div></div>
+      <div class="row-item"><div class="row-label">SynthFlow LP-02 GHL connect</div><div class="badge b-amber">In-flight</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-text">Lead Acq Roadmap · proactive-autonomy v1.1 · council 4.5/5 · FKI CEO OS Day 3</div>
+  <a href="/hub/" class="footer-link">← Hub</a>
+</div>
+
+<script>
+function toggle(header) {
+  const content = header.nextElementSibling;
+  const chevron = header.querySelector('.section-chevron');
+  content.classList.toggle('open', !content.classList.contains('open'));
+  chevron.classList.toggle('open', !chevron.classList.contains('open'));
+}
+</script>
+</body>
+</html>

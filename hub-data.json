@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "version": "6",
-    "updated": "2026-05-06T00:35:00MDT",
+    "version": "7",
+    "updated": "2026-05-06T01:00:00MDT",
     "updated_by": "Squirrel proactive-autonomy Day 3",
     "next_refresh": "2026-05-06T00:00:00MDT",
-    "note": "Piper 968 leads enrolled (Mack Diamond) + Lead Scorer :8743 UP (Ivan LP-01) + health score 74"
+    "note": "PA Run 4: 50% target plan. /lead-acquisition/ CC added. 6 Leo WOs for LA 15%->50%."
   },
   "kpis": {
     "revenue_ytd": "$225,596",
@@ -86,7 +86,7 @@
     }
   },
   "ccs": {
-    "active_count": 19,
+    "active_count": 20,
     "list": [
       "/hub/",
       "/finance-hub/",
@@ -108,11 +108,12 @@
       "/pulse/",
       "/sprint/",
       "/pulse/",
-      "/sprint/"
+      "/sprint/",
+      "/lead-acquisition/"
     ]
   },
   "seo": {
-    "articles_count": 119,
+    "articles_count": 124,
     "articles_target": 100,
     "articles_remaining": 0,
     "score_current": 24,
@@ -175,7 +176,24 @@
     "piper_968_enrolled": true,
     "lead_scorer_8743_up": true,
     "health_check_launchagent_live": true,
-    "health_score_updated": 74
+    "health_score_updated": 74,
+    "lead_acq_cc_live": true,
+    "framer_articles_built": 3,
+    "gmb_content_built": true
   },
-  "health_score": 74
+  "health_score": 74,
+  "targets": {
+    "lead_acquisition_target": 50,
+    "lead_processing_target": 50,
+    "all_domains_50_deadline": "2026-05-10",
+    "leo_wos_for_lead_acq": [
+      "Google Ads Browser-Use",
+      "GMB Profile",
+      "Yelp",
+      "BBB",
+      "Framer API 3 articles",
+      "SynthFlow LP-02"
+    ],
+    "bennett_gate_blocking_la_50": "FACEBOOKACCESSTOKEN \u2014 Meta Biz Mgr > System Users > Generate Token"
+  }
 }
