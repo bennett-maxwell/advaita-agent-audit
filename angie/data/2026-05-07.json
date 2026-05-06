@@ -1,0 +1,135 @@
+{
+  "date": "2026-05-07",
+  "generated_at": "2026-05-07T07:00:00-06:00",
+  "ntfy_topic": "fki-angie-3311333518714776",
+  "summary": {
+    "total_audits": 14,
+    "red": 4,
+    "yellow": 3,
+    "green": 7,
+    "human_gates": 2,
+    "agents_checked": 4,
+    "skills_checked": 23,
+    "projects_checked": 8
+  },
+  "waiting_on_bennett": [
+    {
+      "item": "Google Ads advertiser verification \u2014 MAY 13 deadline. Phone at ads.google.com (CID 340-719-9643)",
+      "id": "GATE-001"
+    },
+    {
+      "item": "Legal: CFP Default Certificate \u2014 MAY 27 deadline. Contact Heideman law (Justin/Ron).",
+      "id": "GATE-003"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F001",
+      "type": "project",
+      "name": "IC Meta Ads CPL",
+      "severity": "yellow",
+      "status": "in_progress",
+      "finding": "Community-Hub creative test in progress. Monitor vs $60 CPL kill threshold.",
+      "recommended_fix": "IC CPL Monitor invocation at 9am will auto-pause Investor Headlines v1.1 when kill threshold hit."
+    },
+    {
+      "id": "F002",
+      "type": "agent",
+      "name": "Lead Processing 22%",
+      "severity": "red",
+      "status": "in_progress",
+      "finding": "SynthFlow + GHL wiring in progress via Leo WO ts 1778019989. 506 leads still unassigned.",
+      "recommended_fix": "Check Leo WO ts 1778019989 status. LP-07 bulk-assign should be complete."
+    },
+    {
+      "id": "F003",
+      "type": "project",
+      "name": "Cash Runway 5.0 Weeks",
+      "severity": "red",
+      "status": "open",
+      "finding": "Runway updated from 5.2 to 5.0 weeks. Pipeline 1,433 opps, 3 signed. 0.28% end-to-end.",
+      "recommended_fix": "Close 1 deal this week. Pipeline review with Bailey/Keith."
+    },
+    {
+      "id": "F004",
+      "type": "project",
+      "name": "LinkedIn First Post",
+      "severity": "green",
+      "status": "fixed",
+      "finding": "Recovery period ended. DIY Skill post published today at 7:30 AM MDT.",
+      "recommended_fix": "None. Next post scheduled for tomorrow."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "theme": "LEAD PROCESSING STATUS",
+      "question": "Leo WO ts 1778019989 was dispatched for SynthFlow + GHL wiring. Has Leo confirmed?",
+      "options": {
+        "A": "Yes confirmed \u2014 move to next item",
+        "B": "No response \u2014 escalate to #leo-troubleshooting-team",
+        "C": "Partial \u2014 needs follow-up",
+        "D": "Haven't checked \u2014 check now"
+      },
+      "recommended": "D",
+      "rationale": "Always verify before assuming completion.",
+      "advaita_alignment": "Lead Processing \u2014 critical path to 70% autonomy"
+    },
+    {
+      "id": 2,
+      "theme": "DEAL ACCELERATION",
+      "question": "Did Bailey or Keith update GHL dispositions from yesterday's calls?",
+      "options": {
+        "A": "Yes, dispositions updated",
+        "B": "No \u2014 send reminder now",
+        "C": "Partially updated",
+        "D": "No calls yesterday"
+      },
+      "recommended": "A",
+      "rationale": "Dispositions drive pipeline velocity metrics.",
+      "advaita_alignment": "Sales Intelligence \u2014 pipeline accuracy is deal forecasting"
+    },
+    {
+      "id": 3,
+      "theme": "CONTENT \u2014 FIRST POST LIVE",
+      "question": "Today's LinkedIn post published at 7:30 AM. Check engagement?",
+      "options": {
+        "A": "Yes \u2014 looks good, continue schedule",
+        "B": "Yes \u2014 needs comment response",
+        "C": "Not checked yet",
+        "D": "Post didn't go live \u2014 investigate"
+      },
+      "recommended": "A",
+      "rationale": "Daily post went live per schedule. 4-3-2-1 framework back on track.",
+      "advaita_alignment": "Sales Intelligence \u2014 LinkedIn drives AI Franchise Kit pipeline"
+    },
+    {
+      "id": 4,
+      "theme": "FINANCIAL CONTROL",
+      "question": "Weekly burn is $7,659. Any unexpected spend this week to flag?",
+      "options": {
+        "A": "No \u2014 burn rate normal",
+        "B": "Yes \u2014 flag specific item below in notes",
+        "C": "Haven't checked QB",
+        "D": "Need QB pull"
+      },
+      "recommended": "A",
+      "rationale": "Regular burn rate monitoring prevents surprises at end of week.",
+      "advaita_alignment": "Financial Control \u2014 weekly burn visibility required"
+    },
+    {
+      "id": 5,
+      "theme": "SYSTEM HEALTH",
+      "question": "GHL PIT token still showing 403. Has Leo renewed it?",
+      "options": {
+        "A": "Yes renewed \u2014 attribution back online",
+        "B": "No \u2014 I'll renew at app.crmx.app now",
+        "C": "No \u2014 Leo handle it",
+        "D": "Not checked"
+      },
+      "recommended": "B",
+      "rationale": "GHL PIT renewal at app.crmx.app takes 2 minutes and unlocks the full attribution pipeline.",
+      "advaita_alignment": "Operations \u2014 GHL data feeds pipeline + ads attribution"
+    }
+  ]
+}
