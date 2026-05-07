@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-07T00:30:02Z",
+  "updated": "2026-05-07T00:45:02Z",
   "demo_mode": false,
   "agents": [
     {
@@ -30,7 +30,7 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 5,
-      "current_task": ":bar_chart: *MapKI Overnight Check* \u2014 May 6 18:30 MDT\n\u2022 NASAA miner: restarted (",
+      "current_task": ":warning: *IMAC RAM low: 1.0GB free* (avail 18.4GB). v2 is read-only \u2014 no auto-k",
       "current_skill": "autopilot-skill v8",
       "last_active_rel": "just now",
       "memory_updated_rel": "just now",
@@ -74,7 +74,7 @@
       "status": "offline",
       "tasks_running": 0,
       "tasks_max": 5,
-      "current_task": "FDD extractor \u00b7 run #129 \u00b7 45389 uploaded \u00b7 disk 464GB",
+      "current_task": "FDD extractor \u00b7 run #132 \u00b7 45389 uploaded \u00b7 disk 464GB",
       "current_skill": "tiffany-fdd-supervisor",
       "last_active_rel": "offline",
       "memory_updated_rel": "4m ago",
@@ -110,10 +110,10 @@
       "status": "active",
       "tasks_running": 1,
       "tasks_max": 4,
-      "current_task": "[ALIVE-TICK] squirrel-ghl-access sprint \u2014 2026-05-07 00:07 UTC",
+      "current_task": "@Leo \u2014 NOTION-401 / Sprint Board reads blocked",
       "current_skill": null,
-      "last_active_rel": "21m ago",
-      "memory_updated_rel": "21m ago",
+      "last_active_rel": "9m ago",
+      "memory_updated_rel": "9m ago",
       "notion_project": null,
       "color_class": "hyper-color",
       "text_class": "hyper-color-text"
@@ -121,7 +121,7 @@
   ],
   "handoffs": [],
   "system": {
-    "ivan_cpu_pct": 77,
+    "ivan_cpu_pct": 71,
     "ivan_ram_pct": 53,
     "ivan_disk_pct": 3,
     "mack_swap_gb": 0,
