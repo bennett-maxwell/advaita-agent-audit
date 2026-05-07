@@ -1,271 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketing Command Center — FranchiseKI</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif; background: #FFFFFF; color: #1D1D1F; }
-    .header { padding: 16px 24px; border-bottom: 1px solid #E5E5EA; display: flex; justify-content: space-between; align-items: center; }
-    .header h1 { font-size: 17px; font-weight: 700; }
-    .back { font-size: 12px; color: #0071E3; text-decoration: none; background: rgba(0,113,227,0.08); padding: 5px 12px; border-radius: 8px; }
-    .tabs { display: flex; gap: 4px; padding: 10px 24px; background: #F5F5F7; border-bottom: 1px solid #E5E5EA; }
-    .tab { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: #6E6E73; transition: all 0.15s; }
-    .tab.active { background: #1D1D1F; color: #FFF; }
-    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #E5E5EA; border-bottom: 1px solid #E5E5EA; }
-    .kpi-card { background: #FFF; padding: 22px 18px; cursor: pointer; transition: background 0.15s; user-select: none; position: relative; }
-    .kpi-card:hover { background: #F9F9FB; }
-    .kpi-card.active { background: #F0F7FF; }
-    .kpi-card.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: #0071E3; }
-    .kpi-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-    .kpi-value { font-size: 38px; font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
-    .kpi-sub { font-size: 11px; color: #8E8E93; }
-    .kpi-hint { font-size: 10px; color: #0071E3; margin-top: 8px; opacity: 0; transition: opacity 0.2s; }
-    .kpi-card:hover .kpi-hint, .kpi-card.active .kpi-hint { opacity: 1; }
-    .l2-panel { display: none; padding: 20px 24px; border-bottom: 1px solid #E5E5EA; background: #FAFAFA; }
-    .l2-panel.open { display: block; animation: slideDown 0.2s ease; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-    .l2-title { font-size: 13px; font-weight: 700; color: #1D1D1F; margin-bottom: 14px; }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #F0F0F0; }
-    .row:last-of-type { border-bottom: none; }
-    .row-label { font-size: 13px; color: #1D1D1F; }
-    .row-val { font-size: 13px; font-weight: 700; }
-    .sync-line { font-size: 11px; color: #8E8E93; margin-top: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .l3 { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #0071E3; text-decoration: none; background: rgba(0,113,227,0.08); padding: 5px 11px; border-radius: 8px; }
-    .crisis { background: rgba(255,59,48,0.06); border-left: 3px solid #FF3B30; border-radius: 0 8px 8px 0; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; }
-    .good { background: rgba(52,199,89,0.06); border-left: 3px solid #34C759; border-radius: 0 8px 8px 0; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; }
-    .audience-view { display: none; }
-    .audience-view.active { display: block; }
-    .footer { padding: 10px 24px; text-align: center; font-size: 10px; color: #C7C7CC; border-top: 1px solid #E5E5EA; }
-    @media (max-width: 480px) { .kpi-value { font-size: 28px; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FKI Command Center</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; }
+        .header { background: #1a1a1a; color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 28px; margin-bottom: 5px; }
+        .header p { font-size: 14px; color: #ccc; }
+        .tabs { background: #333; display: flex; border-bottom: 2px solid #555; }
+        .tab-button { flex: 1; padding: 15px; text-align: center; color: white; cursor: pointer; border: none; font-size: 14px; transition: background 0.2s; }
+        .tab-button:hover { background: #444; }
+        .tab-button.active { background: #0066cc; border-bottom: 3px solid #0066cc; }
+        .tab-content { display: none; padding: 30px; max-width: 1200px; margin: 0 auto; }
+        .tab-content.active { display: block; }
+        .password-gate { background: white; padding: 40px; text-align: center; border-radius: 8px; max-width: 400px; margin: 80px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .password-gate h2 { margin-bottom: 20px; color: #333; }
+        .password-gate input { width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 10px; }
+        .password-gate button { width: 100%; padding: 10px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .password-gate button:hover { background: #0052a3; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card h3 { color: #0066cc; margin-bottom: 15px; font-size: 16px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        table th { background: #f0f0f0; padding: 10px; text-align: left; font-weight: 600; font-size: 13px; }
+        table td { padding: 10px; border-bottom: 1px solid #eee; font-size: 13px; }
+        .status-active { color: #28a745; font-weight: 600; }
+        .status-blocked { color: #dc3545; font-weight: 600; }
+        .footer { background: #f5f5f5; padding: 15px; text-align: center; color: #666; font-size: 12px; margin-top: 30px; }
+        .timestamp { color: #999; font-size: 12px; margin-top: 10px; }
+    </style>
 </head>
 <body>
-<div class="header"><h1>📣 Marketing Command Center</h1><a href="../hub/" class="back">← Hub</a></div>
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('bennett', this)">Bennett</button>
-  <button class="tab" onclick="switchTab('team', this)">Team</button>
-  <button class="tab" onclick="switchTab('analytics', this)">Analytics</button>
-</div>
-<div id="view-bennett" class="audience-view active">
-  <div class="kpi-row">
-    <div class="kpi-card" onclick="toggle('l2-ic', this)">
-      <div class="kpi-label">IC CPL</div>
-      <div class="kpi-value" style="color:#FF3B30;">$76</div>
-      <div class="kpi-sub">⚠️ Crisis · target $45</div>
-      <div class="kpi-hint">▼ Tap for fix status</div>
+    <div class="header">
+        <h1>🏢 FKI Command Center</h1>
+        <p>Real-time dashboard · Bennett Maxwell</p>
     </div>
-    <div class="kpi-card" onclick="toggle('l2-sh', this)">
-      <div class="kpi-label">SH CPL</div>
-      <div class="kpi-value" style="color:#34C759;">$38</div>
-      <div class="kpi-sub">✓ Healthy · scale ready</div>
-      <div class="kpi-hint">▼ Tap for SH details</div>
-    </div>
-    <div class="kpi-card" onclick="toggle('l2-spend', this)">
-      <div class="kpi-label">30D Spend</div>
-      <div class="kpi-value" style="color:#FF9F0A;">$8.9<span style="font-size:18px;font-weight:600;">K</span></div>
-      <div class="kpi-sub">199 leads · $44.70 blended</div>
-      <div class="kpi-hint">▼ Tap for breakdown</div>
-    </div>
-  </div>
-  <div id="l2-ic" class="l2-panel">
-    <div class="l2-title">IC CPL Crisis — Investor Headlines Wrong Angle</div>
-    <div class="crisis"><strong style="color:#FF3B30;">Root cause:</strong> IC buyer = community-driven (Community Kate), not investor. Running "Investor Headlines v1.1" — wrong creative angle. $1,296 wasted last 7D.</div>
-    <div class="row"><div class="row-label">Current CPL</div><div class="row-val" style="color:#FF3B30;">$76.24</div></div>
-    <div class="row"><div class="row-label">Target CPL</div><div class="row-val">$45</div></div>
-    <div class="row"><div class="row-label">Fix: Community-Hub creative</div><div class="row-val" style="color:#FF9F0A;">Leo WO ts 1777986496</div></div>
-    <div class="row"><div class="row-label">IC brief in Drive</div><div class="row-val"><a href="#" class="l3" style="font-size:11px;">19vfz9dE...</a></div></div>
-    <div class="sync-line">Meta Ads verified Apr 4–May 3 · <a href="https://business.facebook.com/adsmanager" class="l3" target="_blank">Open Meta Ads →</a></div>
-  </div>
-  <div id="l2-sh" class="l2-panel">
-    <div class="l2-title">Salad House Campaign — Scale Candidate</div>
-    <div class="good"><strong style="color:#34C759;">Healthy:</strong> SH Leadform at $38.53 CPL · SH Video Series at $39.92 CPL with 9.56% CTR (highest in fleet)</div>
-    <div class="row"><div class="row-label">SH Leadform 30D spend</div><div class="row-val">$3,892</div></div>
-    <div class="row"><div class="row-label">SH Leads</div><div class="row-val">101</div></div>
-    <div class="row"><div class="row-label">SH CPL</div><div class="row-val" style="color:#34C759;">$38.53</div></div>
-    <div class="row"><div class="row-label">SH Video Series CTR</div><div class="row-val" style="color:#34C759;">9.56%</div></div>
-    <div class="row"><div class="row-label">CPAH</div><div class="row-val" style="color:#FF9F0A;">$357</div></div>
-    <div class="sync-line">Act ID act_1034627395362893 · <a href="https://business.facebook.com/adsmanager" class="l3" target="_blank">Open Meta Ads →</a></div>
-  </div>
-  <div id="l2-spend" class="l2-panel">
-    <div class="l2-title">30D Campaign Breakdown (Apr 4–May 3)</div>
-    <div class="row"><div class="row-label">IC Leadform</div><div class="row-val">$4,180 · 98 leads</div></div>
-    <div class="row"><div class="row-label">SH Leadform</div><div class="row-val">$3,892 · 101 leads</div></div>
-    <div class="row"><div class="row-label">SH Video Series</div><div class="row-val">$319 · 8 leads</div></div>
-    <div class="row"><div class="row-label">FKI 2nd Opinion</div><div class="row-val" style="color:#FF3B30;">$502 · 0 leads ⚠️ pause</div></div>
-    <div class="row"><div class="row-label">Total</div><div class="row-val">$8,894 · 199 leads</div></div>
-    <div class="row"><div class="row-label">⚠️ Token expired</div><div class="row-val" style="color:#FF3B30;">Apr 30 — campaigns blind</div></div>
-    <div class="sync-line">Meta Ads verified · token needs refresh · <a href="https://business.facebook.com" class="l3" target="_blank">Open Meta →</a></div>
-  </div>
-</div>
-<div id="view-team" class="audience-view">
-  <div style="padding:20px 24px;">
-    <div class="row"><div class="row-label">Glo Tanning benchmark</div><div class="row-val" style="color:#34C759;">$974K revenue</div></div>
-    <div class="row"><div class="row-label">Current CPAB (SH)</div><div class="row-val">$114</div></div>
-    <div class="row"><div class="row-label">Current CPAB (IC)</div><div class="row-val">$67</div></div>
-    <div class="row"><div class="row-label">Current CPAH (SH)</div><div class="row-val">$357</div></div>
-    <div class="row"><div class="row-label">Current CPAH (IC)</div><div class="row-val">$330</div></div>
-    <div class="row"><div class="row-label">Show Rate (SH)</div><div class="row-val" style="color:#FF9F0A;">31.9% vs 70% target</div></div>
-    <div class="row"><div class="row-label">Show Rate (IC)</div><div class="row-val" style="color:#FF3B30;">20.3% vs 70% target</div></div>
-  </div>
-</div>
-<div id="view-analytics" class="audience-view">
-  <div style="padding:20px 24px;">
-    <!-- CPL Trend Widget W2-D2 -->
-    <div style="margin-bottom:24px;">
-      <div style="font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">📈 CPL Trend — Last 30 Days</div>
-      <div id="cpl-trend-chart" style="display:flex;align-items:flex-end;gap:4px;height:80px;background:#F5F5F7;border-radius:10px;padding:10px 12px;overflow-x:auto;"></div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#8E8E93;">
-        <span>30 days ago</span><span>Today</span>
-      </div>
-      <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;">
-        <span style="font-size:12px;"><span style="display:inline-block;width:10px;height:10px;background:#0071E3;border-radius:2px;margin-right:4px;"></span>IC CPL</span>
-        <span style="font-size:12px;"><span style="display:inline-block;width:10px;height:10px;background:#34C759;border-radius:2px;margin-right:4px;"></span>SH CPL</span>
-      </div>
-    </div>
-    <!-- CPAH/CPAB Projection Table W2-D4 -->
-    <div style="margin-bottom:24px;">
-      <div style="font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">💰 CPAH / CPAB Projections</div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead>
-          <tr style="background:#F5F5F7;">
-            <th style="padding:8px 10px;text-align:left;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">Brand</th>
-            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">CPL</th>
-            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">→ CPAB (÷14%)</th>
-            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">→ CPAH (÷30%)</th>
-            <th style="padding:8px 10px;text-align:right;font-weight:700;font-size:10px;color:#8E8E93;text-transform:uppercase;">→ CPSD (÷25%)</th>
-          </tr>
-        </thead>
-        <tbody id="cpah-table-body">
-          <tr style="border-top:1px solid #E5E5EA;">
-            <td style="padding:10px;font-weight:600;">IC (current)</td>
-            <td style="padding:10px;text-align:right;color:#FF3B30;font-weight:700;">$76.24</td>
-            <td style="padding:10px;text-align:right;color:#FF3B30;">$544</td>
-            <td style="padding:10px;text-align:right;color:#FF3B30;">$330</td>
-            <td style="padding:10px;text-align:right;color:#FF3B30;">$1,320</td>
-          </tr>
-          <tr style="border-top:1px solid #E5E5EA;background:#F0FFF4;">
-            <td style="padding:10px;font-weight:600;">IC (target $45)</td>
-            <td style="padding:10px;text-align:right;color:#34C759;font-weight:700;">$45</td>
-            <td style="padding:10px;text-align:right;color:#34C759;">$321</td>
-            <td style="padding:10px;text-align:right;color:#34C759;">$195</td>
-            <td style="padding:10px;text-align:right;color:#34C759;">$780</td>
-          </tr>
-          <tr style="border-top:1px solid #E5E5EA;">
-            <td style="padding:10px;font-weight:600;">SH (current)</td>
-            <td style="padding:10px;text-align:right;color:#FF9F0A;font-weight:700;">$38.53</td>
-            <td style="padding:10px;text-align:right;color:#FF9F0A;">$275</td>
-            <td style="padding:10px;text-align:right;color:#FF9F0A;">$150</td>
-            <td style="padding:10px;text-align:right;color:#FF9F0A;">$600</td>
-          </tr>
-          <tr style="border-top:1px solid #E5E5EA;background:#FFF7ED;">
-            <td style="padding:10px;font-weight:600;color:#8E8E93;">SH (⚠️ PAUSED — 0.84x ROAS)</td>
-            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
-            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
-            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
-            <td style="padding:10px;text-align:right;color:#8E8E93;">—</td>
-          </tr>
-          <tr style="border-top:1px solid #E5E5EA;">
-            <td style="padding:10px;font-weight:600;">AIFK (target)</td>
-            <td style="padding:10px;text-align:right;color:#0071E3;font-weight:700;">$35</td>
-            <td style="padding:10px;text-align:right;color:#0071E3;">$250</td>
-            <td style="padding:10px;text-align:right;color:#0071E3;">$117</td>
-            <td style="padding:10px;text-align:right;color:#0071E3;">$467</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="font-size:10px;color:#8E8E93;margin-top:8px;">CPAB = CPL ÷ 14% booking rate · CPAH = CPL ÷ 30% show rate · CPSD = CPAH ÷ 25% close rate</div>
-    </div>
-    <!-- Marketing Autonomy Score -->
-    <div>
-      <div style="font-size:11px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">🤖 Lead Acquisition Autonomy</div>
-      <div style="background:#F5F5F7;border-radius:10px;padding:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <span style="font-size:13px;font-weight:700;">Current</span>
-          <span style="font-size:20px;font-weight:800;color:#FF9F0A;">33%</span>
-        </div>
-        <div style="background:#E5E5EA;border-radius:4px;height:8px;overflow:hidden;">
-          <div style="background:#FF9F0A;height:100%;width:33%;border-radius:4px;"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#8E8E93;">
-          <span>0% (manual)</span><span>100% (full auto)</span>
-        </div>
-        <div style="font-size:11px;color:#6E6E73;margin-top:8px;">
-          ✅ IC booking monitor · ✅ CPL daily alert · ✅ Funnel health check · ✅ Show-rate SMS<br>
-          🟡 Meta creative rotation · 🔴 Google Ads live · 🔴 AIFK pipeline wired
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="footer">Meta Ads verified · act_1034627395362893 · Cached 2hr · May 6, 2026</div>
-<script>
-function toggle(id, card) {
-  const panel = document.getElementById(id);
-  const isOpen = panel.classList.contains('open');
-  document.querySelectorAll('.l2-panel').forEach(p => p.classList.remove('open'));
-  document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active'));
-  if (!isOpen) { panel.classList.add('open'); card.classList.add('active'); }
-}
-function switchTab(v, btn) {
-  document.querySelectorAll('.audience-view').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('view-' + v).classList.add('active');
-  btn.classList.add('active');
-  if (v === 'analytics') renderCPLChart();
-}
-function renderCPLChart() {
-  const el = document.getElementById('cpl-trend-chart');
-  if (!el || el.dataset.rendered) return;
-  // Simulated 30-day CPL trend (IC only, SH paused mid-period)
-  const data = [
-    {d:'Apr 4',ic:42,sh:36},{d:'Apr 7',ic:44,sh:38},{d:'Apr 10',ic:48,sh:37},
-    {d:'Apr 13',ic:51,sh:40},{d:'Apr 16',ic:55,sh:null},{d:'Apr 19',ic:58,sh:null},
-    {d:'Apr 22',ic:62,sh:null},{d:'Apr 25',ic:67,sh:null},{d:'Apr 28',ic:72,sh:null},
-    {d:'May 1',ic:76,sh:null},{d:'May 3',ic:76,sh:null}
-  ];
-  const maxV = 100;
-  const h = 60;
-  el.innerHTML = data.map(d => `
-    <div style="flex:1;min-width:20px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:default;" title="${d.d}: IC $${d.ic}${d.sh?' SH $'+d.sh:''}">
-      ${d.sh ? `<div style="width:60%;background:#34C759;height:${Math.round(d.sh/maxV*h)}px;border-radius:2px 2px 0 0;opacity:0.8;"></div>` : `<div style="width:60%;height:${Math.round((d.sh||0)/maxV*h)}px;"></div>`}
-      <div style="width:60%;background:${d.ic>60?'#FF3B30':'#0071E3'};height:${Math.round(d.ic/maxV*h)}px;border-radius:2px 2px 0 0;"></div>
-      <div style="font-size:8px;color:#8E8E93;white-space:nowrap;">${d.d.replace('Apr ','').replace('May ','M')}</div>
-    </div>`).join('');
-  el.dataset.rendered = '1';
-}
-</script>
 
-<!-- Google Ads Deadline - Day 2 R2 -->
-<style>
-.gads-alert{background:#FF3B30;color:#fff;border-radius:10px;padding:14px 18px;margin:16px 0}
-.gads-alert-title{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;opacity:.8}
-.gads-alert-main{font-size:18px;font-weight:800}
-.gads-alert-sub{font-size:12px;margin-top:6px;opacity:.85}
-.gads-btn{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;font-size:11px;font-weight:600;padding:5px 12px;border-radius:7px;margin-top:8px;cursor:pointer;text-decoration:none}
-</style>
-<div style="padding:0 16px">
-<div class="gads-alert">
-  <div class="gads-alert-title">🔴 URGENT — Google Ads Deadline</div>
-  <div class="gads-alert-main">Advertiser Verification · May 13, 2026 · 8 Days Remaining</div>
-  <div class="gads-alert-sub">CID: 340-719-9643 · Submit identity docs at ads.google.com · Risk: Account PAUSED if missed</div>
-  <div class="gads-alert-sub">Org questions already answered. Phone confirmation remaining. NOT a Bennett gate — Leo/Browser can resolve.</div>
-  <button class="gads-btn" onclick="navigator.clipboard.writeText('Go to ads.google.com with CID 340-719-9643, complete advertiser identity verification. Org questions answered, phone confirmation remaining. Use Browser-Use on Ivan iMac via Leo. URGENT — May 13 deadline.').then(()=>{this.textContent='✓ Copied!'})">Copy Dispatch ↗</button>
-</div>
+    <div class="tabs">
+        <button class="tab-button active" onclick="switchTab(event, 'personal')">Personal</button>
+        <button class="tab-button" onclick="switchTab(event, 'fki')">FKI</button>
+        <button class="tab-button" onclick="switchTab(event, 'finance')">Finance</button>
+        <button class="tab-button" onclick="switchTab(event, 'legal')">Legal</button>
+    </div>
 
-<!-- Glo Tanning Replication Benchmark -->
-<style>
-.glo-strip{background:#FFF;border-radius:10px;padding:14px 18px;margin:16px 0;border-left:4px solid #34C759}
-.glo-hd{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-</style>
-<div class="glo-strip">
-  <div class="glo-hd">🎯 Glo Tanning Replication Benchmark</div>
-  <div style="font-size:24px;font-weight:800;color:#34C759">$974K</div>
-  <div style="font-size:12px;color:#6E6E73;margin-top:4px">All-time franchise deal revenue · Lead source: identify + replicate</div>
-  <div style="font-size:12px;color:#6E6E73;margin-top:4px">Current CPSD: Not tracked · Target: match Glo Tanning cost structure per deal</div>
-  <div style="font-size:11px;color:#8E8E93;margin-top:6px">Find the Glo Tanning lead source in GHL → build lookalike audience → scale that creative angle</div>
-</div>
-</div>
+    <!-- PERSONAL TAB (Password: personal2026) -->
+    <div id="personal" class="tab-content active">
+        <div class="password-gate" id="personal-gate" style="display:block;">
+            <h2>🔒 Personal</h2>
+            <input type="password" id="personal-pass" placeholder="Password" />
+            <button onclick="checkPassword('personal')">Unlock</button>
+        </div>
+        <div id="personal-content" style="display:none;">
+            <div class="card">
+                <h3>🏠 Real Estate Portfolio</h3>
+                <table>
+                    <thead><tr><th>Property</th><th>Role</th><th>Status</th><th>Current Project</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Lehi townhome (Airbnb)</td>
+                            <td>Short-term rental</td>
+                            <td><span class="status-active">Active</span></td>
+                            <td>Carpet replacement (560 sq ft, 3 quotes in flight)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h3>🔧 Active Projects</h3>
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
+                    <strong>Lehi townhome carpet replacement</strong><br/>
+                    <small>560 sq ft, carpet only<br/>Budget: $1,960–$3,640 standard</small>
+                    <table style="margin-top: 10px;">
+                        <thead><tr><th>Vendor</th><th>Phone</th><th>Rating</th></tr></thead>
+                        <tbody>                            <tr><td>Carpet One Floor & Home</td><td>(801) 756-5800</td><td>4.3★</td></tr>
+                            <tr><td>IFA / Intermountain Floor Association</td><td>(801) 224-4900</td><td>4.1★</td></tr>
+                            <tr><td>Empire Today</td><td>1-800-588-2300</td><td>3.9★</td></tr>
+                        </tbody>
+                    </table>
+                    <small style="color:#999; margin-top:10px;">Next: {proj['next']}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FKI TAB (Password: personal2026) -->
+    <div id="fki" class="tab-content">
+        <div class="password-gate" id="fki-gate" style="display:block;">
+            <h2>🔒 FKI Operations</h2>
+            <input type="password" id="fki-pass" placeholder="Password" />
+            <button onclick="checkPassword('fki')">Unlock</button>
+        </div>
+        <div id="fki-content" style="display:none;">
+            <div class="card">
+                <h3>📊 Funnel Snapshot</h3>
+                <p>Total Opportunities: <strong>1433</strong> (as of 2026-05-06)</p>
+                <table>
+                    <thead><tr><th>Stage</th><th>Count</th></tr></thead>
+                    <tbody>
+                        <tr><td>Lead</td><td>312</td></tr>
+                        <tr><td>Qualified</td><td>189</td></tr>
+                        <tr><td>Proposal</td><td>67</td></tr>
+                        <tr><td>Closed</td><td>45</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h3>👥 Team Status</h3>
+                <table>
+                    <thead><tr><th>Name</th><th>Role</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Bennett</td><td>Founder/CEO</td><td><span class="status-active">Active</span></td></tr>
+                        <tr><td>Cody</td><td>Sales</td><td><span class="status-active">Active</span></td></tr>
+                        <tr><td>Bailey</td><td>Sales</td><td><span class="status-active">Active</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINANCE TAB (Password: finance2026) -->
+    <div id="finance" class="tab-content">
+        <div class="password-gate" id="finance-gate" style="display:block;">
+            <h2>🔒 Finance</h2>
+            <input type="password" id="finance-pass" placeholder="Password" />
+            <button onclick="checkPassword('finance')">Unlock</button>
+        </div>
+        <div id="finance-content" style="display:none;">
+            <div class="card">
+                <h3>📈 P&L (MTD)</h3>
+                <table>
+                    <tr><td>Revenue</td><td><strong>$87,420</strong></td></tr>
+                    <tr><td>COGS</td><td>$23,100</td></tr>
+                    <tr><td>Gross Margin</td><td><strong>73.5%</strong></td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <h3>💰 Cash Position</h3>
+                <table>
+                    <tr><td>Cash</td><td><strong style="color:#28a745;">$40,000</strong></td></tr>
+                    <tr><td>CC Debt</td><td><strong style="color:#dc3545;">$253,000</strong></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- LEGAL TAB (Password: legal2026) -->
+    <div id="legal" class="tab-content">
+        <div class="password-gate" id="legal-gate" style="display:block;">
+            <h2>🔒 Legal</h2>
+            <input type="password" id="legal-pass" placeholder="Password" />
+            <button onclick="checkPassword('legal')">Unlock</button>
+        </div>
+        <div id="legal-content" style="display:none;">
+            <div class="card">
+                <h3>⚖️ Compliance Status</h3>
+                <p><strong>Certifications:</strong> Commercial Funding cert due May 27, 2026</p>
+                <p><strong>Active Cases:</strong> 24 legal cases (~$512K+ aggregate)</p>
+                <p><strong>Contacts:</strong> Bennett Maxwell (signatory)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🔄 Auto-generated daily at 7:00 PM MDT · Last updated: 2026-05-06T19:49:57.065429</p>
+    </div>
+
+    <script>
+        const passwords = {
+            "personal": "personal2026",
+            "fki": "personal2026",
+            "finance": "finance2026",
+            "legal": "legal2026"
+        };
+
+        function checkPassword(tabId) {
+            const inputId = tabId + "-pass";
+            const inputValue = document.getElementById(inputId).value;
+            const correctPass = passwords[tabId];
+
+            if (inputValue === correctPass) {
+                document.getElementById(tabId + "-gate").style.display = "none";
+                document.getElementById(tabId + "-content").style.display = "block";
+            } else {
+                alert("Incorrect password");
+            }
+        }
+
+        function switchTab(event, tabId) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll(".tab-content");
+            tabs.forEach(tab => tab.classList.remove("active"));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll(".tab-button");
+            buttons.forEach(btn => btn.classList.remove("active"));
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add("active");
+            event.target.classList.add("active");
+        }
+    </script>
 </body>
 </html>
