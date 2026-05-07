@@ -6,283 +6,418 @@
 <title>Bennett Command Center</title>
 <style>
 :root {
-  --bg: #0d0f14;
-  --surface: #161922;
-  --card: #1e2230;
-  --border: rgba(255,255,255,0.07);
-  --accent: #4f8ef7;
-  --green: #22c55e;
-  --red: #ef4444;
-  --yellow: #f59e0b;
-  --purple: #a855f7;
-  --gold: #D4A23A;
-  --text: #e8eaf0;
-  --muted: #6b7280;
+  --page:    #F4F7FE;
+  --white:   #FFFFFF;
+  --text:    #2D3748;
+  --label:   #A0AEC0;
+  --muted:   #CBD5E0;
+  --div:     #E8EDF6;
+  --border:  #E2E8F0;
+
+  --blue:    #0071E3;
+  --blue-lt: #E8F4FE;
+  --teal:    #4FD1C5;
+  --teal-lt: #E6FFFA;
+  --green:   #48BB78;
+  --green-lt:#C6F6D5;
+  --amber:   #ED8936;
+  --amber-lt:#FEEBCB;
+  --red:     #FC8181;
+  --red-lt:  #FFF5F5;
+  --red-dark:#E53E3E;
+  --purple:  #4FD1C5;
+  --purple-lt:#E6FFFA;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-card: 14px 17px 40px 4px rgba(112,144,176,0.08);
+  --shadow-hover: 14px 17px 40px 4px rgba(112,144,176,0.18);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; min-height: 100vh; }
+body { background: var(--page); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'DM Sans', 'Helvetica Neue', Arial, sans-serif; min-height: 100vh; font-size: 14px; }
 
-/* HEADER */
-.header { text-align: center; padding: 32px 16px 0; }
-.header-name { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
-.header-sub { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-top: 4px; }
-.date-badge { display: inline-block; background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.2); border-radius: 20px; padding: 4px 14px; font-size: 11px; color: var(--accent); font-weight: 600; margin-top: 12px; }
+/* ── TOPBAR ── */
+.topbar { background: var(--white); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 0 var(--div); gap: 12px; flex-wrap: wrap; }
+.topbar-brand { font-size: 16px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+.topbar-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.sys-chip { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--label); }
+.dot { width: 7px; height: 7px; border-radius: 50%; }
+.dot-green  { background: var(--green); }
+.dot-amber  { background: var(--amber); }
+.dot-muted  { background: var(--muted); }
+.topbar-time { font-size: 12px; font-weight: 800; color: var(--text); }
 
-/* SCREENS */
+/* ── SCREENS ── */
 .screen { display: none; }
 .screen.active { display: block; }
 
-/* HOME */
-#screen-home { padding: 28px 16px; max-width: 520px; margin: 0 auto; }
-.home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.home-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 20px; cursor: pointer; text-align: left; transition: border-color 0.2s, transform 0.12s; width: 100%; }
-.home-card:hover { transform: translateY(-2px); }
-.home-card.fki { border-color: rgba(79,142,247,0.2); }
-.home-card.fki:hover { border-color: rgba(79,142,247,0.5); }
-.home-card.personal { border-color: rgba(168,85,247,0.2); }
-.home-card.personal:hover { border-color: rgba(168,85,247,0.5); }
-.hc-icon { font-size: 34px; margin-bottom: 12px; }
-.hc-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
-.hc-title { font-size: 19px; font-weight: 800; }
-.hc-desc { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.55; }
+/* ══════════════════ HOME ══════════════════ */
+#screen-home { max-width: 600px; margin: 0 auto; padding: 40px 20px 32px; }
+.home-eyebrow { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.home-headline { font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; margin-bottom: 8px; }
+.home-date { font-size: 13px; color: var(--label); margin-bottom: 36px; }
 
-/* TOP BAR */
-.top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 13px 16px; display: flex; align-items: center; gap: 12px; }
-.back-btn { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 7px; border: 1px solid; cursor: pointer; white-space: nowrap; }
-.back-btn.blue { color: var(--accent); background: rgba(79,142,247,0.1); border-color: rgba(79,142,247,0.2); }
-.back-btn.purple { color: var(--purple); background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.2); }
-.top-title { font-size: 16px; font-weight: 800; }
-.top-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.home-cards { display: flex; flex-direction: column; gap: 16px; }
+.home-card { background: var(--white); border-radius: var(--radius-lg); padding: 28px 28px 26px; cursor: pointer; text-align: left; transition: box-shadow 0.2s, transform 0.15s; box-shadow: var(--shadow-card); border: 1.5px solid transparent; display: flex; align-items: flex-start; gap: 20px; }
+.home-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.home-card.fki { border-color: rgba(0,113,227,0.12); }
+.home-card.personal { border-color: rgba(79,209,197,0.15); }
+.hc-icon-wrap { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+.fki .hc-icon-wrap { background: var(--blue-lt); }
+.personal .hc-icon-wrap { background: var(--purple-lt); }
+.hc-body { flex: 1; }
+.hc-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.fki .hc-label { color: var(--blue); }
+.personal .hc-label { color: var(--purple); }
+.hc-title { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+.hc-desc { font-size: 13px; color: var(--label); line-height: 1.55; }
+.hc-chips { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+.hc-chip { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.fki .hc-chip { background: var(--blue-lt); color: var(--blue); }
+.personal .hc-chip { background: var(--purple-lt); color: var(--purple); }
+.hc-arrow { font-size: 18px; color: var(--muted); margin-top: 2px; flex-shrink: 0; }
 
-/* PRIMARY TABS */
-.tab-nav { display: flex; gap: 3px; padding: 12px 16px 0; overflow-x: auto; scrollbar-width: none; }
+/* ══════════════════ INNER ══════════════════ */
+.page-header { background: var(--white); padding: 16px 24px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 0 var(--div); }
+.back-btn { font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); cursor: pointer; background: var(--white); color: var(--label); transition: all 0.12s; white-space: nowrap; }
+.back-btn:hover { background: var(--page); color: var(--text); }
+.page-title { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+.page-sub { font-size: 11px; color: var(--label); margin-top: 1px; }
+
+/* ── TABS ── */
+.tab-nav { background: var(--white); padding: 0 24px; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; box-shadow: 0 1px 0 var(--div); }
 .tab-nav::-webkit-scrollbar { display: none; }
-.tab-btn { font-size: 12px; font-weight: 700; padding: 8px 16px; border-radius: 8px 8px 0 0; cursor: pointer; color: var(--muted); background: transparent; border: 1px solid transparent; white-space: nowrap; transition: all 0.15s; flex-shrink: 0; }
-.tab-btn.active { background: var(--card); color: var(--text); border-color: var(--border); border-bottom-color: var(--card); }
+.tab-btn { font-size: 13px; font-weight: 600; padding: 13px 18px; cursor: pointer; color: var(--label); background: transparent; border: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; flex-shrink: 0; }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 800; }
 .tab-btn:hover:not(.active) { color: var(--text); }
-.tab-line { height: 1px; background: var(--border); margin: 0 16px; }
-.tab-pane { display: none; padding: 16px; max-width: 700px; margin: 0 auto; }
+.tab-pane { display: none; padding: 24px 20px; max-width: 740px; margin: 0 auto; }
 .tab-pane.active { display: block; }
 
-/* SUB-TABS */
-.sub-nav { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-.sub-btn { font-size: 11px; font-weight: 700; padding: 6px 13px; border-radius: 7px; cursor: pointer; color: var(--muted); background: rgba(42,47,62,0.5); border: 1px solid var(--border); white-space: nowrap; transition: all 0.15s; }
-.sub-btn.active { background: rgba(79,142,247,0.15); color: var(--accent); border-color: rgba(79,142,247,0.3); }
+/* ── SUB TABS ── */
+.sub-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.sub-btn { font-size: 12px; font-weight: 700; padding: 7px 16px; border-radius: 20px; cursor: pointer; color: var(--label); background: var(--white); border: 1.5px solid var(--border); box-shadow: var(--shadow-card); white-space: nowrap; transition: all 0.15s; }
+.sub-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.sub-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
 .sub-pane { display: none; }
 .sub-pane.active { display: block; }
 
-/* CARD */
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; }
-.card-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+/* ── CARD ── */
+.card { background: var(--white); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow-card); }
+.card-title { font-size: 11px; font-weight: 800; color: var(--label); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
 
-/* STATUS ROWS */
-.status-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 12px; gap: 8px; }
-.status-row:last-child { border-bottom: none; }
-.status-label { font-weight: 600; flex: 1; }
-.status-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+/* ── KPI ROW ── */
+.kpi-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 16px; }
+@media (min-width: 480px) { .kpi-row { grid-template-columns: repeat(4,1fr); } }
+.kpi { background: var(--white); border-radius: var(--radius-md); padding: 16px 18px; text-align: left; box-shadow: var(--shadow-card); }
+.kpi-val { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+.kpi-label { font-size: 11px; color: var(--label); margin-top: 4px; font-weight: 600; }
+.kpi-delta { font-size: 11px; margin-top: 6px; font-weight: 600; }
 
-/* BADGE */
-.badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 5px; display: inline-block; white-space: nowrap; }
-.badge-green  { background: rgba(34,197,94,0.12);  color: var(--green);  border: 1px solid rgba(34,197,94,0.25); }
-.badge-yellow { background: rgba(245,158,11,0.12); color: var(--yellow); border: 1px solid rgba(245,158,11,0.25); }
-.badge-red    { background: rgba(239,68,68,0.12);  color: var(--red);    border: 1px solid rgba(239,68,68,0.25); }
-.badge-blue   { background: rgba(79,142,247,0.12); color: var(--accent); border: 1px solid rgba(79,142,247,0.25); }
-.badge-purple { background: rgba(168,85,247,0.12); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
-.badge-muted  { background: rgba(107,114,128,0.12); color: var(--muted); border: 1px solid rgba(107,114,128,0.2); }
+/* ── ROW ── */
+.row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--div); gap: 10px; }
+.row:last-child { border-bottom: none; }
+.row-label { font-size: 14px; font-weight: 500; }
+.row-sub   { font-size: 12px; color: var(--label); margin-top: 2px; }
 
-/* QUICK LINKS */
-.ql-row { display: flex; flex-wrap: wrap; gap: 6px; }
-.ql-btn { font-size: 12px; font-weight: 600; color: var(--text); background: rgba(42,47,62,0.6); border: 1px solid var(--border); border-radius: 8px; padding: 6px 11px; text-decoration: none; white-space: nowrap; transition: background 0.15s, border-color 0.15s; }
-.ql-btn:hover { background: rgba(79,142,247,0.12); border-color: rgba(79,142,247,0.35); }
+/* ── AGENT CARDS ── */
+.agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 440px) { .agent-grid { grid-template-columns: 1fr; } }
+.agent-card { background: var(--white); border-radius: var(--radius-md); padding: 18px 18px 16px; box-shadow: var(--shadow-card); }
+.agent-badge-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.agent-icon-wrap { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; background: var(--blue-lt); }
+.agent-name { font-size: 15px; font-weight: 800; color: var(--text); margin-top: 6px; }
+.agent-machine { font-size: 10px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.06em; }
+.agent-role { font-size: 12px; color: var(--label); margin-top: 3px; line-height: 1.4; }
+.agent-task { font-size: 11px; color: var(--blue); font-weight: 600; margin-top: 10px; background: var(--blue-lt); padding: 5px 10px; border-radius: 8px; display: inline-block; }
 
-/* KPI GRID */
-.kpi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 12px; }
-@media (min-width: 460px) { .kpi-grid { grid-template-columns: repeat(4,1fr); } }
-.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
-.kpi-val { font-size: 22px; font-weight: 800; }
-.kpi-label { font-size: 10px; color: var(--muted); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+/* ── PILL ── */
+.pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; white-space: nowrap; }
+.pill-green  { background: var(--green-lt); color: #276749; }
+.pill-amber  { background: var(--amber-lt); color: #744210; }
+.pill-red    { background: var(--red-lt);   color: var(--red-dark); }
+.pill-blue   { background: var(--blue-lt);  color: var(--blue); }
+.pill-purple { background: var(--purple-lt);color: #0E7490; }
+.pill-muted  { background: var(--div);      color: var(--label); }
 
-/* AGENT CARDS */
-.agents-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.agent-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-.agent-name { font-size: 14px; font-weight: 800; }
-.agent-role { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.agent-reach { font-size: 10px; color: var(--accent); font-weight: 600; margin-top: 6px; }
+/* ── QUICK LINKS ── */
+.ql-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.ql-link { font-size: 12px; font-weight: 700; color: var(--blue); background: var(--blue-lt); border-radius: 20px; padding: 7px 14px; text-decoration: none; white-space: nowrap; transition: background 0.12s; }
+.ql-link:hover { background: #bfdbfe; }
 
-/* LINK GRID */
-.link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.link-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-decoration: none; color: var(--text); display: block; transition: border-color 0.2s; }
-.link-card:hover { border-color: rgba(79,142,247,0.4); }
-.link-icon { font-size: 22px; margin-bottom: 7px; }
-.link-title { font-size: 13px; font-weight: 700; }
-.link-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+/* ── LINK TILES ── */
+.link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.link-tile { background: var(--white); border-radius: var(--radius-md); padding: 20px 18px; text-decoration: none; color: var(--text); display: block; transition: box-shadow 0.15s, transform 0.12s; box-shadow: var(--shadow-card); }
+.link-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.lt-icon-wrap { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+.lt-title { font-size: 14px; font-weight: 800; color: var(--text); }
+.lt-sub { font-size: 12px; color: var(--label); margin-top: 4px; line-height: 1.4; }
 
-/* PLACEHOLDER */
-.placeholder { background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px; padding: 32px; text-align: center; color: var(--muted); font-size: 12px; margin-bottom: 12px; }
-.placeholder-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-
-.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
-.dot-green { background: var(--green); }
-.dot-yellow { background: var(--yellow); }
-.dot-muted { background: var(--muted); }
+/* ── PLACEHOLDER ── */
+.placeholder { border: 2px dashed var(--muted); border-radius: var(--radius-md); padding: 36px; text-align: center; color: var(--label); margin-bottom: 16px; }
+.ph-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-name">Bennett Maxwell</div>
-  <div class="header-sub">Command Center</div>
-  <div class="date-badge" id="dateBadge"></div>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">Bennett Maxwell</div>
+  <div class="topbar-right">
+    <div class="sys-chip"><span class="dot dot-green"></span>Leo</div>
+    <div class="sys-chip"><span class="dot dot-green"></span>Ivan</div>
+    <div class="sys-chip"><span class="dot dot-green"></span>Mack</div>
+    <div class="sys-chip"><span class="dot dot-green"></span>Tiffany</div>
+    <div class="topbar-time" id="clock"></div>
+  </div>
 </div>
 
-<!-- ══════════════════════════════
-     HOME — 2 cards only
-══════════════════════════════ -->
+<!-- ══════ HOME ══════ -->
 <div id="screen-home" class="screen active">
-  <div class="home-grid">
+  <div class="home-eyebrow">Command Center</div>
+  <div class="home-headline">Good afternoon, Bennett.</div>
+  <div class="home-date" id="homeDate"></div>
+
+  <div class="home-cards">
     <button class="home-card fki" onclick="openScreen('fki')">
-      <div class="hc-icon">🏢</div>
-      <div class="hc-label">Business</div>
-      <div class="hc-title">FKI Command Center</div>
-      <div class="hc-desc">Operations · Tech · Marketing · Finance</div>
+      <div class="hc-icon-wrap">🏢</div>
+      <div class="hc-body">
+        <div class="hc-label">Business</div>
+        <div class="hc-title">FKI Command Center</div>
+        <div class="hc-desc">Operations · Tech · Marketing · Finance — everything Franchise KI in one place.</div>
+        <div class="hc-chips">
+          <span class="hc-chip">Operations</span>
+          <span class="hc-chip">Tech</span>
+          <span class="hc-chip">Marketing</span>
+          <span class="hc-chip">Finance</span>
+        </div>
+      </div>
+      <div class="hc-arrow">›</div>
     </button>
+
     <button class="home-card personal" onclick="openScreen('personal')">
-      <div class="hc-icon">👤</div>
-      <div class="hc-label">Personal</div>
-      <div class="hc-title">Personal Center</div>
-      <div class="hc-desc">Legal · Finance · Chore Chart · Real Estate</div>
+      <div class="hc-icon-wrap">👤</div>
+      <div class="hc-body">
+        <div class="hc-label">Personal</div>
+        <div class="hc-title">Personal Center</div>
+        <div class="hc-desc">Legal · Finance · Chore Chart · Real Estate — private, #leo-sky only.</div>
+        <div class="hc-chips">
+          <span class="hc-chip">Legal</span>
+          <span class="hc-chip">Finance</span>
+          <span class="hc-chip">Chores</span>
+          <span class="hc-chip">Real Estate</span>
+        </div>
+      </div>
+      <div class="hc-arrow">›</div>
     </button>
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     FKI — 4 primary tabs
-     Operations | Tech | Marketing | Finance
-══════════════════════════════ -->
+<!-- ══════ FKI ══════ -->
 <div id="screen-fki" class="screen">
-  <div class="top-bar">
-    <button class="back-btn blue" onclick="openScreen('home')">← Home</button>
+  <div class="page-header">
+    <button class="back-btn" onclick="openScreen('home')">← Home</button>
     <div>
-      <div class="top-title">🏢 FKI Command Center</div>
-      <div class="top-sub">Franchise KI — Business Operations</div>
+      <div class="page-title">FKI Command Center</div>
+      <div class="page-sub">Franchise KI — Business Operations</div>
     </div>
   </div>
-
   <div class="tab-nav">
     <button class="tab-btn active" onclick="showTab('fki','ops',this)">⚙️ Operations</button>
     <button class="tab-btn" onclick="showTab('fki','tech',this)">💻 Tech</button>
     <button class="tab-btn" onclick="showTab('fki','marketing',this)">📣 Marketing</button>
     <button class="tab-btn" onclick="showTab('fki','finance',this)">💰 Finance</button>
   </div>
-  <div class="tab-line"></div>
 
-  <!-- OPERATIONS — sub-tabs: Agents | Angie Audits | Humans -->
+  <!-- OPS -->
   <div id="fki-ops" class="tab-pane active">
     <div class="sub-nav">
       <button class="sub-btn active" onclick="showSub('ops','agents',this)">🤖 Agents</button>
       <button class="sub-btn" onclick="showSub('ops','angie',this)">📋 Angie Audits</button>
       <button class="sub-btn" onclick="showSub('ops','humans',this)">👥 Humans</button>
+      <button class="sub-btn" onclick="showSub('ops','rocks',this)">🪨 Rocks</button>
     </div>
 
-    <!-- Agents -->
     <div id="ops-agents" class="sub-pane active">
-      <div class="card">
-        <div class="card-title">🤖 AI Agents</div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Leo</span><div class="status-sub">Orchestrator / Router</div></div>
-          <span class="badge badge-green">Active</span>
+      <div class="agent-grid">
+        <div class="agent-card">
+          <div class="agent-badge-row">
+            <div class="agent-icon-wrap">🧠</div>
+            <span class="pill pill-green">Online</span>
+          </div>
+          <div class="agent-machine">Orchestrator</div>
+          <div class="agent-name">Leo</div>
+          <div class="agent-role">Router · Dispatcher · Multi-agent coordinator</div>
+          <div class="agent-task">→ Routing tasks via Slack</div>
         </div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Guy (Mack)</span><div class="status-sub">MacBook · CLI · Interactive</div></div>
-          <span class="badge badge-blue">MacBook</span>
+        <div class="agent-card">
+          <div class="agent-badge-row">
+            <div class="agent-icon-wrap">💻</div>
+            <span class="pill pill-green">Online</span>
+          </div>
+          <div class="agent-machine">MacBook</div>
+          <div class="agent-name">Guy (Mack)</div>
+          <div class="agent-role">CLI · Interactive tasks · SSH</div>
+          <div class="agent-task">→ Active session</div>
         </div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Ivan CC</span><div class="status-sub">iMac · Crons · Daemons</div></div>
-          <span class="badge badge-blue">iMac</span>
+        <div class="agent-card">
+          <div class="agent-badge-row">
+            <div class="agent-icon-wrap">🖥️</div>
+            <span class="pill pill-green">Online</span>
+          </div>
+          <div class="agent-machine">iMac</div>
+          <div class="agent-name">Ivan CC</div>
+          <div class="agent-role">Crons · Daemons · Persistent ops</div>
+          <div class="agent-task">→ Auto-commits running</div>
         </div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Tiffany</span><div class="status-sub">HP Omen · Windows · Ollama</div></div>
-          <span class="badge badge-blue">HP Omen</span>
+        <div class="agent-card">
+          <div class="agent-badge-row">
+            <div class="agent-icon-wrap">🤖</div>
+            <span class="pill pill-green">Online</span>
+          </div>
+          <div class="agent-machine">HP Omen</div>
+          <div class="agent-name">Tiffany</div>
+          <div class="agent-role">Windows · Ollama local models</div>
+          <div class="agent-task">→ Standby</div>
         </div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Sky</span><div class="status-sub">Slack MCP · Communications</div></div>
-          <span class="badge badge-blue">Slack</span>
+        <div class="agent-card">
+          <div class="agent-badge-row">
+            <div class="agent-icon-wrap">💬</div>
+            <span class="pill pill-green">Online</span>
+          </div>
+          <div class="agent-machine">Slack MCP</div>
+          <div class="agent-name">Sky</div>
+          <div class="agent-role">Team communications</div>
+          <div class="agent-task">→ Listening on channels</div>
         </div>
-        <div class="status-row">
-          <div><span class="dot dot-muted"></span><span class="status-label">Piper</span><div class="status-sub">Pipeline Reports</div></div>
-          <span class="badge badge-yellow">Scheduled</span>
-        </div>
-        <div class="status-row">
-          <div><span class="dot dot-muted"></span><span class="status-label">Reed</span><div class="status-sub">Pulse Reports</div></div>
-          <span class="badge badge-yellow">Scheduled</span>
+        <div class="agent-card">
+          <div class="agent-badge-row">
+            <div class="agent-icon-wrap">📊</div>
+            <span class="pill pill-amber">Scheduled</span>
+          </div>
+          <div class="agent-machine">Scheduled</div>
+          <div class="agent-name">Piper + Reed</div>
+          <div class="agent-role">Pipeline · Pulse Reports</div>
+          <div class="agent-task">→ Daily cron</div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">⚡ Quick Access</div>
+        <div class="card-title">Quick Access</div>
         <div class="ql-row">
-          <a class="ql-btn" href="https://dashboard.franchiseki.com/hub/agent-monitor.html" target="_blank">📊 Agent Monitor</a>
-          <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">⚡ #leo-auto</a>
-          <a class="ql-btn" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">📌 Sprint Board</a>
+          <a class="ql-link" href="https://dashboard.franchiseki.com/hub/agent-monitor.html" target="_blank">📊 Agent Monitor</a>
+          <a class="ql-link" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">⚡ #leo-auto</a>
+          <a class="ql-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">📌 Sprint Board</a>
         </div>
       </div>
     </div>
 
-    <!-- Angie Audits -->
     <div id="ops-angie" class="sub-pane">
-      <div class="placeholder">
-        <div class="placeholder-title">📋 Angie Audits</div>
-        Daily audit reports from Angie — coming soon.<br>Will auto-populate from email.
-      </div>
-      <div class="card">
-        <div class="card-title">⚡ Quick Access</div>
-        <div class="ql-row">
-          <a class="ql-btn" href="https://mail.google.com/mail/u/0/#search/from%3Aangie" target="_blank">📧 Angie Emails</a>
-        </div>
-      </div>
+      <div class="placeholder"><div class="ph-title">📋 Angie Audits</div>Daily audit reports auto-populate here — coming soon.</div>
+      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://mail.google.com/mail/u/0/#search/from%3Aangie" target="_blank">📧 Angie Emails</a></div></div>
     </div>
 
-    <!-- Humans -->
     <div id="ops-humans" class="sub-pane">
-      <div class="placeholder">
-        <div class="placeholder-title">👥 Human Work Reports</div>
-        Team activity tracking — coming soon.<br>Keith · Bailey · Madison · Kay
+      <div class="placeholder"><div class="ph-title">👥 Human Work Reports</div>Keith · Bailey · Madison · Kay — activity tracking coming soon.</div>
+    </div>
+
+    <div id="ops-rocks" class="sub-pane">
+      <div class="kpi-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:16px;">
+        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$109</div><div class="kpi-label">IC CPL (target $60)</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">50%</div><div class="kpi-label">Show Rate (target 70%)</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--blue)">73%</div><div class="kpi-label">AI Autonomy (target 90%)</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$17.8K</div><div class="kpi-label">CC Payments Due</div></div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock1',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">🎯 ROCK 1 — IC Lead Cost</div><div style="font-size:14px;font-weight:700;color:var(--text)">Get IC CPL from $109 → $60</div></div>
+          <span class="pill pill-amber">In Progress</span>
+        </div>
+        <div id="rock1" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Upload new community-hub creative</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">New adset parallel test vs Investor Headlines v1.1</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">Kill $76 CPL adset once new adset &lt;$60</div><span class="pill pill-muted">Pending</span></div>
+          <a href="https://www.facebook.com/adsmanager" class="l3-link" target="_blank">Open Ads Manager →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock2',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">📊 ROCK 2 — Show Rate</div><div style="font-size:14px;font-weight:700;color:var(--text)">Improve show rate from 50% → 70%</div></div>
+          <span class="pill pill-red">Critical</span>
+        </div>
+        <div id="rock2" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Publish 3 unpublished reminder workflows in GHL</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">3-touch pre-call sequence (24hr/2hr/1hr SMS)</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">No-show rebook sequence (30min/4hr/24hr)</div><span class="pill pill-blue">Leo</span></div>
+          <a href="https://app.crmx.app" class="l3-link" target="_blank">Open GHL →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock3',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">🤖 ROCK 3 — AI Autonomy</div><div style="font-size:14px;font-weight:700;color:var(--text)">Grow agent autonomy from 73% → 90%</div></div>
+          <span class="pill pill-blue">Active</span>
+        </div>
+        <div id="rock3" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Lead scorer webhook → GHL ContactCreate</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">SynthFlow → GHL sub-account connect</div><span class="pill pill-muted">Pending</span></div>
+          <div class="row"><div class="row-label">Deploy 4 new domain CCs to dashboard</div><span class="pill pill-muted">Pending</span></div>
+          <a href="https://dashboard.franchiseki.com/autonomy/" class="l3-link" target="_blank">Autonomy Dashboard →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock4',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">💰 ROCK 4 — Collections</div><div style="font-size:14px;font-weight:700;color:var(--text)">Clear $17.8K in near-term obligations</div></div>
+          <span class="pill pill-red">Urgent</span>
+        </div>
+        <div id="rock4" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">Due May 9</div></div><span class="pill pill-red">$8,909</span></div>
+          <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">Due May 19</div></div><span class="pill pill-amber">$8,864</span></div>
+          <div class="row"><div><div class="row-label">SRP / Reardon / Patel forecasts</div><div class="row-sub">Watch</div></div><span class="pill pill-muted">Pipeline</span></div>
+          <a href="https://quickbooks.intuit.com" class="l3-link" target="_blank">Open QuickBooks →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock5',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">👥 ROCK 5 — Team Performance</div><div style="font-size:14px;font-weight:700;color:var(--text)">Keith + Bailey pipeline + Madison research</div></div>
+          <span class="pill pill-muted">Monitor</span>
+        </div>
+        <div id="rock5" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Batch-assign 506 unassigned leads round-robin</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">Metricool Standard upgrade + brand connections</div><span class="pill pill-amber">Kay</span></div>
+          <div class="row"><div class="row-label">Week 3 content queue review</div><span class="pill pill-amber">Christelle</span></div>
+          <a href="https://franchiseki.slack.com" class="l3-link" target="_blank">Open Slack →</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- TECH — sub-tabs: Computer Health -->
+  <!-- TECH -->
   <div id="fki-tech" class="tab-pane">
     <div class="sub-nav">
       <button class="sub-btn active" onclick="showSub('tech','health',this)">💻 Computer Health</button>
     </div>
-
     <div id="tech-health" class="sub-pane active">
-      <div class="card">
-        <div class="card-title">💻 Machines</div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Ivan (iMac)</span><div class="status-sub">openclaw · 100.103.51.12</div></div>
-          <span class="badge badge-green">Online</span>
-        </div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Mack (MacBook)</span><div class="status-sub">temp · 100.112.24.104</div></div>
-          <span class="badge badge-green">Online</span>
-        </div>
-        <div class="status-row">
-          <div><span class="dot dot-green"></span><span class="status-label">Tiffany (HP Omen)</span><div class="status-sub">Windows · Ollama</div></div>
-          <span class="badge badge-green">Online</span>
-        </div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-val" style="color:var(--green)">3</div><div class="kpi-label">Machines Online</div></div>
+        <div class="kpi"><div class="kpi-val">101</div><div class="kpi-label">LaunchAgents</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--green)">✓</div><div class="kpi-label">Ivan Health</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--green)">✓</div><div class="kpi-label">Mack Health</div></div>
       </div>
       <div class="card">
-        <div class="card-title">⚡ Quick Access</div>
-        <div class="ql-row">
-          <a class="ql-btn" href="https://dashboard.franchiseki.com/hub/machine-health.html" target="_blank">💻 Machine Health Dashboard</a>
-          <a class="ql-btn" href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" target="_blank">🛠 #leo-coaches</a>
-        </div>
+        <div class="card-title">Machines</div>
+        <div class="row"><div><div class="row-label">Ivan (iMac)</div><div class="row-sub">openclaw · 100.103.51.12</div></div><span class="pill pill-green">Online</span></div>
+        <div class="row"><div><div class="row-label">Mack (MacBook)</div><div class="row-sub">temp · 100.112.24.104</div></div><span class="pill pill-green">Online</span></div>
+        <div class="row"><div><div class="row-label">Tiffany (HP Omen)</div><div class="row-sub">Windows · Ollama</div></div><span class="pill pill-green">Online</span></div>
       </div>
+      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/hub/machine-health.html" target="_blank">💻 Machine Health Dashboard</a><a class="ql-link" href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" target="_blank">🛠 #leo-coaches</a></div></div>
     </div>
   </div>
 
-  <!-- MARKETING — sub-tabs: Overview | Pipeline | Nut (GHL) | Content & Ads | Social -->
+  <!-- MARKETING -->
   <div id="fki-marketing" class="tab-pane">
     <div class="sub-nav">
       <button class="sub-btn active" onclick="showSub('mkt','overview',this)">📊 Overview</button>
@@ -292,134 +427,99 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
       <button class="sub-btn" onclick="showSub('mkt','social',this)">📱 Social</button>
     </div>
 
-    <!-- Marketing Overview -->
     <div id="mkt-overview" class="sub-pane active">
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-val" style="color:var(--accent)">$109</div><div class="kpi-label">IC CPL</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--green)">$30</div><div class="kpi-label">SH CPL</div></div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-val" style="color:var(--blue)">$109</div><div class="kpi-label">IC CPL</div><div class="kpi-delta" style="color:var(--amber)">↑ Watch</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--green)">$30</div><div class="kpi-label">SH CPL</div><div class="kpi-delta" style="color:var(--green)">✓ Strong</div></div>
         <div class="kpi"><div class="kpi-val">50%</div><div class="kpi-label">IC Show Rate</div></div>
         <div class="kpi"><div class="kpi-val" style="color:var(--green)">100%</div><div class="kpi-label">SH Show Rate</div></div>
       </div>
       <div class="card">
-        <div class="card-title">📣 Platform Status</div>
-        <div class="status-row"><span class="status-label">Meta Ads — IC</span><span class="badge badge-green">Active</span></div>
-        <div class="status-row"><span class="status-label">Meta Ads — SH</span><span class="badge badge-green">Active</span></div>
-        <div class="status-row"><span class="status-label">Meta CAPI</span><span class="badge badge-green">Live</span></div>
-        <div class="status-row"><span class="status-label">Metricool</span><span class="badge badge-blue">Scheduling</span></div>
-        <div class="status-row"><span class="status-label">AdStellar</span><span class="badge badge-yellow">Monitor</span></div>
-        <div class="status-row"><span class="status-label">Blaze AI</span><span class="badge badge-blue">Active</span></div>
+        <div class="card-title">Platform Status</div>
+        <div class="row"><div class="row-label">Meta Ads — IC</div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div class="row-label">Meta Ads — SH</div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div class="row-label">Meta CAPI</div><span class="pill pill-green">Live</span></div>
+        <div class="row"><div class="row-label">Metricool</div><span class="pill pill-blue">Scheduling</span></div>
+        <div class="row"><div class="row-label">AdStellar</div><span class="pill pill-amber">Monitor</span></div>
+        <div class="row"><div class="row-label">Blaze AI</div><span class="pill pill-blue">Active</span></div>
       </div>
+      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 GHL</a><a class="ql-link" href="https://metricool.com" target="_blank">📅 Metricool</a></div></div>
     </div>
 
-    <!-- Pipeline -->
     <div id="mkt-pipeline" class="sub-pane">
-      <div class="placeholder">
-        <div class="placeholder-title">🔀 Pipeline</div>
-        Lead pipeline metrics — coming soon.
-      </div>
-    </div>
-
-    <!-- Nut (GHL Pipeline) -->
-    <div id="mkt-nut" class="sub-pane">
-      <div class="placeholder">
-        <div class="placeholder-title">🎯 Nut — GHL Pipeline</div>
-        Go High Level pipeline data — coming soon.
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-val">7,039</div><div class="kpi-label">Total Opps</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">440</div><div class="kpi-label">Stuck Leads</div></div>
+        <div class="kpi"><div class="kpi-val">12%</div><div class="kpi-label">Form TR Rate</div></div>
+        <div class="kpi"><div class="kpi-val">2%</div><div class="kpi-label">FB TR Rate</div></div>
       </div>
       <div class="card">
-        <div class="card-title">⚡ Quick Access</div>
-        <div class="ql-row">
-          <a class="ql-btn" href="https://app.crmx.app" target="_blank">📋 Open GHL</a>
-        </div>
+        <div class="card-title">Pipeline Stages</div>
+        <div class="row"><div><div class="row-label">New Lead (stuck)</div><div class="row-sub">Re-engage campaign needed</div></div><span class="pill pill-red">440</span></div>
+        <div class="row"><div class="row-label">Discovery Scheduled</div><span class="pill pill-blue">Check GHL</span></div>
+        <div class="row"><div class="row-label">Brand Match</div><span class="pill pill-blue">Check GHL</span></div>
+        <div class="row"><div class="row-label">FDD Sent</div><span class="pill pill-blue">Check GHL</span></div>
+        <div class="row"><div class="row-label">FA Signed</div><span class="pill pill-blue">Check GHL</span></div>
       </div>
+      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 Open GHL</a></div></div>
     </div>
 
-    <!-- Content & Ads -->
-    <div id="mkt-content" class="sub-pane">
-      <div class="placeholder">
-        <div class="placeholder-title">🎨 Content & Ad Management</div>
-        Creative pipeline, ad performance, content calendar — coming soon.
-      </div>
-      <div class="card">
-        <div class="card-title">⚡ Quick Access</div>
-        <div class="ql-row">
-          <a class="ql-btn" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a>
-          <a class="ql-btn" href="https://metricool.com" target="_blank">📅 Metricool</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Social -->
-    <div id="mkt-social" class="sub-pane">
-      <div class="placeholder">
-        <div class="placeholder-title">📱 Social Media</div>
-        FKI + Personal social — LinkedIn, Facebook, Instagram — coming soon.
-      </div>
-    </div>
+    <div id="mkt-nut" class="sub-pane"><div class="placeholder"><div class="ph-title">🎯 Nut — GHL Pipeline</div>Coming soon.</div><div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 Open GHL</a></div></div></div>
+    <div id="mkt-content" class="sub-pane"><div class="placeholder"><div class="ph-title">🎨 Content & Ad Management</div>Creative pipeline · Ad performance · Content calendar — coming soon.</div></div>
+    <div id="mkt-social" class="sub-pane"><div class="placeholder"><div class="ph-title">📱 Social Media</div>FKI + Personal — LinkedIn · Facebook · Instagram — coming soon.</div></div>
   </div>
 
   <!-- FINANCE -->
   <div id="fki-finance" class="tab-pane">
-    <div class="card" style="margin-top:0">
-      <div class="card-title">💳 Credit Cards</div>
-      <div class="status-row"><span class="status-label">CC Dashboard</span><span class="badge badge-green">$122K / 71.5% util</span></div>
-      <div class="status-row">
-        <div><span class="status-label">🚨 Amex 1005</span><div class="status-sub">Due May 9</div></div>
-        <span class="badge badge-red">$8,909</span>
-      </div>
-      <div class="status-row">
-        <div><span class="status-label">BME</span><div class="status-sub">Due Sunday</div></div>
-        <span class="badge badge-yellow">$84</span>
-      </div>
-      <div class="status-row">
-        <div><span class="status-label">Divvy</span><div class="status-sub">Due May 19</div></div>
-        <span class="badge badge-yellow">$8,864</span>
-      </div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$8,909</div><div class="kpi-label">Amex Due May 9</div><div class="kpi-delta" style="color:var(--red-dark)">🚨 Urgent</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$8,864</div><div class="kpi-label">Divvy Due May 19</div><div class="kpi-delta" style="color:var(--amber)">⚠ Watch</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--amber)">71.5%</div><div class="kpi-label">CC Utilization</div></div>
+      <div class="kpi"><div class="kpi-val">$122K</div><div class="kpi-label">Total Balance</div></div>
     </div>
     <div class="card">
-      <div class="card-title">⚡ Quick Access</div>
-      <div class="ql-row">
-        <a class="ql-btn" href="https://quickbooks.intuit.com" target="_blank">📊 QuickBooks</a>
-        <a class="ql-btn" href="https://dashboard.franchiseki.com/finance-hub/" target="_blank">💰 Finance Dashboard</a>
-      </div>
+      <div class="card-title">Upcoming Payments</div>
+      <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">Due May 9</div></div><span class="pill pill-red">$8,909</span></div>
+      <div class="row"><div><div class="row-label">BME</div><div class="row-sub">Due Sunday</div></div><span class="pill pill-amber">$84</span></div>
+      <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">Due May 19</div></div><span class="pill pill-amber">$8,864</span></div>
     </div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://quickbooks.intuit.com" target="_blank">📊 QuickBooks</a><a class="ql-link" href="https://dashboard.franchiseki.com/finance-hub/" target="_blank">💰 Finance Dashboard</a></div></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     PERSONAL CENTER
-══════════════════════════════ -->
+<!-- ══════ PERSONAL ══════ -->
 <div id="screen-personal" class="screen">
-  <div class="top-bar">
-    <button class="back-btn purple" onclick="openScreen('home')">← Home</button>
+  <div class="page-header">
+    <button class="back-btn" onclick="openScreen('home')">← Home</button>
     <div>
-      <div class="top-title">👤 Personal Center</div>
-      <div class="top-sub">Private · #leo-sky only</div>
+      <div class="page-title">Personal Center</div>
+      <div class="page-sub">Private · #leo-sky only</div>
     </div>
   </div>
-
-  <div style="padding:16px; max-width:700px; margin:0 auto;">
-    <div style="background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.18); border-radius:10px; padding:10px 14px; font-size:12px; color:var(--muted); margin-bottom:14px;">🔒 Personal space. Business agents have no access. Channel: #leo-sky only.</div>
-
+  <div style="padding:24px 20px;max-width:740px;margin:0 auto;">
+    <div style="background:var(--purple-lt);border:1.5px solid rgba(79,209,197,0.2);border-radius:var(--radius-sm);padding:11px 16px;font-size:12px;color:#0E7490;font-weight:600;margin-bottom:18px;">🔒 Personal space — business agents have no access. Channel: #leo-sky only.</div>
     <div class="link-grid">
-      <a href="https://dashboard.franchiseki.com/legal/" target="_blank" class="link-card" style="border-color:rgba(239,68,68,0.15)">
-        <div class="link-icon">⚖️</div>
-        <div class="link-title">Legal Dashboard</div>
-        <div class="link-sub">Cases · Lex · Deadlines<br><span style="color:var(--red);font-weight:700;font-size:10px">pw: legal 2026</span></div>
+      <a href="https://dashboard.franchiseki.com/legal/" target="_blank" class="link-tile">
+        <div class="lt-icon-wrap" style="background:#FFF5F5">⚖️</div>
+        <div class="lt-title">Legal Dashboard</div>
+        <div class="lt-sub">Cases · Lex · Deadlines</div>
+        <div style="margin-top:10px;font-size:10px;font-weight:800;color:var(--red-dark)">pw: legal 2026</div>
       </a>
-      <a href="https://dashboard.franchiseki.com/finance/" target="_blank" class="link-card" style="border-color:rgba(34,197,94,0.15)">
-        <div class="link-icon">💰</div>
-        <div class="link-title">Personal Finance</div>
-        <div class="link-sub">Finny · Budget · Bills<br><span style="color:var(--green);font-weight:700;font-size:10px">pw: finance 2026</span></div>
+      <a href="https://dashboard.franchiseki.com/finance/" target="_blank" class="link-tile">
+        <div class="lt-icon-wrap" style="background:var(--green-lt)">💰</div>
+        <div class="lt-title">Personal Finance</div>
+        <div class="lt-sub">Finny · Budget · Bills</div>
+        <div style="margin-top:10px;font-size:10px;font-weight:800;color:#276749">pw: finance 2026</div>
       </a>
-      <a href="https://dashboard.franchiseki.com/chore-chart/" target="_blank" class="link-card" style="border-color:rgba(245,158,11,0.15)">
-        <div class="link-icon">✅</div>
-        <div class="link-title">Chore Chart</div>
-        <div class="link-sub">Kids · Weekly review · Points</div>
+      <a href="https://dashboard.franchiseki.com/chore-chart/" target="_blank" class="link-tile">
+        <div class="lt-icon-wrap" style="background:var(--amber-lt)">✅</div>
+        <div class="lt-title">Chore Chart</div>
+        <div class="lt-sub">Kids · Weekly review · Points</div>
       </a>
-      <a href="https://dashboard.franchiseki.com/real-estate/" target="_blank" class="link-card" style="border-color:rgba(212,162,58,0.15)">
-        <div class="link-icon">🏠</div>
-        <div class="link-title">Real Estate</div>
-        <div class="link-sub">5 Properties · Rachel · Rent</div>
+      <a href="https://dashboard.franchiseki.com/real-estate/" target="_blank" class="link-tile">
+        <div class="lt-icon-wrap" style="background:var(--purple-lt)">🏠</div>
+        <div class="lt-title">Real Estate</div>
+        <div class="lt-sub">5 Properties · Rachel · Rent</div>
       </a>
     </div>
   </div>
@@ -431,15 +531,12 @@ function openScreen(name) {
   document.getElementById('screen-' + name).classList.add('active');
   window.scrollTo(0,0);
 }
-
 function showTab(screen, name, btn) {
-  const wrap = document.getElementById('screen-' + screen);
-  wrap.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  wrap.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(screen.slice(0,3) === 'fki' ? 'fki-' + name : screen + '-' + name).classList.add('active');
+  document.getElementById('screen-' + screen).querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('screen-' + screen).querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(screen.substring(0,3) + '-' + name).classList.add('active');
   btn.classList.add('active');
 }
-
 function showSub(group, name, btn) {
   const prefix = group + '-';
   document.querySelectorAll('[id^="' + prefix + '"].sub-pane').forEach(p => p.classList.remove('active'));
@@ -447,9 +544,20 @@ function showSub(group, name, btn) {
   document.getElementById(prefix + name).classList.add('active');
   btn.classList.add('active');
 }
-
-const now = new Date();
-document.getElementById('dateBadge').textContent = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+function toggleRock(id, card) {
+  const el = document.getElementById(id);
+  const open = el.style.display === 'block';
+  document.querySelectorAll('[id^="rock"]').forEach(r => r.style.display = 'none');
+  if (!open) el.style.display = 'block';
+}
+function tick() {
+  const now = new Date();
+  const h = now.getHours(), greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  document.querySelector('.home-headline').textContent = greeting + ', Bennett.';
+  document.getElementById('homeDate').textContent = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+}
+tick(); setInterval(tick, 30000);
 </script>
 </body>
 </html>
