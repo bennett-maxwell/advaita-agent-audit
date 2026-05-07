@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Command Center — FKI/Advaita</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif; color: #1D1D1F; min-height: 100vh; }
+  .topbar { background: #1D1D1F; color: #FFFFFF; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar-brand { font-size: 13px; font-weight: 500; letter-spacing: 0.04em; opacity: 0.7; text-transform: uppercase; }
+  .topbar-live { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #34C759; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  .header { padding: 48px 32px 32px; border-bottom: 1px solid #F2F2F7; }
+  .header-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8E8E93; margin-bottom: 8px; }
+  .header-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; color: #1D1D1F; }
+  .header-subtitle { margin-top: 10px; font-size: 17px; color: #6E6E73; font-weight: 400; }
+  .autonomy-bar-wrap { margin-top: 20px; display: flex; align-items: center; gap: 16px; }
+  .autonomy-bar-bg { flex: 1; max-width: 320px; height: 8px; background: #F2F2F7; border-radius: 99px; overflow: hidden; }
+  .autonomy-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #0071E3 0%, #34C759 100%); }
+  .autonomy-label { font-size: 13px; font-weight: 600; color: #6E6E73; }
+  .autonomy-current { font-size: 32px; font-weight: 700; color: #0071E3; }
+  .autonomy-target { font-size: 13px; color: #8E8E93; }
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #F2F2F7; border-top: 1px solid #F2F2F7; border-bottom: 1px solid #F2F2F7; }
+  .kpi-card { background: #FFFFFF; padding: 24px 28px; }
+  .kpi-number { font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+  .kpi-label { font-size: 12px; font-weight: 500; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; }
+  .kpi-sub { font-size: 11px; color: #C7C7CC; margin-top: 3px; }
+  .green { color: #34C759; }
+  .amber { color: #FF9F0A; }
+  .red { color: #FF3B30; }
+  .blue { color: #0071E3; }
+  .purple { color: #AF52DE; }
+  .main { padding: 32px; max-width: 1100px; }
+  .story-box { background: #F2F2F7; border-radius: 16px; padding: 24px 28px; margin-bottom: 32px; border-left: 4px solid #0071E3; }
+  .story-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #0071E3; margin-bottom: 8px; }
+  .story-text { font-size: 17px; font-weight: 500; color: #1D1D1F; line-height: 1.5; }
+  .accordion { border: 1px solid #E5E5EA; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+  .accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; cursor: pointer; background: #FFFFFF; border: none; width: 100%; text-align: left; transition: background 0.15s; }
+  .accordion-header:hover { background: #F9F9FB; }
+  .accordion-title { font-size: 17px; font-weight: 600; color: #1D1D1F; }
+  .accordion-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .badge-green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .badge-amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .badge-red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .accordion-chevron { font-size: 16px; color: #8E8E93; transition: transform 0.2s; }
+  .accordion-chevron.open { transform: rotate(180deg); }
+  .accordion-body { border-top: 1px solid #F2F2F7; padding: 0 24px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.2s; }
+  .accordion-body.open { max-height: 2000px; padding: 24px 24px; }
+  .item-list { list-style: none; }
+  .item-list li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F9F9FB; font-size: 15px; }
+  .item-list li:last-child { border-bottom: none; }
+  .status-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .item-label { font-weight: 600; color: #1D1D1F; }
+  .item-detail { font-size: 13px; color: #8E8E93; margin-top: 2px; }
+  .role-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .role-card { border: 1px solid #E5E5EA; border-radius: 16px; padding: 20px; background: #FAFAFA; }
+  .role-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .role-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+  .role-ai { background: #0071E3; }
+  .role-bennett { background: #AF52DE; }
+  .role-human { background: #34C759; }
+  .role-amber { background: #FF9F0A; }
+  .role-name { font-size: 15px; font-weight: 700; color: #1D1D1F; }
+  .role-type { font-size: 11px; color: #8E8E93; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  .role-items { list-style: none; }
+  .role-items li { font-size: 13px; color: #3C3C43; padding: 4px 0; border-bottom: 1px solid #F2F2F7; display: flex; align-items: center; gap: 6px; }
+  .role-items li:last-child { border-bottom: none; }
+  .action-list { list-style: none; counter-reset: action-counter; }
+  .action-list li { counter-increment: action-counter; display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #F9F9FB; align-items: flex-start; }
+  .action-list li:last-child { border-bottom: none; }
+  .action-num { width: 26px; height: 26px; border-radius: 50%; background: #0071E3; color: #FFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .action-text { font-size: 15px; color: #1D1D1F; }
+  .action-owner { font-size: 12px; color: #8E8E93; margin-top: 3px; }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8E8E93; margin-bottom: 16px; }
+  @media (max-width: 768px) {
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+    .header-title { font-size: 26px; }
+    .main { padding: 20px; }
+    .header { padding: 32px 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">FKI / Project Advaita</span>
+  <span class="topbar-live"><span class="live-dot"></span> Operations Domain · Live</span>
+</div>
+
+<div class="header">
+  <div class="header-eyebrow">Advaita Vision — Operations Domain</div>
+  <div class="header-title">Operations Command Center</div>
+  <div class="header-subtitle">Social media, content pipeline, automation infrastructure</div>
+  <div class="autonomy-bar-wrap" style="margin-top:24px;">
+    <div>
+      <div class="autonomy-current">35%</div>
+      <div class="autonomy-label">Current Autonomy</div>
+    </div>
+    <div style="flex:1;max-width:280px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:12px;color:#8E8E93;">Current</span>
+        <span style="font-size:12px;color:#8E8E93;">Target 55%</span>
+      </div>
+      <div class="autonomy-bar-bg">
+        <div class="autonomy-bar-fill" style="width:63.6%;"></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#34C759;">55%</div>
+      <div class="autonomy-label">Target</div>
+    </div>
+  </div>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi-card">
+    <div class="kpi-number amber">22%</div>
+    <div class="kpi-label">Social Media Autonomy</div>
+    <div class="kpi-sub">Metricool FREE limits</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number amber" style="font-size:20px;padding-top:6px;">Pending</div>
+    <div class="kpi-label">Metricool Upgrade</div>
+    <div class="kpi-sub">Kay · May 6 deadline</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number red">0</div>
+    <div class="kpi-label">Posts/Week Published</div>
+    <div class="kpi-sub">Content queued, not posting</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number red" style="font-size:18px;padding-top:8px;">Not Scheduled</div>
+    <div class="kpi-label">Voice-Mining Cron</div>
+    <div class="kpi-sub">LaunchAgent pending</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="story-box">
+    <div class="story-label">The Goal</div>
+    <div class="story-text">14 posts/week across all platforms, zero Bennett involvement. Current state: content queue ready, infrastructure 35% complete. Next unlock: Metricool Standard + voice-mining cron.</div>
+  </div>
+
+  <!-- Accordion 1: Social Media Engine -->
+  <div class="accordion" id="acc-social">
+    <button class="accordion-header" onclick="toggleAccordion('social')">
+      <span class="accordion-title">Social Media Engine</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-red">Action Required</span>
+        <span class="accordion-chevron open" id="chevron-social">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body open" id="body-social">
+      <ul class="item-list">
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">LinkedIn</div>
+            <div class="item-detail">Recovery period — posting resumes May 7, 2026. Bennett's personal account connected.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🔴</span>
+          <div>
+            <div class="item-label">Instagram / Facebook / TikTok</div>
+            <div class="item-detail">Metricool FREE plan — limited to 3 social profiles, no bulk scheduling. Upgrade to Standard required to unlock all platforms.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🔴</span>
+          <div>
+            <div class="item-label">FKI Brand Accounts</div>
+            <div class="item-detail">Not connected to Metricool. Pending Standard upgrade + account connection by Kay.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🔴</span>
+          <div>
+            <div class="item-label">Voice-Mining Cron</div>
+            <div class="item-detail">LaunchAgent not scheduled. Script exists — macOS launchd plist not deployed. Blocks auto-content-generation pipeline.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🟡</span>
+          <div>
+            <div class="item-label">Metricool Workspace</div>
+            <div class="item-detail">Workspace configured. FREE tier active. Standard upgrade pending Kay authorization (May 6 target).</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Accordion 2: Content Pipeline -->
+  <div class="accordion" id="acc-content">
+    <button class="accordion-header" onclick="toggleAccordion('content')">
+      <span class="accordion-title">Content Pipeline</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-green">Queue Ready</span>
+        <span class="accordion-chevron" id="chevron-content">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-content">
+      <ul class="item-list">
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Voice Library</div>
+            <div class="item-detail">136+ quotes extracted and catalogued. Source material for all social content generation.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Week 3 Posts — Queued</div>
+            <div class="item-detail">Drive: 1EG4K3ic… — Bennett posts written, designed, ready to schedule. Blocked on Metricool upgrade.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">FKI Brand Posts</div>
+            <div class="item-detail">Drive: 1xvHSEhK… — Brand account posts ready. Blocked on account connection.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">✅</span>
+          <div>
+            <div class="item-label">Email Queue — May 6</div>
+            <div class="item-detail">Drive: 1iNR2GvB… — Email campaigns staged for May 6 send. Christelle QA required before deploy.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Accordion 3: Automation Status -->
+  <div class="accordion" id="acc-auto">
+    <button class="accordion-header" onclick="toggleAccordion('auto')">
+      <span class="accordion-title">Automation Status</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-amber">Partial</span>
+        <span class="accordion-chevron" id="chevron-auto">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-auto">
+      <ul class="item-list">
+        <li>
+          <span class="status-icon">🔴</span>
+          <div>
+            <div class="item-label">Voice-Mining LaunchAgent</div>
+            <div class="item-detail">PENDING — macOS launchd plist not deployed. Required for auto content generation pipeline.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🔴</span>
+          <div>
+            <div class="item-label">Weekly Self-Audit</div>
+            <div class="item-detail">PENDING — Automated weekly operations review not yet scheduled.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🟡</span>
+          <div>
+            <div class="item-label">Christelle Coordinator Role</div>
+            <div class="item-detail">PARTIAL — Role defined, SOPs in progress. Visual uploads and scheduling partially active.</div>
+          </div>
+        </li>
+        <li>
+          <span class="status-icon">🟡</span>
+          <div>
+            <div class="item-label">Metricool Standard Upgrade</div>
+            <div class="item-detail">PENDING — Kay authorization required by May 6. Unlocks all brand accounts + bulk scheduling.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Accordion 4: 30-Day Action Plan -->
+  <div class="accordion" id="acc-plan">
+    <button class="accordion-header" onclick="toggleAccordion('plan')">
+      <span class="accordion-title">30-Day Action Plan</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-amber">In Progress</span>
+        <span class="accordion-chevron" id="chevron-plan">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-plan">
+      <ol class="action-list">
+        <li>
+          <span class="action-num">1</span>
+          <div>
+            <div class="action-text">Metricool Standard upgrade — unlock all brand accounts and bulk scheduling</div>
+            <div class="action-owner">Owner: Kay · Due: May 6, 2026</div>
+          </div>
+        </li>
+        <li>
+          <span class="action-num">2</span>
+          <div>
+            <div class="action-text">Connect FKI brand accounts to Metricool (IG, FB, TikTok, LinkedIn)</div>
+            <div class="action-owner">Owner: Kay + AI assist · After Metricool upgrade</div>
+          </div>
+        </li>
+        <li>
+          <span class="action-num">3</span>
+          <div>
+            <div class="action-text">Deploy voice-mining LaunchAgent cron on Bennett's machine</div>
+            <div class="action-owner">Owner: AI (script ready) · Due: Week of May 6</div>
+          </div>
+        </li>
+        <li>
+          <span class="action-num">4</span>
+          <div>
+            <div class="action-text">Schedule LinkedIn posting to resume May 7 post-recovery</div>
+            <div class="action-owner">Owner: Christelle + Metricool · Due: May 7</div>
+          </div>
+        </li>
+        <li>
+          <span class="action-num">5</span>
+          <div>
+            <div class="action-text">Produce HeyGen AI video content for FKI brand accounts</div>
+            <div class="action-owner">Owner: AI · Week 2</div>
+          </div>
+        </li>
+        <li>
+          <span class="action-num">6</span>
+          <div>
+            <div class="action-text">Finalize Christelle SOP — visual upload, scheduling, QA workflow</div>
+            <div class="action-owner">Owner: AI + Christelle · Week 1-2</div>
+          </div>
+        </li>
+        <li>
+          <span class="action-num">7</span>
+          <div>
+            <div class="action-text">Deploy weekly self-audit LaunchAgent for operations review</div>
+            <div class="action-owner">Owner: AI · Week 2</div>
+          </div>
+        </li>
+        <li>
+          <span class="action-num">8</span>
+          <div>
+            <div class="action-text">Reach 14 posts/week published with zero Bennett involvement — autonomy milestone</div>
+            <div class="action-owner">Owner: AI + Christelle + Kay · 30 days</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Accordion 5: Role Cards -->
+  <div class="accordion" id="acc-roles">
+    <button class="accordion-header" onclick="toggleAccordion('roles')">
+      <span class="accordion-title">Role Cards</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="accordion-badge badge-green">Defined</span>
+        <span class="accordion-chevron" id="chevron-roles">▾</span>
+      </div>
+    </button>
+    <div class="accordion-body" id="body-roles">
+      <div class="role-cards">
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-avatar role-ai">AI</div>
+            <div>
+              <div class="role-name">AI System</div>
+              <div class="role-type">Autonomous</div>
+            </div>
+          </div>
+          <ul class="role-items">
+            <li>✅ Voice mining + quote extraction</li>
+            <li>✅ Post copy generation</li>
+            <li>✅ Content calendar planning</li>
+            <li>✅ Email copy creation</li>
+            <li>🟡 Auto-scheduling (pending Metricool)</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-avatar role-bennett">B</div>
+            <div>
+              <div class="role-name">Bennett</div>
+              <div class="role-type">None — Not a Gate</div>
+            </div>
+          </div>
+          <ul class="role-items">
+            <li style="color:#8E8E93;">No current operations role</li>
+            <li style="color:#8E8E93;">Never the gate on posts</li>
+            <li style="color:#8E8E93;">No approval needed</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-avatar role-human">C</div>
+            <div>
+              <div class="role-name">Christelle</div>
+              <div class="role-type">Operations Coordinator</div>
+            </div>
+          </div>
+          <ul class="role-items">
+            <li>📅 Schedule posts in Metricool</li>
+            <li>🖼 Upload visuals to platforms</li>
+            <li>✅ QA before publish</li>
+            <li>📦 Manage Drive content folders</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-avatar role-amber">K</div>
+            <div>
+              <div class="role-name">Kay</div>
+              <div class="role-type">Platform Setup</div>
+            </div>
+          </div>
+          <ul class="role-items">
+            <li>💳 Authorize Metricool Standard</li>
+            <li>🔗 Connect brand accounts</li>
+            <li>⚙️ Platform configuration</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;padding-top:24px;border-top:1px solid #F2F2F7;display:flex;justify-content:space-between;align-items:center;">
+    <span style="font-size:12px;color:#C7C7CC;">dashboard.franchiseki.com/operations/ · FKI Project Advaita</span>
+    <span style="font-size:12px;color:#C7C7CC;">Updated 2026-05-05</span>
+  </div>
+
+</div>
+
+<script>
+function toggleAccordion(id) {
+  const body = document.getElementById('body-' + id);
+  const chevron = document.getElementById('chevron-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+}
+// Social starts open
+</script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse Command Center — FKI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif; background: #FFFFFF; color: #1D1D1F; min-height: 100vh; }
+
+  /* Header */
+  .header { background: #1D1D1F; color: #fff; padding: 20px 24px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-icon { width: 36px; height: 36px; background: #30D158; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .header-title { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .header-sub { font-size: 12px; color: #8E8E93; margin-top: 2px; }
+  .status-badge { background: #30D158; color: #fff; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.3px; }
+
+  /* KPI Strip */
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid #F2F2F7; }
+  .kpi { padding: 16px 20px; border-right: 1px solid #F2F2F7; }
+  .kpi:last-child { border-right: none; }
+  .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
+  .kpi-label { font-size: 11px; color: #6E6E73; font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-sub { font-size: 12px; color: #8E8E93; margin-top: 2px; }
+  .green { color: #34C759; }
+  .amber { color: #FF9F0A; }
+  .red { color: #FF3B30; }
+  .blue { color: #0071E3; }
+
+  /* Alert Banner */
+  .alert-banner { background: #FFF3F0; border-left: 4px solid #FF3B30; padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
+  .alert-banner span { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .alert-badge { background: #FF3B30; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+
+  /* Info Banner */
+  .info-banner { background: #F0F9FF; border-left: 4px solid #0071E3; padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
+  .info-banner span { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+
+  /* Section */
+  .section { border-bottom: 1px solid #F2F2F7; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; user-select: none; }
+  .section-header:hover { background: #FAFAFA; }
+  .section-title { font-size: 14px; font-weight: 600; color: #1D1D1F; display: flex; align-items: center; gap: 8px; }
+  .section-pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: #F2F2F7; color: #6E6E73; }
+  .section-pill.green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .section-pill.amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .section-pill.red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .section-chevron { font-size: 12px; color: #8E8E93; transition: transform 0.2s; }
+  .section-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .section-content.open { max-height: 1200px; }
+  .section-chevron.open { transform: rotate(180deg); }
+  .section-body { padding: 0 20px 16px; }
+
+  /* Row items */
+  .row-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #F9F9FB; }
+  .row-item:last-child { border-bottom: none; }
+  .row-label { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .row-value { font-size: 13px; color: #6E6E73; font-weight: 400; }
+  .row-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .badge-green { background: rgba(52,199,89,0.12); color: #34C759; }
+  .badge-amber { background: rgba(255,159,10,0.12); color: #FF9F0A; }
+  .badge-red { background: rgba(255,59,48,0.12); color: #FF3B30; }
+  .badge-blue { background: rgba(0,113,227,0.12); color: #0071E3; }
+  .badge-gray { background: #F2F2F7; color: #6E6E73; }
+
+  /* Timeline */
+  .timeline-item { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; }
+  .timeline-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .dot-green { background: #34C759; }
+  .dot-amber { background: #FF9F0A; }
+  .dot-red { background: #FF3B30; }
+  .dot-blue { background: #0071E3; }
+  .timeline-text { font-size: 13px; color: #1D1D1F; line-height: 1.5; }
+  .timeline-time { font-size: 11px; color: #8E8E93; }
+
+  /* Trigger chain */
+  .trigger-chain { display: flex; flex-direction: column; gap: 6px; }
+  .trigger-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #F9F9FB; border-radius: 8px; }
+  .trigger-num { width: 20px; height: 20px; background: #0071E3; color: #fff; font-size: 11px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .trigger-text { font-size: 13px; color: #1D1D1F; font-weight: 500; }
+  .trigger-who { font-size: 11px; color: #6E6E73; margin-left: auto; }
+
+  /* Role cards */
+  .role-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .role-card { border-radius: 10px; padding: 12px; border: 2px solid; }
+  .role-card.ai { border-color: #34C759; }
+  .role-card.bennett { border-color: #FF9F0A; }
+  .role-card.team { border-color: #0071E3; }
+  .role-card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .role-card.ai .role-card-title { color: #34C759; }
+  .role-card.bennett .role-card-title { color: #FF9F0A; }
+  .role-card.team .role-card-title { color: #0071E3; }
+  .role-card-item { font-size: 12px; color: #1D1D1F; padding: 3px 0; border-bottom: 1px solid #F2F2F7; }
+  .role-card-item:last-child { border-bottom: none; }
+
+  /* Sources grid */
+  .sources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .source-item { background: #F9F9FB; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; }
+  .source-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .source-text { font-size: 12px; color: #1D1D1F; font-weight: 500; }
+  .source-sub { font-size: 11px; color: #8E8E93; }
+
+  /* Footer */
+  .footer { padding: 14px 20px; background: #FAFAFA; display: flex; align-items: center; justify-content: space-between; }
+  .footer-text { font-size: 11px; color: #8E8E93; }
+  .footer-link { font-size: 12px; color: #0071E3; text-decoration: none; font-weight: 500; }
+
+  @media (max-width: 640px) {
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+    .role-cards { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-icon">📡</div>
+    <div>
+      <div class="header-title">Pulse Command Center</div>
+      <div class="header-sub">Company intelligence · 2hr cadence · bennett@franchiseki.com</div>
+    </div>
+  </div>
+  <div class="status-badge">🟢 ACTIVE</div>
+</div>
+
+<!-- Alert: Meta Source Blind -->
+<div class="alert-banner">
+  <span class="alert-badge">⚠️ BLIND</span>
+  <span>Meta Ads source BLIND — FACEBOOKACCESSTOKEN missing from .env. Lead Acq data unavailable until token refreshed.</span>
+</div>
+
+<!-- Info: LinkedIn Recovery -->
+<div class="info-banner">
+  <span>✅ LinkedIn recovered — First post scheduled May 7 7:30 AM MDT. Account out of 24hr recovery.</span>
+</div>
+
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <div class="kpi-value green">7</div>
+    <div class="kpi-label">Deliveries Today</div>
+    <div class="kpi-sub">8AM–8PM MDT</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value blue">5</div>
+    <div class="kpi-label">Active Sources</div>
+    <div class="kpi-sub">Gmail · Slack · Notion · Drive · GHL</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value amber">2</div>
+    <div class="kpi-label">Digest Items</div>
+    <div class="kpi-sub">Awaiting Bennett review</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value red">1</div>
+    <div class="kpi-label">Blind Sources</div>
+    <div class="kpi-sub">Meta — token missing</div>
+  </div>
+</div>
+
+<!-- Delivery Schedule -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">📅 Delivery Schedule <span class="section-pill green">Active</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content open">
+    <div class="section-body">
+      <div class="row-item">
+        <div class="row-label">2-Hour Cycles</div>
+        <div class="row-value">8AM · 10AM · 12PM · 2PM · 4PM · 6PM · 8PM MDT Mon-Fri</div>
+      </div>
+      <div class="row-item">
+        <div class="row-label">Morning Review</div>
+        <div class="row-value">7:00 AM MDT · Mon-Fri · Overnight summary</div>
+      </div>
+      <div class="row-item">
+        <div class="row-label">EOD Scrap Review</div>
+        <div class="row-value">6:00 PM MDT · Mon-Fri · Unassigned items sweep</div>
+      </div>
+      <div class="row-item">
+        <div class="row-label">Primary Channel</div>
+        <div class="row-badge badge-green">📧 bennett@franchiseki.com</div>
+      </div>
+      <div class="row-item">
+        <div class="row-label">Secondary Channel</div>
+        <div class="row-value">#leo-bennett Slack (3-line summary)</div>
+      </div>
+      <div class="row-item">
+        <div class="row-label">Archive</div>
+        <div class="row-value">Notion Pulse Board 357cf551…cc9e</div>
+      </div>
+      <div class="row-item">
+        <div class="row-label">SKILL.md</div>
+        <div class="row-value">Drive 15gRXqZPeabIbyoDCkKf9PO4mKZZlyuLU · v8</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Data Sources -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">🔌 Data Sources <span class="section-pill amber">1 Blind</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div class="sources-grid">
+        <div class="source-item"><div class="source-dot" style="background:#34C759"></div><div><div class="source-text">Gmail</div><div class="source-sub">bennett@franchiseki.com · 45K msgs</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#34C759"></div><div><div class="source-text">Slack #leo-auto</div><div class="source-sub">C0AKXT2S1T2 · real-time</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#34C759"></div><div><div class="source-text">Notion Sprint Board</div><div class="source-sub">335cf551… · live rows</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#34C759"></div><div><div class="source-text">Drive Transcripts</div><div class="source-sub">gog DWD · 12 employees</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#34C759"></div><div><div class="source-text">GHL Pipeline</div><div class="source-sub">Location 14RD8K… · via Leo</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#FF3B30"></div><div><div class="source-text">Meta Ads</div><div class="source-sub">⚠️ Token missing · Blind 5d</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#34C759"></div><div><div class="source-text">QuickBooks</div><div class="source-sub">billing@franchiseki.com · live</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#FF9F0A"></div><div><div class="source-text">Google Ads</div><div class="source-sub">CID 340-719-9643 · May 7 ⚠️</div></div></div>
+        <div class="source-item"><div class="source-dot" style="background:#34C759"></div><div><div class="source-text">GitHub</div><div class="source-sub">bennett-maxwell/advaita-agent-audit</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trigger Chain -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">⚡ Downstream Trigger Chain <span class="section-pill blue">5 Mandatory</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div style="margin-bottom:8px;font-size:12px;color:#6E6E73;">Every Pulse cycle must fire all 5 triggers — not just deliver the email.</div>
+      <div class="trigger-chain">
+        <div class="trigger-item">
+          <div class="trigger-num">1</div>
+          <div class="trigger-text">GHL disposition check — alert Bailey + Keith if leads have no update in 24hr</div>
+          <div class="trigger-who">→ #sales-announcements</div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-num">2</div>
+          <div class="trigger-text">Sam call scoring — if transcripts added in last 2hr, score + coaching brief</div>
+          <div class="trigger-who">→ @Leo WO</div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-num">3</div>
+          <div class="trigger-text">Piper outreach trigger — undispositioned leads → Piper sequences</div>
+          <div class="trigger-who">→ @Leo WO</div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-num">4</div>
+          <div class="trigger-text">Pulse Board write — structured Notion entry per cycle</div>
+          <div class="trigger-who">→ Notion 357cf551…cc9e</div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-num">5</div>
+          <div class="trigger-text">Fred trigger — financial spike alerts to Bennett</div>
+          <div class="trigger-who">→ fred-auto-kill.sh</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 11-Section Template -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">📋 Pulse Email Template <span class="section-pill gray">v8 · Mobile-First</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div class="row-item"><div class="row-label">01 Header</div><div class="row-value">4 KPI badges + sources strip · dark #0F1923</div></div>
+      <div class="row-item"><div class="row-label">02 Meetings</div><div class="row-value">✅/❌ checklist + transcript status</div></div>
+      <div class="row-item"><div class="row-label">03 Email</div><div class="row-value">Last 2hr · color pills AWAITING/SENT/FYI/ACTION</div></div>
+      <div class="row-item"><div class="row-label">04 Slack</div><div class="row-value">#leo-auto colored-dot timeline</div></div>
+      <div class="row-item"><div class="row-label">05 Completed</div><div class="row-value">Chip grid · max 10 items</div></div>
+      <div class="row-item"><div class="row-label">06 Waiting on You</div><div class="row-value">CTA cards with time badge</div></div>
+      <div class="row-item"><div class="row-label">07 AI Status</div><div class="row-value">Single green/red banner</div></div>
+      <div class="row-item"><div class="row-label">08 What's Broken</div><div class="row-value">Left-border alert chips</div></div>
+      <div class="row-item"><div class="row-label">09 System Health</div><div class="row-value">2x2 traffic light → link to /hub/</div></div>
+      <div class="row-item"><div class="row-label">10 New Tasks</div><div class="row-value">Cards with owner pill</div></div>
+      <div class="row-item"><div class="row-label">11 Your Call</div><div class="row-value">Purple 44px decision buttons</div></div>
+      <div class="row-item"><div class="row-label">12 7-Day Trend</div><div class="row-value">3 CSS bar charts: Done/Meetings/Blockers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Role Cards -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">👥 Role Responsibilities</div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div class="role-cards">
+        <div class="role-card ai">
+          <div class="role-card-title">🤖 AI (Squirrel)</div>
+          <div class="role-card-item">Pulls all source data</div>
+          <div class="role-card-item">Generates HTML email</div>
+          <div class="role-card-item">Fires 5 trigger chain</div>
+          <div class="role-card-item">Archives to Notion</div>
+          <div class="role-card-item">Flags broken items</div>
+          <div class="role-card-item">Routes Leo WOs</div>
+        </div>
+        <div class="role-card bennett">
+          <div class="role-card-title">⚡ Bennett</div>
+          <div class="role-card-item">Reviews daily digest</div>
+          <div class="role-card-item">Approves IRREVERSIBLE</div>
+          <div class="role-card-item">Legal gate items only</div>
+        </div>
+        <div class="role-card team">
+          <div class="role-card-title">👤 Leo + Team</div>
+          <div class="role-card-item">GHL disposition alerts</div>
+          <div class="role-card-item">Sam scoring execution</div>
+          <div class="role-card-item">Source data freshness</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Digest Items -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title">🔒 Daily Digest — Awaiting Bennett <span class="section-pill amber">2 Items</span></div>
+    <div class="section-chevron">▼</div>
+  </div>
+  <div class="section-content">
+    <div class="section-body">
+      <div class="timeline-item">
+        <div class="timeline-dot dot-red"></div>
+        <div>
+          <div class="timeline-text"><strong>FACEBOOKACCESSTOKEN missing</strong> — Meta Ads source blind 5 days. Leo Browser-Use WO dispatched (ts 1778024179). Generate token: Meta Business Manager → System Users → Generate New Token (ads_read, ads_management).</div>
+          <div class="timeline-time">Added 2026-05-05 · Queued to /daily-digest/</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-red"></div>
+        <div>
+          <div class="timeline-text"><strong>IronCreek R15 Response — Due May 18, 2026</strong> (13 days). Draft prepared. Bennett legal review + signature required. Heidlaw contact: gbrown@heidlaw.com.</div>
+          <div class="timeline-time">Added 2026-05-05 · True Bennett gate (legal)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-text">Pulse v8 · SKILL.md 15gRXqZPeabIbyoDCkKf9PO4mKZZlyuLU · FKI CEO OS Day 3 · 2026-05-05</div>
+  <a href="/hub/" class="footer-link">← Hub</a>
+</div>
+
+<script>
+function toggle(header) {
+  const content = header.nextElementSibling;
+  const chevron = header.querySelector('.section-chevron');
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>

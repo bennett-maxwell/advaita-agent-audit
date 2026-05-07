@@ -1,11 +1,97 @@
 {
-  "revenue": "$305K",
-  "runway": "3.5 wks",
-  "leads": "1,433",
-  "spend": "$8,894",
-  "autonomy": "68%",
-  "blockers": "31",
-  "updated": "May 5, 2026 — 7:17 PM MDT",
-  "source": "QB + Meta Ads + Sprint Board",
-  "note": "Refreshed every 2hr by Squirrel Pulse"
+  "last_updated": "2026-05-06T16:07Z",
+  "updated_by": "Squirrel overnight-sprint-skill v1.0",
+  "revenue": {
+    "ytd": 225596,
+    "net_income_ytd": 131484,
+    "source": "QuickBooks API \u2014 verified 2026-05-06"
+  },
+  "runway": {
+    "checking_balance": 40006,
+    "undeposited_funds": 80000,
+    "note": "$80K undeposited \u2014 possible 2 new deals. Investigating.",
+    "weekly_burn": 7659,
+    "weeks_zero_deal_conservative": 5.2,
+    "weeks_with_undeposited": 15.7
+  },
+  "cc_debt": {
+    "total_net": 135531,
+    "correction_note": "Angie 2026-05-06 said $253K \u2014 QB actual is $135,531. Angie figure was wrong.",
+    "breakdown": {
+      "amex_1005": 92757,
+      "pce_0864": 40227,
+      "divvy": 9313,
+      "amex_5003": 13750,
+      "liam_chase_credit": -19109
+    }
+  },
+  "pipeline": {
+    "total_opps": 7073,
+    "ic_booked": 60,
+    "ic_showed": 0,
+    "ic_show_rate": "0.0%",
+    "show_rate_fix": "3-touch SMS deployed tonight (P0)"
+  },
+  "leads": {
+    "unassigned": 1017,
+    "routing_fix": "1,017 leads routing to Piper (P0 tonight)"
+  },
+  "autonomy": {
+    "overall_pct": 68.8,
+    "prev_pct": 62.0,
+    "delta": "+6.8%",
+    "lead_processing": 22,
+    "lead_acquisition": 33,
+    "financial_control": 20,
+    "sales_intelligence": 22,
+    "operations": 68.8
+  },
+  "skills_count": 24,
+  "launchagents_active": "10/100",
+  "services": {
+    "ghl_webhook_8742": "UP",
+    "appointment_setter_8743": "UP",
+    "lead_scorer": "UP",
+    "mapki_funnel_8745": "UP",
+    "tiffany_ollama": "OFFLINE \u2014 Claude API fallback active"
+  },
+  "active_ccs": [
+    "/hub/",
+    "/finance-hub/",
+    "/marketing/",
+    "/social/",
+    "/autonomy/",
+    "/seo/",
+    "/mapki/",
+    "/meeting-prep/",
+    "/lead-funnel/",
+    "/legal/",
+    "/advaita/",
+    "/daily-digest/",
+    "/skills-registry/",
+    "/operations/",
+    "/cpa/",
+    "/franchise-ranking/"
+  ],
+  "sprint_in_progress": {
+    "overnight_sprint_all_domains": "2026-05-06",
+    "domains": [
+      "Sales",
+      "Marketing",
+      "Finance",
+      "Social Media",
+      "Operations"
+    ],
+    "total_items_planned": 100,
+    "leo_wos_dispatched": 4,
+    "sales_wo_ts": "1778083739",
+    "marketing_wo_ts": "1778083760",
+    "social_wo_ts": "1778083800",
+    "operations_wo_ts": "1778083782"
+  },
+  "known_gates_for_bennett": [
+    "Google Ads advertiser verification by May 13 (phone confirmation only)",
+    "Ironcreek legal deadline May 18 \u2014 Heideman law contact",
+    "Tiffany wake (Garlon Maxwell) if Leo can't reach via SSH"
+  ]
 }

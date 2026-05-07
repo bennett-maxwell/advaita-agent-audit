@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Engine CC — FKI CEO OS</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif; color: #1D1D1F; font-size: 14px; line-height: 1.5; }
+
+  /* HEADER */
+  .header { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .header-title { font-size: 17px; font-weight: 700; color: #1D1D1F; }
+  .header-sep { color: #C7C7CC; font-size: 14px; }
+  .header-sub { font-size: 13px; color: #6E6E73; }
+  .header-badge { font-size: 11px; font-weight: 600; background: #FF9F0A; color: #FFF; padding: 3px 8px; border-radius: 6px; }
+  .back-link { margin-left: auto; font-size: 12px; font-weight: 600; color: #0071E3; text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+
+  /* KPI STRIP */
+  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #E5E5EA; border-bottom: 1px solid #E5E5EA; }
+  .kpi-card { background: #FFFFFF; padding: 14px 16px; }
+  .kpi-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .kpi-value { font-size: 22px; font-weight: 800; line-height: 1.1; }
+  .kpi-sub { font-size: 11px; color: #8E8E93; margin-top: 3px; }
+  .red { color: #FF3B30; }
+  .green { color: #34C759; }
+  .amber { color: #FF9F0A; }
+  .blue { color: #0071E3; }
+
+  /* ALERT BANNER */
+  .alert-banner { background: #FF3B30; color: #FFF; padding: 12px 20px; }
+  .alert-banner-title { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+  .alert-banner-sub { font-size: 12px; opacity: 0.9; }
+
+  /* CONTENT AREA */
+  .content { padding: 0 20px 24px; max-width: 900px; }
+
+  /* SECTION LABEL */
+  .section-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; padding: 16px 0 8px; }
+
+  /* ACCORDION */
+  .accordion { border: 1px solid #E5E5EA; border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  .accordion-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; background: #FFFFFF; user-select: none; }
+  .accordion-header:hover { background: #F5F5F7; }
+  .acc-icon { font-size: 14px; flex: 0 0 auto; }
+  .acc-title { font-size: 13px; font-weight: 700; color: #1D1D1F; flex: 1; }
+  .acc-chevron { font-size: 11px; color: #8E8E93; transition: transform 0.2s; }
+  .accordion.open .acc-chevron { transform: rotate(180deg); }
+  .accordion-body { display: none; padding: 0 16px 12px; border-top: 1px solid #F2F2F7; }
+  .accordion.open .accordion-body { display: block; }
+
+  /* ROWS */
+  .row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; font-size: 12px; border-bottom: 1px solid #F2F2F7; }
+  .row:last-child { border-bottom: none; }
+  .row-label { flex: 0 0 160px; font-size: 11px; font-weight: 600; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.3px; }
+  .row-value { flex: 1; color: #1D1D1F; }
+  .row-value a { color: #0071E3; text-decoration: none; }
+  .row-value a:hover { text-decoration: underline; }
+
+  /* COPY DISPATCH */
+  .copy-dispatch { background: #F5F5F7; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+  .copy-dispatch-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .copy-dispatch-text { font-size: 11px; color: #3A3A3C; font-family: 'SF Mono', Menlo, monospace; line-height: 1.5; }
+  .copy-btn { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 600; color: #FFF; background: #0071E3; border: none; padding: 5px 10px; border-radius: 7px; cursor: pointer; }
+  .copy-btn:hover { background: #005DC1; }
+
+  /* WHAT NEEDS BUILDING */
+  .needs-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; font-size: 12px; border-bottom: 1px solid #F2F2F7; }
+  .needs-row:last-child { border-bottom: none; }
+  .needs-num { flex: 0 0 22px; font-size: 13px; font-weight: 800; color: #8E8E93; }
+  .needs-title { flex: 0 0 200px; font-weight: 700; color: #1D1D1F; font-size: 12px; }
+  .needs-owner { flex: 0 0 120px; font-size: 11px; color: #FF9F0A; font-weight: 600; }
+  .needs-impact { flex: 1; font-size: 11px; color: #6E6E73; }
+
+  /* RESOURCES */
+  .resource-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 12px; border-bottom: 1px solid #F2F2F7; }
+  .resource-row:last-child { border-bottom: none; }
+  .resource-label { flex: 0 0 180px; font-size: 11px; font-weight: 600; color: #8E8E93; }
+  .resource-link { color: #0071E3; text-decoration: none; font-size: 12px; }
+  .resource-link:hover { text-decoration: underline; }
+
+  .card { border: 1px solid #E5E5EA; border-radius: 10px; padding: 14px 16px; margin-top: 8px; }
+
+  @media (max-width: 600px) {
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+    .row-label { flex: 0 0 110px; }
+    .needs-title { flex: 0 0 140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span class="header-title">⚡ Content Engine CC</span>
+  <span class="header-sep">|</span>
+  <span class="header-sub">Publishing Pipeline Status</span>
+  <span class="header-sep">|</span>
+  <span class="header-badge">Advaita Commercial Deployment Req #7</span>
+  <a class="back-link" href="/hub/">← Back to Hub</a>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi-card">
+    <div class="kpi-label">Status</div>
+    <div class="kpi-value red">🔴 NOT BUILT</div>
+    <div class="kpi-sub">May 17 deployment req</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Posts Queued</div>
+    <div class="kpi-value blue">60</div>
+    <div class="kpi-sub">ready for publish</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Published Today</div>
+    <div class="kpi-value red">0</div>
+    <div class="kpi-sub">not yet running</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Pipeline</div>
+    <div class="kpi-value amber">🟡 Partial</div>
+    <div class="kpi-sub">voice-mining built</div>
+  </div>
+</div>
+
+<!-- COMMERCIAL DEPLOYMENT ALERT -->
+<div class="alert-banner">
+  <div class="alert-banner-title">🔴 Content Engine Daily Publishing — NOT YET DEPLOYED — Advaita Requirement #7</div>
+  <div class="alert-banner-sub">Target: daily blog + social + SEO without Bennett input. May 17 = 12 days.</div>
+</div>
+
+<div class="content">
+
+  <!-- PIPELINE STATUS -->
+  <div class="section-label">Pipeline Status</div>
+
+  <!-- SECTION 1: Voice Mining — OPEN -->
+  <div class="accordion open" id="acc-voice">
+    <div class="accordion-header" onclick="toggleAcc('acc-voice')">
+      <span class="acc-icon">✅</span>
+      <span class="acc-title">BUILT: Voice Mining Pipeline</span>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="row">
+        <span class="row-label">Skill Location</span>
+        <span class="row-value"><a href="https://drive.google.com/drive/folders/18zDTzTYNrcKwXnJSzy3GOf_9FzRCSSTu" target="_blank">Drive 18zDTzTYNrcKwXnJSzy3GOf_9FzRCSSTu</a></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Posts Drafted</span>
+        <span class="row-value">60 posts from real Bennett transcripts</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Source Folders</span>
+        <span class="row-value">EOS folder + Plaud folder + AI training docs</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Social Queue Doc</span>
+        <span class="row-value"><a href="https://docs.google.com/document/d/1M46COl3iiUunu57jan7fM8qJsQQ0L1Td5yueBcrXbrI" target="_blank">Drive 1M46COl3iiUunu57jan7fM8qJsQQ0L1Td5yueBcrXbrI</a></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Status</span>
+        <span class="row-value green" style="font-weight:700">✅ Content exists, not auto-publishing</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: LinkedIn Auto-Publish — OPEN -->
+  <div class="accordion open" id="acc-linkedin">
+    <div class="accordion-header" onclick="toggleAcc('acc-linkedin')">
+      <span class="acc-icon">🟡</span>
+      <span class="acc-title">PARTIAL: LinkedIn Auto-Publish</span>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="row">
+        <span class="row-label">Direct Posting</span>
+        <span class="row-value green" style="font-weight:700">Squirrel posts via LINKEDIN_CREATE_LINKED_IN_POST ✅</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Account Recovery</span>
+        <span class="row-value amber" style="font-weight:700">RESUMES TODAY May 7 7:30 AM (first scheduled post)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">4-3-2-1 Framework</span>
+        <span class="row-value">4 posts/week · 3 pillars · 2 audiences · 1 lead magnet/week</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Blocked</span>
+        <span class="row-value red">Metricool Standard upgrade pending Kay ($22/mo)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Next Post</span>
+        <span class="row-value">Wed May 7 7:30 AM — DIY Skill Drop (Educational)</span>
+      </div>
+      <div class="copy-dispatch">
+        <div class="copy-dispatch-label">Copy Dispatch</div>
+        <div class="copy-dispatch-text" id="cd-li">Schedule LinkedIn post for 7:30 AM May 7: [DIY Skill content from Drive 1yX6x_UKM0nVlVC3o8dQq98Fe0vh5d2ZI]</div>
+        <button class="copy-btn" onclick="copyText('cd-li', this)">Copy Dispatch ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: IG/FB/TikTok — CLOSED -->
+  <div class="accordion" id="acc-social">
+    <div class="accordion-header" onclick="toggleAcc('acc-social')">
+      <span class="acc-icon">🔴</span>
+      <span class="acc-title">NOT BUILT: IG/FB/TikTok Auto-Publish</span>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="row">
+        <span class="row-label">Current Handler</span>
+        <span class="row-value">Christelle handles via Metricool (coordinator role)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Blocker</span>
+        <span class="row-value red">Metricool Standard upgrade: Kay task (pending)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Target Volume</span>
+        <span class="row-value">14 posts/week: IG / FB / TikTok / X</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Root Blocker</span>
+        <span class="row-value red">Metricool not connected to brand accounts</span>
+      </div>
+      <div class="copy-dispatch">
+        <div class="copy-dispatch-label">Copy Dispatch — Kay</div>
+        <div class="copy-dispatch-text" id="cd-ig">Kay — upgrade Metricool to Standard $22/mo at metricool.com. Connect FKI brand accounts. Onboard Christelle as Manager.</div>
+        <button class="copy-btn" onclick="copyText('cd-ig', this)">Copy Dispatch ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Blog/SEO — CLOSED -->
+  <div class="accordion" id="acc-blog">
+    <div class="accordion-header" onclick="toggleAcc('acc-blog')">
+      <span class="acc-icon">🔴</span>
+      <span class="acc-title">NOT BUILT: Daily Blog + SEO Auto-Publish</span>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="row">
+        <span class="row-label">Articles in GitHub</span>
+        <span class="row-value">86 articles in /franchise-guides/ (target: 100)</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Framer Blog</span>
+        <span class="row-value green">franchiseki.com/blogs/ — IS indexed by AI engines ✅</span>
+      </div>
+      <div class="row">
+        <span class="row-label">GitHub Status</span>
+        <span class="row-value red">/franchise-guides/ NOT indexed yet</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Action Required</span>
+        <span class="row-value">Publish to Framer blog for AI citation impact</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Framer Site ID</span>
+        <span class="row-value" style="font-family: 'SF Mono', Menlo, monospace;">4ZA5X4iAfXIQ4kzgd9yLrQ</span>
+      </div>
+      <div class="copy-dispatch">
+        <div class="copy-dispatch-label">Copy Dispatch — Leo/Ivan</div>
+        <div class="copy-dispatch-text" id="cd-blog">Publish franchise guide articles to franchiseki.com/blogs/ via Framer CMS. Current count: 86. Target: 100+. For max AI citation impact vs GitHub hosting.</div>
+        <button class="copy-btn" onclick="copyText('cd-blog', this)">Copy Dispatch ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Daily Cadence — CLOSED -->
+  <div class="accordion" id="acc-cron">
+    <div class="accordion-header" onclick="toggleAcc('acc-cron')">
+      <span class="acc-icon">🔴</span>
+      <span class="acc-title">NOT BUILT: Daily Cadence Automation</span>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="row">
+        <span class="row-label">Cron Status</span>
+        <span class="row-value red">No cron for daily content push</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Manual Process</span>
+        <span class="row-value">voice-mining-skill runs manually</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Target Pipeline</span>
+        <span class="row-value">Plaud AutoFlow webhook → Claude → Social Queue → auto-post</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Plaud Webhook</span>
+        <span class="row-value"><a href="https://plaud.ai/developer" target="_blank">plaud.ai/developer</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT NEEDS BUILDING -->
+  <div class="section-label">What Needs Building — Ordered by Impact</div>
+  <div class="card">
+    <div class="needs-row">
+      <span class="needs-num">1</span>
+      <span class="needs-title">Metricool Standard upgrade</span>
+      <span class="needs-owner">→ Kay</span>
+      <span class="needs-impact">$22/mo — unblocks IG/FB/TikTok auto-publish</span>
+    </div>
+    <div class="needs-row">
+      <span class="needs-num">2</span>
+      <span class="needs-title">Framer blog publishing</span>
+      <span class="needs-owner">→ Leo/Ivan</span>
+      <span class="needs-impact">AI indexing — 86 → 100+ articles on franchiseki.com/blogs/</span>
+    </div>
+    <div class="needs-row">
+      <span class="needs-num">3</span>
+      <span class="needs-title">Plaud AutoFlow webhook</span>
+      <span class="needs-owner">→ Leo/Ivan</span>
+      <span class="needs-impact">Daily voice→content pipeline — plaud.ai/developer</span>
+    </div>
+    <div class="needs-row">
+      <span class="needs-num">4</span>
+      <span class="needs-title">LinkedIn post cron</span>
+      <span class="needs-owner">→ Squirrel</span>
+      <span class="needs-impact">Scheduled invocation — 4x/week auto-post cadence</span>
+    </div>
+    <div class="needs-row">
+      <span class="needs-num">5</span>
+      <span class="needs-title">Brand account connections</span>
+      <span class="needs-owner">→ Kay + Christelle</span>
+      <span class="needs-impact">IC / SH / SRP social accounts → Metricool</span>
+    </div>
+  </div>
+
+  <!-- RESOURCES -->
+  <div class="section-label">Resources</div>
+  <div class="card">
+    <div class="resource-row">
+      <span class="resource-label">Voice-mining-skill</span>
+      <a class="resource-link" href="https://drive.google.com/drive/folders/18zDTzTYNrcKwXnJSzy3GOf_9FzRCSSTu" target="_blank">Drive 18zDTzTYNrcKwXnJSzy3GOf_9FzRCSSTu</a>
+    </div>
+    <div class="resource-row">
+      <span class="resource-label">Social Queue Doc</span>
+      <a class="resource-link" href="https://docs.google.com/document/d/1M46COl3iiUunu57jan7fM8qJsQQ0L1Td5yueBcrXbrI" target="_blank">Drive 1M46COl3iiUunu57jan7fM8qJsQQ0L1Td5yueBcrXbrI</a>
+    </div>
+    <div class="resource-row">
+      <span class="resource-label">Social Media CC</span>
+      <a class="resource-link" href="/social/">/social/</a>
+    </div>
+    <div class="resource-row">
+      <span class="resource-label">4-3-2-1 Framework</span>
+      <a class="resource-link" href="https://drive.google.com/drive/folders/1V21de35S3PtXTC4vKsHXqIw6RJmxNInK" target="_blank">Drive 1V21de35S3PtXTC4vKsHXqIw6RJmxNInK</a>
+    </div>
+  </div>
+
+</div><!-- end content -->
+
+<script>
+  function toggleAcc(id) {
+    var el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+  function copyText(id, btn) {
+    var text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      var orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(function() { btn.textContent = orig; }, 2000);
+    });
+  }
+</script>
+</body>
+</html>

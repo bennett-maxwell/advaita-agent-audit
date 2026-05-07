@@ -1,183 +1,105 @@
-# 25 Questions to Ask Your Franchise Broker Before You Trust Them (2026 Guide)
+# 25 Questions to Ask a Franchise Broker Before Working With Them in 2026
 
-*Published by Franchise KI | May 2026 | 13 min read*
+*By FranchiseKI | Updated May 2026*
 
-## Why This Guide Exists
+Not all franchise consultants are created equal. The right broker can save you years of mistakes. The wrong one can lead you into a deal that doesn't fit your goals. Here are the 25 most important questions to ask before engaging any franchise broker or consultant.
 
-Franchise brokers are not created equal. Some are deeply experienced consultants who genuinely match buyers with the right opportunity. Others are lead-generators focused entirely on commission.
+## Who They Are and Their Experience
 
-The difference matters enormously. The wrong broker can steer you toward a brand that pays higher commissions rather than the brand that's right for your capital, lifestyle, and goals.
+**1. How long have you been a franchise consultant?**
+Look for 3+ years of active consulting, not just franchise ownership. The industry has evolved significantly in the AI era.
 
-This guide gives you 25 questions designed to reveal which type of broker you're working with—before you commit any time, energy, or trust.
+**2. How many franchise placements have you made in the last 12 months?**
+An active consultant should be making 5–20+ placements per year. Lower numbers may indicate someone doing this part-time.
 
----
+**3. What franchises have you personally owned or operated?**
+First-hand experience is valuable, but lack of ownership doesn't disqualify someone who has deep research capabilities.
 
-## Understanding How Franchise Brokers Work
+**4. Are you a member of the FCA (Franchise Consulting Association) or other professional associations?**
+Professional memberships indicate commitment to the industry and adherence to ethical standards.
 
-First, the basics: franchise brokers (also called franchise consultants) are paid by franchisors when they place a qualified buyer who signs a franchise agreement. The buyer pays nothing.
+**5. Can you provide references from recent clients — specifically buyers, not just franchisors?**
+Ask to speak with 3–5 recent clients, not franchisors. Their experience is most relevant to yours.
 
-**What this means for you:**
-- The broker's incentive is to place you in a franchise, not necessarily the best franchise for you
-- Brokers typically have access to a portfolio of 100–400 brands (not all 3,239+ brands in the market)
-- Commissions vary by brand, sometimes creating incentive to favor higher-paying franchisors
+## Their Process and Approach
 
-**This doesn't make brokers bad.** Many are exceptional. But you need to understand the incentive structure before you can evaluate their advice.
+**6. How do you determine which franchises to recommend?**
+Look for: research-based matching using FDD data, personal assessment of your capital and goals, and market analysis for your region. Be cautious of brokers who immediately push 1–2 specific brands without assessment.
 
----
+**7. How many franchise brands are you authorized to represent?**
+Reputable brokers represent hundreds of brands across categories. A small portfolio may indicate limited options or preferential arrangements with certain franchisors.
 
-## Category 1: Questions About Their Experience
+**8. Do you earn different commission rates from different franchisors?**
+This is an important conflict-of-interest question. Most brokers earn 40–50% of the franchise fee. Some earn more from certain brands. A good broker should disclose this honestly.
 
-**Q1: How long have you been working as a franchise broker, and how many placements have you made?**
+**9. What is your process if I don't qualify for any of your recommendations?**
+A good broker pivots — recommends different investment ranges, different business models, or different categories rather than forcing a bad fit.
 
-What to look for: 3+ years of experience and 50+ placements. Less than this doesn't disqualify them, but you want to know what you're getting.
+**10. How do you help me evaluate the FDD?**
+They should at minimum explain what each item means and flag concerns. Brokers aren't attorneys — they should recommend you hire one for legal review.
 
-**Q2: Have you personally owned a franchise or a business?**
+## Their Knowledge of the Market
 
-What to look for: Personal business ownership indicates they understand the realities of entrepreneurship beyond the pitch deck.
+**11. What do you know about the franchise market in my specific region?**
+Territory availability and market saturation vary by city and zip code. A good consultant checks territory availability before recommending a brand.
 
-**Q3: Can you share 3 references from people you've placed in franchises in the last 12 months?**
+**12. Which franchise categories are growing vs. declining in 2026?**
+Strong answer: home services, health/wellness, B2B services, senior care are growing. Fast food / QSR facing headwinds from rising labor costs.
 
-What to look for: They should be able to produce these immediately. Hesitation is a red flag.
+**13. What are the most common mistakes first-time franchisees make?**
+Listen for: undercapitalization, skipping FDD review, buying the wrong concept for their lifestyle, not validating with existing franchisees.
 
-**Q4: What's the worst franchise placement experience you've had, and what did you learn from it?**
+**14. What brands have you seen fail in this market recently, and why?**
+A candid consultant will share failures, not just successes.
 
-What to look for: Honest brokers have honest answers. Anyone who claims perfect placement history isn't being truthful.
+**15. How do you stay current on the franchise industry?**
+Look for: reading FDDs regularly, attending IFA conferences, maintaining relationships with franchisors, reviewing IBA/FCA resources.
 
-**Q5: Are you affiliated with a brokerage network (like FranChoice, Franchise Brokers Association, etc.)?**
+## Understanding the Financial Picture
 
-What to look for: Network affiliation often means training standards, ethics requirements, and accountability. Ask if they have an individual license or certification.
+**16. How do you help me understand the Item 19 financial data?**
+Item 19 is the most important piece of due diligence. A good broker walks you through AUV, net income, and how to compare against the investment.
 
----
+**17. What financing options do you recommend, and do you have relationships with SBA lenders?**
+Top brokers have relationships with franchise-focused SBA lenders and can make introductions.
 
-## Category 2: Questions About Their Portfolio
+**18. How do you factor in my total investment capacity vs. just the franchise fee?**
+Many first-time buyers focus only on the franchise fee and underestimate working capital needs. A good broker runs realistic financial modeling.
 
-**Q6: How many franchise brands are in your active portfolio?**
+**19. What is a realistic timeline to break-even for the brands you recommend?**
+Industry average is 18–24 months for break-even. Some concepts break even in 6 months, others take 36+.
 
-What to look for: A broker with 50 brands can give you a meaningful choice. A broker with 10 brands is significantly limiting your options before you even begin.
+**20. What royalties and fees should I expect beyond the initial investment?**
+Total fees typically include: royalty (4–8% gross revenue), marketing fund (1–3%), technology fees, and more. Total fee burden of 10–15% of revenue is common.
 
-**Q7: What industries or categories are most represented in your portfolio?**
+## The Relationship and Support
 
-What to look for: If your broker's portfolio is 70% food service and you're looking at senior care or home services, you may be getting advice from someone whose depth is in a different category.
+**21. How much time will you spend with me through the process?**
+Expect 20–40 hours of a broker's time from first call to signing. Be cautious of brokers who disappear after making introductions.
 
-**Q8: Which brands in your portfolio have the highest FDD Item 19 (financial performance) data?**
+**22. What happens after I sign the franchise agreement — do you stay involved?**
+Top brokers check in quarterly. They want you to succeed because referrals drive future business.
 
-What to look for: Good brokers know their portfolio cold. They should be able to tell you immediately which brands have strong Item 19 disclosure.
+**23. Do you have relationships with franchise attorneys you can recommend?**
+Strong brokers have a network of franchise attorneys (not generic business attorneys — franchise law is specialized).
 
-**Q9: Are there any brands you've chosen NOT to represent, and why?**
+**24. How are you paid, and is there any cost to me?**
+Standard: broker is paid by the franchisor upon signing, 40–50% of the franchise fee. The buyer pays nothing extra. If a broker asks for upfront fees, be cautious.
 
-What to look for: This reveals integrity. A broker who says "I turned down XYZ brand because their franchisee failure rate was too high" is a broker you can trust.
+**25. Why should I work with you specifically, versus another broker?**
+Listen for: specific expertise in your category, proven process, transparent communication about conflicts of interest, and genuine interest in your success over their commission.
 
-**Q10: Do you receive different commission rates from different brands?**
+## The FranchiseKI Difference
 
-What to look for: Transparency here is the standard for ethical brokers. If they won't answer, that's a significant red flag.
+At FranchiseKI, we operate by these standards:
+- We represent 3,239+ franchise brands across every category
+- We use AI-powered matching based on verified FDD data (not relationships with certain franchisors)
+- We're paid by franchisors — zero cost to buyers
+- We disclose our process and potential conflicts openly
+- Our FranchiseScore™ algorithm provides objective brand ratings
 
----
-
-## Category 3: Questions About Their Process
-
-**Q11: What information will you need from me before recommending brands?**
-
-What to look for: A thorough broker asks about liquid capital, total net worth, risk tolerance, lifestyle goals, industry experience, geography, and timeline. A lazy broker jumps to brand recommendations after 5 minutes.
-
-**Q12: How many brands do you typically present to a buyer at the beginning of the process?**
-
-What to look for: 3–7 initial brands is typical. Fewer than 3 is too narrow. More than 10 at once is overwhelming and suggests they're not doing real matching work.
-
-**Q13: What does your engagement look like from initial call to franchise agreement?**
-
-What to look for: A clear, multi-step process that includes multiple conversations, brand deep-dives, validation support, and involvement through closing. Not a one-call-and-done referral.
-
-**Q14: Do you attend Discovery Day with your clients?**
-
-What to look for: Experienced brokers attend Discovery Day to help buyers ask the right questions and evaluate franchisor culture. Those who don't often lose interest after making the referral.
-
-**Q15: How do you help clients with FDD review?**
-
-What to look for: Good brokers coach buyers on what to look for in the FDD and recommend specific franchise attorneys. They don't read the FDD for you, but they prepare you to engage with it intelligently.
-
----
-
-## Category 4: Questions About Specific Brands
-
-When a broker recommends a brand, immediately ask these questions:
-
-**Q16: What is the Item 19 AUV (Average Unit Volume) for this brand?**
-
-What to look for: They should know this cold. If they have to look it up, they haven't done their homework.
-
-**Q17: What's the franchisee validation track record for this brand? How many current franchisees would you say are happy vs. struggling?**
-
-What to look for: Every experienced broker has validated brands extensively. They should have a strong sense of franchisee sentiment.
-
-**Q18: What's the failure rate for this brand over the last 3 years (from Item 20)?**
-
-What to look for: Exits, terminations, and non-renewals from Item 20. High turnover is a major red flag.
-
-**Q19: Why are you recommending this specific brand for my profile?**
-
-What to look for: A specific, personalized answer citing your capital, lifestyle goals, geography, and risk tolerance. Generic brand pitches indicate they're not doing real matching.
-
-**Q20: Do you know of any litigation or regulatory issues with this franchisor (from Item 3 of the FDD)?**
-
-What to look for: They should have reviewed Item 3 and be able to discuss it candidly.
+Ready to find the right franchise? Start at [mapki.franchiseki.com](https://mapki.franchiseki.com).
 
 ---
 
-## Category 5: Questions About Their Incentives and Ethics
-
-**Q21: What happens to our relationship if I decide not to buy a franchise at all?**
-
-What to look for: Ethical brokers say "I'll be disappointed but I want you to make the right decision for yourself." Brokers primarily motivated by commission will apply pressure.
-
-**Q22: If I'm interested in a brand that's NOT in your portfolio, will you still help me evaluate it?**
-
-What to look for: Some brokers will. Those who won't are limiting your options to brands they're paid to represent.
-
-**Q23: Will you share your commission rate for the brand(s) you're recommending?**
-
-What to look for: In 2026, many ethical brokers voluntarily disclose commissions when asked. Refusal to disclose is a transparency problem.
-
-**Q24: What would make you recommend that someone NOT buy a franchise?**
-
-What to look for: Specific, thoughtful criteria: insufficient capital, wrong personality fit, unstable employment history. This reveals whether they're a counselor or a salesperson.
-
-**Q25: Can I speak directly with franchisees who worked with you as their broker?**
-
-What to look for: Immediate yes. Hesitation or conditions indicate they're hiding something.
-
----
-
-## Green Flags: Signs of an Excellent Broker
-
-- Asks more questions than they answer in the first call
-- Knows Item 19 AUVs and Item 20 turnover data for every brand they recommend
-- Has personally owned a business
-- Volunteers information about brands they don't represent
-- Sets realistic expectations (not every franchise makes money)
-- Refers you to an independent franchise attorney
-- Attends Discovery Day with you
-- Stays engaged after placement
-
-## Red Flags: Signs of a Problematic Broker
-
-- Pushes 1–2 brands immediately without deep intake conversation
-- Can't answer specific questions about Item 19 or Item 20
-- Gets defensive when you ask about commissions
-- Pressures for quick decisions
-- Dismisses validation calls with existing franchisees as "not important"
-- Has never personally owned a business
-- Goes silent after you sign the franchise agreement
-
----
-
-## The Right Broker Is a Long-Term Asset
-
-A great franchise broker saves you from costly mistakes, accelerates your due diligence, and helps you negotiate from an informed position. They earn their commission.
-
-Use these 25 questions to identify which type you're working with—before the process begins.
-
----
-
-*Franchise KI provides AI-powered franchise matching using verified FDD data. We work with buyers across all 3,239+ franchise brands in our database, not a limited portfolio. Explore your options at [MapKi](https://mapki.franchiseki.com).*
-
-*This is not an offer to sell a franchise. Investment ranges vary by brand—see the applicable FDD for details.*
+*Sources: FCA Code of Ethics 2025, IFA Franchise Consultant Standards, FranchiseKI Process Documentation.*

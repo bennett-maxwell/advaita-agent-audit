@@ -1,394 +1,815 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FKI Command Center</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; background: #F5F5F7; color: #1D1D1F; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKI CEO OS v4</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #34C759; --amber: #FF9F0A; --red: #FF3B30; --blue: #0071E3;
+    --purple: #AF52DE; --text: #1D1D1F; --label: #6E6E73; --white: #FFFFFF;
+    --bg: #F5F5F7; --border: #D2D2D7; --navy: #1B2626;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.4; padding-bottom: 80px; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 16px; }
 
-    /* HEADER */
-    .page-header { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; padding: 28px 40px 24px; }
-    .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
-    .header-top h1 { font-size: 24px; font-weight: 700; color: #1D1D1F; letter-spacing: -0.3px; }
-    .header-top .sub { font-size: 13px; color: #6E6E73; margin-top: 4px; }
-    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .stat-pill { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
-    .sp-b { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.25); }
-    .sp-g { background: rgba(52,199,89,0.08); color: #34C759; border-color: rgba(52,199,89,0.25); }
-    .sp-a { background: rgba(255,159,10,0.08); color: #FF9F0A; border-color: rgba(255,159,10,0.25); }
-    .sp-r { background: rgba(255,59,48,0.08); color: #FF3B30; border-color: rgba(255,59,48,0.25); }
-    .sp-gray { background: rgba(142,142,147,0.08); color: #8E8E93; border-color: rgba(142,142,147,0.25); }
+  /* STICKY HEADER */
+  .sticky-header { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 8px; max-width: 900px; margin: 0 auto; padding: 0 16px; }
+  .header-left { display: flex; flex-direction: column; gap: 2px; }
+  .header-title { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .header-subtitle { font-size: 11px; color: var(--label); font-weight: 500; }
+  .health-score-badge { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .health-label { font-size: 10px; font-weight: 600; color: var(--label); text-transform: uppercase; letter-spacing: 0.5px; }
+  .health-pill { background: var(--amber); color: var(--white); font-size: 22px; font-weight: 800; padding: 6px 16px; border-radius: 20px; letter-spacing: -0.5px; line-height: 1; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .runway-badge { background: #FFF0EE; color: var(--red); font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--red); }
+  .updated-label { font-size: 11px; color: var(--label); }
 
-    /* MAIN */
-    .main { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
+  /* DEPLOYMENT BANNER */
+  .deploy-banner { background: var(--navy); color: var(--white); padding: 14px 0; }
+  .deploy-title { font-size: 15px; font-weight: 700; margin-bottom: 10px; text-align: center; }
+  .deploy-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .deploy-pill { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); }
+  .pill-red { background: rgba(255,59,48,0.25); color: #FF6B6B; }
+  .pill-green { background: rgba(52,199,89,0.25); color: #5DE67A; }
+  .pill-amber { background: rgba(255,159,10,0.25); color: #FFB84D; }
+  .deploy-expand-toggle { display: block; text-align: center; margin-top: 10px; font-size: 12px; color: rgba(255,255,255,0.5); cursor: pointer; }
+  .deploy-details { display: none; margin-top: 12px; }
+  .deploy-details.open { display: block; }
+  .deploy-checklist { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .deploy-checklist li { font-size: 12px; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 6px; }
 
-    /* GEORGE DEMO BANNER */
-    .demo-banner { background: #FFFFFF; border: 1px solid #E5E5EA; border-left: 4px solid #0071E3; border-radius: 0 10px 10px 0; padding: 20px 24px; margin-bottom: 20px; }
-    .demo-banner .dlbl { font-size: 11px; font-weight: 700; color: #0071E3; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-    .demo-banner .dtitle { font-size: 15px; font-weight: 700; color: #1D1D1F; margin-bottom: 4px; }
-    .demo-banner .dsub { font-size: 13px; color: #6E6E73; margin-bottom: 14px; }
-    .demo-links { display: flex; gap: 10px; flex-wrap: wrap; }
-    .demo-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid; transition: opacity 0.15s; }
-    .demo-btn:hover { opacity: 0.85; }
-    .db-primary { background: #0071E3; color: #FFFFFF; border-color: #0071E3; }
-    .db-secondary { background: rgba(0,113,227,0.08); color: #0071E3; border-color: rgba(0,113,227,0.3); }
+  /* LEGAL ALERT */
+  .legal-alert { background: var(--red); color: var(--white); padding: 10px 0; }
+  .legal-alert-inner { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .legal-alert-text { font-size: 13px; font-weight: 700; }
+  .legal-alert-text span { font-weight: 400; font-size: 12px; opacity: 0.9; }
+  .btn-dispatch-sm { background: rgba(255,255,255,0.2); color: var(--white); border: 1px solid rgba(255,255,255,0.4); padding: 5px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+  .btn-dispatch-sm:hover { background: rgba(255,255,255,0.3); }
 
-    /* ALERT BAR */
-    .alert-bar { background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); border-radius: 10px; padding: 12px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .ab-left .al { font-size: 11px; font-weight: 700; color: #FF3B30; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
-    .ab-left .at { font-size: 13px; color: #1D1D1F; }
-    .ab-badges { display: flex; gap: 6px; flex-shrink: 0; }
-    .ab-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(255,59,48,0.1); color: #FF3B30; white-space: nowrap; }
+  /* SECTION COMMON */
+  section { background: var(--white); border-radius: 12px; margin: 12px 0; border: 1px solid var(--border); overflow: hidden; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.8px; }
+  .count-badge { background: var(--text); color: var(--white); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .count-badge.red { background: var(--red); }
+  .count-badge.amber { background: var(--amber); }
 
-    /* CATEGORY LABEL */
-    .cat-label { font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; letter-spacing: 0.06em; margin: 24px 0 10px; padding-bottom: 8px; border-bottom: 1px solid #E5E5EA; }
-    .cat-label:first-of-type { margin-top: 0; }
+  /* ACTION CENTER */
+  .action-item { padding: 12px 16px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .action-item:last-child { border-bottom: none; }
+  .action-item.done { opacity: 0.45; }
+  .action-item.snoozed { display: none; }
+  .action-row { display: flex; align-items: flex-start; gap: 10px; }
+  .priority-pill { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .p-critical { background: #FFF0EE; color: var(--red); border: 1px solid var(--red); }
+  .p-urgent { background: #FFF8EC; color: var(--amber); border: 1px solid var(--amber); }
+  .p-info { background: #EEF5FF; color: var(--blue); border: 1px solid var(--blue); }
+  .action-content { flex: 1; min-width: 0; }
+  .action-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .action-detail { font-size: 12px; color: var(--label); margin-top: 3px; }
+  .action-buttons { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .btn-copy { background: var(--blue); color: var(--white); border: none; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+  .btn-copy:hover { opacity: 0.85; }
+  .btn-done { background: var(--green); color: var(--white); border: none; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+  .btn-done:hover { opacity: 0.85; }
+  .btn-snooze { background: var(--bg); color: var(--label); border: 1px solid var(--border); padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .resolved-label { font-size: 11px; color: var(--green); font-weight: 600; margin-top: 4px; }
 
-    /* CARD GRID */
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+  /* KPI STRIP */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+  .kpi-cell { background: var(--white); padding: 14px 12px; }
+  .kpi-label { font-size: 10px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .kpi-value { font-size: 28px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin-bottom: 3px; }
+  .kpi-sub { font-size: 11px; color: var(--label); }
+  .kpi-green { color: var(--green); }
+  .kpi-red { color: var(--red); }
+  .kpi-amber { color: var(--amber); }
+  .kpi-blue { color: var(--blue); }
 
-    /* CARD */
-    .card { background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 10px; padding: 18px 20px; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: box-shadow 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
-    .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
-    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  /* REVENUE FORECAST */
+  .forecast-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+  .forecast-cell { background: var(--white); padding: 14px 12px; text-align: center; }
+  .forecast-horizon { font-size: 10px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .forecast-value { font-size: 24px; font-weight: 800; color: var(--green); letter-spacing: -0.5px; }
+  .forecast-deals { font-size: 11px; color: var(--label); margin-top: 3px; }
+  .forecast-footer { padding: 10px 16px; font-size: 12px; color: var(--label); border-top: 1px solid var(--border); }
+  .forecast-link { display: block; padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; border-top: 1px solid var(--border); }
 
-    /* Card accent colors */
-    .c-social::before { background: #0071E3; } .c-social:hover { border-color: rgba(0,113,227,0.3); }
-    .c-marketing::before { background: #EC4899; } .c-marketing:hover { border-color: rgba(236,72,153,0.3); }
-    .c-cpa::before { background: #F97316; } .c-cpa:hover { border-color: rgba(249,115,22,0.3); }
-    .c-sales-prep::before { background: #F59E0B; } .c-sales-prep:hover { border-color: rgba(245,158,11,0.3); }
-    .c-funnel::before { background: #14B8A6; } .c-funnel:hover { border-color: rgba(20,184,166,0.3); }
-    .c-finance::before { background: #34C759; } .c-finance:hover { border-color: rgba(52,199,89,0.3); }
-    .c-legal::before { background: #3B82F6; } .c-legal:hover { border-color: rgba(59,130,246,0.3); }
-    .c-agents::before { background: #A7xBFA; } .c-agents:hover { border-color: rgba(167,139,250,0.3); }
-    .c-health::before { background: #F59E0B; } .c-health:hover { border-color: rgba(245,158,11,0.3); }
-    .c-vision::before { background: #8B5CF6; } .c-vision:hover { border-color: rgba(139,92,246,0.3); }
-    .c-seo::before { background: #10B981; } .c-seo:hover { border-color: rgba(16,185,129,0.3); }
-    .c-chores::before { background: #06B6D4; } .c-chores:hover { border-color: rgba(6,182,212,0.3); }
+  /* CONTENT CALENDAR */
+  .content-card { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .content-card:last-of-type { border-bottom: none; }
+  .content-info {}
+  .content-date { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.3px; }
+  .content-title-text { font-size: 13px; font-weight: 600; color: var(--text); margin-top: 2px; }
+  .content-platform { font-size: 11px; color: var(--label); }
+  .status-ready { font-size: 11px; font-weight: 700; color: var(--green); background: #F0FFF4; padding: 3px 8px; border-radius: 8px; white-space: nowrap; }
 
-    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-    .card-name { font-size: 14px; font-weight: 700; color: #1D1D1F; }
-    .badge { padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
-    .b-live { background: rgba(52,199,89,0.1); color: #34C759; }
-    .b-protected { background: rgba(142,142,147,0.1); color: #8E8E93; }
-    .b-new { background: rgba(0,113,227,0.1); color: #0071E3; }
-    .b-daily { background: rgba(52,199,89,0.1); color: #34C759; }
-    .b-pending { background: rgba(255,159,10,0.1); color: #FF9F0A; }
-    .b-weekly { background: rgba(0,113,227,0.1); color: #0071E3; }
-    .b-crisis { background: rgba(255,59,48,0.1); color: #FF3B30; }
+  /* SPRINT BOARD */
+  .accordion-toggle { width: 100%; background: none; border: none; padding: 12px 16px; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+  .accordion-toggle:hover { background: var(--bg); }
+  .accordion-chevron { font-size: 12px; color: var(--label); transition: transform 0.2s; }
+  .accordion-toggle.open .accordion-chevron { transform: rotate(180deg); }
+  .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .accordion-body.open { max-height: 600px; }
+  .sprint-row { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .sprint-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+  .sprint-name { font-size: 13px; font-weight: 600; flex: 1; }
+  .sprint-owner { font-size: 11px; color: var(--label); }
+  .sprint-link { font-size: 11px; color: var(--blue); text-decoration: none; font-weight: 600; }
 
-    .card-desc { font-size: 12px; color: #6E6E73; line-height: 1.5; flex: 1; }
-    .card-open { font-size: 12px; font-weight: 600; color: #0071E3; margin-top: 14px; display: flex; align-items: center; gap: 4px; }
+  /* WO TRACKER */
+  .wo-row { padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .wo-row:last-child { border-bottom: none; }
+  .wo-ts { font-size: 10px; font-weight: 700; color: var(--label); font-family: 'SF Mono', 'Menlo', monospace; white-space: nowrap; }
+  .wo-desc { font-size: 12px; color: var(--text); flex: 1; }
+  .wo-status { font-size: 11px; color: var(--label); white-space: nowrap; }
+  .wo-link { display: block; padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; border-top: 1px solid var(--border); }
 
-    /* Accent color for "Open" text per card type */
-    .c-social .card-open { color: #0071E3; }
-    .c-marketing .card-open { color: #EC4899; }
-    .c-cpa .card-open { color: #F97316; }
-    .c-sales-prep .card-open { color: #F59E0B; }
-    .c-funnel .card-open { color: #14B8A6; }
-    .c-finance .card-open { color: #34C759; }
-    .c-legal .card-open { color: #3B82F6; }
-    .c-agents .card-open { color: #A7xBFA; }
-    .c-health .card-open { color: #F59E0B; }
-    .c-vision .card-open { color: #8B5CF6; }
-    .c-seo .card-open { color: #10B981; }
-    .c-chores .card-open { color: #06B6D4; }
+  /* CC CARD GRID */
+  .cc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; }
+  @media (min-width: 600px) { .cc-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 800px) { .cc-grid { grid-template-columns: repeat(4, 1fr); } }
+  .cc-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-decoration: none; color: var(--text); transition: box-shadow 0.15s, transform 0.15s; display: block; }
+  .cc-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-1px); }
+  .cc-card.red-card { border-color: var(--red); background: #FFF8F8; }
+  .cc-card.amber-card { border-color: var(--amber); background: #FFFBF3; }
+  .cc-icon { font-size: 20px; margin-bottom: 6px; }
+  .cc-name { font-size: 12px; font-weight: 700; color: var(--text); }
+  .cc-metric { font-size: 20px; font-weight: 800; color: var(--text); margin: 4px 0; letter-spacing: -0.5px; }
+  .cc-metric.green { color: var(--green); }
+  .cc-metric.red { color: var(--red); }
+  .cc-metric.amber { color: var(--amber); }
+  .cc-sub { font-size: 10px; color: var(--label); line-height: 1.3; }
 
-    /* FOOTER */
-    .footer { text-align: center; padding: 28px 20px; font-size: 12px; color: #8E8E93; }
-    a.fl { color: #0071E3; text-decoration: none; }
-    a.fl:hover { text-decoration: underline; }
+  /* STICKY BOTTOM BAR */
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--white); border-top: 1px solid var(--border); padding: 10px 16px; box-shadow: 0 -2px 12px rgba(0,0,0,0.08); }
+  .bottom-bar-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 8px; justify-content: center; }
+  .btn-bar { flex: 1; max-width: 200px; padding: 10px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; text-align: center; transition: opacity 0.15s; }
+  .btn-bar.blue { background: var(--blue); color: var(--white); }
+  .btn-bar.text { background: var(--bg); color: var(--text); border: 1px solid var(--border); text-decoration: none; display: flex; align-items: center; justify-content: center; }
+  .btn-bar:hover { opacity: 0.85; }
 
-    @media (max-width: 640px) {
-      .page-header { padding: 20px 20px 16px; }
-      .header-top { flex-direction: column; gap: 12px; }
-      .main { padding: 20px 12px; }
-      .grid { grid-template-columns: 1fr; }
-      .demo-links { flex-direction: column; }
-      .alert-bar { flex-direction: column; align-items: flex-start; }
-    }
-    .c-autonomy::before { background: #F59E0B; } .c-autonomy:hover { border-color: rgba(245,158,11,0.3); }
-    .c-autonomy .card-open { color: #F59E0B; }
-    .card.gallery { border-color: #f472b633; }
-  .card.gallery:hover { border-color: #f472b6; box-shadow: 0 12px 40px rgba(244,114,182,0.15); }
-  .gallery .card-icon  { background: #f472b61a; }
-  .gallery .lock-badge { background: #f472b615; color: #f9a8d4;  border: 1px solid #f472b630; }
-  .gallery .card-title { color: #f9a8d4; }
-  .gallery .card-footer { color: #f9a8d4; background: #f472b60d; }
+  /* COPIED TOAST */
+  .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--white); padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; z-index: 200; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+  .toast.show { opacity: 1; }
 
-    /* KPI STRIP */
-    .kpi-strip-hub { background: #FFFFFF; border-bottom: 1px solid #E5E5EA; display: flex; overflow-x: auto; }
-    .kpi-hub { flex: 1; min-width: 120px; padding: 16px 20px; border-right: 1px solid #E5E5EA; }
-    .kpi-hub:last-child { border-right: none; }
-    .kpi-hub-label { font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
-    .kpi-hub-value { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-    .kpi-hub-sub { font-size: 10px; color: #8E8E93; margin-top: 3px; }
-    .kpi-hub-stale { font-size: 10px; color: #FF9F0A; margin-top: 2px; }
+  /* SECTION PADDING */
+  .pad { padding: 0 16px 12px; }
+  .pad-sm { padding: 12px 16px; font-size: 12px; color: var(--label); }
+  a.section-link { display: block; padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
-  <div class="page-header">
-    <div class="header-top">
-      <div>
-        <h1>FKI Command Center</h1>
-        <div class="sub">CEO Design Skill v1 &middot; 12 systems &middot; <span id="ts"></span></div>
+<!-- STICKY HEADER -->
+<div class="sticky-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="header-title">FKI CEO OS</div>
+      <div class="header-subtitle">Day 2 &nbsp;·&nbsp; v4</div>
+    </div>
+    <div class="health-score-badge">
+      <div class="health-label">FKI Health Score</div>
+      <div class="health-pill">68/100</div>
+    </div>
+    <div class="header-right">
+      <div class="runway-badge">⚠️ 3.5 wk runway</div>
+      <div class="updated-label">Updated: 2hr ago</div>
+    </div>
+  </div>
+</div>
+
+<!-- DEPLOYMENT COUNTDOWN BANNER -->
+<div class="deploy-banner">
+  <div class="container">
+    <div class="deploy-title">🚀 Advaita Commercial Deployment: May 17, 2026 &mdash; 12 Days Remaining</div>
+    <div class="deploy-pills">
+      <span class="deploy-pill pill-red">Machines 24/7 🔴</span>
+      <span class="deploy-pill pill-red">Lead Funnel 🔴</span>
+      <span class="deploy-pill pill-red">Piper 6AM 🔴</span>
+      <span class="deploy-pill pill-green">Dashboard ✅</span>
+      <span class="deploy-pill pill-amber">Lead Scoring 🟡</span>
+      <span class="deploy-pill pill-amber">Sam Scoring 🟡</span>
+      <span class="deploy-pill pill-red">Content Engine 🔴</span>
+      <span class="deploy-pill pill-red">Advaita Packaged 🔴</span>
+    </div>
+    <span class="deploy-expand-toggle" onclick="toggleDeployDetails(this)">▼ Show requirements detail</span>
+    <div class="deploy-details" id="deployDetails">
+      <ul class="deploy-checklist">
+        <li>☐ Machines running 24/7</li>
+        <li>☐ Full lead funnel live</li>
+        <li>☐ Piper 6AM DM to Bennett</li>
+        <li>✅ CEO Dashboard deployed</li>
+        <li>☐ Lead scoring engine live</li>
+        <li>☐ Sam scoring at 6/10 reliability</li>
+        <li>☐ Content engine running</li>
+        <li>☐ Advaita package complete</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- LEGAL GATE ALERT -->
+<div class="legal-alert">
+  <div class="container">
+    <div class="legal-alert-inner">
+      <div class="legal-alert-text">
+        ⚖️ LEGAL DEADLINE: May 27, 2026 &mdash; 22 Days<br>
+        <span>CFP Case 250905143 &nbsp;·&nbsp; Default Certificate Filed</span>
       </div>
-      <div class="stat-row">
-        <span class="stat-pill sp-b">12 Systems</span>
-        <span class="stat-pill sp-g">8 Live</span>
-        <span class="stat-pill sp-gray">2 Protected</span>
-        <span class="stat-pill sp-b">2 CEO Design v2</span>
+      <button class="btn-dispatch-sm" onclick="copyDispatch('Contact gbrown@heidlaw.com re Case 250905143, Default Certificate filed. Deadline May 27, 2026. Need response filed or judgment enters. Escalate immediately.')">Copy Dispatch ↗</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ACTION CENTER -->
+<section>
+  <div class="section-header">
+    <span class="section-label">Action Center</span>
+    <span class="count-badge red" id="actionCount">8</span>
+  </div>
+
+  <!-- 1 -->
+  <div class="action-item" id="action-1">
+    <div class="action-row">
+      <span class="priority-pill p-critical">🔴 CRITICAL</span>
+      <div class="action-content">
+        <div class="action-title">Cash Runway 3.5 Weeks</div>
+        <div class="action-detail">Close 1 deal now. 11 at Discovery Day stage.</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('URGENT: Cash runway at 3.5 weeks (~$40K checking). 11 leads at Discovery Day. Priority: close 1 deal immediately. Review pipeline and identify fastest path to close.')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-1')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-1')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-1" style="display:none;">✓ Resolved</div>
       </div>
     </div>
   </div>
 
-  <div class="main">
-
-    <!-- KPI STRIP - updated by Squirrel Pulse every 2hr -->
-    <div class="kpi-strip-hub" id="kpi-strip">
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">YTD Revenue</div>
-        <div class="kpi-hub-value" style="color:#34C759;" id="kpi-revenue">$305K</div>
-        <div class="kpi-hub-sub">QB verified &middot; cash basis</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Cash Runway</div>
-        <div class="kpi-hub-value" style="color:#FF3B30;" id="kpi-runway">3.5 wks</div>
-        <div class="kpi-hub-sub">$7.6K/wk burn &middot; zero-deal</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Active Leads</div>
-        <div class="kpi-hub-value" style="color:#0071E3;" id="kpi-leads">1,433</div>
-        <div class="kpi-hub-sub">GHL pipeline &middot; 506 unassigned</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Ad Spend (30D)</div>
-        <div class="kpi-hub-value" style="color:#FF9F0A;" id="kpi-spend">$8,894</div>
-        <div class="kpi-hub-sub">Meta Ads &middot; $44.70 CPL</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Autonomy %</div>
-        <div class="kpi-hub-value" style="color:#AF52DE;" id="kpi-autonomy">68%</div>
-        <div class="kpi-hub-sub">5 domains &middot; Lead Proc 22% critical</div>
-      </div>
-      <div class="kpi-hub">
-        <div class="kpi-hub-label">Open Blockers</div>
-        <div class="kpi-hub-value" style="color:#FF3B30;" id="kpi-blockers">31</div>
-        <div class="kpi-hub-sub">Sprint Board &middot; Red rows</div>
+  <!-- 2 -->
+  <div class="action-item" id="action-2">
+    <div class="action-row">
+      <span class="priority-pill p-critical">🔴 CRITICAL</span>
+      <div class="action-content">
+        <div class="action-title">SynthFlow Not Connected</div>
+        <div class="action-detail">506 leads going cold. Speed-to-lead: 60s target. Autonomy blocked at 22%.</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('CRITICAL: Connect SynthFlow to GHL Location 14RD8KklxR9G4e0Rf7v2. 506 leads unassigned. SynthFlow selected (Council 4.55/5). GHL Marketplace → SynthFlow → Subaccount mode. WO ts 1777961430 already sent — verify status.')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-2')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-2')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-2" style="display:none;">✓ Resolved</div>
       </div>
     </div>
-    <div style="text-align:right;padding:4px 24px;font-size:10px;color:#C7C7CC;background:#FAFAFA;border-bottom:1px solid #E5E5EA;">Data cached &middot; refreshed every 2hr by Squirrel Pulse &middot; <span id="last-kpi-update">May 5, 2026</span></div>
-
-
-    <!-- GEORGE DEMO BANNER -->
-    <div class="demo-banner">
-      <div class="dlbl">George Meeting &mdash; May 5, 2026</div>
-      <div class="dtitle">Start here for the demo</div>
-      <div class="dsub">Open Social Media CC first &mdash; Story for George is auto-expanded. Then switch to Marketing CC to show the IC CPL crisis being fixed in real time.</div>
-      <div class="demo-links">
-        <a href="../social/" target="_blank" class="demo-btn db-primary">&#127919; Social Media CC &rarr;</a>
-        <a href="../marketing/" target="_blank" class="demo-btn db-secondary">&#128202; Marketing CC &rarr;</a>
-      </div>
-    </div>
-
-    <!-- URGENT ACTIONS -->
-    <div class="alert-bar">
-      <div class="ab-left">
-        <div class="al">Urgent &mdash; Before Full Automation</div>
-        <div class="at">Meta Ads token expired April 30 &middot; Google Ads verify deadline May 13 &middot; Metricool upgrade ($22/mo, Kay task)</div>
-      </div>
-      <div class="ab-badges">
-        <span class="ab-badge">2 Bennett Gates</span>
-        <span class="ab-badge">1 Kay Task</span>
-      </div>
-    </div>
-
-    <!-- MARKETING & REVENUE -->
-    <div class="cat-label">Marketing &amp; Revenue</div>
-    <div class="grid">
-
-      <a class="card c-social" href="https://bennett-maxwell.github.io/advaita-agent-audit/social/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Social Media CC</div>
-          <span class="badge b-new">CEO Design v2</span>
-        </div>
-        <div class="card-desc">Bennett personal + IC/SH/SRP/FKI. 60 posts queued. LinkedIn resumes May 7. AI writes everything in Bennett's voice. Story for George auto-expanded.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-marketing" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Marketing CC</div>
-          <span class="badge b-crisis">IC CPL $76 Crisis</span>
-        </div>
-        <div class="card-desc">Meta Ads verified data: $8,894 spend / 199 leads / $44.70 CPL. IC Investor Headlines at $76 vs $45 target. SH healthy at $38.53. Glo Tanning $974K benchmark.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-cpa" href="https://bennett-maxwell.github.io/advaita-agent-audit/cpa/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Cost per Appointment</div>
-          <span class="badge b-live">Live</span>
-        </div>
-        <div class="card-desc">CPAB: SH $114 / IC $67. CPAH: SH $357 / IC $330. Show rates: SH 31.9% / IC 20.3% vs 70% target. Ad spend vs pipeline by brand.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-sales-prep" href="https://bennett-maxwell.github.io/advaita-agent-audit/meeting-prep/" target="_blank" rel="noopener noreferrer">
-        <div class="card-top">
-          <div class="card-name">Sales Meeting Prep</div>
-          <span class="badge b-daily">Daily 6 AM</span>
-        </div>
-        <div class="card-desc">Today&rsquo;s calls + battle cards. Hot leads with signal scoring. FDD review pipeline. Rep accountability (Bailey + Keith). Show rate tracker.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <!-- SALES & PIPELINE -->
-    <div class="cat-label">Sales &amp; Pipeline</div>
-    <div class="grid">
-
-      <a class="card c-funnel" href="funnel.html">
-        <div class="card-top">
-          <div class="card-name">Sales Funnel</div>
-          <span class="badge b-weekly">Weekly Mon 7 AM</span>
-        </div>
-        <div class="card-desc">1,433 open opps. 0.28% end-to-end conversion vs 2.3% industry. New Lead &rarr; Interested (88% drop). 506 leads unassigned.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-
-      <a class="card c-finance" href="../finance-hub/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Finance CC v2</div>
-          <span class="badge b-new">All Sections</span>
-        </div>
-        <div class="card-desc">QB live: $305K revenue, $40K cash, 3.5 wk runway. P&amp;L trend, done/blocked/in-progress, 3 audience views (Bennett/Team/Investor). Drill-down + resources.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-finance" href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/">
-        <div class="card-top">
-          <div class="card-name">Finance Dashboard</div>
-          <span class="badge b-protected">Password Protected</span>
-        </div>
-        <div class="card-desc">P&amp;L, cash position, QB sync. 13-week cash flow forecast. CC debt tracker. AES-256 encrypted. Password: finance 2026.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-legal" href="https://bennett-maxwell.github.io/advaita-agent-audit/legal/">
-        <div class="card-top">
-          <div class="card-name">Legal Dashboard</div>
-          <span class="badge b-protected">Password Protected</span>
-        </div>
-        <div class="card-desc">Entity tracker, compliance status, case roster. CFP case deadline May 27. Attorney-client privileged. AES-256 encrypted.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <!-- AI INFRASTRUCTURE -->
-    <div class="cat-label">AI Infrastructure</div>
-    <div class="grid">
-
-      <a class="card c-agents" href="agent-monitor.html">
-        <div class="card-top">
-          <div class="card-name">Agent Monitor</div>
-          <span class="badge b-live">Live &middot; 60s refresh</span>
-        </div>
-        <div class="card-desc">Real-time view of Mack, Leo, Ivan, Tiffany, and Chad. Tasks running, active skills, memory updates, handoff queue.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
- 
-      <a class="card c-health" href="machine-health.html">
-        <div class="card-top">
-          <div class="card-name">Machine Health</div>
-          <span class="badge b-live">Live &middot; 5 min refresh</span>
-        </div>
-        <div class="card-desc">iMac, MacBook, and Tiffany: CPU, memory, disk, uptime. Auto-refresh every 60 seconds.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-vision" href="../vision/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Vision 3.0 Status</div>
-          <span class="badge b-pending">68% Complete</span>
-        </div>
-        <div class="card-desc">Advaita Vision 3.0 deployment tracker. 5 domains, P1 blockers, timeline to 100% autonomy. 13 days to May 17 milestone.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-      <a class="card c-seo" href="../seo/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">SEO Command Center</div>
-          <span class="badge b-pending">Score 24/100</span>
-        </div>
-        <div class="card-desc">60+ franchise-guide articles. 50 keywords tracked. Target: 24 &rarr; 68 in 30 days. 0 AI citations verified. GA4 pending.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <!-- PERSONAL -->
-    <div class="cat-label">Personal</div>
-    <div class="grid">
-
-      <a class="card c-chores" href="https://bennett-maxwell.github.io/advaita-agent-audit/chore-chart/" target="_blank">
-        <div class="card-top">
-          <div class="card-name">Kids& rsquo;s Chores</div>
-          <span class="badge b-live">Public</span>
-        </div>
-        <div class="card-desc">Chore tracker by kid. Completion status, points, streaks, and rewards. Shareable with family &mdash; no login required.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-
-    <!-- AUTONOMY DASHBOARD -->
-    <div class="cat-label">Autonomy</div>
-    <div class="grid">
-
-      <a class="card c-autonomy" href="../autonomy/">
-        <div class="card-top">
-          <div class="card-name">Autonomy Dashboard</div>
-          <span class="badge b-pending">68% &rarr; 100%</span>
-        </div>
-        <div class="card-desc">30-item full autonomy plan. Lead Processing 22% &rarr; critical. business-audit v2 + council 4.47/5.</div>
-        <div class="card-open">Open &rarr;</div>
-      </a>
-
-    </div>
-
-    <div class="footer">
-      <div>FKI Command Center Hub &middot; CEO Design Skill v1 &middot; Franchise KI AI Fleet</div>
-      <div style="margin-top:6px">12 systems &middot; GitHub Pages &middot; <a href="https://github.com/bennett-maxwell/advaita-agent-audit" target="_blank" class="fl">bennett-maxwell/advaita-agent-audit</a></div>
-    </div>
-
   </div>
 
-  <script>
+  <!-- 3 -->
+  <div class="action-item" id="action-3">
+    <div class="action-row">
+      <span class="priority-pill p-critical">🔴 CRITICAL</span>
+      <div class="action-content">
+        <div class="action-title">Lead Scoring API Not Live</div>
+        <div class="action-detail">Convex PATCH pending. Blocks lead tier routing.</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('Deploy Lead Scorer to GHL ContactCreate webhook. franchise-score.py built by Ivan, ports :8742/:8743/:8744 FastAPI live. Need: add franchiseScore to Convex data model → wire to GHL ContactCreate webhook. Spec: Notion 357cf5514fd3816c9b17c4474df475a7')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-3')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-3')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-3" style="display:none;">✓ Resolved</div>
+      </div>
+    </div>
+  </div>
 
-  // Load KPI data from Pulse cache
-  fetch('../hub-data.json').then(r => r.json()).then(d => {
-    if (d.revenue) document.getElementById('kpi-revenue').textContent = d.revenue;
-    if (d.runway) document.getElementById('kpi-runway').textContent = d.runway;
-    if (d.leads) document.getElementById('kpi-leads').textContent = d.leads;
-    if (d.spend) document.getElementById('kpi-spend').textContent = d.spend;
-    if (d.autonomy) document.getElementById('kpi-autonomy').textContent = d.autonomy;
-    if (d.blockers) document.getElementById('kpi-blockers').textContent = d.blockers;
-    if (d.updated) document.getElementById('last-kpi-update').textContent = d.updated;
-  }).catch(() => {}); // graceful fallback to hardcoded values above
+  <!-- 4 -->
+  <div class="action-item" id="action-4">
+    <div class="action-row">
+      <span class="priority-pill p-urgent">🟡 URGENT</span>
+      <div class="action-content">
+        <div class="action-title">GHL PIT Token 403</div>
+        <div class="action-detail">Attribution-daily.py failing. app.crmx.app → Settings → Private Integrations</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('Fix GHL PIT Token 403 error. pit-3987cca6 returning 403. Go to app.crmx.app → Settings → Private Integrations → generate new token. Update attribution-daily.py with new token. Leo/Ivan can resolve via browser automation.')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-4')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-4')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-4" style="display:none;">✓ Resolved</div>
+      </div>
+    </div>
+  </div>
 
-    document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: '2-digit', minute: '2-digit', timeZone: 'America/Denver'
-    }) + ' MDT';
-  </script>
+  <!-- 5 -->
+  <div class="action-item" id="action-5">
+    <div class="action-row">
+      <span class="priority-pill p-urgent">🟡 URGENT</span>
+      <div class="action-content">
+        <div class="action-title">Google Ads: Verify by May 13</div>
+        <div class="action-detail">Identity verification at ads.google.com CID 340-719-9643. 8 days.</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('Complete Google Ads advertiser identity verification. CID 340-719-9643. Go to ads.google.com → verify identity. Phone + org questions already answered. Deadline May 13, 2026 — 8 days. Risk: account paused + $500 promo forfeited.')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-5')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-5')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-5" style="display:none;">✓ Resolved</div>
+      </div>
+    </div>
+  </div>
 
+  <!-- 6 -->
+  <div class="action-item" id="action-6">
+    <div class="action-row">
+      <span class="priority-pill p-urgent">🟡 URGENT</span>
+      <div class="action-content">
+        <div class="action-title">IC CPL Crisis $76</div>
+        <div class="action-detail">Investor Headlines v1.1 wrong angle. Community-hub creative ready. Leo WO 1777986496 in flight.</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('IC CPL at $76 (crisis). Investor Headlines v1.1 using wrong angle. Community-hub creative ready to swap. Leo WO 1777986496 in flight — confirm creative launch status. Target CPL: sub-$45.')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-6')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-6')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-6" style="display:none;">✓ Resolved</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="action-item" id="action-7">
+    <div class="action-row">
+      <span class="priority-pill p-urgent">🟡 URGENT</span>
+      <div class="action-content">
+        <div class="action-title">Meta Ads: FACEBOOKACCESSTOKEN Missing</div>
+        <div class="action-detail">Campaigns running blind since Apr 30. Meta Business Manager → System Users → New Token.</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('Meta Ads access token expired Apr 30. Campaigns running blind — no data. Go to Meta Business Manager → System Users → generate new long-lived token → update GHL/reporting integrations.')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-7')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-7')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-7" style="display:none;">✓ Resolved</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="action-item" id="action-8">
+    <div class="action-row">
+      <span class="priority-pill p-info">🔵 INFO</span>
+      <div class="action-content">
+        <div class="action-title">QB Entity Type Fix</div>
+        <div class="action-detail">Shows Sole Proprietor. Should be LLC. AI team handles going forward.</div>
+        <div class="action-buttons">
+          <button class="btn-copy" onclick="copyDispatch('QuickBooks entity type shows Sole Proprietor — should be LLC. AI team to update QB entity type going forward. Note: Ben Fellmeth no longer active.')">Copy ↗</button>
+          <button class="btn-done" onclick="markDone('action-8')">✓ Done</button>
+          <button class="btn-snooze" onclick="snoozeItem('action-8')">⏸ Snooze</button>
+        </div>
+        <div class="resolved-label" id="resolved-action-8" style="display:none;">✓ Resolved</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPI STRIP -->
+<section>
+  <div class="section-header">
+    <span class="section-label">KPI Strip</span>
+    <span class="count-badge">6 metrics</span>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-cell">
+      <div class="kpi-label">YTD Revenue</div>
+      <div class="kpi-value kpi-green">$305K</div>
+      <div class="kpi-sub">QB verified</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Cash Runway</div>
+      <div class="kpi-value kpi-red">3.5 wks</div>
+      <div class="kpi-sub">$40K checking</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Active Leads</div>
+      <div class="kpi-value kpi-blue">1,433</div>
+      <div class="kpi-sub">GHL pipeline</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Autonomy</div>
+      <div class="kpi-value kpi-amber">70.2%</div>
+      <div class="kpi-sub">Lead Proc 22% ⚠️</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Lead Funnel</div>
+      <div class="kpi-value kpi-red">22%</div>
+      <div class="kpi-sub">SynthFlow offline</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Machine RAM</div>
+      <div class="kpi-value kpi-amber">0.5 GB</div>
+      <div class="kpi-sub">Self-heal WO sent</div>
+    </div>
+  </div>
+</section>
+
+<!-- REVENUE FORECAST -->
+<section>
+  <div class="section-header">
+    <span class="section-label">Revenue Forecast</span>
+  </div>
+  <div class="forecast-grid">
+    <div class="forecast-cell">
+      <div class="forecast-horizon">30-Day</div>
+      <div class="forecast-value">$40K</div>
+      <div class="forecast-deals">est · 1 deal</div>
+    </div>
+    <div class="forecast-cell">
+      <div class="forecast-horizon">60-Day</div>
+      <div class="forecast-value">$80K</div>
+      <div class="forecast-deals">est · 2 deals</div>
+    </div>
+    <div class="forecast-cell">
+      <div class="forecast-horizon">90-Day</div>
+      <div class="forecast-value">$120K</div>
+      <div class="forecast-deals">est · 3 deals</div>
+    </div>
+  </div>
+  <div class="forecast-footer">Based on $40K avg deal &nbsp;·&nbsp; current pipeline 11 at Discovery Day</div>
+  <a class="forecast-link" href="/finance-hub/">→ Full Finance View</a>
+</section>
+
+<!-- CONTENT CALENDAR -->
+<section>
+  <div class="section-header">
+    <span class="section-label">Content Queue — Next 3 Posts</span>
+  </div>
+  <div class="content-card">
+    <div class="content-info">
+      <div class="content-date">Wed May 7 · 7:30 AM</div>
+      <div class="content-title-text">DIY Skill Drop (Educational)</div>
+      <div class="content-platform">LinkedIn</div>
+    </div>
+    <span class="status-ready">✅ Ready</span>
+  </div>
+  <div class="content-card">
+    <div class="content-info">
+      <div class="content-date">Thu May 8 · 10:00 AM</div>
+      <div class="content-title-text">Council Skill Story (Storytelling)</div>
+      <div class="content-platform">LinkedIn</div>
+    </div>
+    <span class="status-ready">✅ Ready</span>
+  </div>
+  <div class="content-card">
+    <div class="content-info">
+      <div class="content-date">Fri May 9 · 12:00 PM</div>
+      <div class="content-title-text">AI Franchise Kit CTA (Sales)</div>
+      <div class="content-platform">LinkedIn</div>
+    </div>
+    <span class="status-ready">✅ Ready</span>
+  </div>
+  <a class="section-link" href="/social/">→ Social CC</a>
+</section>
+
+<!-- SPRINT BOARD QUICK VIEW -->
+<section>
+  <div class="section-header">
+    <span class="section-label">🔴 Sprint Board — Red Rows</span>
+    <span class="count-badge red">8 active</span>
+  </div>
+  <button class="accordion-toggle" id="sprintToggle" onclick="toggleAccordion('sprintToggle','sprintBody')">
+    <span style="font-size:13px; font-weight:600; color:var(--label);">Click to expand</span>
+    <span class="accordion-chevron">▼</span>
+  </button>
+  <div class="accordion-body" id="sprintBody">
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">SynthFlow GHL</div>
+      <div class="sprint-owner">Leo</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">Lead Scorer FastAPI</div>
+      <div class="sprint-owner">Ivan</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">FranchiseScore Convex</div>
+      <div class="sprint-owner">Ivan</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">GHL Reminders</div>
+      <div class="sprint-owner">Leo</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">Google Ads $500 Verify</div>
+      <div class="sprint-owner">Bennett</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">IC CPL Crisis</div>
+      <div class="sprint-owner">Leo</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">Meta Token Refresh</div>
+      <div class="sprint-owner">Leo</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+    <div class="sprint-row">
+      <div class="sprint-dot"></div>
+      <div class="sprint-name">Legal Gate CFP</div>
+      <div class="sprint-owner">Bennett</div>
+      <a class="sprint-link" href="https://notion.so" target="_blank" rel="noopener">View →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WO LIFECYCLE TRACKER -->
+<section>
+  <div class="section-header">
+    <span class="section-label">Active Work Orders</span>
+    <span class="count-badge">5 in flight</span>
+  </div>
+  <div class="wo-row">
+    <div class="wo-ts">ts 1778014332</div>
+    <div class="wo-desc">RAM self-heal (pkill RustDesk/Whispr + purge)</div>
+    <div class="wo-status">→ Leo · 2min ago</div>
+  </div>
+  <div class="wo-row">
+    <div class="wo-ts">ts 1778011802</div>
+    <div class="wo-desc">hub-data.json Pulse wiring</div>
+    <div class="wo-status">Leo pending</div>
+  </div>
+  <div class="wo-row">
+    <div class="wo-ts">ts 1778011228</div>
+    <div class="wo-desc">command-center-skill subfolder move</div>
+    <div class="wo-status">Leo pending</div>
+  </div>
+  <div class="wo-row">
+    <div class="wo-ts">ts 1777986496</div>
+    <div class="wo-desc">IC community-hub creative launch</div>
+    <div class="wo-status">Leo in flight</div>
+  </div>
+  <div class="wo-row">
+    <div class="wo-ts">ts 1777963849</div>
+    <div class="wo-desc">GSC sitemap + GA4 OAuth</div>
+    <div class="wo-status">Leo · 3hr ago</div>
+  </div>
+  <button class="wo-link btn-copy" style="width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--border);color:var(--blue);font-size:13px;font-weight:600;cursor:pointer;padding:10px 16px;" onclick="copyDispatch('@Leo - status check please, what is your current queue and any blockers?')">→ Message #leo-auto ↗</button>
+</section>
+
+<!-- CC CARD GRID -->
+<section>
+  <div class="section-header">
+    <span class="section-label">Command Centers</span>
+    <span class="count-badge">13</span>
+  </div>
+  <div class="cc-grid">
+    <a class="cc-card" href="/finance-hub/">
+      <div class="cc-icon">💰</div>
+      <div class="cc-name">Finance</div>
+      <div class="cc-metric green">$305K</div>
+      <div class="cc-sub">YTD revenue</div>
+    </a>
+    <a class="cc-card" href="/marketing/">
+      <div class="cc-icon">📣</div>
+      <div class="cc-name">Marketing</div>
+      <div class="cc-metric amber">$76</div>
+      <div class="cc-sub">IC CPL crisis</div>
+    </a>
+    <a class="cc-card" href="/sales/">
+      <div class="cc-icon">🎯</div>
+      <div class="cc-name">Sales Pipeline</div>
+      <div class="cc-metric blue">11</div>
+      <div class="cc-sub">Discovery Day</div>
+    </a>
+    <a class="cc-card" href="/social/">
+      <div class="cc-icon">📱</div>
+      <div class="cc-name">Social</div>
+      <div class="cc-metric green">3</div>
+      <div class="cc-sub">Posts queued</div>
+    </a>
+    <a class="cc-card" href="/seo/">
+      <div class="cc-icon">🔍</div>
+      <div class="cc-name">SEO</div>
+      <div class="cc-metric">—</div>
+      <div class="cc-sub">GSC + GA4 active</div>
+    </a>
+    <a class="cc-card" href="/mapki/">
+      <div class="cc-icon">🗺️</div>
+      <div class="cc-name">MapKi</div>
+      <div class="cc-metric">—</div>
+      <div class="cc-sub">Territory mapping</div>
+    </a>
+    <a class="cc-card" href="/autonomy/">
+      <div class="cc-icon">🤖</div>
+      <div class="cc-name">Autonomy</div>
+      <div class="cc-metric amber">70.2%</div>
+      <div class="cc-sub">Lead proc 22% ⚠️</div>
+    </a>
+    <a class="cc-card" href="/software/">
+      <div class="cc-icon">⚙️</div>
+      <div class="cc-name">Software</div>
+      <div class="cc-metric amber">0.5 GB</div>
+      <div class="cc-sub">RAM self-heal sent</div>
+    </a>
+    <a class="cc-card" href="/employees/">
+      <div class="cc-icon">👥</div>
+      <div class="cc-name">Employees</div>
+      <div class="cc-metric">—</div>
+      <div class="cc-sub">Leo · Ivan · Sky</div>
+    </a>
+    <a class="cc-card" href="/cpa/">
+      <div class="cc-icon">📊</div>
+      <div class="cc-name">CPA</div>
+      <div class="cc-metric">—</div>
+      <div class="cc-sub">AI team active</div>
+    </a>
+    <a class="cc-card red-card" href="/legal/">
+      <div class="cc-icon">⚖️</div>
+      <div class="cc-name">Legal CC</div>
+      <div class="cc-metric red">22 days</div>
+      <div class="cc-sub">May 27 ⚠️ · filing deadline</div>
+    </a>
+    <a class="cc-card red-card" href="/lead-funnel/">
+      <div class="cc-icon">🔀</div>
+      <div class="cc-name">Lead Funnel</div>
+      <div class="cc-metric red">22%</div>
+      <div class="cc-sub">SynthFlow offline · 506 unassigned</div>
+    </a>
+    <a class="cc-card amber-card" href="/advaita/">
+      <div class="cc-icon">⚡</div>
+      <div class="cc-name">Advaita Deploy</div>
+      <div class="cc-metric amber">68/100</div>
+      <div class="cc-sub">12 days to May 17</div>
+    </a>
+    <a class="cc-card" href="/content-engine/">
+      <div class="cc-icon">✍️</div>
+      <div class="cc-name">Content Engine</div>
+      <div class="cc-metric green">Live</div>
+      <div class="cc-sub">89 articles · 7 sources</div>
+    </a>
+    <a class="cc-card amber-card" href="/daily-digest/">
+      <div class="cc-icon">🔒</div>
+      <div class="cc-name">Daily Digest</div>
+      <div class="cc-metric amber">2 Items</div>
+      <div class="cc-sub">IRREVERSIBLE queue · Bennett</div>
+    </a>
+    <a class="cc-card" href="/skills-registry/">
+      <div class="cc-icon">🧰</div>
+      <div class="cc-name">Skills Registry</div>
+      <div class="cc-metric green">23 Skills</div>
+      <div class="cc-sub">All Drive fileIds</div>
+    </a>
+    <a class="cc-card" href="/pulse/">
+      <div class="cc-icon">📡</div>
+      <div class="cc-name">Pulse Monitor</div>
+      <div class="cc-metric green">Active</div>
+      <div class="cc-sub">2hr cadence · 9 sources</div>
+    </a>
+    <a class="cc-card" href="/sprint/">
+      <div class="cc-icon">🏃</div>
+      <div class="cc-name">Sprint Board</div>
+      <div class="cc-metric amber">Day 3</div>
+      <div class="cc-sub">Health 68/100 · 26 open</div>
+    </a>
+    <a class="cc-card red-card" href="/lead-acquisition/">
+      <div class="cc-icon">🎯</div>
+      <div class="cc-name">Lead Acquisition</div>
+      <div class="cc-metric red">15% → 50%</div>
+      <div class="cc-sub">6 Leo WOs dispatched</div>
+    </a>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<!-- STICKY BOTTOM BAR -->
+<div class="bottom-bar">
+  <div class="bottom-bar-inner">
+    <button class="btn-bar blue" onclick="copyDispatch('Run the pulse skill now')">⚡ Run Pulse Now</button>
+    <button class="btn-bar blue" onclick="copyDispatch('@Leo - status check please, what\'s your queue?')">🤖 Check Leo</button>
+    <a class="btn-bar text" href="https://notion.so" target="_blank" rel="noopener">📋 Sprint Board</a>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Copied!</div>
+
+<script>
+  // COPY DISPATCH
+  function copyDispatch(text) {
+    navigator.clipboard.writeText(text).then(function() {
+      showToast('✓ Copied!');
+    }).catch(function() {
+      // Fallback
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Copied!');
+    });
+  }
+
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 1800);
+  }
+
+  // MARK DONE
+  function markDone(id) {
+    localStorage.setItem('hub-done-' + id, '1');
+    applyDone(id);
+  }
+  function applyDone(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('done');
+    var r = document.getElementById('resolved-' + id);
+    if (r) r.style.display = 'block';
+    updateActionCount();
+  }
+
+  // SNOOZE
+  function snoozeItem(id) {
+    var until = Date.now() + 86400000; // 24 hours
+    localStorage.setItem('hub-snooze-' + id, until.toString());
+    var el = document.getElementById(id);
+    if (el) el.classList.add('snoozed');
+    updateActionCount();
+  }
+
+  // COUNT
+  function updateActionCount() {
+    var items = document.querySelectorAll('.action-item');
+    var active = 0;
+    items.forEach(function(item) {
+      if (!item.classList.contains('done') && !item.classList.contains('snoozed')) active++;
+    });
+    var badge = document.getElementById('actionCount');
+    if (badge) badge.textContent = active;
+  }
+
+  // LOAD FROM LOCALSTORAGE
+  function loadState() {
+    var ids = ['action-1','action-2','action-3','action-4','action-5','action-6','action-7','action-8'];
+    ids.forEach(function(id) {
+      if (localStorage.getItem('hub-done-' + id) === '1') {
+        applyDone(id);
+      }
+      var snoozeUntil = localStorage.getItem('hub-snooze-' + id);
+      if (snoozeUntil && Date.now() < parseInt(snoozeUntil)) {
+        var el = document.getElementById(id);
+        if (el) el.classList.add('snoozed');
+      } else if (snoozeUntil) {
+        localStorage.removeItem('hub-snooze-' + id);
+      }
+    });
+    updateActionCount();
+  }
+
+  // ACCORDION
+  function toggleAccordion(toggleId, bodyId) {
+    var toggle = document.getElementById(toggleId);
+    var body = document.getElementById(bodyId);
+    if (!toggle || !body) return;
+    var isOpen = body.classList.contains('open');
+    if (isOpen) {
+      body.classList.remove('open');
+      toggle.classList.remove('open');
+    } else {
+      body.classList.add('open');
+      toggle.classList.add('open');
+    }
+  }
+
+  // DEPLOY DETAILS
+  function toggleDeployDetails(el) {
+    var details = document.getElementById('deployDetails');
+    if (details.classList.contains('open')) {
+      details.classList.remove('open');
+      el.textContent = '▼ Show requirements detail';
+    } else {
+      details.classList.add('open');
+      el.textContent = '▲ Hide requirements detail';
+    }
+  }
+
+  // INIT
+  loadState();
+</script>
 </body>
 </html>

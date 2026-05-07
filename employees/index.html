@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Hub — FranchiseKI</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;background:#F5F5F7;color:#1D1D1F}
+    .header{background:#FFF;padding:16px 24px;border-bottom:1px solid #E5E5EA;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+    .header h1{font-size:17px;font-weight:700}.back{font-size:12px;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 12px;border-radius:8px}
+    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E5E5EA;border-bottom:1px solid #E5E5EA}
+    .kpi-card{background:#FFF;padding:22px 18px;cursor:pointer;transition:background .15s;user-select:none;position:relative}
+    .kpi-card:hover{background:#F9F9FB}.kpi-card.active{background:#F0F7FF}
+    .kpi-card.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#0071E3}
+    .kpi-label{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .kpi-value{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:4px}.kpi-sub{font-size:11px;color:#8E8E93}
+    .kpi-hint{font-size:10px;color:#0071E3;margin-top:8px;opacity:0;transition:opacity .2s}
+    .kpi-card:hover .kpi-hint,.kpi-card.active .kpi-hint{opacity:1}
+    .l2-panel{display:none;background:#FAFAFA;border-bottom:1px solid #E5E5EA;padding:20px 24px}
+    .l2-panel.open{display:block;animation:slideDown .2s ease}@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .l2-title{font-size:13px;font-weight:700;color:#1D1D1F;margin-bottom:14px}
+    .l2-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0F0F0}
+    .l2-row:last-of-type{border-bottom:none}.l2-label{font-size:13px;color:#1D1D1F}.l2-val{font-size:13px;font-weight:700}
+    .sync-line{font-size:11px;color:#8E8E93;margin-top:14px;display:flex;align-items:center;gap:8px}
+    .l3{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#0071E3;text-decoration:none;background:rgba(0,113,227,.08);padding:5px 11px;border-radius:8px}
+    .main{max-width:900px;margin:0 auto;padding:16px 20px}
+    .section-label{font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;margin-top:16px}
+    /* Employee cards */
+    .emp-card{background:#FFF;border-radius:10px;padding:16px;margin-bottom:8px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;cursor:pointer;transition:background .15s}
+    .emp-card:hover{background:#F9F9FB}
+    .emp-avatar{width:40px;height:40px;border-radius:20px;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .emp-name{font-size:14px;font-weight:700;color:#1D1D1F;margin-bottom:3px}
+    .emp-role{font-size:11px;color:#8E8E93;margin-bottom:8px}
+    .emp-tasks{display:flex;flex-direction:column;gap:4px}
+    .emp-task{font-size:12px;color:#1D1D1F;padding:4px 0;border-bottom:1px solid #F5F5F7;display:flex;align-items:center;gap:6px}
+    .emp-task:last-child{border-bottom:none}
+    .emp-btns{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+    .emp-btn{font-size:11px;font-weight:600;text-decoration:none;padding:5px 10px;border-radius:7px;text-align:center;white-space:nowrap}
+    .eb-email{color:#0071E3;background:rgba(0,113,227,.08)}
+    .eb-slack{color:#34C759;background:rgba(52,199,89,.08)}
+    .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .sd-g{background:#34C759}.sd-a{background:#FF9F0A}.sd-r{background:#FF3B30}.sd-gr{background:#8E8E93}
+    .pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;white-space:nowrap}
+    .pg{background:rgba(52,199,89,.1);color:#34C759}.pa{background:rgba(255,159,10,.1);color:#FF9F0A}.pr{background:rgba(255,59,48,.1);color:#FF3B30}.pb{background:rgba(0,113,227,.1);color:#0071E3}
+    footer{padding:10px 24px;text-align:center;font-size:10px;color:#C7C7CC;border-top:1px solid #E5E5EA}
+    @media(max-width:600px){.kpi-value{font-size:28px}.emp-card{grid-template-columns:auto 1fr}.emp-btns{display:none}.main{padding:12px 14px}}
+  </style>
+</head>
+<body>
+<div class="header"><h1>👥 Employee Hub</h1><a href="../hub/" class="back">← Hub</a></div>
+
+<div class="kpi-row">
+  <div class="kpi-card" onclick="toggle('l2-active',this)">
+    <div class="kpi-label">Active Team</div>
+    <div class="kpi-value" style="color:#34C759;">7</div>
+    <div class="kpi-sub">Humans + AI agents</div>
+    <div class="kpi-hint">▼ Tap for overview</div>
+  </div>
+  <div class="kpi-card" onclick="toggle('l2-pending',this)">
+    <div class="kpi-label">Pending Tasks</div>
+    <div class="kpi-value" style="color:#FF9F0A;">6</div>
+    <div class="kpi-sub">Across Kay/Christelle/Sales</div>
+    <div class="kpi-hint">▼ Tap for list</div>
+  </div>
+  <div class="kpi-card" onclick="toggle('l2-onboarding',this)">
+    <div class="kpi-label">Onboarding</div>
+    <div class="kpi-value" style="color:#0071E3;">3</div>
+    <div class="kpi-sub">Kay + Cody + Christelle setup</div>
+    <div class="kpi-hint">▼ Tap for status</div>
+  </div>
+</div>
+
+<div id="l2-active" class="l2-panel">
+  <div class="l2-title">Team Overview</div>
+  <div class="l2-row"><div class="l2-label"><span class="status-dot sd-g"></span> Kay Labang (EA)</div><div class="l2-val" style="color:#34C759;">Active · 2 tasks pending</div></div>
+  <div class="l2-row"><div class="l2-label"><span class="status-dot sd-g"></span> Madison Lanz (COO)</div><div class="l2-val" style="color:#34C759;">Active · MapKi owner</div></div>
+  <div class="l2-row"><div class="l2-label"><span class="status-dot sd-g"></span> Christelle Pontillo (Social)</div><div class="l2-val" style="color:#34C759;">Active · May 7 ready</div></div>
+  <div class="l2-row"><div class="l2-label"><span class="status-dot sd-a"></span> Bailey Maxwell (Sales)</div><div class="l2-val" style="color:#FF9F0A;">⚠️ Dispositions needed</div></div>
+  <div class="l2-row"><div class="l2-label"><span class="status-dot sd-a"></span> Keith Kern (Sales)</div><div class="l2-val" style="color:#FF9F0A;">⚠️ Dispositions needed</div></div>
+  <div class="l2-row"><div class="l2-label"><span class="status-dot sd-g"></span> George (Design)</div><div class="l2-val" style="color:#34C759;">Active · creative review</div></div>
+  <div class="l2-row"><div class="l2-label"><span class="status-dot sd-b"></span> Cody Johnson (New hire)</div><div class="l2-val" style="color:#0071E3;">Onboarding Hyperagent</div></div>
+</div>
+
+<div id="l2-pending" class="l2-panel">
+  <div class="l2-title">Pending Tasks by Person</div>
+  <div class="l2-row"><div class="l2-label">Kay → Metricool upgrade ($22/mo)</div><div class="l2-val" style="color:#FF9F0A;">Pending</div></div>
+  <div class="l2-row"><div class="l2-label">Kay → Apollo/Instantly API keys to 1Password</div><div class="l2-val" style="color:#FF9F0A;">Pending</div></div>
+  <div class="l2-row"><div class="l2-label">Christelle → connect brand IG accounts to Metricool</div><div class="l2-val" style="color:#FF9F0A;">Pending upgrade</div></div>
+  <div class="l2-row"><div class="l2-label">Bailey → disposition open leads in GHL</div><div class="l2-val" style="color:#FF3B30;">Overdue</div></div>
+  <div class="l2-row"><div class="l2-label">Keith → disposition open leads in GHL</div><div class="l2-val" style="color:#FF3B30;">Overdue</div></div>
+  <div class="l2-row"><div class="l2-label">George → IC community-hub creative QA</div><div class="l2-val" style="color:#FF9F0A;">Pending</div></div>
+</div>
+
+<div id="l2-onboarding" class="l2-panel">
+  <div class="l2-title">Hyperagent Onboarding Status</div>
+  <div class="l2-row"><div class="l2-label">Kay Labang</div><div class="l2-val" style="color:#34C759;">Onboarded · 9 OAuth pending</div></div>
+  <div class="l2-row"><div class="l2-label">Madison Lanz</div><div class="l2-val" style="color:#34C759;">Onboarded · agent active</div></div>
+  <div class="l2-row"><div class="l2-label">Cody Johnson</div><div class="l2-val" style="color:#0071E3;">In progress · setup email sent</div></div>
+  <div class="l2-row"><div class="l2-label">Referral link</div><div class="l2-val"><a href="https://hyperagent.com/refer/WYSZW237" style="color:#0071E3;font-size:12px;text-decoration:none;">hyperagent.com/refer/WYSZW237</a></div></div>
+  <div class="sync-line">Email thread 19df4bbaf0cd18c2 · <a href="https://hyperagent.com" class="l3" target="_blank">Open Hyperagent →</a></div>
+</div>
+
+<div class="main">
+  <div class="section-label">Team Cards</div>
+
+  <div class="emp-card" onclick="toggle('emp-kay',this)">
+    <div class="emp-avatar">👩</div>
+    <div>
+      <div class="emp-name">Kay Labang <span class="pill pg" style="margin-left:6px;">EA</span></div>
+      <div class="emp-role">kay@franchiseki.com</div>
+      <div class="emp-tasks">
+        <div class="emp-task"><span class="status-dot sd-a"></span> Metricool upgrade $22/mo — pending</div>
+        <div class="emp-task"><span class="status-dot sd-a"></span> Apollo/Instantly API keys → 1Password</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> GHL UI tasks, admin setup</div>
+      </div>
+    </div>
+    <div class="emp-btns">
+      <a href="mailto:kay@franchiseki.com" class="emp-btn eb-email">Email Kay</a>
+    </div>
+  </div>
+
+  <div class="emp-card" onclick="toggle('emp-madison',this)">
+    <div class="emp-avatar">👩</div>
+    <div>
+      <div class="emp-name">Madison Lanz <span class="pill pb" style="margin-left:6px;">COO</span></div>
+      <div class="emp-role">madison@franchiseki.com</div>
+      <div class="emp-tasks">
+        <div class="emp-task"><span class="status-dot sd-g"></span> MapKi Phase C operational owner</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> Brand quality reviews (IC/SH/SRP)</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> Hyperagent agent active</div>
+      </div>
+    </div>
+    <div class="emp-btns">
+      <a href="mailto:madison@franchiseki.com" class="emp-btn eb-email">Email</a>
+    </div>
+  </div>
+
+  <div class="emp-card" onclick="toggle('emp-christelle',this)">
+    <div class="emp-avatar">👩</div>
+    <div>
+      <div class="emp-name">Christelle Pontillo <span class="pill pg" style="margin-left:6px;">Social</span></div>
+      <div class="emp-role">christelle@franchiseki.com</div>
+      <div class="emp-tasks">
+        <div class="emp-task"><span class="status-dot sd-g"></span> LinkedIn resumes May 7 · 5 posts queued</div>
+        <div class="emp-task"><span class="status-dot sd-a"></span> Metricool: needs Standard upgrade for brand accounts</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> IG/FB/TikTok/X scheduling via Metricool</div>
+      </div>
+    </div>
+    <div class="emp-btns">
+      <a href="mailto:christelle@franchiseki.com" class="emp-btn eb-email">Email</a>
+    </div>
+  </div>
+
+  <div class="emp-card" onclick="toggle('emp-sales',this)">
+    <div class="emp-avatar">👨</div>
+    <div>
+      <div class="emp-name">Bailey Maxwell + Keith Kern <span class="pill pa" style="margin-left:6px;">Sales</span></div>
+      <div class="emp-role">Sales reps · GHL dispositions</div>
+      <div class="emp-tasks">
+        <div class="emp-task"><span class="status-dot sd-r"></span> Open GHL leads need disposition — OVERDUE</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> Get alerts via #sales-announcements</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> Discovery Day → 3 signed deals in pipeline</div>
+      </div>
+    </div>
+    <div class="emp-btns">
+      <a href="mailto:bailey@franchiseki.com" class="emp-btn eb-email">Email Bailey</a>
+      <a href="mailto:keith@franchiseki.com" class="emp-btn eb-email">Email Keith</a>
+    </div>
+  </div>
+
+  <div class="emp-card" onclick="toggle('emp-george',this)">
+    <div class="emp-avatar">🎨</div>
+    <div>
+      <div class="emp-name">George <span class="pill pb" style="margin-left:6px;">Design</span></div>
+      <div class="emp-role">george@franchiseki.com</div>
+      <div class="emp-tasks">
+        <div class="emp-task"><span class="status-dot sd-a"></span> IC community-hub creative QA pending</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> Ad creative for IC/SH brands</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> Onboarded May 6, 2026</div>
+      </div>
+    </div>
+    <div class="emp-btns">
+      <a href="mailto:george@franchiseki.com" class="emp-btn eb-email">Email</a>
+    </div>
+  </div>
+
+  <div class="emp-card" onclick="toggle('emp-cody',this)">
+    <div class="emp-avatar">👨</div>
+    <div>
+      <div class="emp-name">Cody Johnson <span class="pill pb" style="margin-left:6px;">New Hire</span></div>
+      <div class="emp-role">cody@franchiseki.com</div>
+      <div class="emp-tasks">
+        <div class="emp-task"><span class="status-dot sd-b"></span> Hyperagent agent setup in progress</div>
+        <div class="emp-task"><span class="status-dot sd-g"></span> Onboarding email sent May 4</div>
+        <div class="emp-task"><span class="status-dot sd-a"></span> Role: TBD — coordinate with Madison</div>
+      </div>
+    </div>
+    <div class="emp-btns">
+      <a href="mailto:cody@franchiseki.com" class="emp-btn eb-email">Email</a>
+    </div>
+  </div>
+
+  <!-- Expandable emp details (hidden by default) -->
+  <div id="emp-kay" class="l2-panel" style="border-radius:10px;margin-bottom:8px;">
+    <div class="l2-title">Kay — Active Context</div>
+    <div class="l2-row"><div class="l2-label">Slack ID</div><div class="l2-val">U08JNLSUN8P</div></div>
+    <div class="l2-row"><div class="l2-label">Timezone</div><div class="l2-val">America/Denver</div></div>
+    <div class="l2-row"><div class="l2-label">Main role</div><div class="l2-val">Admin UI tasks, GHL settings, scheduling</div></div>
+    <div class="sync-line"><a href="mailto:kay@franchiseki.com?subject=Action Required&body=Hi Kay," class="l3">Email Kay →</a></div>
+  </div>
+  <div id="emp-madison" class="l2-panel" style="border-radius:10px;margin-bottom:8px;">
+    <div class="l2-title">Madison — Active Context</div>
+    <div class="l2-row"><div class="l2-label">MapKi Phase C</div><div class="l2-val">Brand quality review owner</div></div>
+    <div class="l2-row"><div class="l2-label">Sprint Board items</div><div class="l2-val">Check with Madison label</div></div>
+    <div class="sync-line"><a href="mailto:madison@franchiseki.com?subject=Action Required&body=Hi Madison," class="l3">Email Madison →</a></div>
+  </div>
+  <div id="emp-christelle" class="l2-panel" style="border-radius:10px;margin-bottom:8px;">
+    <div class="l2-title">Christelle — Social Media Status</div>
+    <div class="l2-row"><div class="l2-label">LinkedIn next post</div><div class="l2-val">Wed May 7 · 7:30 AM MDT</div></div>
+    <div class="l2-row"><div class="l2-label">Content queue</div><div class="l2-val" style="color:#34C759;">60 posts ready</div></div>
+    <div class="l2-row"><div class="l2-label">Metricool status</div><div class="l2-val" style="color:#FF9F0A;">Upgrade pending (Kay task)</div></div>
+    <div class="sync-line"><a href="mailto:christelle@franchiseki.com?subject=Social Media Update" class="l3">Email Christelle →</a></div>
+  </div>
+  <div id="emp-sales" class="l2-panel" style="border-radius:10px;margin-bottom:8px;">
+    <div class="l2-title">Sales Reps — Pipeline Status</div>
+    <div class="l2-row"><div class="l2-label">GHL pipeline</div><div class="l2-val">1,433 open opps</div></div>
+    <div class="l2-row"><div class="l2-label">Discovery Day</div><div class="l2-val" style="color:#34C759;">11 prospects at this stage</div></div>
+    <div class="l2-row"><div class="l2-label">Signed deals</div><div class="l2-val">3 · target 3/mo</div></div>
+    <div class="l2-row"><div class="l2-label">Dispositions alert</div><div class="l2-val">#sales-announcements C08GCUB167L</div></div>
+    <div class="sync-line"><a href="https://app.gohighlevel.com" class="l3" target="_blank">Open GHL Pipeline →</a></div>
+  </div>
+  <div id="emp-george" class="l2-panel" style="border-radius:10px;margin-bottom:8px;"></div>
+  <div id="emp-cody" class="l2-panel" style="border-radius:10px;margin-bottom:8px;"></div>
+</div>
+
+<footer>FKI Team · 7 members · Updated May 6, 2026</footer>
+
+<script>
+function toggle(id,card){
+  const p=document.getElementById(id);
+  if(!p)return;
+  const o=p.classList.contains('open');
+  document.querySelectorAll('.l2-panel').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));
+  if(!o){p.classList.add('open');if(card)card.classList.add('active');}
+}
+</script>
+</body>
+</html>

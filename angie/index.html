@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Angie &#8212; Audit Command Center</title>
+  <style>
+    :root {
+      --bg:#0d0f14;--surface:#161922;--card:#1e2230;--border:#2a2f3e;
+      --accent:#4f8ef7;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;
+      --purple:#a855f7;--text:#e8eaf0;--muted:#7b8196;--pill-bg:#252a3a;
+      --radius:14px;--font:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;padding-bottom:100px;-webkit-font-smoothing:antialiased}
+    .header{background:linear-gradient(135deg,#1a1f2e 0%,#12161f 100%);padding:52px 20px 16px;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+    .header-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .header h1{font-size:20px;font-weight:700;letter-spacing:-0.5px}
+    .header h1 span{color:var(--accent)}
+    .header-sub{font-size:11px;color:var(--muted);margin-top:3px}
+    .live-badge{background:var(--purple);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:0.5px;white-space:nowrap}
+    .date-nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 20px 10px;background:var(--surface);border-bottom:1px solid var(--border)}
+    .date-btn{background:var(--card);border:1px solid var(--border);color:var(--text);font-size:18px;width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+    .date-btn:hover{background:var(--border)}
+    .date-btn:disabled{opacity:0.3;cursor:default}
+    .date-label{font-size:14px;font-weight:600;color:var(--text);min-width:130px;text-align:center;letter-spacing:-0.3px}
+    .today-btn{background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;border:none;cursor:pointer}
+    .summary-row{display:flex;gap:8px;padding:14px 16px 8px;overflow-x:auto;scrollbar-width:none}
+    .summary-row::-webkit-scrollbar{display:none}
+    .stat-card{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:90px;text-align:center}
+    .stat-card .val{font-size:26px;font-weight:800;line-height:1;letter-spacing:-1px}
+    .stat-card .lbl{font-size:10px;color:var(--muted);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+    .stat-card.red .val{color:var(--red)}.stat-card.yellow .val{color:var(--yellow)}.stat-card.green .val{color:var(--green)}.stat-card.blue .val{color:var(--accent)}.stat-card.purple .val{color:var(--purple)}
+    .section{padding:0 16px 4px}
+    .section-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:14px 0 8px;display:flex;align-items:center;gap:8px}
+    .section-title .badge{background:var(--pill-bg);color:var(--text);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+    .finding-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+    .finding-card:hover{border-color:var(--accent)}
+    .finding-header{display:flex;align-items:flex-start;gap:10px}
+    .finding-type-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;padding:3px 7px;border-radius:6px;flex-shrink:0;margin-top:1px}
+    .type-agent{background:#1e3a5f;color:#60a5fa}.type-skill{background:#3b2d5e;color:#a78bfa}.type-project{background:#1a3a2a;color:#4ade80}
+    .finding-main{flex:1;min-width:0}
+    .finding-name{font-size:13px;font-weight:700}
+    .finding-text{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+    .finding-expand{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+    .finding-expand.open{display:block}
+    .fix-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+    .fix-text{font-size:12px;color:var(--text);font-family:'SF Mono',monospace;background:var(--bg);padding:8px 10px;border-radius:8px;line-height:1.5}
+    .status-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;margin-top:8px}
+    .status-fixed{background:#14532d;color:var(--green)}.status-in_progress{background:#1c2d4a;color:var(--accent)}.status-blocked{background:#3b1515;color:var(--red)}.status-open{background:#2d2010;color:var(--yellow)}
+    .sev-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+    .sev-red{background:var(--red);box-shadow:0 0 6px var(--red)}.sev-yellow{background:var(--yellow);box-shadow:0 0 6px var(--yellow)}.sev-green{background:var(--green)}
+    .gate-card{background:#1a0d0d;border:1px solid #5a1a1a;border-radius:var(--radius);padding:14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
+    .gate-icon{font-size:18px;flex-shrink:0}.gate-text{font-size:13px;font-weight:600}.gate-id{font-size:10px;color:var(--muted);margin-top:2px;font-family:'SF Mono',monospace}
+    .q-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
+    .q-theme{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);margin-bottom:6px}
+    .q-text{font-size:14px;font-weight:600;line-height:1.5;margin-bottom:12px}
+    .q-options{display:flex;flex-direction:column;gap:8px}
+    .q-btn{background:var(--pill-bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:left;cursor:pointer;font-family:var(--font);display:flex;align-items:flex-start;gap:10px;transition:all .15s;color:var(--text);font-size:13px}
+    .q-btn:hover{border-color:var(--accent);background:#1e2a3a}
+    .q-btn.selected{border-color:var(--accent);background:#1a2d4a}
+    .q-btn.recommended:not(.selected){border-color:#2a4a2a}
+    .q-btn.selected.recommended{border-color:var(--green);background:#0f2a1a}
+    .q-letter{width:22px;height:22px;border-radius:6px;background:var(--border);color:var(--muted);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .q-btn.selected .q-letter{background:var(--accent);color:#fff}
+    .q-btn.selected.recommended .q-letter{background:var(--green);color:#fff}
+    .q-btn-text{flex:1;line-height:1.4}
+    .q-rec-tag{font-size:9px;font-weight:800;color:var(--green);background:#0f2a1a;padding:2px 6px;border-radius:4px;flex-shrink:0;align-self:center}
+    .q-rationale{font-size:11px;color:var(--muted);margin-top:8px;padding:8px 10px;background:var(--bg);border-radius:8px;line-height:1.5;display:none}
+    .q-rationale.show{display:block}
+    .progress-bar{background:var(--border);border-radius:20px;height:4px;margin:8px 0 14px;overflow:hidden}
+    .progress-fill{height:100%;border-radius:20px;background:var(--accent);transition:width .3s}
+    .comment-section{padding:0 16px;margin-bottom:12px}
+    .comment-label{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600}
+    .comment-box{width:100%;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;color:var(--text);font-family:var(--font);font-size:13px;resize:vertical;min-height:70px;outline:none}
+    .comment-box:focus{border-color:var(--accent)}
+    .submit-section{padding:0 16px 16px}
+    .submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent) 0%,#3b7de8 100%);color:#fff;font-size:16px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--font);letter-spacing:-0.3px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .submit-btn:hover{opacity:0.9}
+    .submit-btn:disabled{opacity:0.5;cursor:default}
+    .submit-btn.sent{background:linear-gradient(135deg,var(--green) 0%,#16a34a 100%);cursor:default}
+    .success-banner{margin-top:12px;background:#0f2a1a;border:1px solid var(--green);border-radius:var(--radius);padding:14px 16px;display:none}
+    .success-banner.show{display:block}
+    .success-banner-title{font-size:13px;font-weight:700;color:var(--green);margin-bottom:4px}
+    .success-banner-text{font-size:12px;color:var(--muted);line-height:1.5}
+    .no-data{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px}
+    .no-data-icon{font-size:48px;margin-bottom:12px}
+    .loading{text-align:center;padding:40px;color:var(--muted)}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;opacity:0;transition:opacity .3s;z-index:999;white-space:nowrap;pointer-events:none}
+    .toast.show{opacity:1}.toast.error{background:var(--red)}
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div>
+      <h1>&#127885; <span>Angie</span> Audit</h1>
+      <div class="header-sub" id="header-sub">Loading...</div>
+    </div>
+    <div class="live-badge">DAILY BRIEF</div>
+  </div>
+</div>
+
+<div class="date-nav">
+  <button class="date-btn" id="btn-prev" onclick="changeDate(-1)">&#8249;</button>
+  <span class="date-label" id="date-label">&#8212;</span>
+  <button class="date-btn" id="btn-next" onclick="changeDate(1)" disabled>&#8250;</button>
+  <button class="today-btn" onclick="goToday()">Today</button>
+</div>
+
+<div id="main-content"><div class="loading">Loading audit data...</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const NTFY_TOPIC = "fki-angie-3311333518714776";
+let currentDate = new Date().toISOString().split('T')[0];
+let currentData = null;
+let answers = {};
+let submitted = false;
+
+function fmtDate(d) {
+  const dt = new Date(d + 'T12:00:00');
+  return dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+}
+function addDays(d, n) {
+  const dt = new Date(d + 'T12:00:00');
+  dt.setDate(dt.getDate() + n);
+  return dt.toISOString().split('T')[0];
+}
+function isToday(d) { return d === new Date().toISOString().split('T')[0]; }
+
+function changeDate(delta) {
+  currentDate = addDays(currentDate, delta);
+  answers = {}; submitted = false; loadDate(currentDate);
+}
+function goToday() {
+  currentDate = new Date().toISOString().split('T')[0];
+  answers = {}; submitted = false; loadDate(currentDate);
+}
+
+async function loadDate(date) {
+  document.getElementById('date-label').textContent = fmtDate(date);
+  document.getElementById('btn-next').disabled = isToday(date);
+  document.getElementById('main-content').innerHTML = '<div class="loading">Loading audit data...</div>';
+  try {
+    const res = await fetch(`/angie/data/${date}.json?_=${Date.now()}`);
+    if (!res.ok) throw new Error('no data');
+    currentData = await res.json();
+    render(currentData);
+  } catch(e) {
+    document.getElementById('main-content').innerHTML = `
+      <div class="no-data">
+        <div class="no-data-icon">&#127833;</div>
+        <div>No audit data for ${fmtDate(date)}</div>
+        <div style="margin-top:8px;font-size:12px;">Angie runs nightly at 11pm MDT</div>
+      </div>`;
+    document.getElementById('header-sub').textContent = 'No data';
+  }
+}
+
+function render(data) {
+  const s = data.summary;
+  document.getElementById('header-sub').textContent =
+    `Generated ${new Date(data.generated_at).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})} · ${s.agents_checked} agents · ${s.skills_checked} skills · ${s.projects_checked} projects`;
+
+  const findings = data.findings || [];
+  const red = findings.filter(f => f.severity === 'red');
+  const yellow = findings.filter(f => f.severity === 'yellow');
+  const fixed = findings.filter(f => f.status === 'fixed');
+  const inProg = findings.filter(f => f.status === 'in_progress');
+  const waitingOnBennett = data.waiting_on_bennett || [];
+
+  let html = '';
+  html += `<div class="summary-row">
+    <div class="stat-card"><div class="val">${s.total_audits}</div><div class="lbl">Audits</div></div>
+    <div class="stat-card red"><div class="val">${s.red}</div><div class="lbl">&#128308; Red</div></div>
+    <div class="stat-card yellow"><div class="val">${s.yellow}</div><div class="lbl">&#9889; Yellow</div></div>
+    <div class="stat-card green"><div class="val">${s.green}</div><div class="lbl">&#10003; Green</div></div>
+    <div class="stat-card purple"><div class="val">${s.human_gates}</div><div class="lbl">&#128100; Human</div></div>
+  </div>`;
+
+  if (waitingOnBennett.length > 0) {
+    html += `<div class="section"><div class="section-title" style="color:#f87171;">&#9888;&#65039; Waiting on You <span class="badge" style="background:#3b1515;color:#f87171;">${waitingOnBennett.length}</span></div>`;
+    waitingOnBennett.forEach(g => {
+      html += `<div class="gate-card"><div class="gate-icon">&#128146;</div><div><div class="gate-text">${g.item}</div><div class="gate-id">${g.id}</div></div></div>`;
+    });
+    html += `</div>`;
+  }
+  if (red.length > 0) {
+    html += `<div class="section"><div class="section-title" style="color:var(--red);">&#128308; Critical <span class="badge">${red.length}</span></div>`;
+    red.forEach(f => html += findingCard(f));
+    html += `</div>`;
+  }
+  if (yellow.length > 0) {
+    html += `<div class="section"><div class="section-title" style="color:var(--yellow);">&#9889; Warnings <span class="badge">${yellow.length}</span></div>`;
+    yellow.forEach(f => html += findingCard(f));
+    html += `</div>`;
+  }
+  if (fixed.length > 0) {
+    html += `<div class="section"><div class="section-title" style="color:var(--green);">&#10003; Fixed <span class="badge">${fixed.length}</span></div>`;
+    fixed.forEach(f => html += findingCard(f));
+    html += `</div>`;
+  }
+  if (inProg.length > 0) {
+    html += `<div class="section"><div class="section-title" style="color:var(--accent);">&#9881;&#65039; In Progress <span class="badge">${inProg.length}</span></div>`;
+    inProg.forEach(f => html += findingCard(f));
+    html += `</div>`;
+  }
+
+  if (data.questions && data.questions.length > 0) {
+    const total = data.questions.length;
+    html += `<div class="section">
+      <div class="section-title" style="color:var(--accent);">&#128172; Daily Questions <span class="badge">${total}</span></div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Tap options to answer &#183; &#9733; = recommended &#183; Submit sends directly to Slack</div>
+      <div class="progress-bar"><div class="progress-fill" id="q-progress" style="width:0%"></div></div>`;
+    data.questions.forEach(q => html += questionCard(q));
+    html += `</div>`;
+
+    html += `<div class="comment-section">
+      <div class="comment-label">Optional &#8212; note for Leo (e.g. "Kill SH ads today"):</div>
+      <textarea class="comment-box" id="comment-box" placeholder="Any extra instruction..."></textarea>
+    </div>`;
+
+    html += `<div class="submit-section">
+      <button class="submit-btn" id="submit-btn" onclick="submitAnswers()">
+        &#128640; Submit Answers to Leo
+      </button>
+      <div class="success-banner" id="success-banner">
+        <div class="success-banner-title">&#10003; Sent to #leo-auto</div>
+        <div class="success-banner-text">Leo has your answers and will act on them. Check Slack for confirmation within 15 minutes.</div>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('main-content').innerHTML = html;
+  document.querySelectorAll('.finding-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const exp = card.querySelector('.finding-expand');
+      if (exp) exp.classList.toggle('open');
+    });
+  });
+}
+
+function findingCard(f) {
+  const typeClass = `type-${f.type}`;
+  const sevClass  = `sev-${f.severity}`;
+  const statusClass = `status-${f.status}`;
+  const statusLabels = {fixed:'&#10003; Fixed', in_progress:'&#9881;&#65039; In Progress', blocked:'&#128146; Blocked', open:'&#128308; Open'};
+  const blockedNote = f.blocked_reason ? `<div style="font-size:11px;color:var(--red);margin-top:6px;">&#128146; ${f.blocked_reason}</div>` : '';
+  return `<div class="finding-card">
+    <div class="finding-header">
+      <div class="sev-dot ${sevClass}"></div>
+      <div class="finding-main">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <span class="finding-type-badge ${typeClass}">${f.type}</span>
+          <span class="finding-name">${f.name}</span>
+        </div>
+        <div class="finding-text">${f.finding}</div>
+        <span class="status-pill ${statusClass}">${statusLabels[f.status]||f.status}</span>
+      </div>
+    </div>
+    <div class="finding-expand">
+      <div class="fix-label">Recommended Fix</div>
+      <div class="fix-text">${f.recommended_fix}</div>
+      ${blockedNote}
+    </div>
+  </div>`;
+}
+
+function questionCard(q) {
+  let optHtml = '';
+  for (const [k, v] of Object.entries(q.options)) {
+    const isRec = k === q.recommended;
+    optHtml += `<button class="q-btn${isRec?' recommended':''}" id="qbtn-${q.id}-${k}" onclick="selectAnswer(${q.id},'${k}',this)">
+      <div class="q-letter">${k}</div>
+      <div class="q-btn-text">${v}</div>
+      ${isRec ? '<span class="q-rec-tag">&#9733; rec</span>' : ''}
+    </button>`;
+  }
+  return `<div class="q-card">
+    <div class="q-theme">${q.theme}</div>
+    <div class="q-text">${q.question}</div>
+    <div class="q-options">${optHtml}</div>
+    <div class="q-rationale" id="qrat-${q.id}">&#128161; ${q.rationale} <span style="color:var(--accent);font-size:10px;">(${q.advaita_alignment})</span></div>
+  </div>`;
+}
+
+function selectAnswer(qId, letter, btn) {
+  document.querySelectorAll(`[id^="qbtn-${qId}-"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qId] = letter;
+  const rat = document.getElementById(`qrat-${qId}`);
+  if (rat) rat.classList.add('show');
+  // Update progress bar
+  const total = currentData?.questions?.length || 0;
+  const done = Object.keys(answers).length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const bar = document.getElementById('q-progress');
+  if (bar) bar.style.width = pct + '%';
+}
+
+async function submitAnswers() {
+  if (submitted) return;
+  const btn = document.getElementById('submit-btn');
+  const comment = document.getElementById('comment-box')?.value?.trim() || '';
+  const qs = currentData?.questions || [];
+  const topic = currentData?.ntfy_topic || NTFY_TOPIC;
+
+  // Build structured payload
+  const answersArr = [];
+  let answeredCount = 0;
+  qs.forEach(q => {
+    const ans = answers[q.id];
+    if (ans) {
+      answersArr.push({
+        id: q.id,
+        theme: q.theme,
+        question: q.question,
+        answer_key: ans,
+        answer_text: q.options[ans],
+        is_recommended: q.recommended === ans
+      });
+      answeredCount++;
+    }
+  });
+
+  const payload = {
+    type: 'angie_audit_response',
+    date: currentDate,
+    submitted_at: new Date().toISOString(),
+    answered: answeredCount,
+    total_questions: qs.length,
+    answers: answersArr,
+    comment: comment || null
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '&#9203; Sending to Leo...';
+
+  try {
+    const res = await fetch(`https://ntfy.sh/${topic}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Title': 'Angie Audit ' + currentDate,
+        'Priority': 'high',
+        'Tags': 'fki,angie,audit'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error('ntfy ' + res.status);
+
+    submitted = true;
+    btn.classList.add('sent');
+    btn.innerHTML = '&#10003; Sent to Leo &#8212; Check Slack';
+    const banner = document.getElementById('success-banner');
+    if (banner) banner.classList.add('show');
+    showToast('Answers sent! Leo will post to Slack shortly 🚀');
+
+  } catch(e) {
+    // Fallback: still show success — message may have gone through
+    btn.disabled = false;
+    btn.innerHTML = '&#128640; Submit Answers to Leo';
+    showToast('Send failed — check connection and retry', true);
+  }
+}
+
+function showToast(msg, isError=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 3500);
+}
+
+loadDate(currentDate);
+</script>
+</body>
+</html>

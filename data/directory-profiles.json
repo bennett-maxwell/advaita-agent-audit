@@ -1,0 +1,27 @@
+{
+  "gmb": {
+    "business_name": "FranchiseKI",
+    "category": "Franchise Consultant",
+    "description": "FranchiseKI is an AI-powered franchise consulting platform. We help prospective franchise buyers research, evaluate, and select franchise concepts using verified FDD data. Free consultation \u2014 we're paid by franchisors, not buyers. Explore 3,200+ brands with FranchiseScore ratings at mapki.franchiseki.com.",
+    "website": "https://franchiseki.com",
+    "phone": "+1-385-475-5319",
+    "location": "American Fork, UT 84003",
+    "hours": "Mon-Fri 9AM-6PM MDT",
+    "cta": "mapki.franchiseki.com"
+  },
+  "yelp": {
+    "business_name": "FranchiseKI",
+    "category": "Business Consultants",
+    "description": "Franchise consulting powered by AI. We match investors with franchise opportunities using verified FDD data and proprietary FranchiseScore ratings (0-100). Free consultation \u2014 paid by franchisors. Portfolio includes 150+ vetted brands. Research 3,200+ franchises at mapki.franchiseki.com.",
+    "website": "https://franchiseki.com",
+    "phone": "+1-385-475-5319"
+  },
+  "bbb": {
+    "business_name": "Franchise KI LLC",
+    "category": "Franchise Consulting",
+    "description": "AI-powered franchise consulting and marketplace. Serving prospective franchise buyers nationwide with data-driven concept matching, FDD education, and franchisee validation coaching. No buyer fees \u2014 compensation from franchisors only.",
+    "website": "https://franchiseki.com",
+    "phone": "+1-385-475-5319",
+    "ein_placeholder": "Obtain from QB entity record"
+  }
+}

@@ -3,1078 +3,656 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:,">
-<title>Leo AI Agent Board Command Center</title>
+<title>FKI Agent Monitor v3 — Fleet Health + WO Queue</title>
 <style>
-:root {
-  --bg: #0d0f14;
-  --surface: #161922;
-  --card: #1e2230;
-  --card-soft: #171b27;
-  --border: #2a2f3e;
-  --text: #eef2f7;
-  --muted: #9aa5b5;
-  --dim: #667085;
-  --accent: #4f8ef7;
-  --green: #22c55e;
-  --red: #ef4444;
-  --yellow: #f59e0b;
-  --purple: #a855f7;
-  --cyan: #14b8a6;
-  --shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(79, 142, 247, 0.18), transparent 34rem),
-    radial-gradient(circle at 82% 10%, rgba(20, 184, 166, 0.12), transparent 28rem),
-    linear-gradient(180deg, #0d0f14 0%, #11151e 52%, #0d0f14 100%);
-  color: var(--text);
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.45;
-}
-
-a { color: inherit; }
-
-.shell {
-  width: min(1180px, 100%);
-  margin: 0 auto;
-  padding: 16px;
-}
-
-.topbar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 4px 9px;
-  border: 1px solid rgba(79, 142, 247, 0.28);
-  border-radius: 999px;
-  color: #bcd5ff;
-  background: rgba(79, 142, 247, 0.12);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-h1 {
-  margin: 8px 0 4px;
-  font-size: clamp(28px, 7vw, 54px);
-  line-height: 0.96;
-  letter-spacing: -0.06em;
-}
-
-.subtitle {
-  margin: 0;
-  max-width: 720px;
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.header-status {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-  min-width: 180px;
-}
-
-.clock {
-  color: var(--muted);
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.badge, .pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 4px 9px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  background: rgba(255, 255, 255, 0.04);
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.badge.green { border-color: rgba(34, 197, 94, 0.28); color: #8ef0b3; background: rgba(34, 197, 94, 0.12); }
-.badge.yellow { border-color: rgba(245, 158, 11, 0.30); color: #ffd28a; background: rgba(245, 158, 11, 0.12); }
-.badge.red { border-color: rgba(239, 68, 68, 0.34); color: #ffaaa5; background: rgba(239, 68, 68, 0.12); }
-.badge.blue { border-color: rgba(79, 142, 247, 0.30); color: #bcd5ff; background: rgba(79, 142, 247, 0.12); }
-.badge.purple { border-color: rgba(168, 85, 247, 0.35); color: #dec2ff; background: rgba(168, 85, 247, 0.12); }
-
-.status-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.mini-card, .card, .priority-board, .quick-links {
-  background: rgba(30, 34, 48, 0.88);
-  border: 1px solid rgba(42, 47, 62, 0.92);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  min-width: 0;
-}
-
-.mini-card {
-  padding: 12px;
-  min-height: 72px;
-}
-
-.mini-label {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.mini-value {
-  margin-top: 5px;
-  font-size: 20px;
-  font-weight: 850;
-  letter-spacing: -0.03em;
-}
-
-.mini-note {
-  margin-top: 2px;
-  color: var(--dim);
-  font-size: 12px;
-}
-
-.priority-board {
-  padding: 14px;
-  margin-bottom: 12px;
-  background:
-    linear-gradient(135deg, rgba(79, 142, 247, 0.12), rgba(20, 184, 166, 0.06)),
-    rgba(30, 34, 48, 0.92);
-}
-
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.section-title {
-  color: var(--text);
-  font-size: 13px;
-  font-weight: 850;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.section-hint {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.priority-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.priority-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 174px;
-  padding: 13px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-left: 4px solid var(--accent);
-  border-radius: 8px;
-  background: rgba(13, 15, 22, 0.58);
-}
-
-.priority-item.urgent { border-left-color: var(--red); }
-.priority-item.warning { border-left-color: var(--yellow); }
-.priority-item.info { border-left-color: var(--accent); }
-
-.priority-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  color: #fff;
-  background: var(--accent);
-  font-size: 13px;
-  font-weight: 900;
-}
-
-.priority-item.urgent .priority-num { background: var(--red); }
-.priority-item.warning .priority-num { background: var(--yellow); color: #1f1600; }
-
-.priority-title {
-  font-size: 16px;
-  font-weight: 850;
-  letter-spacing: -0.02em;
-}
-
-.priority-sub {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.action-link, .link-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 9px 12px;
-  border: 1px solid rgba(79, 142, 247, 0.32);
-  border-radius: 8px;
-  color: #d9e8ff;
-  background: rgba(79, 142, 247, 0.13);
-  font-size: 13px;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.action-link:hover, .link-btn:hover {
-  border-color: rgba(79, 142, 247, 0.72);
-  background: rgba(79, 142, 247, 0.20);
-}
-
-.main-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.9fr);
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.card {
-  padding: 14px;
-}
-
-.agent-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.agent-card {
-  min-height: 104px;
-  min-width: 0;
-  padding: 11px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
-  background: var(--card-soft);
-}
-
-.agent-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.agent-name {
-  min-width: 0;
-  font-size: 13px;
-  font-weight: 850;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--dim);
-  box-shadow: 0 0 0 3px rgba(102, 112, 133, 0.12);
-  flex: 0 0 auto;
-}
-
-.dot.green { background: var(--green); box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12), 0 0 12px rgba(34, 197, 94, 0.35); }
-.dot.yellow { background: var(--yellow); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12), 0 0 12px rgba(245, 158, 11, 0.32); }
-.dot.red { background: var(--red); box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12), 0 0 12px rgba(239, 68, 68, 0.32); }
-.dot.blue { background: var(--accent); box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.12), 0 0 12px rgba(79, 142, 247, 0.32); }
-
-.agent-state, .agent-detail {
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.agent-detail { color: var(--dim); }
-
-.agent-card .action-link {
-  width: 100%;
-  margin-top: 10px;
-}
-
-.work-board {
-  margin: 12px 0;
-}
-
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.work-card {
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-  padding: 11px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 8px;
-  background: rgba(13, 15, 22, 0.48);
-}
-
-.work-name {
-  font-size: 13px;
-  font-weight: 850;
-}
-
-.work-line {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.35;
-}
-
-.work-links {
-  display: grid;
-  gap: 6px;
-}
-
-.message-board {
-  margin: 12px 0;
-}
-
-.message-form {
-  display: grid;
-  gap: 10px;
-}
-
-.message-row {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: 8px;
-}
-
-.message-form select,
-.message-form textarea {
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  background: rgba(13, 15, 22, 0.72);
-  color: var(--text);
-  font: inherit;
-  font-size: 14px;
-  padding: 11px;
-}
-
-.message-form textarea {
-  min-height: 92px;
-  resize: vertical;
-}
-
-.message-output {
-  display: none;
-  border: 1px solid rgba(79, 142, 247, 0.22);
-  border-radius: 8px;
-  background: rgba(79, 142, 247, 0.08);
-  padding: 10px;
-  color: #d9e8ff;
-  font-size: 13px;
-  white-space: pre-wrap;
-}
-
-.message-output.visible { display: block; }
-
-.approval-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.approval-btn {
-  min-height: 38px;
-  border: 1px solid rgba(79, 142, 247, 0.32);
-  border-radius: 8px;
-  background: rgba(79, 142, 247, 0.13);
-  color: #d9e8ff;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-  padding: 8px 10px;
-}
-.approval-btn-send {
-  border-color: rgba(34, 197, 94, 0.45);
-  background: rgba(34, 197, 94, 0.18);
-  color: #86efac;
-}
-
-.side-stack {
-  display: grid;
-  gap: 12px;
-  min-width: 0;
-}
-
-.queue-list, .system-list, .roi-list {
-  display: grid;
-  gap: 8px;
-}
-
-.queue-item, .system-item, .roi-row {
-  display: grid;
-  gap: 4px;
-  padding: 10px;
-  border-left: 4px solid var(--purple);
-  border-radius: 8px;
-  background: rgba(13, 15, 22, 0.48);
-}
-
-.queue-item.red, .system-item.red { border-left-color: var(--red); }
-.queue-item.yellow, .system-item.yellow, .roi-row.yellow { border-left-color: var(--yellow); }
-.queue-item.blue, .system-item.blue, .roi-row.blue { border-left-color: var(--accent); }
-.queue-item.green, .system-item.green, .roi-row.green { border-left-color: var(--green); }
-
-.item-title {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.item-sub {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.quick-links {
-  padding: 14px;
-  margin-bottom: 12px;
-}
-
-.links-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.link-btn {
-  justify-content: flex-start;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.wide-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.details-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-details {
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 8px;
-  background: rgba(13, 15, 22, 0.40);
-  overflow: hidden;
-}
-
-summary {
-  min-height: 48px;
-  padding: 13px;
-  color: var(--text);
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 850;
-  list-style: none;
-}
-
-summary::-webkit-details-marker { display: none; }
-
-summary::after {
-  content: "+";
-  float: right;
-  color: var(--muted);
-}
-
-details[open] summary::after { content: "-"; }
-
-.detail-body {
-  display: grid;
-  gap: 8px;
-  padding: 0 12px 12px;
-}
-
-.source-note {
-  margin-top: 12px;
-  color: var(--dim);
-  font-size: 12px;
-}
-
-.demo {
-  display: none;
-}
-
-.demo.visible {
-  display: inline-flex;
-}
-
-@media (max-width: 880px) {
-  .topbar { flex-direction: column; }
-  .header-status { align-items: flex-start; min-width: 0; }
-  .status-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .priority-grid, .main-grid, .wide-grid, .details-grid { grid-template-columns: 1fr; }
-  .agent-grid, .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .message-row { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 430px) {
-  .shell { padding: 12px; }
-  .status-strip { grid-template-columns: 1fr 1fr; }
-  .agent-grid, .links-grid { grid-template-columns: 1fr; }
-  .work-grid { grid-template-columns: 1fr; }
-  .section-head { align-items: flex-start; flex-direction: column; }
-  .priority-item { min-height: auto; }
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    background: #FFFFFF;
+    color: #1D1D1F;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #1D1D1F;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left { display: flex; flex-direction: column; gap: 4px; }
+  .header-title { font-size: 20px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px; }
+  .header-sub { font-size: 13px; color: #86868B; }
+  .back-link {
+    color: #0071E3;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: 1px solid #0071E3;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .back-link:hover { background: #0071E3; color: #fff; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 32px 64px; }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi-cell {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #FAFAFA;
+  }
+  .kpi-label { font-size: 11px; font-weight: 600; color: #86868B; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+  .kpi-value.green { color: #34C759; }
+  .kpi-value.amber { color: #FF9F0A; }
+  .kpi-value.red { color: #FF3B30; }
+  .kpi-sub { font-size: 12px; color: #86868B; }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    font-size: 11px;
+    font-weight: 700;
+    color: #86868B;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    margin-top: 28px;
+  }
+  .section-header:first-child { margin-top: 0; }
+
+  /* ── DEPLOYMENT READINESS ROW ── */
+  .deploy-row {
+    background: #1B2626;
+    border-radius: 12px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .deploy-label { font-size: 14px; font-weight: 700; color: #FFFFFF; white-space: nowrap; }
+  .deploy-sep { color: #4A6060; }
+  .deploy-pills { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+  .req-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .req-pill.green { background: #34C75920; color: #34C759; border: 1px solid #34C75940; }
+  .req-pill.amber { background: #FF9F0A20; color: #FF9F0A; border: 1px solid #FF9F0A40; }
+  .req-pill.red { background: #FF3B3020; color: #FF3B30; border: 1px solid #FF3B3040; }
+
+  /* ── FLEET GRID ── */
+  .fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .agent-card {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 12px;
+    padding: 16px;
+    background: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color 0.15s;
+  }
+  .agent-card:hover { border-color: #C7C7CC; }
+  .agent-card.border-green { border-color: #34C75940; background: #34C75908; }
+  .agent-card.border-amber { border-color: #FF9F0A40; background: #FF9F0A08; }
+  .agent-card.border-red { border-color: #FF3B3040; background: #FF3B3008; }
+  .agent-top { display: flex; align-items: center; justify-content: space-between; }
+  .agent-name { font-size: 14px; font-weight: 700; color: #1D1D1F; }
+  .agent-role { font-size: 11px; color: #86868B; margin-top: 1px; }
+  .agent-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge-green { background: #34C75915; color: #34C759; border: 1px solid #34C75930; }
+  .badge-amber { background: #FF9F0A15; color: #FF9F0A; border: 1px solid #FF9F0A30; }
+  .badge-red { background: #FF3B3015; color: #FF3B30; border: 1px solid #FF3B3030; }
+  .agent-heartbeat { font-size: 11px; color: #86868B; }
+  .agent-task { font-size: 12px; color: #3A3A3C; line-height: 1.4; }
+
+  /* ── SALES STACK ── */
+  .sales-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .stack-row {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #FAFAFA;
+  }
+  .stack-row.border-green { border-color: #34C75940; background: #34C75908; }
+  .stack-row.border-amber { border-color: #FF9F0A40; background: #FF9F0A08; }
+  .stack-row.border-red { border-color: #FF3B3040; background: #FF3B3008; }
+  .stack-name { font-size: 13px; font-weight: 700; color: #1D1D1F; }
+  .stack-meta { font-size: 12px; color: #3A3A3C; }
+  .stack-alert { font-size: 12px; font-weight: 600; color: #FF3B30; }
+
+  /* ── PULSE SECTION ── */
+  .pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .pulse-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    border: 1.5px solid #E5E5EA;
+    border-radius: 10px;
+    background: #FAFAFA;
+  }
+  .pulse-label { font-size: 11px; font-weight: 600; color: #86868B; text-transform: uppercase; letter-spacing: 0.4px; }
+  .pulse-value { font-size: 13px; font-weight: 600; color: #1D1D1F; }
+  .pulse-sub { font-size: 12px; color: #86868B; }
+
+  /* ── WO TABLE ── */
+  .wo-table { width: 100%; border-collapse: collapse; }
+  .wo-table th {
+    font-size: 11px; font-weight: 700; color: #86868B;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    text-align: left; padding: 8px 12px;
+    border-bottom: 1.5px solid #E5E5EA;
+  }
+  .wo-table td { padding: 11px 12px; font-size: 12px; color: #1D1D1F; border-bottom: 1px solid #F2F2F7; vertical-align: top; }
+  .wo-table tr:last-child td { border-bottom: none; }
+  .wo-table tr:hover td { background: #FAFAFA; }
+  .ts-code { font-family: "SF Mono", "Menlo", monospace; font-size: 11px; color: #86868B; }
+  .wo-status {
+    display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  }
+  .wo-status.sent { background: #0071E315; color: #0071E3; }
+  .wo-status.pending { background: #FF9F0A15; color: #FF9F0A; }
+  .wo-status.inflight { background: #34C75915; color: #34C759; }
+  .wo-status.dispatched { background: #86868B15; color: #86868B; }
+
+  /* ── SKILL REGISTRY ACCORDION ── */
+  .registry-accordion {
+    border: 1.5px solid #E5E5EA;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .registry-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    background: #FAFAFA;
+  }
+  .registry-toggle-label { font-size: 13px; font-weight: 700; color: #1D1D1F; }
+  .registry-chevron { font-size: 11px; color: #86868B; transition: transform 0.2s; }
+  .registry-accordion.open .registry-chevron { transform: rotate(180deg); }
+  .registry-body { display: none; border-top: 1px solid #E5E5EA; }
+  .registry-accordion.open .registry-body { display: block; }
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid #F2F2F7;
+  }
+  .skill-row:last-child { border-bottom: none; }
+  .skill-name { font-size: 13px; font-weight: 600; color: #1D1D1F; flex: 1; }
+  .skill-id { font-family: "SF Mono", "Menlo", monospace; font-size: 11px; color: #0071E3; }
+  .skill-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    background: #FF9F0A15; color: #FF9F0A;
+  }
+  .skill-tag.canonical { background: #34C75915; color: #34C759; }
+  .skill-tag.day2 { background: #0071E315; color: #0071E3; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: #F2F2F7; margin: 28px 0; }
+
+  /* ── INLINE STATUS BADGE ── */
+  .inline-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 1px 7px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  }
+  .inline-badge.green { background: #34C75915; color: #34C759; }
+  .inline-badge.amber { background: #FF9F0A15; color: #FF9F0A; }
+  .inline-badge.red { background: #FF3B3015; color: #FF3B30; }
 </style>
 </head>
 <body>
-<main class="shell">
-  <header class="topbar">
-    <div>
-      <span class="eyebrow">Agents Board</span>
-      <h1>Leo AI Command Center</h1>
-      <p class="subtitle">The action board for agents, approvals, live status, and the system gaps that block Bennett from only making decisions.</p>
-    </div>
-    <div class="header-status">
-      <div id="clock" class="clock">Loading time</div>
-      <span id="systemBadge" class="badge yellow">Checking live data</span>
-      <span id="demoBadge" class="badge red demo">DEMO DATA</span>
-    </div>
-  </header>
 
-  <section class="status-strip" aria-label="Status at a glance">
-    <div class="mini-card">
-      <div class="mini-label">Agent Feed</div>
-      <div id="agentFeedValue" class="mini-value">Checking</div>
-      <div id="agentFeedNote" class="mini-note">agent-status.json</div>
-    </div>
-    <div class="mini-card">
-      <div class="mini-label">Approvals</div>
-      <div class="mini-value">5</div>
-      <div class="mini-note">Bennett-gated items</div>
-    </div>
-    <div class="mini-card">
-      <div class="mini-label">Broken</div>
-      <div class="mini-value">7</div>
-      <div class="mini-note">Known system breaks</div>
-    </div>
-    <div class="mini-card">
-      <div class="mini-label">Incomplete</div>
-      <div class="mini-value">7</div>
-      <div class="mini-note">Needs ownership or data</div>
-    </div>
-  </section>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-title">🤖 FKI Agent Monitor v3</div>
+    <div class="header-sub">Fleet Health + WO Queue</div>
+  </div>
+  <a href="/hub/" class="back-link">← Back to Hub</a>
+</div>
 
-  <section class="priority-board" aria-label="Priority Board">
-    <div class="section-head">
-      <div>
-        <div class="section-title">Priority Board</div>
-        <div class="section-hint">Top actions Bennett can make progress on today.</div>
-      </div>
-      <span class="badge blue">Above fold</span>
+<div class="container">
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi-cell">
+      <div class="kpi-label">Fleet Health</div>
+      <div class="kpi-value amber">72%</div>
+      <div class="kpi-sub">🟡 2 blockers active</div>
     </div>
-    <div class="priority-grid">
-      <article class="priority-item urgent">
-        <span class="priority-num">1</span>
+    <div class="kpi-cell">
+      <div class="kpi-label">Leo Status</div>
+      <div class="kpi-value green">Live</div>
+      <div class="kpi-sub">✅ ACK verified</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">WOs In Queue</div>
+      <div class="kpi-value amber">5</div>
+      <div class="kpi-sub">🟡 Pending execution</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Machines RAM</div>
+      <div class="kpi-value amber">0.5GB</div>
+      <div class="kpi-sub">🟡 Self-heal WO sent</div>
+    </div>
+  </div>
+
+  <!-- DEPLOYMENT READINESS ROW -->
+  <div class="deploy-row">
+    <div class="deploy-label">Advaita May 17</div>
+    <div class="deploy-sep">·</div>
+    <div style="color:#FF3B30;font-weight:700;font-size:14px;white-space:nowrap;">12 Days</div>
+    <div class="deploy-sep">·</div>
+    <div class="deploy-pills">
+      <span class="req-pill green">✅ Dashboard</span>
+      <span class="req-pill amber">🟡 Lead Scorer</span>
+      <span class="req-pill amber">🟡 Sam Scoring</span>
+      <span class="req-pill red">🔴 Machines 24/7</span>
+      <span class="req-pill red">🔴 Lead Funnel</span>
+      <span class="req-pill red">🔴 Piper Briefing</span>
+      <span class="req-pill red">🔴 Content Engine</span>
+      <span class="req-pill red">🔴 Packaged</span>
+    </div>
+  </div>
+
+  <!-- FLEET STATUS GRID -->
+  <div class="section-header">Fleet Status — 12 Agents</div>
+  <div class="fleet-grid">
+
+    <!-- Leo -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
         <div>
-          <div class="priority-title">Reconnect mapki Vercel repo</div>
-          <div class="priority-sub">Broken since Apr 20. Bennett gate: open Vercel, reconnect Git repo, confirm build.</div>
+          <div class="agent-name">Leo</div>
+          <div class="agent-role">Orchestrator · WO Executor</div>
         </div>
-        <a class="action-link" href="https://vercel.com/" target="_blank" rel="noreferrer">Open Vercel</a>
-      </article>
-      <article class="priority-item urgent">
-        <span class="priority-num">2</span>
+        <span class="agent-status-badge badge-amber">🟡 Live</span>
+      </div>
+      <div class="agent-heartbeat">Last heartbeat: Today ~14:58 MDT</div>
+      <div class="agent-task">ACK verified · RAM 0.5GB · @mention handler repaired · BUG-006 resolved</div>
+    </div>
+
+    <!-- Squirrel -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
         <div>
-          <div class="priority-title">Generate Mack Slack app token</div>
-          <div class="priority-sub">Mack socket bridge is blocked on SLACK_MACK_APP_TOKEN for app A0B03UVET17.</div>
+          <div class="agent-name">Squirrel</div>
+          <div class="agent-role">Dev Agent · Sprint Runner</div>
         </div>
-        <a class="action-link" href="https://api.slack.com/apps/A0B03UVET17" target="_blank" rel="noreferrer">Open Slack App</a>
-      </article>
-      <article class="priority-item warning">
-        <span class="priority-num">3</span>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Last heartbeat: Today (active)</div>
+      <div class="agent-task">Day 2 sprint active · 4 artifacts committed this session</div>
+    </div>
+
+    <!-- Mack -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
         <div>
-          <div class="priority-title">Promote Chad role definition</div>
-          <div class="priority-sub">Chad has an AGENTS.md, but no canonical master prompt entry. Approval then upload through Ivan.</div>
+          <div class="agent-name">Mack</div>
+          <div class="agent-role">Audit Commander</div>
         </div>
-        <a class="action-link" href="https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd" target="_blank" rel="noreferrer">Open Master Prompt</a>
-      </article>
-    </div>
-  </section>
-
-  <section class="quick-links" aria-label="Quick Links">
-    <div class="section-head">
-      <div class="section-title">Quick Links</div>
-      <div class="section-hint">One tap into the systems that unblock action.</div>
-    </div>
-    <div class="links-grid">
-      <a class="link-btn" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Sprint Board</a>
-      <a class="link-btn" href="https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY" target="_blank" rel="noreferrer">Skills Master</a>
-      <a class="link-btn" href="https://app.crmx.app" target="_blank" rel="noreferrer">GHL / CRMX</a>
-      <a class="link-btn" href="https://dashboard.franchiseki.com/" target="_blank" rel="noreferrer">Master Hub</a>
-      <a class="link-btn" href="https://dashboard.franchiseki.com/hub/agent-monitor.html" target="_blank" rel="noreferrer">Agent Monitor</a>
-      <a class="link-btn" href="https://dashboard.franchiseki.com/hub/machine-health.html" target="_blank" rel="noreferrer">Machine Health</a>
-      <a class="link-btn" href="https://bennett-maxwell.github.io/advaita-agent-audit/finance/" target="_blank" rel="noreferrer">Finance</a>
-      <a class="link-btn" href="https://bennett-maxwell.github.io/advaita-agent-audit/marketing/" target="_blank" rel="noreferrer">Marketing</a>
-    </div>
-  </section>
-
-  <section class="card message-board" aria-label="Agent message composer">
-    <div class="section-head">
-      <div>
-        <div class="section-title">Command Dispatch</div>
-        <div class="section-hint">Sends directly to #leo-coaches via CF Worker — one tap.</div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
       </div>
-      <span class="badge green">Live</span>
+      <div class="agent-heartbeat">Last seen: ~14:54 MDT today</div>
+      <div class="agent-task">Angie Audit CC v3 closeout complete</div>
     </div>
-    <div class="message-form">
-      <div class="message-row">
-        <select id="agentTarget" aria-label="Agent target">
-          <option value="ivan">Ivan / iMac</option>
-          <option value="mack">Mack / MacBook</option>
-          <option value="chad">Chad Codex</option>
-          <option value="leo">Leo</option>
-          <option value="tiffany">Tiffany / HP Omen</option>
-          <option value="squirrel">Squirrel Hyper</option>
-        </select>
-        <select id="messageIntent" aria-label="Message intent">
-          <option value="Keep going on your current task. Report proof and next action.">Keep going</option>
-          <option value="Approved. Proceed with the proposed action and report proof.">Approve</option>
-          <option value="Pause. Do not continue until the next instruction.">Pause</option>
-          <option value="Run health cleanup, identify the top cause, and report proof.">Run cleanup</option>
-        </select>
-      </div>
-      <textarea id="agentMessage" placeholder="Optional extra instruction"></textarea>
-      <div class="approval-actions">
-        <button class="approval-btn approval-btn-send" type="button" onclick="sendDispatch()">Send ⚡</button>
-        <button class="approval-btn" type="button" onclick="copyDispatch()">Copy text</button>
-        <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Open Sprint Board</a>
-      </div>
-      <div id="dispatchOutput" class="message-output"></div>
-    </div>
-  </section>
 
-  <section class="main-grid">
-    <div class="card">
-      <div class="section-head">
+    <!-- Ivan-CC -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
         <div>
-          <div class="section-title">Main Agent Status</div>
-          <div id="statusUpdated" class="section-hint">Fetching live status... sub-agents are rolled up under their owner.</div>
+          <div class="agent-name">Ivan-CC</div>
+          <div class="agent-role">Lead Scorer · FastAPI</div>
         </div>
-        <span id="agentCountBadge" class="badge yellow">Loading</span>
+        <span class="agent-status-badge badge-amber">🟡 Live</span>
       </div>
-      <div id="agentGrid" class="agent-grid"></div>
+      <div class="agent-heartbeat">Ports :8742/:8743/:8744 live</div>
+      <div class="agent-task">SSH intermittent · RAM 0.5GB · Self-heal WO sent · Not wired to GHL yet</div>
     </div>
 
-    <aside class="side-stack">
-      <div class="card">
-        <div class="section-head">
-          <div class="section-title">Approval Queue</div>
-          <span class="badge red">5 waiting</span>
+    <!-- Sam -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Sam</div>
+          <div class="agent-role">Call Scorer · QA Coach</div>
         </div>
-          <div class="queue-list">
-          <div class="queue-item red"><div class="item-title">Vercel reconnect</div><div class="item-sub">mapki repo. Bennett must approve/login.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Vercel reconnect')">Approve text</button><a class="action-link" href="https://vercel.com/" target="_blank" rel="noreferrer">Open</a></div></div>
-          <div class="queue-item red"><div class="item-title">Slack app token</div><div class="item-sub">A0B03UVET17. One Slack app action.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Slack app token')">Approve text</button><a class="action-link" href="https://api.slack.com/apps/A0B03UVET17" target="_blank" rel="noreferrer">Open</a></div></div>
-          <div class="queue-item yellow"><div class="item-title">GHL funnel pixels</div><div class="item-sub">Four funnels. IAM block means Bennett Required.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('GHL funnel pixels')">Approve text</button><a class="action-link" href="https://app.crmx.app" target="_blank" rel="noreferrer">Open</a></div></div>
-          <div class="queue-item yellow"><div class="item-title">EOD briefing format</div><div class="item-sub">Cron can run after final format choice.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('EOD briefing format')">Approve text</button></div></div>
-          <div class="queue-item blue"><div class="item-title">Chad master prompt</div><div class="item-sub">Role definition needs canonical promotion.</div><div class="approval-actions"><button class="approval-btn" onclick="quickApprove('Chad master prompt')">Approve text</button><a class="action-link" href="https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd" target="_blank" rel="noreferrer">Open</a></div></div>
+        <span class="agent-status-badge badge-amber">🟡 Degraded</span>
+      </div>
+      <div class="agent-heartbeat">Running but unreliable</div>
+      <div class="agent-task">Not at 6/10 reliability target · Reset dependency active · Leo WO pending</div>
+    </div>
+
+    <!-- Piper -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Piper</div>
+          <div class="agent-role">6AM Briefing · Scheduler</div>
         </div>
+        <span class="agent-status-badge badge-amber">🟡 Degraded</span>
       </div>
-    </aside>
-  </section>
-
-  <section class="card work-board" aria-label="Recent work by main agent">
-    <div class="section-head">
-      <div>
-        <div class="section-title">Clickable Work History</div>
-        <div class="section-hint">Main agents only. Today/yesterday history should be fed by Notion Sprint rows next.</div>
-      </div>
-      <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">Open Sprint Board</a>
-    </div>
-    <div id="workGrid" class="work-grid"></div>
-  </section>
-
-  <section class="wide-grid">
-    <div class="card">
-      <div class="section-head">
-        <div class="section-title">Status at a Glance</div>
-        <span class="badge blue">Workstreams</span>
-      </div>
-      <div class="system-list">
-        <div class="system-item green"><div class="item-title">Dashboard hub</div><div class="item-sub">Live at dashboard.franchiseki.com. This draft targets Agents Board, not hub replacement.</div></div>
-        <div class="system-item green"><div class="item-title">Agent runtime</div><div class="item-sub">Leo, Ivan, Mack, Tiffany, Reed reported as working from corrected brief.</div></div>
-        <div class="system-item yellow"><div class="item-title">Google Drive skills</div><div class="item-sub">Canonical root is Drive. Manifest is stale and needs Ivan validator.</div></div>
-        <div class="system-item yellow"><div class="item-title">GHL data</div><div class="item-sub">Working tools are partial. Three MCP tools return 422 and funnel API is IAM-blocked.</div></div>
-        <div class="system-item red"><div class="item-title">QuickBooks savings</div><div class="item-sub">Do not report phantom savings balance. Bank feed was never connected.</div></div>
-      </div>
+      <div class="agent-heartbeat">Briefings running</div>
+      <div class="agent-task">6AM routing to wrong Slack channel · 1hr fix queued · Leo WO needed</div>
     </div>
 
-    <div class="card">
-      <div class="section-head">
-        <div class="section-title">Budget / ROI Tracker</div>
-        <span class="badge yellow">Data feeds pending</span>
-      </div>
-      <div class="roi-list">
-        <div class="roi-row green"><div class="item-title">Agent automation</div><div class="item-sub">Runtime and briefings are working. ROI proof should come from completed tasks and reduced Bennett handoffs.</div></div>
-        <div class="roi-row yellow"><div class="item-title">Marketing data</div><div class="item-sub">Meta and GHL live feeds are not yet wired into this board. Link out for action until collectors exist.</div></div>
-        <div class="roi-row yellow"><div class="item-title">Finance data</div><div class="item-sub">No sensitive finance figures in public JSON. Use gated finance dashboard for actual numbers.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="details-grid" aria-label="System gaps">
-    <div class="card">
-      <div class="section-head">
-        <div class="section-title">Broken Items</div>
-        <span class="badge red">Fix first</span>
-      </div>
-      <details open>
-        <summary>Infrastructure and connector breaks</summary>
-        <div class="detail-body">
-          <div class="queue-item red"><div class="item-title">GHL search_opportunities</div><div class="item-sub">422 MCP bug. Do not retry until tool is fixed.</div></div>
-          <div class="queue-item red"><div class="item-title">GHL get_appointments</div><div class="item-sub">422 MCP bug. Use manual/app fallback.</div></div>
-          <div class="queue-item red"><div class="item-title">GHL funnel API</div><div class="item-sub">401 IAM block. Bennett Required for funnel work.</div></div>
-          <div class="queue-item red"><div class="item-title">mapki Vercel</div><div class="item-sub">Repo disconnected since Apr 20.</div></div>
-          <div class="queue-item red"><div class="item-title">Port 8801 machine health</div><div class="item-sub">Standalone server dead; placeholder prevents 404.</div></div>
-          <div class="queue-item red"><div class="item-title">Mack socket bridge</div><div class="item-sub">SLACK_MACK_APP_TOKEN missing.</div></div>
-          <div class="queue-item red"><div class="item-title">QB savings balance</div><div class="item-sub">Phantom value. Never report it as real.</div></div>
+    <!-- Reed -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Reed</div>
+          <div class="agent-role">Transcription · Voice</div>
         </div>
-      </details>
-    </div>
-
-    <div class="card">
-      <div class="section-head">
-        <div class="section-title">Incomplete Items</div>
-        <span class="badge yellow">Build next</span>
+        <span class="agent-status-badge badge-green">✅ Live</span>
       </div>
-      <details open>
-        <summary>System work that needs ownership</summary>
-        <div class="detail-body">
-          <div class="queue-item yellow"><div class="item-title">Chad role and master prompt</div><div class="item-sub">AGENTS.md exists; canonical system prompt entry still pending.</div></div>
-          <div class="queue-item yellow"><div class="item-title">Dashboard live data feeds</div><div class="item-sub">GHL, Meta, QB, and Notion counts are not live here yet.</div></div>
-          <div class="queue-item yellow"><div class="item-title">EOD briefing cron</div><div class="item-sub">Format approval pending before activation.</div></div>
-          <div class="queue-item yellow"><div class="item-title">Skills manifest</div><div class="item-sub">Stale count. Ivan validator is the next proof step.</div></div>
-          <div class="queue-item yellow"><div class="item-title">cases.json legal layer</div><div class="item-sub">Needed for durable legal dashboard data.</div></div>
-          <div class="queue-item yellow"><div class="item-title">DD Withdrawal Letters</div><div class="item-sub">Sky compiling; Ron reviewing.</div></div>
-          <div class="queue-item yellow"><div class="item-title">Parker 1099 correction</div><div class="item-sub">Awaiting corrected 1099-NEC from Wendy.</div></div>
-        </div>
-      </details>
+      <div class="agent-heartbeat">Running continuously</div>
+      <div class="agent-task">Transcription pipeline running · Voice-mining-skill built</div>
     </div>
-  </section>
 
-  <p class="source-note">Source: dashboard-skill v4 from Drive file 190SfToAiKGMUc0Iqp5QiCvLsmHFEV6On plus Bennett corrected master brief dated 2026-04-30. Deployment owner: Ivan. This draft contains no plaintext passwords and no sensitive finance values.</p>
-</main>
+    <!-- Fred -->
+    <div class="agent-card border-red">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Fred</div>
+          <div class="agent-role">Finance · QuickBooks</div>
+        </div>
+        <span class="agent-status-badge badge-red">🔴 Blocked</span>
+      </div>
+      <div class="agent-heartbeat">OAuth not established</div>
+      <div class="agent-task">No QB OAuth · Blind to non-AI spending · Financial monitoring offline</div>
+    </div>
+
+    <!-- Dan -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Dan</div>
+          <div class="agent-role">Mission Control · Ops</div>
+        </div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Commit 313995a1</div>
+      <div class="agent-task">/mission-control/ deployed · Running on current commit</div>
+    </div>
+
+    <!-- Angie -->
+    <div class="agent-card border-green">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Angie</div>
+          <div class="agent-role">Audit Tracker · Nightly</div>
+        </div>
+        <span class="agent-status-badge badge-green">✅ Live</span>
+      </div>
+      <div class="agent-heartbeat">Deployed today</div>
+      <div class="agent-task">Audit CC v3 deployed · Nightly cron scheduled · Closeout cycle active</div>
+    </div>
+
+    <!-- Eric -->
+    <div class="agent-card border-amber">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Eric</div>
+          <div class="agent-role">Culture · SOUL Agent</div>
+        </div>
+        <span class="agent-status-badge badge-amber">🟡 Degraded</span>
+      </div>
+      <div class="agent-heartbeat">SOUL.md created</div>
+      <div class="agent-task">SOUL.md created · Not fully operational · Pending task assignment</div>
+    </div>
+
+    <!-- Tiffany -->
+    <div class="agent-card border-red">
+      <div class="agent-top">
+        <div>
+          <div class="agent-name">Tiffany</div>
+          <div class="agent-role">HP Omen · Local Runner</div>
+        </div>
+        <span class="agent-status-badge badge-red">🔴 Offline</span>
+      </div>
+      <div class="agent-heartbeat">100.91.17.106 unreachable</div>
+      <div class="agent-task">HP Omen offline · Garlon must wake machine manually</div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AUTONOMOUS SALES STACK -->
+  <div class="section-header">Autonomous Sales Stack</div>
+  <div class="sales-stack-grid">
+
+    <div class="stack-row border-red">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">SynthFlow API</div>
+        <span class="inline-badge red">🔴 NOT CONNECTED</span>
+      </div>
+      <div class="stack-meta">Port :8742 · No response · WO ts 1777961430 in flight</div>
+      <div class="stack-alert">506 leads blocked — no voice AI routing</div>
+    </div>
+
+    <div class="stack-row border-amber">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">Lead Scorer FastAPI</div>
+        <span class="inline-badge amber">🟡 Running</span>
+      </div>
+      <div class="stack-meta">Ports :8742/:8743/:8744 live · Built by Ivan</div>
+      <div class="stack-meta" style="color:#FF9F0A;">Not wired to GHL ContactCreate webhook</div>
+    </div>
+
+    <div class="stack-row border-green">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">GHL Chatbot</div>
+        <span class="inline-badge green">✅ LIVE</span>
+      </div>
+      <div class="stack-meta">4 bots · autoPilotMaxMessages:3 · Verified Diamond April 2026</div>
+    </div>
+
+    <div class="stack-row border-red">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="stack-name">Speed-to-Lead</div>
+        <span class="inline-badge red">🔴 0s Response</span>
+      </div>
+      <div class="stack-meta">Target: &lt;60 seconds · Blocked by SynthFlow</div>
+      <div class="stack-alert">Needs SynthFlow connection to activate</div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PULSE HEARTBEAT -->
+  <div class="section-header">Pulse Health</div>
+  <div class="pulse-grid">
+    <div class="pulse-row">
+      <div class="pulse-label">Last Pulse Sent</div>
+      <div class="pulse-value">2026-05-05 ~14:58 MDT</div>
+    </div>
+    <div class="pulse-row">
+      <div class="pulse-label">Next Scheduled</div>
+      <div class="pulse-value">Every 2hr · 8AM–8PM MDT</div>
+      <div class="pulse-sub">Monday – Friday</div>
+    </div>
+    <div class="pulse-row">
+      <div class="pulse-label">Downstream Triggers</div>
+      <div class="pulse-value">Sales rep alerts · Sam scoring · Pulse Board write</div>
+    </div>
+    <div class="pulse-row">
+      <div class="pulse-label">Status</div>
+      <div class="pulse-value" style="color:#FF9F0A;">🟡 Partial</div>
+      <div class="pulse-sub">Email sends OK · Downstream triggers unverified</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WO QUEUE -->
+  <div class="section-header">WO Queue — Last 8 Work Orders</div>
+  <table class="wo-table">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>ETA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="ts-code">1778015056</span></td>
+        <td>Hub-data.json live wiring (Tasks 1–5)</td>
+        <td><span class="wo-status sent">Sent</span></td>
+        <td style="color:#FF9F0A;">Pending Leo</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1778014332</span></td>
+        <td>RAM self-heal (pkill + purge)</td>
+        <td><span class="wo-status sent">Sent</span></td>
+        <td style="color:#FF9F0A;">Pending</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1778011802</span></td>
+        <td>Command-center-skill subfolder creation</td>
+        <td><span class="wo-status pending">Pending</span></td>
+        <td style="color:#86868B;">Unknown</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1778011228</span></td>
+        <td>hub-data.json Pulse cron setup</td>
+        <td><span class="wo-status pending">Pending</span></td>
+        <td style="color:#86868B;">Unknown</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777986496</span></td>
+        <td>IC community-hub creative launch</td>
+        <td><span class="wo-status inflight">In-flight</span></td>
+        <td>~24hr</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777963849</span></td>
+        <td>GSC + GA4 setup</td>
+        <td><span class="wo-status inflight">In-flight</span></td>
+        <td style="color:#86868B;">Unknown</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777961430</span></td>
+        <td>SynthFlow → GHL connection</td>
+        <td><span class="wo-status inflight">In-flight</span></td>
+        <td style="color:#FF9F0A;">Checking</td>
+      </tr>
+      <tr>
+        <td><span class="ts-code">1777956485</span></td>
+        <td>closeout-skill v11 canonical PATCH</td>
+        <td><span class="wo-status dispatched">Dispatched</span></td>
+        <td style="color:#86868B;">Unconfirmed</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- SKILL REGISTRY -->
+  <div class="registry-accordion" id="skillRegistry">
+    <div class="registry-toggle" onclick="toggleRegistry()">
+      <span class="registry-toggle-label">Skill Registry — Last 5 Updated</span>
+      <span class="registry-chevron">▼</span>
+    </div>
+    <div class="registry-body">
+      <div class="skill-row">
+        <div class="skill-name">command-center-skill v1</div>
+        <div class="skill-id">1rRQZeByaqEtHrBWgokvNIflO4CXgsdcN</div>
+        <span class="skill-tag day2">Day 2</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">push-harder-skill v4</div>
+        <div class="skill-id">1Uyeu1F5gSn8QOarp-AzV-5PtFFZxEq6Q</div>
+        <span class="skill-tag canonical">Canonical</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">council-skill v13</div>
+        <div class="skill-id">1bYOfBaWm62sU_euzLEXfQxPgQjVAUZF2</div>
+        <span class="skill-tag">Staging</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">autopilot-skill v9</div>
+        <div class="skill-id">1JRj5QNrHsn3EJpmyOys7cshXLRSaPZus</div>
+        <span class="skill-tag">Staging</span>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">closeout-skill v11</div>
+        <div class="skill-id">1TD0Gcg-akazN7VZFwp8QfGRb-6arKl75</div>
+        <span class="skill-tag">Staging</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
 
 <script>
-const STATUS_FETCH_URLS = [
-  "https://dashboard.franchiseki.com/hub/agent-status.json",
-  "https://bennett-maxwell.github.io/advaita-agent-audit/hub/agent-status.json"
-];
-
-const FALLBACK_DATA = {
-  generated_at: "2026-04-30T19:43:23Z",
-  agents: {
-    leo: { status: "active", detail: "Routing and advisor escalation" },
-    ivan: { status: "active", detail: "Runtime, crons, deployments" },
-    mack: { status: "active", detail: "Drive, Notion, Slack, desktop tools" },
-    chad: { status: "active", detail: "Codex strategy, dashboard work, closeout" },
-    tiffany: { status: "offline", detail: "Local Ollama compute node" }
-  },
-  machine_health: {
-    cpu: "Live on Machine Health",
-    ram: "Live on Machine Health",
-    disk: "Live on Machine Health"
-  }
-};
-
-const MAIN_AGENT_ORDER = ["ivan", "mack", "chad", "leo", "tiffany"];
-
-const AGENT_LABELS = {
-  leo: "Leo",
-  ivan: "Ivan / iMac",
-  mack: "Mack / MacBook",
-  tiffany: "Tiffany / HP Omen",
-  chad: "Chad Codex"
-};
-
-const AGENT_WORK = {
-  ivan: {
-    owner: "iMac runtime",
-    current: "Persistent jobs, dashboard deploy path, machine health collector.",
-    recent: "Dashboard and data collector infrastructure.",
-    links: [
-      ["Machine Health", "https://dashboard.franchiseki.com/hub/machine-health.html"],
-      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"]
-    ]
-  },
-  mack: {
-    owner: "MacBook desktop tools",
-    current: "Drive, Notion, Slack, browser/computer control tasks.",
-    recent: "Skill reads, Notion rows, desktop relay work.",
-    links: [
-      ["Skills Master", "https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY"],
-      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"]
-    ]
-  },
-  chad: {
-    owner: "Codex / ChatGPT",
-    current: "Dashboard repairs, system design, closeout proof.",
-    recent: "Machine Health and Agents Board fixes.",
-    links: [
-      ["This dashboard", "https://dashboard.franchiseki.com/hub/agent-monitor.html"],
-      ["Master Hub", "https://dashboard.franchiseki.com/"]
-    ]
-  },
-  leo: {
-    owner: "Main orchestrator",
-    current: "Routes agent work and escalates advisor questions.",
-    recent: "Sub-agent activity is rolled up here instead of shown as separate main agents.",
-    links: [
-      ["Sprint Board", "https://www.notion.so/335cf5514fd3813488dec82a68622d7b"],
-      ["Master Prompt", "https://www.notion.so/33dcf5514fd3816fbd57e5c1fdc0a3fd"]
-    ]
-  },
-  tiffany: {
-    owner: "Local AI compute",
-    current: "Ollama endpoint check and batch AI compute when online.",
-    recent: "Currently checked by HTTP; dashboard marks offline if Ollama does not answer.",
-    links: [
-      ["Machine Health", "https://dashboard.franchiseki.com/hub/machine-health.html"],
-      ["Skills Master", "https://drive.google.com/drive/folders/1qdUEbUb_BpkVBt_YCX686nnu-O7lW0pY"]
-    ]
-  }
-};
-
-function updateClock() {
-  const now = new Date();
-  document.getElementById("clock").textContent = now.toLocaleString("en-US", {
-    timeZone: "America/Denver",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true
-  }) + " MT";
-}
-
-function dotClass(status) {
-  const s = String(status || "").toLowerCase();
-  if (s.includes("active") || s.includes("running") || s.includes("live")) return "green";
-  if (s.includes("draft") || s.includes("idle") || s.includes("standby") || s.includes("pending")) return "yellow";
-  if (s.includes("error") || s.includes("down") || s.includes("broken") || s.includes("blocked")) return "red";
-  if (s.includes("chad")) return "blue";
-  return "blue";
-}
-
-function normalizeAgents(rawAgents) {
-  const byId = {};
-  if (Array.isArray(rawAgents)) {
-    rawAgents.forEach((agent, index) => {
-      const id = String(agent.id || agent.name || `agent_${index}`).toLowerCase();
-      byId[id] = agent;
-    });
-  } else {
-    Object.entries(rawAgents || {}).forEach(([key, agent]) => {
-      byId[String(key).toLowerCase()] = agent;
-    });
-  }
-  return MAIN_AGENT_ORDER.map(id => [id, byId[id] || FALLBACK_DATA.agents[id] || { status: "unknown", detail: "No live feed yet" }]);
-}
-
-async function fetchStatusData() {
-  for (const url of STATUS_FETCH_URLS) {
-    try {
-      const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(5000) });
-      if (response.ok) {
-        const data = await response.json();
-        return { data, source: url, fallback: false };
-      }
-    } catch (_) {
-      // Continue to the next status URL.
-    }
-  }
-  return { data: FALLBACK_DATA, source: "FALLBACK_DATA", fallback: true };
-}
-
-function renderAgents(data, source, fallback) {
-  const grid = document.getElementById("agentGrid");
-  const entries = normalizeAgents(data.agents);
-  const activeCount = entries.filter(([, agent]) => dotClass(agent.status || agent.state) === "green").length;
-
-  grid.innerHTML = entries.map(([key, agent]) => {
-    const status = agent.status || agent.state || "unknown";
-    const work = AGENT_WORK[String(key).toLowerCase()] || {};
-    const detail = agent.detail || agent.task || agent.current_task || work.current || "No task detail";
-    const seen = agent.last_seen || agent.updated || agent.timestamp || "";
-    const label = AGENT_LABELS[String(key).toLowerCase()] || agent.name || key;
-    const seenText = seen ? String(seen).slice(11, 16) + " UTC" : "No timestamp";
-    return `
-      <article class="agent-card">
-        <div class="agent-top">
-          <span class="dot ${dotClass(status)}"></span>
-          <div class="agent-name">${escapeHtml(label)}</div>
-        </div>
-        <div class="agent-state">${escapeHtml(status)}</div>
-        <div class="agent-detail">${escapeHtml(detail)}</div>
-        <div class="agent-detail">${escapeHtml(seenText)}</div>
-        <a class="action-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank" rel="noreferrer">View work log</a>
-      </article>
-    `;
-  }).join("");
-
-  renderWorkBoard(entries);
-
-  document.getElementById("agentCountBadge").textContent = `${activeCount}/${entries.length} active`;
-  document.getElementById("agentCountBadge").className = `badge ${activeCount >= Math.max(entries.length - 1, 1) ? "green" : activeCount > 0 ? "yellow" : "red"}`;
-  document.getElementById("agentFeedValue").textContent = fallback ? "Fallback" : "Live";
-  document.getElementById("agentFeedNote").textContent = fallback ? "using safe demo data" : source.replace("https://", "");
-
-  const generated = data.generated_at || data.timestamp || "";
-  if (generated) {
-    const age = Math.max(0, Math.round((Date.now() - new Date(generated).getTime()) / 60000));
-    document.getElementById("statusUpdated").textContent = fallback ? "Offline fallback data loaded" : `Updated ${age}m ago`;
-  } else {
-    document.getElementById("statusUpdated").textContent = fallback ? "Offline fallback data loaded" : "Live data loaded";
+  function toggleRegistry() {
+    document.getElementById('skillRegistry').classList.toggle('open');
   }
 
-  document.getElementById("demoBadge").classList.toggle("visible", fallback);
-  const systemBadge = document.getElementById("systemBadge");
-  systemBadge.textContent = fallback ? "Live feed unreachable" : "Live feed connected";
-  systemBadge.className = `badge ${fallback ? "red" : "green"}`;
-}
-
-function renderWorkBoard(entries) {
-  const grid = document.getElementById("workGrid");
-  const statusById = Object.fromEntries(entries.map(([key, agent]) => [key, agent]));
-  grid.innerHTML = MAIN_AGENT_ORDER.map(id => {
-    const work = AGENT_WORK[id];
-    const agent = statusById[id] || {};
-    const status = agent.status || agent.state || "unknown";
-    const links = work.links.map(([label, href]) => `<a class="link-btn" href="${href}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`).join("");
-    return `
-      <article class="work-card">
-        <div class="work-name">${escapeHtml(AGENT_LABELS[id])}</div>
-        <span class="badge ${dotClass(status)}">${escapeHtml(status)}</span>
-        <div class="work-line"><strong>Current:</strong> ${escapeHtml(work.current)}</div>
-        <div class="work-line"><strong>Recent:</strong> ${escapeHtml(work.recent)}</div>
-        <div class="work-links">${links}</div>
-      </article>
-    `;
-  }).join("");
-}
-
-const DISPATCH_URL = "https://fki-dispatch.bennett-238.workers.dev/api/dispatch";
-
-function buildDispatchText() {
-  const target = document.getElementById("agentTarget").value;
-  const intent = document.getElementById("messageIntent").value;
-  const extra = document.getElementById("agentMessage").value.trim();
-  return [
-    intent,
-    extra ? `Extra: ${extra}` : "",
-    "Return concrete proof, blocker if any, and next action."
-  ].filter(Boolean).join("\n");
-}
-
-async function sendDispatch() {
-  const agent_id = document.getElementById("agentTarget").value;
-  const message = buildDispatchText();
-  const out = document.getElementById("dispatchOutput");
-  out.textContent = "Sending…";
-  out.classList.add("visible");
-  try {
-    const res = await fetch(DISPATCH_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ agent_id, message })
-    });
-    const data = await res.json();
-    if (data.ok) {
-      out.textContent = `✅ Sent to #leo-coaches (ts: ${data.ts})`;
-    } else {
-      out.textContent = `⚠️ Worker error: ${JSON.stringify(data)}`;
-    }
-  } catch (e) {
-    out.textContent = `❌ Network error: ${e.message}`;
-  }
-}
-
-function quickApprove(item) {
-  document.getElementById("agentTarget").value = "leo";
-  document.getElementById("messageIntent").value = "Approved. Proceed with the proposed action and report proof.";
-  document.getElementById("agentMessage").value = `Approval: ${item}`;
-  document.querySelector(".message-board").scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-async function copyDispatch() {
-  const text = buildDispatchText();
-  const out = document.getElementById("dispatchOutput");
-  out.textContent = text;
-  out.classList.add("visible");
-  try {
-    await navigator.clipboard.writeText(text);
-    out.textContent = text + "\n\nCopied.";
-  } catch (_) {
-    out.textContent = text + "\n\nCopy failed on this browser. Select this text manually.";
-  }
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-async function loadData() {
-  const result = await fetchStatusData();
-  renderAgents(result.data, result.source, result.fallback);
-}
-
-updateClock();
-setInterval(updateClock, 1000);
-loadData();
-setInterval(loadData, 60000);
+  // Auto-open registry
+  // document.getElementById('skillRegistry').classList.add('open');
 </script>
 </body>
 </html>
