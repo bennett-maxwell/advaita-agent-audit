@@ -235,6 +235,7 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
       <button class="sub-btn active" onclick="showSub('ops','agents',this)">🤖 Agents</button>
       <button class="sub-btn" onclick="showSub('ops','angie',this)">📋 Angie Audits</button>
       <button class="sub-btn" onclick="showSub('ops','humans',this)">👥 Humans</button>
+      <button class="sub-btn" onclick="showSub('ops','rocks',this)">🪨 Rocks</button>
     </div>
 
     <div id="ops-agents" class="sub-pane active">
@@ -317,6 +318,80 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
 
     <div id="ops-humans" class="sub-pane">
       <div class="placeholder"><div class="ph-title">👥 Human Work Reports</div>Keith · Bailey · Madison · Kay — activity tracking coming soon.</div>
+    </div>
+
+    <div id="ops-rocks" class="sub-pane">
+      <div class="kpi-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:16px;">
+        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$109</div><div class="kpi-label">IC CPL (target $60)</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">50%</div><div class="kpi-label">Show Rate (target 70%)</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--blue)">73%</div><div class="kpi-label">AI Autonomy (target 90%)</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$17.8K</div><div class="kpi-label">CC Payments Due</div></div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock1',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">🎯 ROCK 1 — IC Lead Cost</div><div style="font-size:14px;font-weight:700;color:var(--text)">Get IC CPL from $109 → $60</div></div>
+          <span class="pill pill-amber">In Progress</span>
+        </div>
+        <div id="rock1" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Upload new community-hub creative</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">New adset parallel test vs Investor Headlines v1.1</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">Kill $76 CPL adset once new adset &lt;$60</div><span class="pill pill-muted">Pending</span></div>
+          <a href="https://www.facebook.com/adsmanager" class="l3-link" target="_blank">Open Ads Manager →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock2',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">📊 ROCK 2 — Show Rate</div><div style="font-size:14px;font-weight:700;color:var(--text)">Improve show rate from 50% → 70%</div></div>
+          <span class="pill pill-red">Critical</span>
+        </div>
+        <div id="rock2" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Publish 3 unpublished reminder workflows in GHL</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">3-touch pre-call sequence (24hr/2hr/1hr SMS)</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">No-show rebook sequence (30min/4hr/24hr)</div><span class="pill pill-blue">Leo</span></div>
+          <a href="https://app.crmx.app" class="l3-link" target="_blank">Open GHL →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock3',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">🤖 ROCK 3 — AI Autonomy</div><div style="font-size:14px;font-weight:700;color:var(--text)">Grow agent autonomy from 73% → 90%</div></div>
+          <span class="pill pill-blue">Active</span>
+        </div>
+        <div id="rock3" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Lead scorer webhook → GHL ContactCreate</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">SynthFlow → GHL sub-account connect</div><span class="pill pill-muted">Pending</span></div>
+          <div class="row"><div class="row-label">Deploy 4 new domain CCs to dashboard</div><span class="pill pill-muted">Pending</span></div>
+          <a href="https://dashboard.franchiseki.com/autonomy/" class="l3-link" target="_blank">Autonomy Dashboard →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock4',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">💰 ROCK 4 — Collections</div><div style="font-size:14px;font-weight:700;color:var(--text)">Clear $17.8K in near-term obligations</div></div>
+          <span class="pill pill-red">Urgent</span>
+        </div>
+        <div id="rock4" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">Due May 9</div></div><span class="pill pill-red">$8,909</span></div>
+          <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">Due May 19</div></div><span class="pill pill-amber">$8,864</span></div>
+          <div class="row"><div><div class="row-label">SRP / Reardon / Patel forecasts</div><div class="row-sub">Watch</div></div><span class="pill pill-muted">Pipeline</span></div>
+          <a href="https://quickbooks.intuit.com" class="l3-link" target="_blank">Open QuickBooks →</a>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="toggleRock('rock5',this)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="card-title">👥 ROCK 5 — Team Performance</div><div style="font-size:14px;font-weight:700;color:var(--text)">Keith + Bailey pipeline + Madison research</div></div>
+          <span class="pill pill-muted">Monitor</span>
+        </div>
+        <div id="rock5" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
+          <div class="row"><div class="row-label">Batch-assign 506 unassigned leads round-robin</div><span class="pill pill-blue">Leo</span></div>
+          <div class="row"><div class="row-label">Metricool Standard upgrade + brand connections</div><span class="pill pill-amber">Kay</span></div>
+          <div class="row"><div class="row-label">Week 3 content queue review</div><span class="pill pill-amber">Christelle</span></div>
+          <a href="https://franchiseki.slack.com" class="l3-link" target="_blank">Open Slack →</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -468,6 +543,12 @@ function showSub(group, name, btn) {
   btn.closest('.tab-pane').querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(prefix + name).classList.add('active');
   btn.classList.add('active');
+}
+function toggleRock(id, card) {
+  const el = document.getElementById(id);
+  const open = el.style.display === 'block';
+  document.querySelectorAll('[id^="rock"]').forEach(r => r.style.display = 'none');
+  if (!open) el.style.display = 'block';
 }
 function tick() {
   const now = new Date();
