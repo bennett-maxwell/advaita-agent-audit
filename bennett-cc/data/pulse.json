@@ -1,9 +1,24 @@
 {
-  "updated": "2026-05-07T22:25:00Z",
-  "source": "seed — pulse-skill wiring pending (see bennett-cc/data/README.md)",
-  "cpa_booked": {"IC": null, "SH": null, "SRP": null, "FKI": null},
-  "cpa_shown":  {"IC": null, "SH": null, "SRP": null, "FKI": null},
-  "cpl":        {"IC": 109,  "SH": 30,   "SRP": null, "FKI": null},
+  "updated": "2026-05-07T22:33:32.659241Z",
+  "source": "aggregated from marketing/cpa-data.json (30d window, generated 2026-05-05T13:53:12.159839)",
+  "cpa_booked": {
+    "IC": 428.48,
+    "SH": 1920.68,
+    "FKI": null,
+    "SRP": null
+  },
+  "cpa_shown": {
+    "IC": 4284.76,
+    "SH": null,
+    "FKI": null,
+    "SRP": null
+  },
+  "cpl": {
+    "IC": 22.09,
+    "SH": 21.11,
+    "FKI": null,
+    "SRP": null
+  },
   "pipeline": {
     "total_leads_in": null,
     "call_1s": null,
@@ -11,19 +26,60 @@
     "total_calls": null
   },
   "stages": {
-    "discovery":      {"count": null, "names": []},
-    "discovery-done": {"count": null, "names": []},
-    "fdd":            {"count": null, "names": []},
-    "validation":     {"count": null, "names": []},
-    "discovery-day":  {"count": null, "names": []},
-    "fa":             {"count": null, "names": []},
-    "repeat":         {"count": null, "names": []}
+    "discovery": {
+      "count": null,
+      "names": []
+    },
+    "discovery-done": {
+      "count": null,
+      "names": []
+    },
+    "fdd": {
+      "count": null,
+      "names": []
+    },
+    "validation": {
+      "count": null,
+      "names": []
+    },
+    "discovery-day": {
+      "count": null,
+      "names": []
+    },
+    "fa": {
+      "count": null,
+      "names": []
+    },
+    "repeat": {
+      "count": null,
+      "names": []
+    }
   },
   "social": {
-    "ig": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
-    "fb": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
-    "tt": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
-    "li": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
-    "x":  {"views_7d": null, "delta_pct": null, "engagement_7d": null}
+    "ig": {
+      "views_7d": null,
+      "delta_pct": null,
+      "engagement_7d": null
+    },
+    "fb": {
+      "views_7d": null,
+      "delta_pct": null,
+      "engagement_7d": null
+    },
+    "tt": {
+      "views_7d": null,
+      "delta_pct": null,
+      "engagement_7d": null
+    },
+    "li": {
+      "views_7d": null,
+      "delta_pct": null,
+      "engagement_7d": null
+    },
+    "x": {
+      "views_7d": null,
+      "delta_pct": null,
+      "engagement_7d": null
+    }
   }
 }
