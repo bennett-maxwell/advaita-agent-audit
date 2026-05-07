@@ -1,0 +1,284 @@
+{
+  "updated": "2026-05-07T22:31:28.774298Z",
+  "peers": [
+    {
+      "name": "OpenClaw\u2019s iMac",
+      "user": "",
+      "os": "macOS",
+      "ip": "100.103.51.12",
+      "online": true,
+      "last_seen": "",
+      "self": true
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::a801:26ab",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "localhost",
+      "user": 2952327384368372,
+      "os": "iOS",
+      "ip": "100.122.221.120",
+      "online": true,
+      "last_seen": "0001-01-01T00:00:00Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::3901:8ebc",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::af01:ada1",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "Bennett Macbook",
+      "user": 2952327384368372,
+      "os": "macOS",
+      "ip": "100.112.24.104",
+      "online": true,
+      "last_seen": "0001-01-01T00:00:00Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::9d01:a6ac",
+      "online": true,
+      "last_seen": "0001-01-01T00:00:00Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0:ab12:4843:cd96:626f:140a",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::5201:b0a3",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "MacBook Air",
+      "user": 523994318273081,
+      "os": "macOS",
+      "ip": "100.88.87.90",
+      "online": false,
+      "last_seen": "2026-04-23T23:31:41.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::401:c29f",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::f701:f79c",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "Omen",
+      "user": 8011578305777153,
+      "os": "windows",
+      "ip": "100.97.16.76",
+      "online": true,
+      "last_seen": "0001-01-01T00:00:00Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::1e01:7098",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::b601:dd8b",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::3f01:58a5",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "device-of-shared-to-user",
+      "user": 5601049553514945,
+      "os": "",
+      "ip": "100.98.8.45",
+      "online": false,
+      "last_seen": "2026-04-29T14:21:16.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::5c01:d68c",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0:ab12:4843:cd96:6259:5f05",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0:ab12:4843:cd96:625f:d761",
+      "online": true,
+      "last_seen": "0001-01-01T00:00:00Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::ac01:85a5",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::c001:f7a7",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0:ab12:4843:cd96:625a:9516",
+      "online": true,
+      "last_seen": "0001-01-01T00:00:00Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::c301:f2b1",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0:ab12:4843:cd96:6268:d02b",
+      "online": true,
+      "last_seen": "0001-01-01T00:00:00Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::5a01:aea3",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "Brent\u2019s Mac Studio (2)",
+      "user": 8160207397224815,
+      "os": "macOS",
+      "ip": "100.83.106.87",
+      "online": false,
+      "last_seen": "2026-04-28T22:47:47.1Z",
+      "self": false
+    },
+    {
+      "name": "Omen",
+      "user": 2952327384368372,
+      "os": "windows",
+      "ip": "100.91.17.106",
+      "online": false,
+      "last_seen": "2026-05-02T02:12:17.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0:ab12:4843:cd96:6249:ba61",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::df01:50c9",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    },
+    {
+      "name": "funnel-ingress-node",
+      "user": 2458838108340186,
+      "os": "",
+      "ip": "fd7a:115c:a1e0::4b01:bda1",
+      "online": true,
+      "last_seen": "2026-05-06T09:25:03.1Z",
+      "self": false
+    }
+  ]
+}

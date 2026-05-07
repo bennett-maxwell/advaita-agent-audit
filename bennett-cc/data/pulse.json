@@ -1,0 +1,29 @@
+{
+  "updated": "2026-05-07T22:25:00Z",
+  "source": "seed — pulse-skill wiring pending (see bennett-cc/data/README.md)",
+  "cpa_booked": {"IC": null, "SH": null, "SRP": null, "FKI": null},
+  "cpa_shown":  {"IC": null, "SH": null, "SRP": null, "FKI": null},
+  "cpl":        {"IC": 109,  "SH": 30,   "SRP": null, "FKI": null},
+  "pipeline": {
+    "total_leads_in": null,
+    "call_1s": null,
+    "call_2s": null,
+    "total_calls": null
+  },
+  "stages": {
+    "discovery":      {"count": null, "names": []},
+    "discovery-done": {"count": null, "names": []},
+    "fdd":            {"count": null, "names": []},
+    "validation":     {"count": null, "names": []},
+    "discovery-day":  {"count": null, "names": []},
+    "fa":             {"count": null, "names": []},
+    "repeat":         {"count": null, "names": []}
+  },
+  "social": {
+    "ig": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
+    "fb": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
+    "tt": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
+    "li": {"views_7d": null, "delta_pct": null, "engagement_7d": null},
+    "x":  {"views_7d": null, "delta_pct": null, "engagement_7d": null}
+  }
+}
