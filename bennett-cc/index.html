@@ -312,12 +312,32 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
     </div>
 
     <div id="ops-angie" class="sub-pane">
-      <div class="placeholder"><div class="ph-title">📋 Angie Audits</div>Daily audit reports auto-populate here — coming soon.</div>
-      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://mail.google.com/mail/u/0/#search/from%3Aangie" target="_blank">📧 Angie Emails</a></div></div>
+      <div class="card">
+        <div class="card-title">Daily Audit Reports</div>
+        <div class="row"><div><div class="row-label">GHL Pipeline Audit</div><div class="row-sub">440 stuck leads · last run today</div></div><span class="pill pill-amber">Flagged</span></div>
+        <div class="row"><div><div class="row-label">Agent Health Audit</div><div class="row-sub">Leo · Ivan · Mack · Tiffany</div></div><span class="pill pill-green">Clean</span></div>
+        <div class="row"><div><div class="row-label">Finance Audit</div><div class="row-sub">71.5% CC utilization · Amex due May 9</div></div><span class="pill pill-red">Action</span></div>
+        <div class="row"><div><div class="row-label">Show Rate Audit</div><div class="row-sub">IC 50% · SH 100%</div></div><span class="pill pill-amber">Watch</span></div>
+        <div class="ql-row" style="margin-top:14px;">
+          <a class="ql-link" href="https://mail.google.com/mail/u/0/#search/from%3Aangie" target="_blank">📧 Angie Emails</a>
+          <a class="ql-link" href="https://franchiseki.slack.com/archives/C0APWHBBHLP" target="_blank">⚡ #leo-auto</a>
+        </div>
+      </div>
     </div>
 
     <div id="ops-humans" class="sub-pane">
-      <div class="placeholder"><div class="ph-title">👥 Human Work Reports</div>Keith · Bailey · Madison · Kay — activity tracking coming soon.</div>
+      <div class="card">
+        <div class="card-title">Team</div>
+        <div class="row"><div><div class="row-label">Keith</div><div class="row-sub">Sales · Discovery calls · Pipeline follow-up</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">Bailey</div><div class="row-sub">Sales · IC leads · Brand matching</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">Madison</div><div class="row-sub">Research · FDD review · Prospect intel</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">Kay</div><div class="row-sub">Finance · QuickBooks · Metricool upgrade pending</div></div><span class="pill pill-amber">Action</span></div>
+        <div class="row"><div><div class="row-label">Christelle</div><div class="row-sub">Content · Week 3 queue review pending</div></div><span class="pill pill-amber">Action</span></div>
+        <div class="ql-row" style="margin-top:14px;">
+          <a class="ql-link" href="https://franchiseki.slack.com" target="_blank">💬 Slack</a>
+          <a class="ql-link" href="https://app.crmx.app" target="_blank">📋 GHL</a>
+        </div>
+      </div>
     </div>
 
     <div id="ops-rocks" class="sub-pane">
@@ -464,9 +484,59 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
       <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 Open GHL</a></div></div>
     </div>
 
-    <div id="mkt-nut" class="sub-pane"><div class="placeholder"><div class="ph-title">🎯 Nut — GHL Pipeline</div>Coming soon.</div><div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 Open GHL</a></div></div></div>
-    <div id="mkt-content" class="sub-pane"><div class="placeholder"><div class="ph-title">🎨 Content & Ad Management</div>Creative pipeline · Ad performance · Content calendar — coming soon.</div></div>
-    <div id="mkt-social" class="sub-pane"><div class="placeholder"><div class="ph-title">📱 Social Media</div>FKI + Personal — LinkedIn · Facebook · Instagram — coming soon.</div></div>
+    <div id="mkt-nut" class="sub-pane">
+      <div class="kpi-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:16px;">
+        <div class="kpi"><div class="kpi-val" style="color:var(--blue)">7,039</div><div class="kpi-label">Total Pipeline</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">440</div><div class="kpi-label">Stuck — New Lead</div></div>
+        <div class="kpi"><div class="kpi-val">12%</div><div class="kpi-label">Form Trust Rate</div></div>
+        <div class="kpi"><div class="kpi-val">2%</div><div class="kpi-label">FB Trust Rate</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Monthly Nut</div>
+        <div class="row"><div><div class="row-label">Deals needed to hit nut</div><div class="row-sub">~$40K commission per close</div></div><span class="pill pill-blue">Check GHL</span></div>
+        <div class="row"><div><div class="row-label">IC Discovery scheduled</div><div class="row-sub">Pipeline → Brand Match</div></div><span class="pill pill-blue">GHL</span></div>
+        <div class="row"><div><div class="row-label">FA Signed / FDD Sent</div><div class="row-sub">Closest to close</div></div><span class="pill pill-blue">GHL</span></div>
+        <div class="row"><div><div class="row-label">SRP forecast</div><div class="row-sub">Reardon · Patel</div></div><span class="pill pill-amber">Watch</span></div>
+        <div class="ql-row" style="margin-top:14px;"><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 Open GHL Pipeline</a></div>
+      </div>
+    </div>
+
+    <div id="mkt-content" class="sub-pane">
+      <div class="card">
+        <div class="card-title">Creative Tools</div>
+        <div class="row"><div><div class="row-label">AdStellar Pro</div><div class="row-sub">33 creatives audited · trial active</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">Blaze AI</div><div class="row-sub">Content repurposing</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">HeyGen — Bennett Bot</div><div class="row-sub">Avatar c7991ccc · DO NOT ask Bennett to record</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">ElevenLabs</div><div class="row-sub">Voiceover · TTS</div></div><span class="pill pill-green">Active</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Content Calendar</div>
+        <div class="row"><div><div class="row-label">Week 3 Queue</div><div class="row-sub">Review pending — Christelle</div></div><span class="pill pill-amber">Action</span></div>
+        <div class="row"><div><div class="row-label">LinkedIn (recovery)</div><div class="row-sub">Next post: May 7 7:30AM · 20-24hr gap rule</div></div><span class="pill pill-amber">Recovery</span></div>
+        <div class="row"><div><div class="row-label">IC Community-Hub creative</div><div class="row-sub">Brief ready · upload to Meta pending</div></div><span class="pill pill-blue">Leo</span></div>
+        <div class="ql-row" style="margin-top:14px;">
+          <a class="ql-link" href="https://metricool.com" target="_blank">📅 Metricool</a>
+          <a class="ql-link" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="mkt-social" class="sub-pane">
+      <div class="card">
+        <div class="card-title">Platform Status</div>
+        <div class="row"><div><div class="row-label">LinkedIn</div><div class="row-sub">@bennettmaxwell · Recovery through May 7</div></div><span class="pill pill-amber">Recovery</span></div>
+        <div class="row"><div><div class="row-label">Instagram</div><div class="row-sub">bennettmaxwell35 · 1/day + stories</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">Facebook</div><div class="row-sub">Personal profile (40% reach)</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">TikTok</div><div class="row-sub">HeyGen bot · auto-publish</div></div><span class="pill pill-green">Active</span></div>
+        <div class="row"><div><div class="row-label">X / Twitter</div><div class="row-sub">Build In Public · 3-5/day</div></div><span class="pill pill-green">Active</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Scheduling</div>
+        <div class="row"><div><div class="row-label">Metricool Standard</div><div class="row-sub">Upgrade pending — Kay · $22/mo</div></div><span class="pill pill-amber">Kay</span></div>
+        <div class="row"><div><div class="row-label">IC/SH/SRP/FKI brand connections</div><div class="row-sub">Needs Metricool upgrade first</div></div><span class="pill pill-muted">Blocked</span></div>
+        <div class="ql-row" style="margin-top:14px;"><a class="ql-link" href="https://metricool.com" target="_blank">📅 Open Metricool</a></div>
+      </div>
+    </div>
   </div>
 
   <!-- FINANCE -->
