@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="60">
+<title>MapKI — Live Status</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font:15px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text",Helvetica,sans-serif;background:#fff;color:#1d1d1f;padding:48px 24px;max-width:780px;margin:0 auto}
+  h1{font-size:30px;font-weight:600;letter-spacing:-.4px;margin-bottom:4px}
+  .stamp{color:#86868b;font-size:13px;margin-bottom:32px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  @media(max-width:560px){.row{grid-template-columns:1fr}}
+  .card{border:1px solid #d2d2d7;border-radius:12px;padding:18px 20px}
+  .card .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#86868b;margin-bottom:6px}
+  .card .big{font-size:28px;font-weight:600;font-variant-numeric:tabular-nums}
+  .card .sub{color:#3a3a3c;font-size:13px;margin-top:4px}
+  .bar{background:#e5e5ea;border-radius:99px;height:6px;overflow:hidden;margin-top:10px}
+  .bar > div{background:#34c759;height:100%}
+  .back{display:inline-block;margin-bottom:24px;color:#0071e3;text-decoration:none;font-size:13px}
+  .back:hover{text-decoration:underline}
+  .foot{color:#86868b;font-size:12px;margin-top:24px}
+  code{font:12px/1.4 "SF Mono",Menlo,monospace;background:#f5f5f7;padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<a class="back" href="../index.html">← Bennett CC</a>
+<h1>MapKI — Live Status</h1>
+<div class="stamp">auto-refresh 60s · pulled from Convex on each load</div>
+
+<div class="row">
+  <div class="card"><div class="lbl">Brands total</div><div class="big" id="total">—</div><div class="sub">in Convex</div></div>
+  <div class="card"><div class="lbl">websiteUrl populated</div><div class="big" id="urls">—</div><div class="sub" id="urlsSub">—</div><div class="bar"><div id="urlBar" style="width:0%"></div></div></div>
+</div>
+
+<div class="row">
+  <div class="card"><div class="lbl">Logos</div><div class="big" id="logos">—</div><div class="sub" id="logosSub">—</div><div class="bar"><div id="logoBar" style="width:0%"></div></div></div>
+  <div class="card"><div class="lbl">Phase 2 patches</div><div class="big" id="patches">—</div><div class="sub">Tiffany web extracts (today)</div></div>
+</div>
+
+<div class="card">
+  <div class="lbl">Tiffany</div>
+  <div class="sub" id="tiffany">probing 100.97.16.76:11434…</div>
+</div>
+
+<div class="foot">
+  Source: <code>polished-salamander-762.convex.cloud</code> · brands:listAll · CORS-direct from browser<br>
+  Stop loop on Mack: <code>touch ~/.openclaw/state/mapki-overnight.STOP</code>
+</div>
+
+<script>
+async function load(){
+  try{
+    const r = await fetch("https://polished-salamander-762.convex.cloud/api/query", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({path:"brands:listAll", args:{}, format:"json"})
+    });
+    const d = await r.json();
+    const brands = d.value || [];
+    const total = brands.length;
+    const urls  = brands.filter(b=>b.websiteUrl).length;
+    const logos = brands.filter(b=>b.logoUrl).length;
+    document.getElementById("total").textContent = total.toLocaleString();
+    document.getElementById("urls").textContent  = urls.toLocaleString();
+    document.getElementById("logos").textContent = logos.toLocaleString();
+    const urlPct = total ? (100*urls/total).toFixed(1) : 0;
+    const logoPct = total ? (100*logos/total).toFixed(1) : 0;
+    document.getElementById("urlsSub").textContent = `${urlPct}% of ${total}`;
+    document.getElementById("logosSub").textContent = `${logoPct}% of ${total}`;
+    document.getElementById("urlBar").style.width = urlPct + "%";
+    document.getElementById("logoBar").style.width = logoPct + "%";
+  }catch(e){
+    document.getElementById("total").textContent = "?";
+  }
+}
+async function tiffany(){
+  try{
+    const r = await fetch("http://100.97.16.76:11434/api/tags");
+    const j = await r.json();
+    document.getElementById("tiffany").textContent = `online · ${j.models.length} models loaded`;
+  }catch(e){
+    document.getElementById("tiffany").textContent = "browser-CORS blocked (Tiffany works server-side)";
+  }
+}
+load(); tiffany();
+</script>
+</body>
+</html>
