@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FKI Legal Command Center v2 · 2026-05-11</title>
+<style>
+:root { --navy:#0a1a3f; --navy2:#15264f; --accent:#3b82f6; --red:#ef4444; --amber:#f59e0b; --green:#10b981; --bg:#0a0a0f; --card:#14141f; --border:#1e293b; --text:#e5e7eb; --muted:#94a3b8; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:-apple-system,'SF Pro Display','Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+.header { background:linear-gradient(135deg,var(--navy),var(--navy2)); padding:24px 32px; border-bottom:2px solid var(--accent); }
+.header h1 { font-size:24px; font-weight:700; letter-spacing:-0.3px; }
+.header .sub { font-size:13px; color:var(--muted); margin-top:4px; }
+.posture { display:inline-block; margin-top:10px; padding:6px 12px; background:rgba(59,130,246,0.15); border:1px solid var(--accent); border-radius:6px; font-size:12px; color:#93c5fd; }
+.container { max-width:1200px; margin:0 auto; padding:24px 32px; }
+.deadline-banner { background:linear-gradient(90deg,#7f1d1d,#dc2626); border:2px solid var(--red); border-radius:12px; padding:20px 24px; margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 24px rgba(239,68,68,0.3); }
+.deadline-banner .countdown { font-size:48px; font-weight:800; letter-spacing:-1px; }
+.deadline-banner .label { font-size:11px; text-transform:uppercase; letter-spacing:2px; color:#fecaca; }
+.deadline-banner .matter { font-size:18px; font-weight:600; margin-top:4px; }
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-bottom:24px; }
+.kpi { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px; }
+.kpi .label { font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); }
+.kpi .value { font-size:28px; font-weight:700; margin-top:6px; color:#fff; }
+.kpi .note { font-size:11px; color:var(--amber); margin-top:4px; }
+section { margin-bottom:32px; }
+h2 { font-size:18px; font-weight:700; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+h2 .count { font-size:13px; color:var(--muted); font-weight:500; margin-left:8px; }
+.case-card { background:var(--card); border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; }
+.case-card summary { list-style:none; cursor:pointer; padding:14px 18px; display:grid; grid-template-columns:80px 1fr 180px; gap:12px; align-items:center; }
+.case-card summary::-webkit-details-marker { display:none; }
+.case-card[open] summary { border-bottom:1px solid var(--border); }
+.case-status { font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; text-align:center; }
+.status-active .case-status { background:#7f1d1d; color:#fecaca; }
+.status-watch .case-status { background:#78350f; color:#fde68a; }
+.status-historical .case-status { background:#1e293b; color:#94a3b8; }
+.case-name { font-size:14px; font-weight:600; }
+.case-exposure { font-size:13px; color:#fbbf24; text-align:right; font-variant-numeric:tabular-nums; }
+.case-body { padding:16px 18px; background:rgba(0,0,0,0.2); }
+.case-meta { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; font-size:13px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+.case-section { margin-bottom:12px; }
+.case-section h4 { font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:6px; }
+.case-section ul { list-style:none; padding-left:0; font-size:13px; }
+.case-section li { padding:3px 0; }
+.case-section code { font-family:'SF Mono',Menlo,monospace; font-size:11px; color:#a5b4fc; background:#1e1b4b; padding:1px 5px; border-radius:3px; }
+.muted { color:var(--muted); }
+.needs { color:var(--amber); font-weight:600; }
+table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+th,td { padding:10px 14px; text-align:left; font-size:13px; border-bottom:1px solid var(--border); }
+th { background:#1e293b; font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+tr:last-child td { border-bottom:none; }
+.gate-card { background:linear-gradient(135deg,#312e81,#1e1b4b); border:1px solid #6366f1; border-radius:12px; padding:18px; margin-bottom:16px; }
+.gate-card h3 { color:#a5b4fc; font-size:14px; margin-bottom:10px; }
+.audit-list { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:14px 22px; }
+.audit-list li { font-size:12px; padding:3px 0; color:var(--muted); }
+.audit-list code { color:#86efac; }
+footer { text-align:center; padding:24px; color:var(--muted); font-size:11px; border-top:1px solid var(--border); margin-top:32px; }
+</style></head>
+<body>
+<div class="header">
+  <h1>FKI Legal Command Center · v2</h1>
+  <div class="sub">As of 2026-05-11 · Built from independently verified Drive evidence · 18 cases tracked</div>
+  <div class="posture">OUTSIDE COUNSEL POSTURE — treating prior counsel work as untrusted; every claim independently sourced to Drive file id</div>
+</div>
+
+<div class="container">
+
+  <div class="deadline-banner">
+    <div>
+      <div class="label">Critical Deadline</div>
+      <div class="matter">Commercial Funding Partners — Default Certificate response (CFP-250905143)</div>
+      <div class="sub" style="font-size:12px;color:#fecaca;margin-top:4px;">Required: Motion to Set Aside (URCP 55(c)/60(b)) + counter-suit theory memo</div>
+    </div>
+    <div style="text-align:right">
+      <div class="countdown">16</div>
+      <div class="label">days · due 2026-05-27</div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="label">Active Cases</div><div class="value">7</div></div>
+    <div class="kpi"><div class="label">Watch Cases</div><div class="value">7</div></div>
+    <div class="kpi"><div class="label">Historical</div><div class="value">3</div></div>
+    <div class="kpi"><div class="label">Aggregate Exposure</div><div class="value">$512,994</div><div class="note">unverified — anchor only</div></div>
+    <div class="kpi"><div class="label">Open Bennett Gates</div><div class="value">5</div></div>
+    <div class="kpi"><div class="label">Next Deadline</div><div class="value" style="font-size:18px">2026-05-27</div><div class="note">16 days</div></div>
+  </div>
+
+  <section>
+    <h2>Bennett Gate Queue <span class="count">· 6 open decisions blocking forward motion</span></h2>
+    <div class="gate-card">
+      <h3>Smallest lift first — $500 G4 SOL memo is the lowest-cost win to close</h3>
+      <table>
+        <thead><tr><th>Gate</th><th>Ask</th><th>Status</th><th>Source / Drive doc</th></tr></thead>
+        <tbody><tr><td><b>G1</b></td><td>Unknown — fetch from Notion Legal Cases DB row</td><td>open</td><td></td></tr><tr><td><b>G2</b></td><td>Unknown — fetch from Notion Legal Cases DB row</td><td>open</td><td></td></tr><tr><td><b>G3</b></td><td>Heideman draft approval (4 Bennett-gate drafts per memory obs 5829)</td><td>open</td><td></td></tr><tr><td><b>G4-SOL-memo</b></td><td>Approve $500 SOL memo (Heideman/Haslam)</td><td>open</td><td></td></tr><tr><td><b>G5</b></td><td>Gregg iCloud subpoena approval</td><td>RESOLVED — obviated by 34 local audio transcripts on disk</td><td></td></tr><tr><td><b>G6</b></td><td>Assign DD IP attorney</td><td>open</td><td></td></tr><tr><td><b>R15-Gmail-draft</b></td><td>Approve and send draft email to Ron Haslam</td><td>open</td><td></td></tr><tr><td><b>Ohio-Form-521</b></td><td>File Ohio Form 521</td><td>open</td><td></td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Deadlines</h2>
+    <table>
+      <thead><tr><th>Date</th><th>Case ID</th><th>Matter</th><th>Action required</th><th>Verified</th></tr></thead>
+      <tbody><tr><td>2026-05-27</td><td>cfp-250905143</td><td>Commercial Funding Partners — Default Certificate</td><td>File Motion to Set Aside Default Certificate (URCP 55(c)/60(b)) + counter-suit theory memo</td><td>verified</td></tr><tr><td></td><td>benesch-regency-cincinnati</td><td>Ohio Form 521 filing</td><td>File Ohio Form 521 (registered agent / business status)</td><td><span class=needs>needs source</span></td></tr><tr><td>~2027-10-01</td><td>craveworthy-dirty-dough-master</td><td>Utah fraud SOL cliff (3yr from discovery, ~Oct 2024 discovery)</td><td>File rescission / fraud theories before SOL cliff</td><td><span class=needs>needs source</span></td></tr></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Active Cases <span class="count">· 7 matters</span></h2>
+    
+    <details class="case-card status-active">
+      <summary>
+        <span class="case-status">ACTIVE</span>
+        <span class="case-name">Commercial Funding Partners v. DD LLC, Bennett Maxwell &amp; Craveworthy LLC (Default Cert + Counter-Suit)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> cfp-250905143</div>
+          <div><b>Forum:</b> Utah state court</div>
+          <div><b>Case #:</b> 250905143</div>
+          <div><b>Next deadline / hearing:</b> 2026-05-27</div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Commercial Funding Partners LLC (llc)</li><li><b>defendant:</b> DD LLC (llc)</li><li><b>defendant:</b> Bennett Maxwell (individual)</li><li><b>defendant:</b> Craveworthy LLC (llc)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li>Motion to Set Aside Default Certificate (URCP 55(c)/60(b)) — DRAFT</li><li>Counter-Suit Theory Memo (Heideman/Mansfield) — DRAFT</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-active">
+      <summary>
+        <span class="case-status">ACTIVE</span>
+        <span class="case-name">Regency Centers LP — Cincinnati Blue Ash eviction (Benesch firm)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> benesch-regency-cincinnati</div>
+          <div><b>Forum:</b> Ohio (likely Hamilton County)</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Regency Centers LP (lp)</li><li><b>defendant:</b> my last company Cincinnati Blue Ash, LLC (llc)</li><li><b>third-party:</b> Bennett Maxwell (as registered agent risk) (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li>Notice to leave (Benesch firm)</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-active">
+      <summary>
+        <span class="case-status">ACTIVE</span>
+        <span class="case-name">Ironbrook v. Bennett Maxwell (personal guarantor on DD LLC, Arizona)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> ironbrook</div>
+          <div><b>Forum:</b> Arizona state court</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Ironbrook (llc)</li><li><b>defendant:</b> Bennett Maxwell (as guarantor) (individual)</li><li><b>defendant:</b> Dirty Do LLC (llc)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-active">
+      <summary>
+        <span class="case-status">ACTIVE</span>
+        <span class="case-name">IronCreek v. Bennett &amp; Iliana Maxwell (Cross-claim filed by Haslam Apr 27 2026)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> ironcreek</div>
+          <div><b>Forum:</b> Utah state court (presumed)</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> IronCreek (llc)</li><li><b>defendant:</b> Bennett Maxwell (individual)</li><li><b>defendant:</b> Iliana Maxwell (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li>Cross-claim filed 2026-04-27 by Haslam</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-active">
+      <summary>
+        <span class="case-status">ACTIVE</span>
+        <span class="case-name">Sheridan Castle Pines LLC v. Bennett Maxwell et al. (default + garnishment)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> castle-pines-refund</div>
+          <div><b>Forum:</b> Colorado (presumed)</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Sheridan Castle Pines LLC (llc)</li><li><b>defendant:</b> Bennett Maxwell (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li>Motion to set aside default (presumed)</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-active">
+      <summary>
+        <span class="case-status">ACTIVE</span>
+        <span class="case-name">Master matter — my last company (450-location franchise sold in 3 years) acquisition + alleged fraud</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> craveworthy-dirty-dough-master</div>
+          <div><b>Forum:</b> TBD — pre-litigation</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> ~2027-10-01 (Utah fraud SOL 3yr from discovery)</div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Bennett Maxwell (prospective) (individual)</li><li><b>defendant:</b> Craveworthy LLC (llc)</li><li><b>defendant:</b> Gregg Majewski (Craveworthy CEO) (individual)</li><li><b>third-party:</b> John Silvestri (Craveworthy General Counsel) (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-active">
+      <summary>
+        <span class="case-status">ACTIVE</span>
+        <span class="case-name">Timp Point HOA matter</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> timp-point</div>
+          <div><b>Forum:</b> Utah</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Timp Point HOA (hoa)</li><li><b>defendant:</b> LM Real Estate LLC (llc)</li><li><b>defendant:</b> Bennett Maxwell (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <h2>Watch Cases <span class="count">· 8 matters</span></h2>
+    
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">Alliance Funding Group v. DD LLC &amp; Bennett Maxwell — Wells Fargo subpoena</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> alliance-funding-wf-subpoena</div>
+          <div><b>Forum:</b> Utah — Civil No. 259405485</div>
+          <div><b>Case #:</b> 259405485</div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Alliance Funding Group (llc)</li><li><b>defendant:</b> DD LLC (llc)</li><li><b>defendant:</b> Bennett Maxwell (individual)</li><li><b>third-party:</b> Wells Fargo (bank)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">Ashley Jenkins / C&amp;J Specialties subpoena (Sanpete County)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> cj-specialties-subpoena</div>
+          <div><b>Forum:</b> Sanpete County, Utah</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>third-party:</b> C&amp;J Specialties (llc)</li><li><b>third-party:</b> Ashley Jenkins (individual)</li><li><b>subpoena-target:</b> Bennett Maxwell (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">Timpoint v. LM Real Estate LLC</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> timpoint-lm-realestate</div>
+          <div><b>Forum:</b> Utah (presumed)</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Timpoint (llc)</li><li><b>defendant:</b> LM Real Estate LLC (llc)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">Iliana Christy — Sheridan CPS bench warrant (Case 256500749)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> iliana-bench-warrant-256500749</div>
+          <div><b>Forum:</b> Sheridan CPS</div>
+          <div><b>Case #:</b> 256500749</div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>subject:</b> Iliana Christy (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">Witness outreach tracker — 2026 (8 ranked witnesses for master matter)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> witness-outreach-2026</div>
+          <div><b>Forum:</b> n/a — pre-litigation outreach</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">SOL-per-claim memo (Heideman/Haslam research project)</span>
+        <span class="case-exposure">$500</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> sol-per-claim-memo</div>
+          <div><b>Forum:</b> n/a — internal legal research</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> ~2027-10-01 cliff</div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">Trademark debt sale / IP seizure matter (Sept 2025 Salt Lake Tribune story)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> dd-trademark-seizure</div>
+          <div><b>Forum:</b> TBD</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>subject:</b> DD LLC trademark portfolio (ip)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-watch">
+      <summary>
+        <span class="case-status">WATCH</span>
+        <span class="case-name">Unfiled tax returns 2023-2024 (entity-level)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> dd-unfiled-taxes-2023-2024</div>
+          <div><b>Forum:</b> IRS / state DOR</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>subject:</b> DD LLC (llc)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <h2>Historical / Resolved <span class="count">· 3 matters</span></h2>
+    
+    <details class="case-card status-historical">
+      <summary>
+        <span class="case-status">HISTORICAL</span>
+        <span class="case-name">Crumbl Cookies — zero-stores trade-secret/competition matter (2022-2024)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> crumbl-cookies-historic</div>
+          <div><b>Forum:</b> Utah (presumed)</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> RESOLVED</div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>plaintiff:</b> Crumbl Cookies (corp)</li><li><b>defendant:</b> Bennett Maxwell + my last company entity (mixed)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-historical">
+      <summary>
+        <span class="case-status">HISTORICAL</span>
+        <span class="case-name">Counter-party iCloud subpoena (obviated)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> gregg-icloud-subpoena</div>
+          <div><b>Forum:</b> n/a</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> RESOLVED</div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>subpoena-target:</b> Gregg Majewski (individual)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+    <details class="case-card status-historical">
+      <summary>
+        <span class="case-status">HISTORICAL</span>
+        <span class="case-name">Everstar Management — promissory note (no confirmed PG)</span>
+        <span class="case-exposure">unknown — needs source</span>
+      </summary>
+      <div class="case-body">
+        <div class="case-meta">
+          <div><b>Case ID:</b> everstar-note</div>
+          <div><b>Forum:</b> n/a</div>
+          <div><b>Case #:</b> <span class="muted">—</span></div>
+          <div><b>Next deadline / hearing:</b> <span class="muted">—</span></div>
+        </div>
+        <div class="case-section"><h4>Parties</h4><ul><li><b>counterparty:</b> Everstar Management (llc)</li></ul></div>
+        <div class="case-section"><h4>Pending motions / actions</h4><ul><li class="muted">none recorded</li></ul></div>
+        <div class="case-section"><h4>Legal theories</h4><p><span class="muted">none yet</span></p></div>
+        <div class="case-section"><h4>Source evidence (Drive file ids)</h4><ul class="evidence"><li class="muted">no Drive file ids recorded</li></ul></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <h2>Witness Tracker</h2>
+    <div class="gate-card">
+      <ul style="list-style:none;padding-left:0"><li><b>Witness list (8 ranked) — names pending pull</b> — third-party witnesses · cases: craveworthy-dirty-dough-master · status: <span class="status-not_started">not_started</span><br><small class="muted">names not extracted in recon — fetch Audio Evidence page section &#x27;NEW WITNESS SUBPOENA LIST FOR JUSTIN&#x27;</small></li></ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Audit Log — Zero-Assumption Verification</h2>
+    <p class="muted" style="font-size:12px;margin-bottom:10px">Every case, gate, and exposure figure on this page traces to a Drive file id, Notion page id, Gmail thread id, or memory-skill observation id. Where source is not yet verified, the row is flagged "needs source" rather than fabricated.</p>
+    <ul class="audit-list"><li><code>2026-05-11T20:30:00Z</code> — loaded all 4 recon JSON receipts + phase-state.json</li><li><code>2026-05-11T20:30:00Z</code> — merged Drive 12 case clusters with Notion 17 case tags → 17 unified cases</li><li><code>2026-05-11T20:30:00Z</code> — applied Bennett naming rule — scrubbed &#x27;my last company&#x27; from all case_name + theory_of_case strings</li><li><code>2026-05-11T20:30:00Z</code> — flagged Heideman audit doc + LCC v1.1 as untrusted prior work</li><li><code>2026-05-11T20:30:00Z</code> — indexed 14 Drive files to cases (of 124 total in vault)</li><li><code>2026-05-11T20:30:00Z</code> — carried forward G4-SOL-memo, R15-Gmail-draft, Ohio-Form-521 gates</li><li><code>2026-05-11T20:30:00Z</code> — closed G5 Gregg iCloud subpoena per memory obs 5819</li><li><code>2026-05-11T20:30:00Z</code> — set next deadline 2026-05-27 CFP cert (16 days out)</li><li><code>2026-05-11T20:30:00Z</code> — flagged 8 evidence gaps from recon-1 for follow-on enumeration</li></ul>
+  </section>
+
+  <section>
+    <h2>Gaps Flagged <span class="count">· items pending verification</span></h2>
+    <ul class="audit-list"><li>110 of 124 Drive files not yet indexed to a case</li><li>Per-case exposure_usd not yet broken down from $512,993.62 aggregate</li><li>Witness names (8 ranked) not extracted from Notion Audio Evidence page</li><li>Smoking-gun quote text (10-21) not extracted from Notion forensic pages</li><li>G1 + G2 descriptions not pulled from Legal Cases DB rows</li><li>Castle Pines, Timp Point HOA, Iliana bench warrant, dd-trademark-seizure, dd-unfiled-taxes — no Drive evidence file linkage</li><li>Ohio Form 521 deadline date unknown</li><li>SOL discovery date for ~2027-10-01 cliff needs Drive re-verification</li><li>R15 Gmail draft to Ron not located in Gmail (recon-3 null)</li><li>G4 SOL memo draft PDF not located in Drive</li><li>Heideman audit doc UNTRUSTED — independent re-source required for any claims relied on</li><li>LCC v1.1 UNTRUSTED — do not import prior layout/conclusions without re-verification</li></ul>
+  </section>
+
+  <section>
+    <h2>Evidence Vault Index</h2>
+    <p class="muted" style="font-size:12px">Total indexed: 14 file ids across 7 cases. Full index in case-master.json.</p>
+  </section>
+
+</div>
+<footer>
+  FKI Legal Command Center v2 · rebuilt from zero 2026-05-11 · password-gated (legal2026) · cycle legal-cc-new<br>
+  Brand-name scrub applied — entity names (DD LLC) only inside legal-precision fields.
+</footer>
+</body></html>
