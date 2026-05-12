@@ -871,55 +871,96 @@
   ═══════════════════════════════════════ -->
   <script>
     (function () {
+      var GHL_KEY = 'pit-81e14317-71e3-44c2-864c-0dd014f570cd';
+      var GHL_LOC = '14RD8KklxR9G4e0Rf7v2';
+      var GHL_API = 'https://services.leadconnectorhq.com';
+
       var form = document.getElementById('blueprint-form');
       var success = document.getElementById('form-success');
+
+      function ghlHeaders() {
+        return {
+          'Authorization': 'Bearer ' + GHL_KEY,
+          'Version': '2021-07-28',
+          'Content-Type': 'application/json'
+        };
+      }
+
+      function buildTags(d) {
+        var tags = ['advaita-ai-blueprint'];
+        var sopMap = { yes: 'sop-ready', some: 'sop-partial', no: 'sop-none' };
+        if (sopMap[d.existing_sops]) tags.push(sopMap[d.existing_sops]);
+        if (d.existing_loom === 'yes') tags.push('loom-ready');
+        if (d.existing_sops === 'yes' && d.existing_loom === 'yes') tags.push('deployment-ready');
+        var aiMap = {
+          chatting: 'ai-stage-chatgpt',
+          conversational: 'ai-stage-conversational',
+          custom_tools: 'ai-stage-custom-tools',
+          agents_running: 'ai-stage-agents-running'
+        };
+        if (aiMap[d.ai_maturity]) tags.push(aiMap[d.ai_maturity]);
+        return tags;
+      }
+
+      function buildNote(d) {
+        return [
+          'Advaita AI Blueprint — quiz submission',
+          'Industry: ' + d.industry,
+          'Team size: ' + d.team_size,
+          'Tools: ' + d.tools,
+          'Time drains: ' + d.time_drains,
+          'SOPs: ' + d.existing_sops,
+          'Loom/recordings: ' + d.existing_loom,
+          'AI maturity: ' + d.ai_maturity
+        ].join('\n');
+      }
+
+      async function submitToGHL(d) {
+        var res = await fetch(GHL_API + '/contacts/', {
+          method: 'POST',
+          headers: ghlHeaders(),
+          body: JSON.stringify({
+            firstName: d.first_name,
+            email: d.email,
+            locationId: GHL_LOC,
+            source: 'advaita-ai-blueprint',
+            tags: buildTags(d)
+          })
+        });
+        if (!res.ok) return;
+        var json = await res.json();
+        var contactId = json.contact && json.contact.id;
+        if (!contactId) return;
+        await fetch(GHL_API + '/contacts/' + contactId + '/notes', {
+          method: 'POST',
+          headers: ghlHeaders(),
+          body: JSON.stringify({ body: buildNote(d) })
+        });
+      }
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Basic validation check
         var inputs = form.querySelectorAll('[required]');
         var allValid = true;
         inputs.forEach(function (input) {
-          if (!input.value.trim()) {
-            allValid = false;
-            input.style.borderColor = '#FF3B30';
-          } else {
-            input.style.borderColor = '';
-          }
+          if (!input.value.trim()) { allValid = false; input.style.borderColor = '#FF3B30'; }
+          else { input.style.borderColor = ''; }
         });
-
         if (!allValid) return;
 
-        // Hide form, show success state
+        var data = {};
+        new FormData(form).forEach(function (v, k) { data[k] = v; });
+
         form.style.display = 'none';
         success.style.display = 'block';
-
-        // Scroll into view
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        /*
-         * TODO: Replace the block above with the actual GHL form submission
-         * once the form is created in GoHighLevel.
-         *
-         * GHL embed pattern:
-         *   <iframe src="https://api.leadconnectorhq.com/widget/form/FORM_ID"
-         *     style="width:100%;min-height:700px;border:none;"
-         *     id="inline-FORM_ID"
-         *     data-layout="{'id':'FORM_ID'}"
-         *     data-trigger-type="alwaysShow">
-         *   </iframe>
-         *   <script src="https://link.msgsndr.com/js/form_embed.js"><\/script>
-         *
-         * GHL_FORM_ID: replace with actual GHL form embed once created
-         */
+        submitToGHL(data).catch(function () {});
       });
 
-      // Clear red borders on input
       form.querySelectorAll('.form-control').forEach(function (el) {
-        el.addEventListener('input', function () {
-          el.style.borderColor = '';
-        });
+        el.addEventListener('input', function () { el.style.borderColor = ''; });
       });
     })();
   </script>
