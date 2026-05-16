@@ -545,7 +545,7 @@
         Find out exactly what AI agents could automate in YOUR business — free, in 60 seconds.
       </h1>
       <p class="hero__sub">
-        Answer a few quick questions. My AI builds a custom video and podcast for your exact business, tools, and industry. No sales call. No spam. Just your blueprint. Free.
+        Answer a few quick questions. My AI builds a custom video and podcast for your exact business and tools. No sales call. No spam. Just your blueprint. Free.
       </p>
       <a href="#quiz-form" class="btn-primary">Get My Free Blueprint →</a>
     </div>
@@ -656,27 +656,67 @@
           />
         </div>
 
-        <!-- Q3: Industry -->
+        <!-- Q3: Website -->
         <div class="form-group">
-          <label class="form-label" for="q3_industry">
-            <span>Q3</span>What industry are you in?
+          <label class="form-label" for="q3_website">
+            <span>Q3</span>What's your website?
           </label>
           <input
-            id="q3_industry"
-            name="industry"
-            type="text"
+            id="q3_website"
+            name="website"
+            type="url"
             class="form-control"
-            placeholder="e.g. Real estate, SaaS, franchise, consulting..."
+            placeholder="https://yourcompany.com"
             required
           />
+        </div>
+
+        <!-- Q4: Revenue range -->
+        <div class="form-group">
+          <label class="form-label" for="q4_revenue">
+            <span>Q4</span>What's your annual revenue range?
+          </label>
+          <select id="q4_revenue" name="revenue_range" class="form-control" required>
+            <option value="" disabled selected>Select revenue range</option>
+            <option value="under_500k">Under $500K</option>
+            <option value="500k_1m">$500K — $1M</option>
+            <option value="1m_5m">$1M — $5M</option>
+            <option value="5m_10m">$5M — $10M</option>
+            <option value="10m_plus">$10M+</option>
+          </select>
+        </div>
+
+        <!-- Q5: Tools -->
+        <div class="form-group">
+          <label class="form-label">
+            <span>Q5</span>Which tools does your business run on? (select all that apply)
+          </label>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+            <label style="display: flex; align-items: center; font-weight: 500; color: #3A3A3C; cursor: pointer;">
+              <input type="checkbox" name="tools_crm" value="yes" style="width: 18px; height: 18px; margin-right: 10px; cursor: pointer;" />
+              CRM (HubSpot, Pipedrive, Salesforce, etc.)
+            </label>
+            <label style="display: flex; align-items: center; font-weight: 500; color: #3A3A3C; cursor: pointer;">
+              <input type="checkbox" name="tools_comms" value="yes" style="width: 18px; height: 18px; margin-right: 10px; cursor: pointer;" />
+              Email/Comms (Gmail, Outlook, Mailchimp, etc.)
+            </label>
+            <label style="display: flex; align-items: center; font-weight: 500; color: #3A3A3C; cursor: pointer;">
+              <input type="checkbox" name="tools_docs" value="yes" style="width: 18px; height: 18px; margin-right: 10px; cursor: pointer;" />
+              Docs/Storage (Google Drive, Notion, Airtable, etc.)
+            </label>
+            <label style="display: flex; align-items: center; font-weight: 500; color: #3A3A3C; cursor: pointer;">
+              <input type="checkbox" name="tools_project_mgmt" value="yes" style="width: 18px; height: 18px; margin-right: 10px; cursor: pointer;" />
+              Project Mgmt (Asana, Monday, Jira, etc.)
+            </label>
+          </div>
         </div>
 
         <!-- Q4: Team size -->
         <div class="form-group">
           <label class="form-label" for="q4_team">
-            <span>Q4</span>How big is your team?
+            <span>Q6</span>How big is your team?
           </label>
-          <select id="q4_team" name="team_size" class="form-control" required>
+          <select id="q6_team" name="team_size" class="form-control" required>
             <option value="" disabled selected>Select team size</option>
             <option value="just_me">Just me</option>
             <option value="2_5">2–5 people</option>
@@ -688,11 +728,11 @@
         <!-- Q5: Tools -->
         <div class="form-group">
           <label class="form-label" for="q5_tools">
-            <span>Q5</span>What tools does your business run on?
+            <span>Q7</span>What are your biggest time drains right now?
           </label>
           <input
-            id="q5_tools"
-            name="tools"
+            id="q7_drains"
+            name="time_drains"
             type="text"
             class="form-control"
             placeholder="CRM, email, project mgmt, etc."
@@ -703,9 +743,9 @@
         <!-- Q6: Time drains -->
         <div class="form-group">
           <label class="form-label" for="q6_drains">
-            <span>Q6</span>What are your biggest time drains right now?
+            <span>Q8</span>What are your biggest time drains right now?
           </label>
-          <select id="q6_drains" name="time_drains" class="form-control" required>
+          <select id="q8_drains" name="time_drains" class="form-control" required>
             <option value="" disabled selected>Select your biggest time drain</option>
             <option value="lead_followup">Lead follow-up</option>
             <option value="admin_reporting">Admin &amp; reporting</option>
@@ -718,9 +758,9 @@
         <!-- Q7A: SOPs -->
         <div class="form-group">
           <label class="form-label" for="q7a_sops">
-            <span>Q7</span>Do you have existing SOPs or documented workflows?
+            <span>Q9</span>Do you have existing SOPs or documented workflows?
           </label>
-          <select id="q7a_sops" name="existing_sops" class="form-control" required>
+          <select id="q9_sops" name="existing_sops" class="form-control" required>
             <option value="" disabled selected>Select the best description</option>
             <option value="yes">Yes — documented playbooks, SOPs, or written processes</option>
             <option value="some">Some — a mix of written and tribal knowledge</option>
@@ -731,9 +771,9 @@
         <!-- Q7B: Loom videos -->
         <div class="form-group">
           <label class="form-label" for="q7b_loom">
-            <span>Q8</span>Do you have Loom videos or screen recordings of how your team does things?
+            <span>Q10</span>Do you have Loom videos or screen recordings of how your team does things?
           </label>
-          <select id="q7b_loom" name="existing_loom" class="form-control" required>
+          <select id="q10_loom" name="existing_loom" class="form-control" required>
             <option value="" disabled selected>Select an option</option>
             <option value="yes">Yes — we have screen recordings or Loom walkthroughs</option>
             <option value="no">No — not yet</option>
@@ -743,9 +783,9 @@
         <!-- Q9: AI maturity -->
         <div class="form-group">
           <label class="form-label" for="q9_ai">
-            <span>Q9</span>Where are you with AI right now?
+            <span>Q11</span>Where are you with AI right now?
           </label>
-          <select id="q9_ai" name="ai_maturity" class="form-control" required>
+          <select id="q11_ai" name="ai_maturity" class="form-control" required>
             <option value="" disabled selected>Select where you are</option>
             <option value="chatting">Tried ChatGPT — mostly chatting and asking questions</option>
             <option value="conversational">Use AI regularly but it's conversational only</option>
@@ -755,6 +795,28 @@
         </div>
 
         <!-- Submit -->
+
+        <!-- 7-Question ROI Reveal (optional, collapsible) -->
+        <div class="roi-reveal" id="roi-reveal" style="display: none; margin-bottom: 28px; background: #F0FAF0; border: 1.5px solid #34C759; border-radius: 14px; padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;" onclick="document.getElementById('roi-reveal-content').style.display = document.getElementById('roi-reveal-content').style.display === 'none' ? 'block' : 'none';">
+            <h4 style="font-size: 17px; font-weight: 600; color: #34C759; margin: 0;">Your potential ROI impact →</h4>
+            <span id="roi-toggle" style="font-size: 20px; color: #34C759;">▼</span>
+          </div>
+          <div id="roi-reveal-content" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(52, 199, 89, 0.2);">
+            <p style="font-size: 15px; color: #1D1D1F; margin: 0 0 14px 0; line-height: 1.6;">
+              Based on your answers, here's what automation could save you:
+            </p>
+            <ul id="roi-items" style="list-style: none; padding: 0; margin: 0; font-size: 15px; color: #3A3A3C; line-height: 1.6;">
+              <li style="margin-bottom: 8px;">💰 <strong id="roi-hours">20+ hours/week</strong> in repetitive tasks</li>
+              <li style="margin-bottom: 8px;">📊 <strong id="roi-pipeline">+$500K projected</strong> in recovered pipeline revenue</li>
+              <li style="margin-bottom: 8px;">⚡ <strong id="roi-team">1 FTE equivalent</strong> in automation capacity</li>
+            </ul>
+            <p style="font-size: 13px; color: #8E8E93; margin: 12px 0 0 0; font-style: italic;">
+              Your blueprint will include a detailed ROI breakdown for your exact business.
+            </p>
+          </div>
+        </div>
+
         <div class="form-submit-wrap">
           <button type="submit" class="btn-primary btn-primary--full">
             Build My Blueprint →
@@ -903,11 +965,17 @@
       }
 
       function buildNote(d) {
+        var tools_selected = [];
+        if (d.tools_crm) tools_selected.push('CRM');
+        if (d.tools_comms) tools_selected.push('Comms');
+        if (d.tools_docs) tools_selected.push('Docs');
+        if (d.tools_project_mgmt) tools_selected.push('Project Mgmt');
         return [
           'Advaita AI Blueprint — quiz submission',
-          'Industry: ' + d.industry,
+          'Website: ' + (d.website || 'N/A'),
+          'Revenue range: ' + d.revenue_range,
+          'Tools: ' + (tools_selected.length ? tools_selected.join(', ') : 'None selected'),
           'Team size: ' + d.team_size,
-          'Tools: ' + d.tools,
           'Time drains: ' + d.time_drains,
           'SOPs: ' + d.existing_sops,
           'Loom/recordings: ' + d.existing_loom,
@@ -924,7 +992,10 @@
             email: d.email,
             locationId: GHL_LOC,
             source: 'advaita-ai-blueprint',
-            tags: buildTags(d)
+            tags: buildTags(d),
+            customFields: {
+              'form_version': '2026-05-16-v2'
+            }
           })
         });
         if (!res.ok) return;
@@ -938,7 +1009,68 @@
         });
       }
 
-      form.addEventListener('submit', function (e) {
+
+      function calculateROI(d) {
+        var roi = {
+          hours: 20,
+          pipeline: 500000,
+          fte: 1
+        };
+
+        // Adjust based on team size
+        var team_multiplier = { just_me: 1, '2_5': 1.5, '6_20': 2.5, '20_plus': 4 };
+        if (team_multiplier[d.team_size]) {
+          roi.hours = Math.round(roi.hours * team_multiplier[d.team_size]);
+          roi.pipeline = Math.round(roi.pipeline * team_multiplier[d.team_size]);
+          roi.fte = Math.round(roi.fte * team_multiplier[d.team_size] * 10) / 10;
+        }
+
+        // Adjust based on time drains (high-touch use cases increase ROI)
+        var drain_bonus = { lead_followup: 1.3, admin_reporting: 1.2, scheduling: 1.1, customer_onboarding: 1.4, all: 1.5 };
+        if (drain_bonus[d.time_drains]) {
+          roi.hours = Math.round(roi.hours * drain_bonus[d.time_drains]);
+          roi.pipeline = Math.round(roi.pipeline * drain_bonus[d.time_drains]);
+        }
+
+        // Reduce ROI if no SOPs or Loom (harder to automate)
+        if (d.existing_sops === 'no') roi.pipeline = Math.round(roi.pipeline * 0.7);
+
+        return roi;
+      }
+
+      function showROIReveal(d) {
+        var roi = calculateROI(d);
+        document.getElementById('roi-hours').textContent = roi.hours + '+ hours/week';
+        document.getElementById('roi-pipeline').textContent = '+$' + (roi.pipeline / 1000).toFixed(0) + 'K projected';
+        document.getElementById('roi-team').textContent = roi.fte + ' FTE equivalent';
+        document.getElementById('roi-reveal').style.display = 'block';
+        
+        // Scroll to reveal with slight delay
+        setTimeout(function () {
+          document.getElementById('roi-reveal').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }
+
+      // Track form completion for ROI reveal trigger
+      function checkROITrigger() {
+        var form = document.getElementById('blueprint-form');
+        if (!form) return;
+        
+        var inputs = form.querySelectorAll('[required]');
+        var completed = Array.from(inputs).every(function (el) {
+          return el.value && el.value.trim();
+        });
+        
+        if (completed && document.getElementById('roi-reveal').style.display === 'none') {
+          // Collect data and show ROI
+          var data = {};
+          new FormData(form).forEach(function (v, k) { data[k] = v; });
+          showROIReveal(data);
+        }
+      }
+
+
+            form.addEventListener('submit', function (e) {
         e.preventDefault();
 
         var inputs = form.querySelectorAll('[required]');
@@ -960,7 +1092,10 @@
       });
 
       form.querySelectorAll('.form-control').forEach(function (el) {
-        el.addEventListener('input', function () { el.style.borderColor = ''; });
+        el.addEventListener('input', function () { 
+          el.style.borderColor = ''; 
+          checkROITrigger();
+        });
       });
     })();
   </script>
