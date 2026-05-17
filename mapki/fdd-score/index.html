@@ -353,9 +353,16 @@
     const phone = document.getElementById('fphone').value.trim();
     if(!fname || !email) { alert('Please enter your name and email.'); return; }
 
-    // Post to GHL webhook (non-blocking)
-    const payload = { firstName: fname, email, phone, fddScore: calcScore(), source: 'fdd-score-tool' };
-    fetch('https://hooks.zapier.com/hooks/catch/fki-fdd-score/', {
+    // Post to GHL via mapki lead API (non-blocking)
+    const s = calcScore();
+    const payload = {
+      firstName: fname, email, phone,
+      brandName: 'FDD Score Tool',
+      type: 'fdd-score',
+      timeline: s >= 70 ? 'ready' : s >= 45 ? '3-6mo' : '6mo+',
+      source: 'fdd-score-tool'
+    };
+    fetch('https://mapki.franchiseki.com/api/lead', {
       method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
     }).catch(() => {});
 
