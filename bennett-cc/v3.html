@@ -324,7 +324,7 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
       <div class="kpi-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:16px;">
         <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$109</div><div class="kpi-label">IC CPL (target $60)</div></div>
         <div class="kpi"><div class="kpi-val" style="color:var(--amber)">50%</div><div class="kpi-label">Show Rate (target 70%)</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--blue)">73%</div><div class="kpi-label">AI Autonomy (target 90%)</div></div>
+        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">60%</div><div class="kpi-label">AI Autonomy (target 90%)</div></div>
         <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$17.8K</div><div class="kpi-label">CC Payments Due</div></div>
       </div>
 
@@ -356,7 +356,7 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
 
       <div class="card" style="cursor:pointer" onclick="toggleRock('rock3',this)">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="card-title">🤖 ROCK 3 — AI Autonomy</div><div style="font-size:14px;font-weight:700;color:var(--text)">Grow agent autonomy from 73% → 90%</div></div>
+          <div><div class="card-title">🤖 ROCK 3 — AI Autonomy</div><div style="font-size:14px;font-weight:700;color:var(--text)">Grow agent autonomy from 60% → 90%</div></div>
           <span class="pill pill-blue">Active</span>
         </div>
         <div id="rock3" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
@@ -373,8 +373,8 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
           <span class="pill pill-red">Urgent</span>
         </div>
         <div id="rock4" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
-          <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">Due May 9</div></div><span class="pill pill-red">$8,909</span></div>
-          <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">Due May 19</div></div><span class="pill pill-amber">$8,864</span></div>
+          <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">🚨 PAST DUE (May 9)</div></div><span class="pill pill-red">$8,909</span></div>
+          <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">🚨 PAST DUE (May 19)</div></div><span class="pill pill-amber">$8,864</span></div>
           <div class="row"><div><div class="row-label">SRP / Reardon / Patel forecasts</div><div class="row-sub">Watch</div></div><span class="pill pill-muted">Pipeline</span></div>
           <a href="https://quickbooks.intuit.com" class="l3-link" target="_blank">Open QuickBooks →</a>
         </div>
@@ -472,16 +472,16 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
   <!-- FINANCE -->
   <div id="fki-finance" class="tab-pane">
     <div class="kpi-row">
-      <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$8,909</div><div class="kpi-label">Amex Due May 9</div><div class="kpi-delta" style="color:var(--red-dark)">🚨 Urgent</div></div>
-      <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$8,864</div><div class="kpi-label">Divvy Due May 19</div><div class="kpi-delta" style="color:var(--amber)">⚠ Watch</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$8,909</div><div class="kpi-label">Amex 🚨 PAST DUE</div><div class="kpi-delta" style="color:var(--red-dark)">🚨 Urgent</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$8,864</div><div class="kpi-label">Divvy 🚨 PAST DUE</div><div class="kpi-delta" style="color:var(--amber)">⚠ Watch</div></div>
       <div class="kpi"><div class="kpi-val" style="color:var(--amber)">71.5%</div><div class="kpi-label">CC Utilization</div></div>
       <div class="kpi"><div class="kpi-val">$122K</div><div class="kpi-label">Total Balance</div></div>
     </div>
     <div class="card">
       <div class="card-title">Upcoming Payments</div>
-      <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">Due May 9</div></div><span class="pill pill-red">$8,909</span></div>
+      <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">🚨 PAST DUE (May 9)</div></div><span class="pill pill-red">$8,909</span></div>
       <div class="row"><div><div class="row-label">BME</div><div class="row-sub">Due Sunday</div></div><span class="pill pill-amber">$84</span></div>
-      <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">Due May 19</div></div><span class="pill pill-amber">$8,864</span></div>
+      <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">🚨 PAST DUE (May 19)</div></div><span class="pill pill-amber">$8,864</span></div>
     </div>
     <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://quickbooks.intuit.com" target="_blank">📊 QuickBooks</a><a class="ql-link" href="https://dashboard.franchiseki.com/finance-hub/" target="_blank">💰 Finance Dashboard</a></div></div>
   </div>
