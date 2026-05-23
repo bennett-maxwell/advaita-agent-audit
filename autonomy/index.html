@@ -125,5 +125,41 @@ function toggle(id, card) {
   <div class="r17">🔴<span>Advaita Packaged</span><span class="r17-note">Demo mode at /advaita/</span></div>
 </div>
 
+
+<!-- LIVE MACHINE HEALTH — auto-fetched from hub/machine-health.json -->
+<style>
+.mh-strip{background:#1C1C1E;color:#f5f5f7;border-radius:10px;padding:14px 18px;margin:16px}
+.mh-hd{font-size:10px;font-weight:700;color:#636366;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.mh-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.mh-row:last-child{border-bottom:none}
+.mh-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+</style>
+<div class="mh-strip" id="mh-container">
+  <div class="mh-hd">MACHINE HEALTH - LIVE</div>
+  <div id="mh-content" style="font-size:12px;color:#636366">Loading...</div>
+</div>
+<script>
+(function(){
+  fetch('../hub/machine-health.json?t='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var ts=new Date(d.timestamp);
+      var age=Math.round((Date.now()-ts)/60000);
+      var status=d.status;
+      var dotColor=status==='ok'?'#34C759':status==='warn'?'#FF9F0A':'#FF3B30';
+      var errCount=d.launchagents&&d.launchagents.error_count!=null?d.launchagents.error_count:'?';
+      var total=d.launchagents&&d.launchagents.total_count!=null?d.launchagents.total_count:'?';
+      var disk=d.disk&&d.disk.pct_used!=null?d.disk.pct_used:'?';
+      var bigErrs=d.large_err_files&&d.large_err_files.count!=null?d.large_err_files.count:0;
+      document.getElementById('mh-content').innerHTML=
+        '<div class="mh-row"><div class="mh-dot" style="background:'+dotColor+'"></div><span style="flex:1">Status</span><strong style="color:'+dotColor+'">'+status.toUpperCase()+'</strong></div>'+
+        '<div class="mh-row"><div class="mh-dot" style="background:#636366"></div><span style="flex:1">LaunchAgents</span><strong>'+(total-errCount)+' ok / <span style="color:#FF3B30">'+errCount+' err</span></strong></div>'+
+        '<div class="mh-row"><div class="mh-dot" style="background:#34C759"></div><span style="flex:1">Disk</span><strong style="color:#34C759">'+disk+'% used</strong></div>'+
+        '<div class="mh-row"><div class="mh-dot"></div><span style="flex:1">Large err files</span><strong>'+bigErrs+' files</strong></div>'+
+        '<div style="font-size:10px;color:#636366;margin-top:8px">Updated '+age+'min ago</div>';
+    })
+    .catch(function(){document.getElementById('mh-content').innerHTML='Could not load';});
+})();
+</script>
 </body>
 </html>
