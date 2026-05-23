@@ -30,16 +30,18 @@
     {
       "id": "tiffany",
       "name": "Tiffany HP Omen",
-      "ip": "100.91.17.106",
-      "online": false,
+      "ip": "100.97.16.76",
+      "online": true,
       "cpu": null,
       "mem": null,
       "disk": null,
-      "uptime": "offline",
-      "last_seen": "2026-05-23T19:18:27Z",
+      "uptime": "ollama online (16 models)",
+      "last_seen": "2026-05-23T19:20:00Z",
       "role": "Local AI compute node",
       "spec": "128GB RAM \u00b7 Ollama HTTP only \u00b7 no SSH",
-      "metrics_available": false
+      "metrics_available": false,
+      "ollama_models": 16,
+      "status": "online"
     }
   ]
 }
