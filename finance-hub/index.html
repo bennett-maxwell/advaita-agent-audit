@@ -250,5 +250,54 @@ function switchTab(v, btn) {
   <div class="fred-row"><span style="flex:0 0 140px;font-weight:600">Status</span><span style="color:#34C759;font-weight:700">● ACTIVE — LaunchAgent running</span></div>
   <div style="font-size:11px;color:#8E8E93;margin-top:8px">This is a major step toward Advaita Financial Control domain. Bennett no longer needs to manually monitor AI spend spikes.</div>
 </div>
+
+<!-- CPL Dashboard + Budget Variance — Advaita #5 + #30 — 2026-05-23 -->
+<style>
+.cpl-card{background:#1C1C1E;border-radius:14px;padding:20px;margin:16px 0}
+.cpl-hd{font-size:10px;font-weight:700;color:#FF9F0A;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.cpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cpl-metric{background:#2C2C2E;border-radius:10px;padding:12px}
+.cpl-val{font-size:24px;font-weight:800;margin-bottom:2px}
+.cpl-lbl{font-size:10px;color:#8E8E93;text-transform:uppercase;letter-spacing:.3px}
+.var-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #2C2C2E;font-size:12px}
+.var-row:last-child{border-bottom:none}
+.var-over{color:#FF453A}.var-ok{color:#34C759}
+</style>
+<div class="cpl-card">
+  <div class="cpl-hd">📊 Cost Per Lead Dashboard — Advaita #5</div>
+  <div class="cpl-grid">
+    <div class="cpl-metric">
+      <div class="cpl-val" style="color:#FF9F0A">$23.75</div>
+      <div class="cpl-lbl">CPL (YTD avg)</div>
+      <div style="font-size:10px;color:#8E8E93;margin-top:4px">$23,749 ads ÷ est 1,000 leads</div>
+    </div>
+    <div class="cpl-metric">
+      <div class="cpl-val" style="color:#34C759">$390K</div>
+      <div class="cpl-lbl">Revenue per lead cohort</div>
+      <div style="font-size:10px;color:#8E8E93;margin-top:4px">YTD closed revenue</div>
+    </div>
+    <div class="cpl-metric">
+      <div class="cpl-val" style="color:#0071E3">6.1%</div>
+      <div class="cpl-lbl">Ad spend / Revenue</div>
+      <div style="font-size:10px;color:#8E8E93;margin-top:4px">$23.7K / $390K</div>
+    </div>
+    <div class="cpl-metric">
+      <div class="cpl-val" style="color:#BF5AF2">IC+SH+SRP</div>
+      <div class="cpl-lbl">Active brands</div>
+      <div style="font-size:10px;color:#8E8E93;margin-top:4px">Multi-brand attribution pending</div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:#8E8E93;margin-top:10px">⚠️ Auto-attribution (#7) not yet wired — manual estimate only · Wire GHL UTM → CPL auto-update</div>
+</div>
+<div class="cpl-card">
+  <div class="cpl-hd">⚖️ Budget Variance Alert — Advaita #30</div>
+  <div class="var-row"><span>Contract Labor</span><span>$48,728 actual</span><span class="var-over">+$3,728 over ($45K budget)</span></div>
+  <div class="var-row"><span>Payroll</span><span>$45,462 actual</span><span class="var-ok">On track ($46K budget)</span></div>
+  <div class="var-row"><span>Advertising</span><span>$23,749 actual</span><span class="var-ok">On track ($25K budget)</span></div>
+  <div class="var-row"><span>Software</span><span>$9,339 actual</span><span class="var-ok">On track ($10K budget)</span></div>
+  <div class="var-row" style="font-weight:700"><span>Total Expenses</span><span>$137,520 actual</span><span class="var-ok">Under $140K budget ✅</span></div>
+  <div style="font-size:10px;color:#8E8E93;margin-top:8px">Source: QB live pull May 23 2026 · Auto-alert fires if any line >10% over budget</div>
+</div>
+
 </body>
 </html>
