@@ -1,47 +1,31 @@
 {
-  "updated": "2026-05-23T19:18:27Z",
-  "machines": [
-    {
-      "id": "imac",
-      "name": "iMac",
-      "ip": "100.103.51.12",
-      "online": true,
-      "cpu": null,
-      "mem": null,
-      "disk": 3,
-      "uptime": "daily-check",
-      "last_seen": "2026-05-23T19:18:27Z",
-      "health_status": "warn",
-      "launchagents_total": 207,
-      "launchagents_errors": 16
-    },
-    {
-      "id": "macbook",
-      "name": "MacBook",
-      "ip": "100.112.24.104",
-      "online": true,
-      "cpu": null,
-      "mem": null,
-      "disk": 15,
-      "uptime": "daily-check",
-      "last_seen": "2026-05-23T19:18:27Z",
-      "cc_version": "2.1.145"
-    },
-    {
-      "id": "tiffany",
-      "name": "Tiffany HP Omen",
-      "ip": "100.97.16.76",
-      "online": true,
-      "cpu": null,
-      "mem": null,
-      "disk": null,
-      "uptime": "ollama online (16 models)",
-      "last_seen": "2026-05-23T19:20:00Z",
-      "role": "Local AI compute node",
-      "spec": "128GB RAM \u00b7 Ollama HTTP only \u00b7 no SSH",
-      "metrics_available": false,
-      "ollama_models": 16,
-      "status": "online"
+  "timestamp": "2026-05-23T20:15:13Z",
+  "status": "warn",
+  "launchagents": {
+    "total_count": 207,
+    "error_count": 16,
+    "errors": [{"label":"ai.openclaw.ghl-utm-attribution","exit_code":"126","pid":"-"},{"label":"ai.openclaw.sam-lead-wire","exit_code":"127","pid":"-"},{"label":"ai.openclaw.skill-audit-cron","exit_code":"1","pid":"-"},{"label":"ai.openclaw.ghl-webhook-handler","exit_code":"1","pid":"94400"},{"label":"ai.openclaw.ghl-webhook","exit_code":"-15","pid":"38323"},{"label":"ai.openclaw.leo-bridge","exit_code":"-15","pid":"69037"},{"label":"ai.openclaw.ic-booking-monitor","exit_code":"126","pid":"-"},{"label":"ai.openclaw.advaita-email-sequence","exit_code":"2","pid":"-"},{"label":"ai.openclaw.ghl-health-check","exit_code":"1","pid":"-"},{"label":"ai.openclaw.linkedin-token-watchdog","exit_code":"1","pid":"-"},{"label":"ai.openclaw.batch-assign-leads","exit_code":"127","pid":"-"},{"label":"ai.openclaw.blocker-verify-daily","exit_code":"1","pid":"-"},{"label":"ai.openclaw.advaita-contact-score","exit_code":"1","pid":"-"},{"label":"ai.openclaw.brent-completion-watcher","exit_code":"2","pid":"-"},{"label":"ai.openclaw.commission-forecast-90day","exit_code":"126","pid":"-"},{"label":"ai.openclaw.marketing-collector","exit_code":"1","pid":"-"}]
+  },
+  "disk": {
+    "pct_used": 3,
+    "used": "10Gi",
+    "available": "427Gi",
+    "warn_threshold": 80,
+    "warn": false
+  },
+  "large_err_files": {
+    "count": 7,
+    "files": ["/Users/openclaw/.openclaw/logs/speed-to-lead-monitor.err","/Users/openclaw/.openclaw/logs/brent-completion-watcher.err","/Users/openclaw/.openclaw/logs/ghl-webhook-handler.err","/Users/openclaw/.openclaw/logs/ai.openclaw.memsync-check.err","/Users/openclaw/.openclaw/logs/notion-ghl-sync-launchd.err","/Users/openclaw/.openclaw/logs/ghl-auto-tag-brand.err","/Users/openclaw/.openclaw/logs/advaita-deployment-trigger.err"]
+  },
+  "claude_code": {
+    "version": "2.1.145",
+    "bin": "/Users/openclaw/npm-global/bin/claude"
+  },
+  "fleet": {
+    "mack": {
+      "status": "reachable",
+      "cc_version": "2.1.145",
+      "disk_pct": "15%"
     }
-  ]
+  }
 }
