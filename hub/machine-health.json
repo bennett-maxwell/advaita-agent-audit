@@ -1,1 +1,45 @@
-{"updated":"2026-05-09T02:35:24Z","machines":[{"id":"imac","name":"iMac","ip":"100.103.51.12","online":true,"cpu":14,"mem":38,"disk":3,"swap":0,"uptime":"12:40","last_seen":"2026-05-09T02:35:24Z","sessions":1,"sched_tasks":1,"vm_mem_mb":0,"observer_sessions":6566,"last_health":"none","renderer_cpu":0,"renderer_kills":0},{"id":"macbook","name":"MacBook","ip":"100.112.24.104","online":true,"cpu":3,"mem":56,"disk":12,"swap":0,"uptime":" 7:13","last_seen":"2026-05-09T02:35:27Z"},{"id":"tiffany","name":"Tiffany HP Omen","ip":"100.97.16.76","online":true,"cpu":null,"mem":null,"disk":null,"uptime":"ollama online","last_seen":"2026-05-09T02:35:24Z","role":"Local AI compute node","spec":"128GB RAM · Ollama HTTP only · no SSH","metrics_available":false,"ollama_models":16}]}
+{
+  "updated": "2026-05-23T19:17:36Z",
+  "machines": [
+    {
+      "id": "imac",
+      "name": "iMac",
+      "ip": "100.103.51.12",
+      "online": true,
+      "cpu": null,
+      "mem": null,
+      "disk": 3,
+      "uptime": "daily-check",
+      "last_seen": "2026-05-23T19:17:36Z",
+      "health_status": "warn",
+      "launchagents_total": 207,
+      "launchagents_errors": 16
+    },
+    {
+      "id": "macbook",
+      "name": "MacBook",
+      "ip": "100.112.24.104",
+      "online": true,
+      "cpu": null,
+      "mem": null,
+      "disk": 15,
+      "uptime": "daily-check",
+      "last_seen": "2026-05-23T19:17:36Z",
+      "cc_version": "2.1.145"
+    },
+    {
+      "id": "tiffany",
+      "name": "Tiffany HP Omen",
+      "ip": "100.91.17.106",
+      "online": false,
+      "cpu": null,
+      "mem": null,
+      "disk": null,
+      "uptime": "offline",
+      "last_seen": "2026-05-23T19:17:36Z",
+      "role": "Local AI compute node",
+      "spec": "128GB RAM \u00b7 Ollama HTTP only \u00b7 no SSH",
+      "metrics_available": false
+    }
+  ]
+}
