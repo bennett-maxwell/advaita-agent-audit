@@ -184,3 +184,24 @@ else
 fi
 
 echo "$(date): machine-health.json written OK · iMac mem ${IMAC_MEM_PCT}%"
+
+# GitHub Pages Health Check (added 2026-05-23 overdrive R32 extra-push)
+PAGES_STATUS="ok"
+PAGES_ERRORS=0
+for GHPAGE_URL in \
+  "https://bennett-maxwell.github.io/advaita-agent-audit/finance-hub/index.html" \
+  "https://bennett-maxwell.github.io/advaita-agent-audit/autonomy/index.html" \
+  "https://bennett-maxwell.github.io/advaita-agent-audit/index.html"; do
+  PAGE_CODE=$(curl -sL -o /dev/null -w "%{http_code}" "$GHPAGE_URL" --max-time 10 2>/dev/null)
+  if [ "$PAGE_CODE" != "200" ]; then
+    PAGES_STATUS="error"
+    PAGES_ERRORS=$((PAGES_ERRORS + 1))
+  fi
+done
+# Inject into machine-health.json (python patch)
+/usr/local/bin/python3 -c "
+import json
+with open('${HEALTH_FILE}') as f: d=json.load(f)
+d['github_pages'] = {'status': '${PAGES_STATUS}', 'errors': ${PAGES_ERRORS}, 'checked_at': '$(date -u +%Y-%m-%dT%H:%M:%SZ)'}
+with open('${HEALTH_FILE}', 'w') as f: json.dump(d, f)
+" 2>/dev/null || true
