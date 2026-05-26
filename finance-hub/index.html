@@ -79,7 +79,7 @@
     <div class="kpi-card" onclick="toggle('l2-runway', this)">
       <div class="kpi-label">Cash Runway</div>
       <div class="kpi-value" style="color:#FF3B30;">5.2<span style="font-size:18px;font-weight:600;"> wks</span></div>
-      <div class="kpi-sub">⚠️ Zero-deal · $40K checking only</div>
+      <div class="kpi-sub">⚠️ $40K checking ÷ $7,659/wk burn · May 26</div>
       <div class="kpi-hint">▼ Tap for 13-week forecast</div>
     </div>
     <div class="kpi-card" onclick="toggle('l2-revenue', this)">
@@ -99,16 +99,20 @@
   <!-- L2: Runway -->
   <div id="l2-runway" class="l2-panel">
     <div class="l2-title">13-Week Cash Runway</div>
-    <div class="insight">1 deal ($40K) = +5.2 weeks · $80K undeposited pending reconciliation = +10 weeks</div>
-    <div class="row"><div class="row-label">Week 1 (now)</div><div class="row-val" style="color:#FF3B30;">$40K</div></div>
-    <div class="row"><div class="row-label">Week 2</div><div class="row-val amber">$32K</div></div>
-    <div class="row"><div class="row-label">Week 3</div><div class="row-val amber">$25K</div></div>
-    <div class="row"><div class="row-label">Week 4 (end)</div><div class="row-val" style="color:#FF3B30;">$17K</div></div>
-    <div class="row"><div class="row-label">Burn rate</div><div class="row-val">$7,659/wk</div></div>
-    <div class="row"><div class="row-label">Monthly avg</div><div class="row-val">$33,184</div></div>
+    <div class="insight">Formula: Chase checking ÷ weekly burn rate · 1 closed deal (+$40K) = +5.2 wks · $80K undeposited pending = +10 wks</div>
+    <div class="row"><div class="row-label">Chase Checking (live)</div><div class="row-val" style="color:#FF3B30;">$40,006</div></div>
+    <div class="row"><div class="row-label">Weekly Burn Rate</div><div class="row-val">$7,659/wk</div></div>
+    <div class="row"><div class="row-label">Current Runway</div><div class="row-val" style="color:#FF3B30;">5.2 wks</div></div>
+    <div class="row"><div class="row-label">Week 2 projected</div><div class="row-val amber">$32K</div></div>
+    <div class="row"><div class="row-label">Week 3 projected</div><div class="row-val amber">$25K</div></div>
+    <div class="row"><div class="row-label">Week 4 projected</div><div class="row-val" style="color:#FF3B30;">$17K ⚠️</div></div>
+    <div class="row"><div class="row-label">Monthly avg burn</div><div class="row-val">$33,184</div></div>
+    <div class="row" style="margin-top:4px;"><div class="row-label" style="color:#34C759;">With 1 deal closed</div><div class="row-val" style="color:#34C759;">+5.2 wks ($40K)</div></div>
+    <div class="row"><div class="row-label" style="color:#34C759;">With undeposited</div><div class="row-val" style="color:#34C759;">+10 wks ($80K)</div></div>
     <div class="sync-line">
-      Notion forecast built 2026-05-05 ·
+      Fred Finance cron · daily 6AM QB pull from Ivan ·
       <a href="https://www.notion.so/357cf5514fd381a3be79e82aad15e1dc" class="l3" target="_blank">Open Full Forecast →</a>
+      · Updated 2026-05-26
     </div>
   </div>
 
