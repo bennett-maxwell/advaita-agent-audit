@@ -1,1 +1,68 @@
-{"updated":"2026-05-20T05:41:16Z","demo_mode":true,"fallback_reason":"python_failed","kpis":{},"tabs":{}}
+{
+  "updated": "2026-05-26T12:00:00Z",
+  "demo_mode": false,
+  "fallback_reason": null,
+  "data_source": "static-snapshot",
+  "data_note": "FB token refresh required for live pull. Numbers from 2026-05-26 memory snapshot.",
+  "kpis": {
+    "spend_30d": 1862,
+    "leads_30d": 34,
+    "cpl_30d": 55,
+    "roas": 0.0,
+    "active_campaigns": 3,
+    "currency": "USD"
+  },
+  "campaigns": [
+    {
+      "name": "IC — Lead Gen",
+      "status": "active",
+      "spend_30d": 1100,
+      "leads_30d": 20,
+      "cpl": 55,
+      "notes": "Primary IC discovery funnel"
+    },
+    {
+      "name": "SH — Lead Gen",
+      "status": "active",
+      "spend_30d": 562,
+      "leads_30d": 14,
+      "cpl": 40,
+      "notes": "SH strong CPL"
+    },
+    {
+      "name": "Blueprint AI Traffic",
+      "status": "paused",
+      "spend_30d": 200,
+      "leads_30d": 0,
+      "cpl": null,
+      "notes": "PAUSED — landing page conversion issue"
+    }
+  ],
+  "alerts": [
+    {
+      "level": "red",
+      "msg": "Purchase pixel broken — ROAS tracking unavailable"
+    },
+    {
+      "level": "red",
+      "msg": "FB token expired — live pull blocked. Refresh token in Meta Business Manager."
+    },
+    {
+      "level": "amber",
+      "msg": "Blueprint AI Traffic campaign PAUSED — reactivate after landing page fix"
+    }
+  ],
+  "meta_capi": {
+    "status": "live",
+    "lead_events_received": 1,
+    "purchase_pixel": "broken"
+  },
+  "tabs": {
+    "overview": {
+      "spend": "$1,862",
+      "leads": "34",
+      "cpl": "$55",
+      "campaigns_active": 3
+    }
+  }
+}
