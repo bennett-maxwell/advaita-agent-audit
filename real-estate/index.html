@@ -6,326 +6,943 @@
 <title>Rachel — Real Estate Command Center</title>
 <style>
   :root {
-    --bg: #0a0e17; --bg2: #111827; --bg3: #1a2236; --border: #1e3a5f;
-    --accent: #00d4aa; --accent2: #3b82f6; --accent3: #f59e0b; --accent4: #ef4444; --accent5: #8b5cf6;
-    --text: #e2e8f0; --text2: #94a3b8; --text3: #64748b;
-    --green: #10b981; --red: #ef4444; --yellow: #f59e0b; --purple: #8b5cf6;
+    --bg:#0a0e17; --bg2:#111827; --bg3:#1a2236; --border:#1e3a5f;
+    --accent:#00d4aa; --accent2:#3b82f6; --accent3:#f59e0b; --accent4:#ef4444; --accent5:#8b5cf6;
+    --text:#e2e8f0; --text2:#94a3b8; --text3:#64748b;
+    --red:#ef4444; --green:#10b981; --yellow:#f59e0b; --purple:#8b5cf6;
   }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'SF Mono','JetBrains Mono','Fira Code',monospace; font-size:13px; line-height:1.5; }
-  .topbar { background:var(--bg2); border-bottom:1px solid var(--border); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-  .agent-badge { background:linear-gradient(135deg,#00d4aa22,#00d4aa44); border:1px solid var(--accent); border-radius:6px; padding:4px 12px; font-size:11px; color:var(--accent); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; }
-  .topbar-title { font-size:15px; font-weight:700; }
-  .topbar-sub { font-size:11px; color:var(--text3); }
-  .live-dot { width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; margin-right:4px; animation:pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .phase-badge { background:#f59e0b22; border:1px solid var(--accent3); border-radius:4px; padding:3px 8px; font-size:10px; color:var(--accent3); text-transform:uppercase; letter-spacing:0.05em; }
-  .container { max-width:1400px; margin:0 auto; padding:20px 24px; }
-  .northstar { background:linear-gradient(135deg,#00d4aa11,#3b82f611); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:8px; padding:14px 20px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-  .northstar-text { font-size:12px; color:var(--text2); }
-  .northstar-text strong { color:var(--accent); }
-  .kpi-row { display:flex; gap:8px; flex-wrap:wrap; }
-  .kpi-chip { background:var(--bg3); border:1px solid var(--border); border-radius:4px; padding:4px 10px; font-size:11px; white-space:nowrap; }
-  .kpi-chip .val { color:var(--accent); font-weight:700; }
-  .kpi-chip .lbl { color:var(--text3); margin-left:4px; }
-  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-  .grid-1 { margin-bottom:16px; }
-  .card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-  .card-header { background:var(--bg3); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
-  .card-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text2); }
-  .card-title span { color:var(--accent); margin-right:6px; }
-  .card-badge { font-size:10px; padding:2px 7px; border-radius:3px; border:1px solid; }
-  .badge-yellow { color:var(--yellow); border-color:var(--yellow); background:#f59e0b11; }
-  .badge-green { color:var(--green); border-color:var(--green); background:#10b98111; }
-  .badge-blue { color:var(--accent2); border-color:var(--accent2); background:#3b82f611; }
-  .card-body { padding:16px; }
-  table { width:100%; border-collapse:collapse; font-size:12px; }
-  th { text-align:left; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text3); padding:6px 10px; border-bottom:1px solid var(--border); }
-  td { padding:8px 10px; border-bottom:1px solid #1a2840; color:var(--text2); vertical-align:middle; }
-  tr:last-child td { border-bottom:none; }
-  tr:hover td { background:#ffffff05; }
-  .td-title { color:var(--text); font-weight:600; }
-  .td-mono { font-family:monospace; font-size:11px; }
-  .sp { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; white-space:nowrap; }
-  .sp-green { background:#10b98122; color:var(--green); }
-  .sp-yellow { background:#f59e0b22; color:var(--yellow); }
-  .sp-blue { background:#3b82f622; color:var(--accent2); }
-  .sp-gray { background:#ffffff11; color:var(--text3); }
-  .sp-orange { background:#f9731622; color:#f97316; }
-  .sp-teal { background:#00d4aa22; color:var(--accent); }
-  .sp-purple { background:#8b5cf622; color:var(--purple); }
-  .metric-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-  .metric-block { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:14px 16px; text-align:center; }
-  .metric-val { font-size:22px; font-weight:800; color:var(--accent); line-height:1.1; }
-  .metric-lbl { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; margin-top:4px; }
-  .metric-sub { font-size:11px; color:var(--text2); margin-top:2px; }
-  .phase-list { display:flex; flex-direction:column; gap:10px; }
-  .phase-item { display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border-radius:6px; border:1px solid var(--border); background:var(--bg3); }
-  .phase-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; }
-  .ph-active { background:var(--accent); color:var(--bg); }
-  .ph-next { background:var(--bg3); color:var(--text3); border:1px solid var(--border); }
-  .ph-commercial { background:var(--bg3); color:var(--purple); border:1px solid var(--purple); }
-  .phase-title { font-weight:700; font-size:12px; color:var(--text); }
-  .phase-sub { font-size:11px; color:var(--text3); margin-top:2px; }
-  .phase-checks { margin-top:8px; display:flex; flex-direction:column; gap:3px; }
-  .ci { font-size:11px; display:flex; align-items:center; gap:6px; }
-  .ci-done { color:var(--green); } .ci-pend { color:var(--text3); }
-  .skill-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-  .skill-item { background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; }
-  .skill-name { font-size:11px; color:var(--text2); }
-  .vision-card { background:linear-gradient(135deg,#8b5cf611,#3b82f611); border:1px solid #8b5cf633; border-radius:10px; padding:20px; margin-bottom:16px; }
-  .vision-title { font-size:14px; font-weight:800; color:var(--purple); margin-bottom:8px; }
-  .vision-body { font-size:12px; color:var(--text2); line-height:1.7; }
-  .vision-metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; }
-  .vm { text-align:center; }
-  .vm .val { font-size:20px; font-weight:800; color:var(--purple); }
-  .vm .lbl { font-size:10px; color:var(--text3); text-transform:uppercase; }
-  .link-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-  .nlink { display:inline-flex; align-items:center; gap:6px; background:var(--bg3); border:1px solid var(--border); border-radius:5px; padding:5px 10px; font-size:11px; color:var(--accent2); text-decoration:none; transition:all 0.15s; }
-  .nlink:hover { border-color:var(--accent2); background:#3b82f611; }
-  .alert { border-radius:6px; padding:10px 14px; margin-bottom:12px; font-size:11px; display:flex; align-items:flex-start; gap:8px; }
-  .alert-yellow { background:#f59e0b11; border:1px solid #f59e0b44; color:var(--yellow); }
-  .alert-green { background:#10b98111; border:1px solid #10b98144; color:var(--green); }
-  .ci-item { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #1a2840; }
-  .ci-item:last-child { border-bottom:none; }
-  .footer { background:var(--bg2); border-top:1px solid var(--border); padding:12px 24px; display:flex; align-items:center; justify-content:space-between; margin-top:24px; font-size:10px; color:var(--text3); }
-  a { color:var(--accent2); text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  .awaiting { color:var(--yellow); font-style:italic; }
-  @media(max-width:900px) {
-    .grid-2 { grid-template-columns:1fr; }
-    .metric-grid { grid-template-columns:1fr 1fr; }
-    .skill-grid { grid-template-columns:1fr; }
-    .vision-metrics { grid-template-columns:1fr; }
-    .northstar { flex-direction:column; }
-  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'SF Mono','JetBrains Mono','Fira Code',monospace;font-size:13px;line-height:1.5;}
+  /* TOPBAR */
+  .topbar{background:var(--bg2);border-bottom:2px solid var(--accent);padding:10px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:12px;flex-wrap:wrap;}
+  .topbar-left{display:flex;align-items:center;gap:14px;}
+  .agent-badge{background:linear-gradient(135deg,#00d4aa22,#00d4aa44);border:1px solid var(--accent);border-radius:6px;padding:4px 12px;font-size:10px;color:var(--accent);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+  .topbar-title{font-size:15px;font-weight:800;color:var(--text);}
+  .topbar-sub{font-size:10px;color:var(--text3);}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  .clock{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:0.05em;}
+  /* CONTAINERS */
+  .container{max-width:1440px;margin:0 auto;padding:20px 24px;}
+  /* NORTH STAR */
+  .northstar{background:linear-gradient(135deg,#00d4aa0d,#3b82f60d);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:12px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .ns-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;}
+  .ns-text{font-size:12px;color:var(--text2);}
+  .ns-text strong{color:var(--accent);}
+  .ns-chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .ns-chip{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:3px 9px;font-size:10px;white-space:nowrap;}
+  .ns-chip .v{color:var(--accent);font-weight:700;}
+  .ns-chip .l{color:var(--text3);margin-left:3px;}
+  /* CRITICAL ALERTS */
+  .critical-section{margin-bottom:16px;}
+  .critical-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .critical-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--red);}
+  .alert-count{background:var(--red);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:800;}
+  .alert-row{background:#ef444411;border:1px solid #ef444433;border-left:3px solid var(--red);border-radius:6px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;}
+  .alert-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+  .alert-title{font-size:12px;font-weight:700;color:var(--red);}
+  .alert-body{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.5;}
+  .alert-tag{display:inline-block;background:#ef444422;border:1px solid var(--red);border-radius:3px;padding:1px 6px;font-size:9px;color:var(--red);font-weight:700;text-transform:uppercase;margin-right:6px;}
+  /* KPI ROW */
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+  .kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;text-align:center;}
+  .kpi-val{font-size:22px;font-weight:800;line-height:1.1;margin-bottom:4px;}
+  .kpi-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;}
+  .kpi-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+  .kv-green{color:var(--green);}
+  .kv-red{color:var(--red);}
+  .kv-yellow{color:var(--yellow);}
+  .kv-teal{color:var(--accent);}
+  .kv-blue{color:var(--accent2);}
+  /* CARDS */
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+  .card-header{background:var(--bg3);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);}
+  .card-title .icon{color:var(--accent);margin-right:6px;}
+  .card-body{padding:16px;}
+  /* BADGES */
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;white-space:nowrap;}
+  .badge-red{background:#ef444422;color:var(--red);border:1px solid #ef444444;}
+  .badge-green{background:#10b98122;color:var(--green);border:1px solid #10b98144;}
+  .badge-yellow{background:#f59e0b22;color:var(--yellow);border:1px solid #f59e0b44;}
+  .badge-blue{background:#3b82f622;color:var(--accent2);border:1px solid #3b82f644;}
+  .badge-teal{background:#00d4aa22;color:var(--accent);border:1px solid #00d4aa44;}
+  .badge-purple{background:#8b5cf622;color:var(--purple);border:1px solid #8b5cf644;}
+  .badge-orange{background:#f9731622;color:#f97316;border:1px solid #f9731644;}
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th{text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);padding:7px 10px;border-bottom:1px solid var(--border);}
+  td{padding:8px 10px;border-bottom:1px solid #1a2840;color:var(--text2);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:#ffffff05;}
+  .td-title{color:var(--text);font-weight:600;}
+  .td-mono{font-family:monospace;font-size:11px;}
+  .td-addr{font-size:11px;color:var(--text3);}
+  /* GRIDS */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+  /* MAINTENANCE */
+  .maint-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);margin-bottom:8px;}
+  .maint-item:last-child{margin-bottom:0;}
+  .maint-priority{font-size:10px;font-weight:800;width:28px;text-align:center;flex-shrink:0;padding-top:2px;}
+  .p0{color:var(--red);}
+  .p1{color:var(--yellow);}
+  .p2{color:var(--accent2);}
+  .maint-body{flex:1;}
+  .maint-title{font-size:12px;font-weight:700;color:var(--text);}
+  .maint-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+  /* PHASE */
+  .phase-list{display:flex;flex-direction:column;gap:10px;}
+  .phase-item{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);}
+  .phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+  .ph-active{background:var(--accent);color:var(--bg);}
+  .ph-next{background:var(--bg3);color:var(--text3);border:1px solid var(--border);}
+  .ph-future{background:var(--bg3);color:var(--purple);border:1px solid var(--purple);}
+  .phase-title{font-weight:700;font-size:12px;color:var(--text);}
+  .phase-sub{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.5;}
+  .phase-checks{margin-top:8px;display:flex;flex-direction:column;gap:3px;}
+  .ci{font-size:11px;display:flex;align-items:center;gap:6px;}
+  .ci-done{color:var(--green);}
+  .ci-pend{color:var(--text3);}
+  /* VISION */
+  .vision-card{background:linear-gradient(135deg,#8b5cf611,#3b82f611);border:1px solid #8b5cf633;border-radius:10px;padding:20px;margin-bottom:16px;}
+  .vision-title{font-size:14px;font-weight:800;color:var(--purple);margin-bottom:8px;}
+  .vision-body{font-size:12px;color:var(--text2);line-height:1.7;}
+  .vision-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;}
+  .vm{text-align:center;padding:10px;background:#ffffff08;border-radius:6px;border:1px solid #8b5cf622;}
+  .vm .val{font-size:18px;font-weight:800;color:var(--purple);}
+  .vm .lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;}
+  /* IMPROVEMENTS COLLAPSIBLE */
+  .improvements-section{margin-bottom:16px;}
+  details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  details[open]{border-color:var(--accent);}
+  summary{background:var(--bg3);border-bottom:1px solid var(--border);padding:12px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);list-style:none;user-select:none;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:'▶';font-size:10px;color:var(--text3);transition:transform 0.2s;}
+  details[open] summary::after{transform:rotate(90deg);}
+  .impr-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:16px;gap:16px;}
+  .impr-cat{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;}
+  .impr-cat-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+  .impr-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .impr-list li{font-size:11px;color:var(--text2);display:flex;gap:6px;align-items:flex-start;}
+  .impr-list li::before{content:'→';color:var(--accent);flex-shrink:0;}
+  /* SKILL MATRIX */
+  .skill-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .skill-item{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;}
+  .skill-name{font-size:11px;color:var(--text2);}
+  /* TASK LEDGER */
+  .task-status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:6px;}
+  .dot-red{background:var(--red);}
+  .dot-yellow{background:var(--yellow);}
+  .dot-green{background:var(--green);}
+  .dot-blue{background:var(--accent2);}
+  /* FOOTER */
+  .footer{background:var(--bg2);border-top:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:24px;font-size:10px;color:var(--text3);flex-wrap:wrap;gap:8px;}
+  .agent-fleet{display:flex;gap:10px;align-items:center;}
+  .fleet-agent{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:3px 9px;font-size:10px;}
+  .fleet-agent.active{border-color:var(--accent);color:var(--accent);}
+  /* RESPONSIVE */
+  @media(max-width:1100px){.kpi-row{grid-template-columns:repeat(3,1fr);}.vision-metrics{grid-template-columns:repeat(2,1fr);}..impr-grid{grid-template-columns:1fr;}}
+  @media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr;}.kpi-row{grid-template-columns:1fr 1fr;}.skill-grid{grid-template-columns:1fr 1fr;}.impr-grid{grid-template-columns:1fr;}.vision-metrics{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.kpi-row{grid-template-columns:1fr;}.vision-metrics{grid-template-columns:1fr;}.skill-grid{grid-template-columns:1fr;}}
+  /* PROPERTY HIGHLIGHT */
+  .prop-row-critical td{border-left:2px solid var(--red);}
+  .prop-row-warning td{border-left:2px solid var(--yellow);}
+  .prop-row-ok td{border-left:2px solid var(--green);}
+  /* ACCESS CODES */
+  .code-chip{background:#00d4aa11;border:1px solid #00d4aa33;border-radius:4px;padding:2px 7px;font-size:10px;color:var(--accent);font-weight:700;font-family:monospace;margin-right:4px;}
+  /* ENTITY PILL */
+  .entity{font-size:10px;color:var(--text3);font-style:italic;}
+  /* DIVIDER */
+  .section-gap{margin-bottom:16px;}
+  /* LINKED DATA */
+  a.data-link{color:var(--accent2);font-size:11px;text-decoration:none;}
+  a.data-link:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
 
+<!-- TOPBAR -->
 <div class="topbar">
-  <div style="display:flex;align-items:center;gap:16px">
-    <div class="agent-badge">🏠 Rachel</div>
+  <div class="topbar-left">
+    <div class="agent-badge">🏠 RACHEL</div>
     <div>
       <div class="topbar-title">Real Estate Command Center</div>
-      <div class="topbar-sub">Bennett Maxwell — Personal Portfolio · Personal + Sky access only</div>
+      <div class="topbar-sub"><span class="live-dot"></span>LIVE — Bennett Maxwell Portfolio · Utah · 6 Properties · 3 Entities</div>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;font-size:11px;color:var(--text3)">
-    <span><span class="live-dot"></span>Live</span>
-    <span class="phase-badge">Phase 1 — Dashboard Active</span>
-    <span id="ts"></span>
+  <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="font-size:10px;color:var(--text3);">Last updated: <span style="color:var(--accent);">2026-05-26</span></div>
+    <div class="clock" id="liveClock">--:--:--</div>
   </div>
 </div>
 
 <div class="container">
 
+  <!-- NORTH STAR BANNER -->
   <div class="northstar">
-    <div class="northstar-text">
-      <strong>North Star:</strong> Rachel autonomously manages all tenant comms, maintenance, contractor coordination, and monthly P&L —
-      then ships as <strong>commercial SaaS</strong> for self-managing landlords at <strong>$5/unit/mo</strong> (20M US landlords · no AI-native incumbent).
+    <div>
+      <div class="ns-label">Phase 4 North Star</div>
+      <div class="ns-text"><strong>SaaS for Self-Managing Landlords</strong> — GTM: 20M landlords · $5/unit/mo · $300K ARR target · 200 anchor customers</div>
     </div>
-    <div class="kpi-row">
-      <div class="kpi-chip"><span class="val">~5</span><span class="lbl">properties</span></div>
-      <div class="kpi-chip"><span class="val">$15.6K</span><span class="lbl">est. annual savings</span></div>
-      <div class="kpi-chip"><span class="val">Phase 1</span><span class="lbl">active</span></div>
-      <div class="kpi-chip"><span class="val">$300K</span><span class="lbl">ARR potential</span></div>
+    <div class="ns-chips">
+      <div class="ns-chip"><span class="v">20M</span><span class="l">US Landlords</span></div>
+      <div class="ns-chip"><span class="v">$5</span><span class="l">/unit/mo</span></div>
+      <div class="ns-chip"><span class="v">$300K</span><span class="l">ARR Target</span></div>
+      <div class="ns-chip"><span class="v">200</span><span class="l">Anchor Customers</span></div>
     </div>
   </div>
 
-  <div class="alert alert-yellow">
-    <span style="font-size:14px">🟡</span>
-    <div>
-      <strong>Bennett Action Required:</strong> Open the <a href="https://www.notion.so/69fca96051ca4d0489960b160ac35712" target="_blank">Properties Database</a>
-      and fill in your remaining ~4 properties (address · tenant · rent · mortgage amount · lender · lease dates). Lehi Airbnb is seeded — confirm the address.
-      This is the only blocker to Rachel going operational.
+  <!-- CRITICAL ALERTS -->
+  <div class="critical-section">
+    <div class="critical-header">
+      <div class="critical-title">🔴 CRITICAL ALERTS</div>
+      <div class="alert-count">3</div>
+      <div style="font-size:10px;color:var(--text3);margin-left:4px;">Lehi Condo — Timp Point B303 — ACTION REQUIRED NOW</div>
+    </div>
+
+    <div class="alert-row">
+      <div class="alert-icon">⚖️</div>
+      <div>
+        <div class="alert-title"><span class="alert-tag">P0</span>HOA LAWSUIT — Case #269402169 — LIEN RECORDED</div>
+        <div class="alert-body">
+          Outstanding balance: <strong style="color:var(--red);">$2,437.81+</strong> · Interest rate: <strong style="color:var(--red);">18% accruing</strong> · Lien recorded: <strong>Nov 4, 2025</strong><br>
+          Address: 1985 N 3330 West, Unit B303, Lehi, UT 84043 · Entity: LM Real Estate LLC (Bennett 50% / Stephen Loveland 50%)<br>
+          Action: Contact HOA attorney immediately. Satisfy lien + accrued interest before property cannot be sold/refinanced.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-row">
+      <div class="alert-icon">🔥</div>
+      <div>
+        <div class="alert-title"><span class="alert-tag">P0</span>HO-6 INSURANCE EXPIRED — JUNE 2023 — 33+ MONTHS UNINSURED</div>
+        <div class="alert-body">
+          HO-6 condo insurance expired June 2023 and has NOT been reinstated. <strong style="color:var(--red);">Loan default condition.</strong><br>
+          33+ months of uninsured exposure on a 3BR/2BA condo. Mortgage lender requires continuous coverage.<br>
+          Action: Obtain HO-6 quote immediately, bind coverage, send certificate to lender. Do NOT wait.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-row">
+      <div class="alert-icon">🚫</div>
+      <div>
+        <div class="alert-title"><span class="alert-tag">P0</span>AIRBNB CC&R VIOLATIONS — ESCALATING FINES $850+</div>
+        <div class="alert-body">
+          Airbnb use violates CC&Rs for Timp Point community. HOA actively pursuing fines — currently $850+ and escalating.<br>
+          Property transitioned from Airbnb → long-term rental but violations on record remain open.<br>
+          Action: Cease any remaining STR activity, respond to HOA in writing, request fine reduction/waiver.
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- KPI ROW -->
-  <div class="card grid-1">
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-val kv-teal">6</div>
+      <div class="kpi-lbl">Total Properties</div>
+      <div class="kpi-sub">5 rental + 1 primary</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val kv-green">~$8,500</div>
+      <div class="kpi-lbl">Monthly Income Est.</div>
+      <div class="kpi-sub">3 active rentals producing</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val kv-red">~$8,700</div>
+      <div class="kpi-lbl">Monthly Mortgage</div>
+      <div class="kpi-sub">All properties combined</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val kv-yellow">-$700 to +$1,300</div>
+      <div class="kpi-lbl">Net Cash Flow</div>
+      <div class="kpi-sub">Range (occupancy-dependent)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val kv-blue">~$53K</div>
+      <div class="kpi-lbl">Portfolio Equity (50%)</div>
+      <div class="kpi-sub">NSL Chidester confirmed only</div>
+    </div>
+  </div>
+
+  <!-- PROPERTIES TABLE -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">🏘</span>ACTIVE RENTAL PROPERTIES</div>
+      <div style="font-size:10px;color:var(--text3);">5 rentals · 3 LLCs · All Utah</div>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Tenant / Platform</th>
+            <th>Rent</th>
+            <th>Mortgage</th>
+            <th>Entity</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property 1: Lehi Condo -->
+          <tr class="prop-row-critical">
+            <td>
+              <div class="td-title">Lehi Condo — Timp Point B303</div>
+              <div class="td-addr">1985 N 3330 W, Unit B303, Lehi, UT 84043</div>
+              <div style="margin-top:4px;">
+                <span class="code-chip">Garage: 4676</span>
+                <span class="code-chip">Master: 3423</span>
+                <span class="code-chip">Guest: 4523</span>
+              </div>
+            </td>
+            <td><span class="badge badge-yellow">STR→LTR</span><div class="td-addr">3BR/2BA · 1,300 sqft</div><div class="td-addr">Built 2022</div></td>
+            <td><div>Previously Airbnb</div><div class="td-addr">Now long-term rental</div></td>
+            <td>
+              <div class="td-title">$2,269 net/yr</div>
+              <div class="td-addr">2024: $30,647 gross</div>
+              <div class="td-addr">Bennett 50%: $1,134</div>
+            </td>
+            <td>
+              <div>HOA: $219/mo</div>
+              <div class="td-addr">($163 + $56 utility)</div>
+            </td>
+            <td>
+              <div class="td-title">LM Real Estate LLC</div>
+              <div class="entity">50% Bennett · 50% S. Loveland</div>
+            </td>
+            <td><span class="badge badge-red">🔴 CRITICAL</span></td>
+            <td><div class="td-addr">3 active legal/insurance violations</div></td>
+          </tr>
+          <!-- Property 2: Provo Duplex -->
+          <tr class="prop-row-warning">
+            <td>
+              <div class="td-title">Provo Duplex</div>
+              <div class="td-addr">280 N 900 W, Provo, UT 84601</div>
+            </td>
+            <td><span class="badge badge-blue">Duplex</span><div class="td-addr">Room rentals</div></td>
+            <td><div>Multi-tenant</div><div class="td-addr">Rentler platform</div></td>
+            <td>
+              <div class="td-title">$400–$580/room</div>
+              <div class="td-addr">+utilities + WiFi</div>
+            </td>
+            <td><div class="td-addr">TBD</div></td>
+            <td>
+              <div class="td-title">Saratoga Springs One LLC</div>
+              <div class="entity">50% Bennett · 50% Brad Maxwell</div>
+            </td>
+            <td><span class="badge badge-yellow">⚠️ GAP</span></td>
+            <td><div class="td-addr" style="color:var(--yellow);">No legal docs on file</div></td>
+          </tr>
+          <!-- Property 3: NSL Chidester -->
+          <tr class="prop-row-ok">
+            <td>
+              <div class="td-title">NSL Chidester</div>
+              <div class="td-addr">1052 Chidester Dr, North Salt Lake, UT 84054</div>
+              <div style="margin-top:4px;"><span class="code-chip">Garage: 1980 or 0626</span></div>
+            </td>
+            <td><span class="badge badge-green">SFR</span><div class="td-addr">Single family</div></td>
+            <td><div class="td-title">Arnold Mataese</div><div class="td-addr">via Rentler</div></td>
+            <td>
+              <div class="td-title">$2,650/mo</div>
+            </td>
+            <td>
+              <div class="td-title">~$1,998/mo</div>
+              <div class="td-addr">Truist Mortgage</div>
+              <div class="td-addr">Bal: ~$341,536</div>
+            </td>
+            <td>
+              <div class="td-title">Chidester Real Estate LLC</div>
+              <div class="entity">50% Bennett · 50% Gretta Maxwell</div>
+            </td>
+            <td><span class="badge badge-green">✅ Occupied</span></td>
+            <td>
+              <div class="td-addr">Equity: ~$70–$105K total</div>
+              <div class="td-addr">Bennett 50%: ~$53,242</div>
+              <div class="td-addr">MV: $483K–$551K</div>
+              <div class="td-addr">9 deferred maintenance items</div>
+            </td>
+          </tr>
+          <!-- Property 4: Pleasant Grove Mom -->
+          <tr class="prop-row-ok">
+            <td>
+              <div class="td-title">Pleasant Grove (Mom's House)</div>
+              <div class="td-addr">58 S 850 E, Pleasant Grove, UT 84062</div>
+            </td>
+            <td><span class="badge badge-teal">SFR</span><div class="td-addr">Up/Down split</div></td>
+            <td><div class="td-title">Gretta Maxwell (upstairs)</div><div class="td-addr">Family · Basement history</div></td>
+            <td>
+              <div class="td-title">$1,500/mo</div>
+              <div class="td-addr">Upstairs only</div>
+            </td>
+            <td><div class="td-addr">TBD</div></td>
+            <td>
+              <div class="td-title">Bennett Maxwell</div>
+              <div class="entity">Co-managed w/ Gretta</div>
+            </td>
+            <td><span class="badge badge-green">✅ Occupied</span></td>
+            <td>
+              <div class="td-addr">Bennett paid $4K (Jul '25)</div>
+              <div class="td-addr">+ $1K (Feb '26) to cover bills</div>
+            </td>
+          </tr>
+          <!-- Property 5: Lehi Townhome STR -->
+          <tr class="prop-row-warning">
+            <td>
+              <div class="td-title">Lehi Townhome (STR)</div>
+              <div class="td-addr">2032 N 3830 West, Lehi, UT 84043</div>
+            </td>
+            <td><span class="badge badge-purple">STR/Airbnb</span><div class="td-addr">5BR/3.5BA · 2,280 sqft</div></td>
+            <td><div>Airbnb setup</div><div class="td-addr">Mgr: Erick</div></td>
+            <td>
+              <div class="td-title">$190–$220/night</div>
+              <div class="td-addr">Target: ~$3,600/mo</div>
+              <div class="td-addr">Potential: $44–$52K/yr</div>
+            </td>
+            <td>
+              <div class="td-title">Break-even: ~$2,900/mo</div>
+            </td>
+            <td>
+              <div class="td-title">TBD</div>
+              <div class="entity">Entity TBD</div>
+            </td>
+            <td><span class="badge badge-yellow">🟡 In Prep</span></td>
+            <td>
+              <div class="td-addr">560 sqft carpet — cat urine</div>
+              <div class="td-addr">Odor level 7 · $4,200–$5,700 fix</div>
+              <div class="td-addr">60% occ target · Subfloor remed.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PRIMARY RESIDENCE NOTE -->
+  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 16px;margin-bottom:16px;font-size:11px;color:var(--text3);">
+    🏠 <strong style="color:var(--text);">Primary Residence (EXCLUDED from rental dashboard):</strong> 289 N 1580 W, Pleasant Grove, UT — Bennett's primary home. Not managed by Rachel.
+  </div>
+
+  <!-- MAINTENANCE TRACKER -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">🔧</span>MAINTENANCE TRACKER — ACTIVE ITEMS</div>
+      <div style="font-size:10px;color:var(--text3);">5 tracked · 3 P0 · 1 P1 · 1 P2</div>
+    </div>
     <div class="card-body">
-      <div class="metric-grid">
-        <div class="metric-block">
-          <div class="metric-val">~5</div>
-          <div class="metric-lbl">Total Properties</div>
-          <div class="metric-sub">1 seeded · 4 pending</div>
+
+      <div class="maint-item">
+        <div class="maint-priority p0">P0</div>
+        <div class="maint-body">
+          <div class="maint-title">🏠 Lehi Condo — HOA Lawsuit Response (Case #269402169)</div>
+          <div class="maint-sub">$2,437.81+ outstanding · 18% interest · Lien recorded 11/4/2025 · Contact HOA attorney TODAY</div>
         </div>
-        <div class="metric-block">
-          <div class="metric-val">1</div>
-          <div class="metric-lbl">Active STR</div>
-          <div class="metric-sub">Lehi Airbnb townhome</div>
+        <span class="badge badge-red">URGENT</span>
+      </div>
+
+      <div class="maint-item">
+        <div class="maint-priority p0">P0</div>
+        <div class="maint-body">
+          <div class="maint-title">🔥 Lehi Condo — HO-6 Insurance Reinstatement</div>
+          <div class="maint-sub">Expired June 2023 · 33+ months lapsed · Loan default condition · Get quote TODAY · Bind + send cert to lender</div>
         </div>
-        <div class="metric-block">
-          <div class="metric-val">1</div>
-          <div class="metric-lbl">Open Repairs</div>
-          <div class="metric-sub">Carpet · Lehi · 3 quotes</div>
+        <span class="badge badge-red">URGENT</span>
+      </div>
+
+      <div class="maint-item">
+        <div class="maint-priority p0">P0</div>
+        <div class="maint-body">
+          <div class="maint-title">🚫 Lehi Condo — Airbnb CC&R Violation Resolution</div>
+          <div class="maint-sub">$850+ escalating fines · Respond in writing to HOA · Request fine waiver · Confirm STR activity ceased</div>
         </div>
-        <div class="metric-block">
-          <div class="metric-val">$15.6K</div>
-          <div class="metric-lbl">Est. Annual Savings</div>
-          <div class="metric-sub">vs manual management</div>
+        <span class="badge badge-red">URGENT</span>
+      </div>
+
+      <div class="maint-item">
+        <div class="maint-priority p1">P1</div>
+        <div class="maint-body">
+          <div class="maint-title">🧹 Lehi Townhome — Carpet/Subfloor Remediation (560 sqft)</div>
+          <div class="maint-sub">Cat urine damage · Odor level 7 · 4 years previous tenant · Cost: $4,200–$5,700 · 3 contractors: P.O.R.S. / Power Plus Cleaning / Pure Flow Clean</div>
+        </div>
+        <span class="badge badge-yellow">IN PROGRESS</span>
+      </div>
+
+      <div class="maint-item">
+        <div class="maint-priority p2">P2</div>
+        <div class="maint-body">
+          <div class="maint-title">🔨 NSL Chidester — 9 Deferred Maintenance Items (Arnold Mataese)</div>
+          <div class="maint-sub">Broken blinds (2 rooms) · Vent issue · Sliding door · Loose doorknob · Dishwasher smell · Handrail needed · Door frame repair · Light switch · Hinge repair</div>
+        </div>
+        <span class="badge badge-blue">DEFERRED</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTRACTORS: STR PREP -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">📋</span>STR CONTRACTORS — LEHI TOWNHOME CARPET REMEDIATION</div>
+      <div style="font-size:10px;color:var(--text3);">Get 3 quotes · Select by cost + timeline</div>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <table>
+        <thead>
+          <tr>
+            <th>Contractor</th>
+            <th>Website</th>
+            <th>Specialty</th>
+            <th>Est. Cost Range</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-title">P.O.R.S. (Pet Odor Removal Service)</td>
+            <td><a class="data-link" href="http://petodorremovalservice.com" target="_blank">petodorremovalservice.com</a></td>
+            <td>Pet odor / subfloor</td>
+            <td>$4,200–$5,700</td>
+            <td><span class="badge badge-yellow">Quote Needed</span></td>
+          </tr>
+          <tr>
+            <td class="td-title">Power Plus Cleaning</td>
+            <td><div class="td-addr">Local Utah</div></td>
+            <td>Carpet / remediation</td>
+            <td>$4,200–$5,700</td>
+            <td><span class="badge badge-yellow">Quote Needed</span></td>
+          </tr>
+          <tr>
+            <td class="td-title">Pure Flow Clean</td>
+            <td><div class="td-addr">Local Utah</div></td>
+            <td>Carpet / subfloor</td>
+            <td>$4,200–$5,700</td>
+            <td><span class="badge badge-yellow">Quote Needed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FINANCIAL SNAPSHOT PER PROPERTY -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">💰</span>FINANCIAL SNAPSHOT — PER PROPERTY</div>
+      <div style="font-size:10px;color:var(--text3);">2024 data where available · Estimates noted</div>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Annual Gross</th>
+            <th>Annual Expenses</th>
+            <th>Net Income</th>
+            <th>Bennett 50%</th>
+            <th>Market Value</th>
+            <th>Loan Balance</th>
+            <th>Equity (Bennett)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-title">Lehi Condo (B303)</td>
+            <td>$30,647</td>
+            <td>$28,378</td>
+            <td style="color:var(--green);">$2,269</td>
+            <td style="color:var(--green);">$1,134</td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td><span style="color:var(--yellow);">Lien risk</span></td>
+          </tr>
+          <tr>
+            <td class="td-title">Provo Duplex</td>
+            <td>~$28,800 est.</td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td>50% Bennett</td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td>TBD</td>
+          </tr>
+          <tr>
+            <td class="td-title">NSL Chidester</td>
+            <td>$31,800/yr</td>
+            <td>~$23,976/yr</td>
+            <td style="color:var(--green);">~$7,824/yr</td>
+            <td style="color:var(--green);">~$3,912</td>
+            <td>$483K–$551K</td>
+            <td>~$341,536</td>
+            <td style="color:var(--green);">~$53,242</td>
+          </tr>
+          <tr>
+            <td class="td-title">Pleasant Grove (Mom)</td>
+            <td>$18,000/yr</td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td>100% Bennett</td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td>TBD</td>
+          </tr>
+          <tr>
+            <td class="td-title">Lehi Townhome STR</td>
+            <td><span style="color:var(--text3);">Pre-launch</span></td>
+            <td><span style="color:var(--text3);">Break-even: $34,800/yr</span></td>
+            <td><span style="color:var(--yellow);">Target: $44–$52K/yr</span></td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td>TBD</td>
+          </tr>
+          <tr style="background:#ffffff05;">
+            <td class="td-title" style="color:var(--accent);">PORTFOLIO TOTAL (est.)</td>
+            <td style="color:var(--accent);">~$96–$132K/yr</td>
+            <td style="color:var(--text3);">~$100–$104K/yr</td>
+            <td style="color:var(--yellow);">-$700 to +$1,300/mo</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="color:var(--accent);">$53K+ confirmed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ENTITY OVERVIEW -->
+  <div class="grid-3 section-gap">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">🏢</span>LM Real Estate LLC</div>
+        <span class="badge badge-red">Issues</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+          <div><strong style="color:var(--text);">Partners:</strong> Bennett Maxwell (50%) + Stephen Loveland (50%)</div>
+          <div><strong style="color:var(--text);">Property:</strong> 1985 N 3330 W, Unit B303, Lehi, UT</div>
+          <div><strong style="color:var(--text);">2024 Net:</strong> <span style="color:var(--green);">$2,269</span> ($1,134 Bennett)</div>
+          <div style="margin-top:8px;color:var(--red);">⚠️ HOA Lien + Expired Insurance + CC&R Violations</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">🏢</span>Saratoga Springs One LLC</div>
+        <span class="badge badge-yellow">Gap</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+          <div><strong style="color:var(--text);">Partners:</strong> Bennett Maxwell (50%) + Brad Maxwell (50%)</div>
+          <div><strong style="color:var(--text);">Property:</strong> 280 N 900 W, Provo, UT 84601</div>
+          <div><strong style="color:var(--text);">Type:</strong> Duplex · Room rentals · Rentler</div>
+          <div style="margin-top:8px;color:var(--yellow);">⚠️ No legal documents on file — gap risk</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">🏢</span>Chidester Real Estate LLC</div>
+        <span class="badge badge-green">OK</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+          <div><strong style="color:var(--text);">Partners:</strong> Bennett Maxwell (50%) + Gretta Maxwell (50%)</div>
+          <div><strong style="color:var(--text);">Property:</strong> 1052 Chidester Dr, NSL, UT 84054</div>
+          <div><strong style="color:var(--text);">Tenant:</strong> Arnold Mataese · $2,650/mo · Truist</div>
+          <div style="margin-top:8px;color:var(--text3);">FSBO option being evaluated · 9 maint items</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="grid-2">
-    <!-- PROPERTIES TABLE -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title"><span>🏠</span>Properties — Master Roster</div>
-        <span class="card-badge badge-yellow">4 pending Bennett data</span>
-      </div>
-      <div style="padding:0">
-        <table>
-          <thead><tr><th>Address</th><th>Type</th><th>Status</th><th>Rent/Mo</th><th>Mortgage</th><th>Lender</th></tr></thead>
-          <tbody>
-            <tr>
-              <td class="td-title">Lehi Townhome<br><span style="font-size:10px;color:var(--text3)">Address TBD — Bennett to confirm</span></td>
-              <td><span class="sp sp-orange">Airbnb STR</span></td>
-              <td><span class="sp sp-teal">Active STR</span></td>
-              <td class="awaiting td-mono">varies</td>
-              <td class="awaiting td-mono">TBD</td>
-              <td class="awaiting">TBD</td>
-            </tr>
-            <tr><td colspan="6" style="text-align:center;padding:24px 0;color:var(--text3)">
-              🟡 Properties 2–5 awaiting Bennett data entry<br>
-              <a href="https://www.notion.so/69fca96051ca4d0489960b160ac35712" target="_blank" style="font-size:11px;margin-top:6px;display:inline-block">→ Fill in Notion Properties DB</a>
-            </td></tr>
-          </tbody>
-        </table>
-        <div style="padding:10px 14px;border-top:1px solid var(--border)">
-          <div class="link-row">
-            <a href="https://www.notion.so/69fca96051ca4d0489960b160ac35712" target="_blank" class="nlink">📋 Properties DB</a>
-            <a href="https://www.notion.so/349cf5514fd381e6b6e4dbb159517683" target="_blank" class="nlink">🏠 Rachel Dashboard</a>
-          </div>
-        </div>
-      </div>
+  <!-- TASK LEDGER -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">📋</span>TASK LEDGER</div>
+      <div style="font-size:10px;color:var(--text3);">Active tasks across all properties</div>
     </div>
-
-    <!-- MAINTENANCE -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title"><span>🔧</span>Maintenance & Repairs</div>
-        <span class="card-badge badge-yellow">1 open · 3 quotes in flight</span>
-      </div>
-      <div style="padding:0">
-        <table>
-          <thead><tr><th>Issue</th><th>Property</th><th>Status</th><th>Priority</th><th>Approved</th></tr></thead>
-          <tbody>
-            <tr>
-              <td class="td-title">Carpet Replacement — 560 sqft<br><span style="font-size:10px;color:var(--text3)">$1,960–$5,000 est · removal TBD</span></td>
-              <td>Lehi Airbnb</td>
-              <td><span class="sp sp-yellow">Quotes In Flight</span></td>
-              <td><span class="sp sp-blue">Normal</span></td>
-              <td><span class="sp sp-gray">Pending</span></td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="padding:14px 16px;border-top:1px solid var(--border)">
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Contractor Quotes In Flight</div>
-          <div class="ci-item">
-            <div><div style="font-weight:600;font-size:12px;color:var(--text)">Carpet One Floor & Home</div><div style="font-size:11px;color:var(--text3)">Lehi · (801) 756-5800 · 4.3★ · mid-range, quick install</div></div>
-            <span class="sp sp-blue">Awaiting Quote</span>
-          </div>
-          <div class="ci-item">
-            <div><div style="font-weight:600;font-size:12px;color:var(--text)">IFA / Intermountain Floor</div><div style="font-size:11px;color:var(--text3)">Lehi · (801) 224-4900 · 4.1★ · ask for PM pricing</div></div>
-            <span class="sp sp-blue">Awaiting Quote</span>
-          </div>
-          <div class="ci-item">
-            <div><div style="font-weight:600;font-size:12px;color:var(--text)">Empire Today (Shaw dealer)</div><div style="font-size:11px;color:var(--text3)">1-800-588-2300 · 3.9★ · removal included</div></div>
-            <span class="sp sp-blue">Awaiting Quote</span>
-          </div>
-        </div>
-        <div style="padding:10px 14px;border-top:1px solid var(--border)">
-          <a href="https://www.notion.so/c20dd165ab1a4ba0889191d0c6c9860a" target="_blank" class="nlink">🔧 Maintenance DB</a>
-        </div>
-      </div>
+    <div class="card-body" style="padding:0;">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Task</th>
+            <th>Property</th>
+            <th>Owner</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="task-status-dot dot-red"></span></td>
+            <td class="td-title">Contact HOA attorney — Case #269402169</td>
+            <td>Lehi Condo B303</td>
+            <td>Bennett</td>
+            <td><span class="badge badge-red">P0</span></td>
+            <td><span class="badge badge-red">OVERDUE</span></td>
+            <td style="color:var(--red);">NOW</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-red"></span></td>
+            <td class="td-title">Satisfy HOA lien — $2,437.81 + 18% interest</td>
+            <td>Lehi Condo B303</td>
+            <td>Bennett + Stephen</td>
+            <td><span class="badge badge-red">P0</span></td>
+            <td><span class="badge badge-red">OVERDUE</span></td>
+            <td style="color:var(--red);">NOW</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-red"></span></td>
+            <td class="td-title">Bind HO-6 insurance — get quote + send cert to lender</td>
+            <td>Lehi Condo B303</td>
+            <td>Bennett</td>
+            <td><span class="badge badge-red">P0</span></td>
+            <td><span class="badge badge-red">OVERDUE</span></td>
+            <td style="color:var(--red);">NOW</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-red"></span></td>
+            <td class="td-title">Respond to HOA in writing — CC&R violations / $850+ fines</td>
+            <td>Lehi Condo B303</td>
+            <td>Bennett</td>
+            <td><span class="badge badge-red">P0</span></td>
+            <td><span class="badge badge-yellow">In Progress</span></td>
+            <td style="color:var(--red);">ASAP</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-yellow"></span></td>
+            <td class="td-title">Get 3 contractor quotes — Lehi Townhome carpet remediation</td>
+            <td>Lehi Townhome STR</td>
+            <td>Rachel / Bennett</td>
+            <td><span class="badge badge-yellow">P1</span></td>
+            <td><span class="badge badge-yellow">Pending</span></td>
+            <td>This week</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-yellow"></span></td>
+            <td class="td-title">Complete carpet/subfloor remediation (560 sqft)</td>
+            <td>Lehi Townhome STR</td>
+            <td>Contractor</td>
+            <td><span class="badge badge-yellow">P1</span></td>
+            <td><span class="badge badge-yellow">Blocked (quote)</span></td>
+            <td>TBD</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-yellow"></span></td>
+            <td class="td-title">List Lehi Townhome on Airbnb — $190–$220/night</td>
+            <td>Lehi Townhome STR</td>
+            <td>Erick (PM)</td>
+            <td><span class="badge badge-yellow">P1</span></td>
+            <td><span class="badge badge-yellow">Post-remediation</span></td>
+            <td>TBD</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-blue"></span></td>
+            <td class="td-title">Address 9 maintenance items — Arnold Mataese</td>
+            <td>NSL Chidester</td>
+            <td>Rachel / Contractor</td>
+            <td><span class="badge badge-blue">P2</span></td>
+            <td><span class="badge badge-blue">Scheduled</span></td>
+            <td>Next 30 days</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-blue"></span></td>
+            <td class="td-title">Gather legal docs for Provo Duplex entity</td>
+            <td>Provo Duplex</td>
+            <td>Bennett + Brad</td>
+            <td><span class="badge badge-blue">P2</span></td>
+            <td><span class="badge badge-blue">Pending</span></td>
+            <td>30 days</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-blue"></span></td>
+            <td class="td-title">Evaluate FSBO option — NSL Chidester</td>
+            <td>NSL Chidester</td>
+            <td>Bennett</td>
+            <td><span class="badge badge-blue">P2</span></td>
+            <td><span class="badge badge-blue">Under Review</span></td>
+            <td>Q3 2026</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-blue"></span></td>
+            <td class="td-title">Fill ~4 property records in Rachel Notion DB</td>
+            <td>All</td>
+            <td>Bennett</td>
+            <td><span class="badge badge-blue">P2</span></td>
+            <td><span class="badge badge-blue">Pending</span></td>
+            <td>This week</td>
+          </tr>
+          <tr>
+            <td><span class="task-status-dot dot-blue"></span></td>
+            <td class="td-title">Wire Gmail + GHL SMS — Rachel Phase 2</td>
+            <td>All</td>
+            <td>Rachel/Leo</td>
+            <td><span class="badge badge-blue">P3</span></td>
+            <td><span class="badge badge-blue">Phase 2</span></td>
+            <td>Next sprint</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <div class="grid-2">
-    <!-- PHASE ROADMAP -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title"><span>🗺️</span>Build Roadmap</div>
-        <span class="card-badge badge-yellow">Phase 1 Active</span>
-      </div>
-      <div class="card-body">
-        <div class="phase-list">
-          <div class="phase-item">
-            <div class="phase-num ph-active">1</div>
-            <div style="flex:1">
-              <div class="phase-title">Dashboard — Week 1 <span style="color:var(--accent);font-size:10px">← NOW</span></div>
-              <div class="phase-sub">Properties DB + Maintenance Tracker. Bennett fills data.</div>
-              <div class="phase-checks">
-                <div class="ci ci-done">✅ Properties DB built (17 fields, Notion)</div>
-                <div class="ci ci-done">✅ Maintenance Tracker built (20 fields)</div>
-                <div class="ci ci-done">✅ Lehi Airbnb + carpet ticket seeded</div>
-                <div class="ci ci-done">✅ Command Center live URL built</div>
-                <div class="ci ci-pend">🟡 Bennett fills remaining ~4 properties</div>
-              </div>
-            </div>
-          </div>
-          <div class="phase-item">
-            <div class="phase-num ph-next">2</div>
-            <div style="flex:1">
-              <div class="phase-title">Comms + Workflow — Weeks 2–3</div>
-              <div class="phase-sub">Gmail draft templates + GHL SMS + contractor automation</div>
-              <div class="phase-checks">
-                <div class="ci ci-pend">⬜ Gmail templates (maintenance, rent reminder, lease renewal)</div>
-                <div class="ci ci-pend">⬜ GHL SMS tenant integration</div>
-                <div class="ci ci-pend">⬜ #leo-sky → Rachel routing live</div>
-              </div>
-            </div>
-          </div>
-          <div class="phase-item">
-            <div class="phase-num ph-next">3</div>
-            <div style="flex:1">
-              <div class="phase-title">Full Automation — Month 1</div>
-              <div class="phase-sub">3-quote workflow · monthly P&L per property · morning brief</div>
-            </div>
-          </div>
-          <div class="phase-item">
-            <div class="phase-num ph-commercial">$</div>
-            <div style="flex:1">
-              <div class="phase-title" style="color:var(--purple)">Commercial SaaS — Month 2–3</div>
-              <div class="phase-sub">After 90-day personal proof → package for self-managing landlords</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- 50 IMPROVEMENTS: COLLAPSIBLE -->
+  <div class="improvements-section">
+    <details>
+      <summary>
+        <span><span style="color:var(--accent);margin-right:8px;">💡</span>50 PLANNED IMPROVEMENTS — Bloomberg Terminal Expansion Roadmap</span>
+        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0;">Click to expand</span>
+      </summary>
+      <div class="impr-grid">
 
-    <!-- RACHEL CAPABILITIES -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title"><span>🤖</span>Rachel's Capabilities</div>
-        <span class="card-badge badge-blue">1 live · 8 building</span>
-      </div>
-      <div class="card-body">
-        <div class="skill-grid">
-          <div class="skill-item"><div class="skill-name">📊 Property Dashboard</div><span class="sp sp-green">Live ✅</span></div>
-          <div class="skill-item"><div class="skill-name">🔧 Maintenance Intake</div><span class="sp sp-yellow">Phase 2</span></div>
-          <div class="skill-item"><div class="skill-name">📩 Gmail Drafts (tenants)</div><span class="sp sp-yellow">Phase 2</span></div>
-          <div class="skill-item"><div class="skill-name">💬 SMS via GHL</div><span class="sp sp-yellow">Phase 2</span></div>
-          <div class="skill-item"><div class="skill-name">🏗️ 3-Quote Contractor</div><span class="sp sp-gray">Phase 3</span></div>
-          <div class="skill-item"><div class="skill-name">📋 Lease Renewal Alerts</div><span class="sp sp-gray">Phase 3</span></div>
-          <div class="skill-item"><div class="skill-name">💰 Monthly P&L/Property</div><span class="sp sp-gray">Phase 3</span></div>
-          <div class="skill-item"><div class="skill-name">📢 #leo-sky Routing</div><span class="sp sp-gray">Phase 3</span></div>
+        <div class="impr-cat">
+          <div class="impr-cat-title" style="color:var(--accent);">📊 Data &amp; Visibility (10)</div>
+          <ul class="impr-list">
+            <li>Real-time rent payment status per tenant (Rentler webhook)</li>
+            <li>Rentler API integration — live rent + lease data</li>
+            <li>Zillow/Redfin estimate auto-pull per property (weekly)</li>
+            <li>Portfolio equity chart — total equity over time</li>
+            <li>Monthly P&amp;L per property (income vs expenses)</li>
+            <li>Insurance expiry tracker with countdown clock</li>
+            <li>HOA fee auto-pay status + confirmation tracker</li>
+            <li>Lease countdown timer (days until lease expiry)</li>
+            <li>Mortgage balance tracker (per lender, monthly update)</li>
+            <li>Vacancy cost calculator (cost per day vacant × average)</li>
+          </ul>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Rachel's Hard Rules</div>
-          <div style="font-size:11px;color:var(--text2);line-height:1.8">
-            ✋ DRAFT ONLY — all comms require Bennett ✅ before send<br>
-            🔒 No access to FKI systems (GHL, business channels)<br>
-            🚫 Never auto-dispatch contractors without approval<br>
-            👤 Personal property data stays personal only
+
+        <div class="impr-cat">
+          <div class="impr-cat-title" style="color:var(--accent2);">🤖 Automation (10)</div>
+          <ul class="impr-list">
+            <li>Automated rent reminder drafts (3d / 1d before due)</li>
+            <li>Lease renewal alerts at 60 / 30 / 14 days before expiry</li>
+            <li>Maintenance ticket auto-create from tenant Slack/form</li>
+            <li>Contractor quote request email drafts (Rachel writes, Bennett approves)</li>
+            <li>Payment received logging → QuickBooks sync via Finny</li>
+            <li>Monthly P&amp;L email digest to Bennett (1st of month)</li>
+            <li>HOA auto-pay monitoring + alert if payment fails</li>
+            <li>Insurance renewal alert — 90 / 30 / 7 days before expiry</li>
+            <li>Property value alert if Zestimate drops &gt;5% month-over-month</li>
+            <li>Airbnb occupancy alert if STR booking rate falls below 50%</li>
+          </ul>
+        </div>
+
+        <div class="impr-cat">
+          <div class="impr-cat-title" style="color:var(--purple);">💼 Commercial / SaaS (10)</div>
+          <ul class="impr-list">
+            <li>Multi-landlord tenant portal (Phase 4 SaaS MVP)</li>
+            <li>Payment processing integration (Stripe + ACH for rent)</li>
+            <li>Background check integration (SmartMove / TransUnion)</li>
+            <li>Automated late fee notice workflow (Utah law compliant)</li>
+            <li>Maintenance vendor marketplace (local UT contractors)</li>
+            <li>AI rent price optimizer (Airbnb AirDNA data + comps)</li>
+            <li>Property insurance comparison widget (HO-6 quotes)</li>
+            <li>1031 exchange tracker (capital gain deferral calculator)</li>
+            <li>Cap rate calculator per property (NOI / market value)</li>
+            <li>Cash-on-cash return calculator (annual cash flow / invested)</li>
+          </ul>
+        </div>
+
+        <div class="impr-cat">
+          <div class="impr-cat-title" style="color:var(--yellow);">⚖️ Legal (10)</div>
+          <ul class="impr-list">
+            <li>Lex integration for automated lease review flagging</li>
+            <li>Utah Fair Housing compliance checker for all listings</li>
+            <li>Notice period tracker (Utah law: 3-day / 15-day / 30-day)</li>
+            <li>HOA violation response workflow (draft + track)</li>
+            <li>Eviction risk flagging (late rent + violation history)</li>
+            <li>Lease clause gap scanner (missing required clauses)</li>
+            <li>Co-ownership agreement tracker (all LLC partners)</li>
+            <li>Security deposit ledger (collected, held, returned)</li>
+            <li>Move-in / move-out checklist with photo documentation</li>
+            <li>FIRPTA compliance tracker (foreign owner considerations)</li>
+          </ul>
+        </div>
+
+        <div class="impr-cat" style="grid-column:span 2;">
+          <div class="impr-cat-title" style="color:var(--green);">💰 Financial (10)</div>
+          <ul class="impr-list" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;">
+            <li>Schedule E tax prep export (IRS Form ready by Feb 15)</li>
+            <li>Depreciation tracker (27.5-year residential schedule)</li>
+            <li>Cost segregation analyzer (accelerated depreciation opportunity)</li>
+            <li>Refinance opportunity calculator (rate drop threshold alerts)</li>
+            <li>Equity line of credit tracker (HELOC capacity per property)</li>
+            <li>Entity P&amp;L by LLC (LM RE / Saratoga Springs / Chidester)</li>
+            <li>QuickBooks sync via Finny (property income/expense auto-categorize)</li>
+            <li>Tax document vault (1099s, mortgage statements, HOA receipts)</li>
+            <li>Mortgage payoff timeline (extra payment impact calculator)</li>
+            <li>Net worth contribution per property (equity + cash flow + appreciation)</li>
+          </ul>
+        </div>
+
+      </div>
+    </details>
+  </div>
+
+  <!-- PHASE ROADMAP -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">🗺</span>PHASE ROADMAP — RACHEL AGENT</div>
+    </div>
+    <div class="card-body">
+      <div class="phase-list">
+        <div class="phase-item">
+          <div class="phase-num ph-active">1</div>
+          <div>
+            <div class="phase-title">Phase 1 — Foundation <span class="badge badge-green" style="margin-left:8px;">LIVE ✅</span></div>
+            <div class="phase-sub">Rachel agent deployed · Notion DBs live (Properties + Maintenance) · Dashboard at /real-estate/</div>
+            <div class="phase-checks">
+              <div class="ci ci-done">✅ Properties DB created (abcf438a)</div>
+              <div class="ci ci-done">✅ Maintenance Tracker created (d91d352b)</div>
+              <div class="ci ci-done">✅ Dashboard live (349cf551)</div>
+              <div class="ci ci-pend">⬜ Bennett fills ~4 property records (GATED)</div>
+            </div>
           </div>
         </div>
-        <div style="margin-top:12px">
-          <a href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank" class="nlink">👤 Personal Agents CC</a>
+        <div class="phase-item">
+          <div class="phase-num ph-next">2</div>
+          <div>
+            <div class="phase-title">Phase 2 — Communication Layer</div>
+            <div class="phase-sub">Gmail integration · GHL SMS for tenants · Automated rent reminders · Maintenance ticket workflow</div>
+            <div class="phase-checks">
+              <div class="ci ci-pend">⬜ Gmail MCP wiring for Rachel</div>
+              <div class="ci ci-pend">⬜ GHL SMS tenant workflows</div>
+              <div class="ci ci-pend">⬜ Rent reminder automation (3d / 1d)</div>
+              <div class="ci ci-pend">⬜ Maintenance ticket auto-create</div>
+            </div>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num ph-next">3</div>
+          <div>
+            <div class="phase-title">Phase 3 — Financial Intelligence</div>
+            <div class="phase-sub">QuickBooks sync via Finny · Monthly P&amp;L per property · Schedule E export · Equity tracker · Depreciation schedule</div>
+            <div class="phase-checks">
+              <div class="ci ci-pend">⬜ Finny QB sync for property income/expense</div>
+              <div class="ci ci-pend">⬜ Monthly P&amp;L email digest (1st of month)</div>
+              <div class="ci ci-pend">⬜ Schedule E tax export (IRS-ready)</div>
+              <div class="ci ci-pend">⬜ Entity P&amp;L by LLC</div>
+            </div>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num ph-future">4</div>
+          <div>
+            <div class="phase-title" style="color:var(--purple);">Phase 4 — SaaS for Self-Managing Landlords 🚀</div>
+            <div class="phase-sub">GTM: 20M US self-managing landlords · $5/unit/mo · Target $300K ARR at 200 customers · Tenant portal · Payment processing · AI rent optimizer</div>
+            <div class="phase-checks">
+              <div class="ci ci-pend">⬜ Multi-landlord tenant portal (SaaS MVP)</div>
+              <div class="ci ci-pend">⬜ Stripe/ACH payment processing</div>
+              <div class="ci ci-pend">⬜ SmartMove background check integration</div>
+              <div class="ci ci-pend">⬜ AI rent price optimizer</div>
+              <div class="ci ci-pend">⬜ 200 anchor customer GTM push</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -333,111 +950,125 @@
 
   <!-- COMMERCIAL VISION -->
   <div class="vision-card">
-    <div class="vision-title">🚀 Commercial North Star — AI Property Manager as a Service</div>
+    <div class="vision-title">💎 Commercial Vision — Phase 4 SaaS</div>
     <div class="vision-body">
-      Rachel's personal portfolio is the <strong>90-day proving ground</strong>. After validation, she ships as a white-label SaaS for
-      <strong>self-managing landlords</strong> (5–20 units) — a 20M-person US market with no AI-native incumbent.
-      AppFolio and Buildium serve property management companies. Nobody serves the self-managing landlord who runs everything via texts and spreadsheets.
-      <br><br>
-      <strong>The offer:</strong> "Your own AI property manager — handles 80% of tenant touchpoints automatically. $5/unit/mo."
-      GTM: BiggerPockets · r/landlord · REI Facebook groups. The demo video (Rachel handling a maintenance request in Slack, 90 seconds) is the marketing asset.
-      Council v19 verdict: target self-managing landlords, NOT PM software buyers — AppFolio lock-in is too deep for B2B GTM.
+      Rachel is not just a personal property manager — she is the prototype for a SaaS product targeting the <strong style="color:var(--purple);">20 million self-managing landlords</strong> in the US who don't use professional property management companies. At <strong style="color:var(--purple);">$5/unit/month</strong>, a portfolio of 200 customers averaging 3 units each generates <strong style="color:var(--purple);">$300K ARR</strong> — capital-efficient, recurring, and AI-native from day one.
     </div>
     <div class="vision-metrics">
-      <div class="vm"><div class="val">$5</div><div class="lbl">per unit / month</div></div>
-      <div class="vm"><div class="val">20M</div><div class="lbl">self-managing landlords (US)</div></div>
-      <div class="vm"><div class="val">$300K</div><div class="lbl">ARR at 200 customers</div></div>
+      <div class="vm">
+        <div class="val">20M</div>
+        <div class="lbl">US Self-Managing Landlords</div>
+      </div>
+      <div class="vm">
+        <div class="val">$5</div>
+        <div class="lbl">Per Unit Per Month</div>
+      </div>
+      <div class="vm">
+        <div class="val">200</div>
+        <div class="lbl">Anchor Customer Target</div>
+      </div>
+      <div class="vm">
+        <div class="val">$300K</div>
+        <div class="lbl">ARR Target</div>
+      </div>
     </div>
   </div>
 
-  <div class="grid-2">
-    <!-- FINANCIAL SNAPSHOT -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title"><span>💰</span>Financial Snapshot</div>
-        <span class="card-badge badge-yellow">Awaiting property data</span>
-      </div>
-      <div class="card-body">
-        <table>
-          <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
-          <tbody>
-            <tr><td>Total Monthly Rent</td><td class="awaiting">TBD after data entry</td><td class="td-mono" style="font-size:10px">Properties DB</td></tr>
-            <tr><td>Total Mortgage Payments</td><td class="awaiting">TBD after data entry</td><td class="td-mono" style="font-size:10px">Properties DB</td></tr>
-            <tr><td>Net Monthly Cash Flow</td><td class="awaiting">TBD — calculated</td><td class="td-mono" style="font-size:10px">Calculated</td></tr>
-            <tr><td>Lehi Carpet Repair (est.)</td><td style="color:var(--yellow)">$1,960–$5,000</td><td class="td-mono" style="font-size:10px">3 quotes pending</td></tr>
-            <tr><td>Annual Rachel Savings Est.</td><td style="color:var(--green);font-weight:700">$15,600/yr</td><td class="td-mono" style="font-size:10px">Council model</td></tr>
-          </tbody>
-        </table>
+  <!-- RACHEL CAPABILITIES MATRIX -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">🤖</span>RACHEL CAPABILITIES MATRIX</div>
+      <div style="font-size:10px;color:var(--text3);">Current live + planned</div>
+    </div>
+    <div class="card-body">
+      <div class="skill-grid">
+        <div class="skill-item"><span class="skill-name">Property Record Management</span><span class="badge badge-green">Live</span></div>
+        <div class="skill-item"><span class="skill-name">Maintenance Ticket Tracking</span><span class="badge badge-green">Live</span></div>
+        <div class="skill-item"><span class="skill-name">Notion DB Sync</span><span class="badge badge-green">Live</span></div>
+        <div class="skill-item"><span class="skill-name">Rent Reminder Drafts</span><span class="badge badge-yellow">Phase 2</span></div>
+        <div class="skill-item"><span class="skill-name">Gmail Integration</span><span class="badge badge-yellow">Phase 2</span></div>
+        <div class="skill-item"><span class="skill-name">GHL SMS Workflows</span><span class="badge badge-yellow">Phase 2</span></div>
+        <div class="skill-item"><span class="skill-name">Contractor Quote Drafts</span><span class="badge badge-yellow">Phase 2</span></div>
+        <div class="skill-item"><span class="skill-name">Lease Renewal Alerts</span><span class="badge badge-yellow">Phase 2</span></div>
+        <div class="skill-item"><span class="skill-name">Monthly P&amp;L Email Digest</span><span class="badge badge-blue">Phase 3</span></div>
+        <div class="skill-item"><span class="skill-name">QuickBooks Sync (Finny)</span><span class="badge badge-blue">Phase 3</span></div>
+        <div class="skill-item"><span class="skill-name">Schedule E Tax Export</span><span class="badge badge-blue">Phase 3</span></div>
+        <div class="skill-item"><span class="skill-name">Equity / Market Value Pull</span><span class="badge badge-blue">Phase 3</span></div>
+        <div class="skill-item"><span class="skill-name">Multi-Landlord SaaS Portal</span><span class="badge badge-purple">Phase 4</span></div>
+        <div class="skill-item"><span class="skill-name">AI Rent Price Optimizer</span><span class="badge badge-purple">Phase 4</span></div>
+        <div class="skill-item"><span class="skill-name">Payment Processing (Stripe)</span><span class="badge badge-purple">Phase 4</span></div>
+        <div class="skill-item"><span class="skill-name">Lex Legal Review Integration</span><span class="badge badge-purple">Phase 4</span></div>
+        <div class="skill-item"><span class="skill-name">Background Check (SmartMove)</span><span class="badge badge-purple">Phase 4</span></div>
+        <div class="skill-item"><span class="skill-name">Depreciation Tracker</span><span class="badge badge-purple">Phase 4</span></div>
       </div>
     </div>
+  </div>
 
-    <!-- AGENT ROSTER -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title"><span>👤</span>Personal Agent Fleet</div>
-        <span class="card-badge badge-green">Ace live · 3 building</span>
-      </div>
-      <div class="card-body">
-        <table>
-          <thead><tr><th>Agent</th><th>Role</th><th>Channel</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td class="td-title">Rachel</td><td>Real Estate</td><td class="td-mono">#leo-sky</td><td><span class="sp sp-yellow">Building</span></td></tr>
-            <tr><td class="td-title">Ace</td><td>Chief of Staff</td><td class="td-mono">#leo-sky</td><td><span class="sp sp-green">Live ✅</span></td></tr>
-            <tr><td class="td-title">Lex</td><td>Paralegal</td><td class="td-mono">#leo-sky</td><td><span class="sp sp-gray">Spec</span></td></tr>
-            <tr><td class="td-title">Finny</td><td>Personal Finance</td><td class="td-mono">#leo-sky</td><td><span class="sp sp-gray">Spec</span></td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:12px;padding:10px 12px;background:var(--bg3);border-radius:6px;border:1px solid var(--border);font-size:11px;color:var(--text2);line-height:1.8">
-          🏠 Property/tenant/repairs → <strong style="color:var(--accent)">Rachel</strong><br>
-          ⚖️ Legal/contracts/litigation → <strong style="color:var(--accent)">Lex</strong><br>
-          💰 Budget/bills/investments → <strong style="color:var(--accent)">Finny</strong><br>
-          📅 Calendar/travel/kids/errands → <strong style="color:var(--accent)">Ace</strong>
+  <!-- AGENT FLEET -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">⚡</span>AGENT FLEET — REAL ESTATE DIVISION</div>
+    </div>
+    <div class="card-body">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;">
+        <div style="background:var(--bg3);border:1px solid var(--accent);border-radius:8px;padding:14px;flex:1;min-width:160px;">
+          <div style="font-size:12px;font-weight:800;color:var(--accent);margin-bottom:6px;">🏠 Rachel</div>
+          <div style="font-size:11px;color:var(--text2);">Property Manager AI — Tenant comm, maintenance, lease tracking, monthly reporting. SaaS prototype.</div>
+          <div style="margin-top:8px;"><span class="badge badge-green">Active · Phase 1</span></div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;flex:1;min-width:160px;">
+          <div style="font-size:12px;font-weight:800;color:var(--accent2);margin-bottom:6px;">⚖️ Lex</div>
+          <div style="font-size:11px;color:var(--text2);">Legal Command Center — Lease review, HOA violation response, Utah law compliance, eviction risk flagging.</div>
+          <div style="margin-top:8px;"><span class="badge badge-yellow">Integration — Phase 4</span></div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;flex:1;min-width:160px;">
+          <div style="font-size:12px;font-weight:800;color:var(--green);margin-bottom:6px;">💰 Finny</div>
+          <div style="font-size:11px;color:var(--text2);">Finance agent — QuickBooks sync, P&amp;L by entity, Schedule E export, depreciation, mortgage balance tracking.</div>
+          <div style="margin-top:8px;"><span class="badge badge-yellow">Integration — Phase 3</span></div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;flex:1;min-width:160px;">
+          <div style="font-size:12px;font-weight:800;color:var(--purple);margin-bottom:6px;">🎯 Ace</div>
+          <div style="font-size:11px;color:var(--text2);">Growth agent — STR revenue optimization, Airbnb pricing, cap rate analysis, cash-on-cash, market comps.</div>
+          <div style="margin-top:8px;"><span class="badge badge-purple">Planned — Phase 4</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- TASK LEDGER -->
-  <div class="card grid-1">
-    <div class="card-header">
-      <div class="card-title"><span>📋</span>Task Ledger — Live</div>
-      <span class="card-badge badge-blue">Auto-updated by Mack</span>
-    </div>
-    <div style="padding:0">
-      <table>
-        <thead><tr><th>Status</th><th>Task</th><th>Owner</th><th>Proof / Notes</th><th>Date</th></tr></thead>
-        <tbody>
-          <tr><td><span class="sp sp-teal">💎 Done</span></td><td class="td-title">Properties DB + Maintenance Tracker built</td><td>Mack</td><td><a href="https://www.notion.so/349cf5514fd381e6b6e4dbb159517683">Rachel Dashboard</a></td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-teal">💎 Done</span></td><td class="td-title">Council plan + GTM strategy (score 3.89/5.5)</td><td>Mack</td><td>Self-managing landlords · $5/unit/mo</td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-teal">💎 Done</span></td><td class="td-title">Lehi Airbnb + carpet repair ticket seeded</td><td>Mack</td><td>3 contractor quotes in flight</td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-teal">💎 Done</span></td><td class="td-title">Rachel Command Center live URL built</td><td>Mack</td><td><a href="https://bennett-maxwell.github.io/advaita-agent-audit/real-estate/">This page</a></td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-teal">💎 Done</span></td><td class="td-title">rachel-property-management-skill created</td><td>Mack</td><td>Drive · skills master folder</td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-teal">💎 Done</span></td><td class="td-title">Bennett Personal master Notion project created</td><td>Mack</td><td>Notion · personal workspace</td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-yellow">🟡 Action</span></td><td class="td-title">Bennett fills remaining ~4 properties in Notion DB</td><td>Bennett</td><td><a href="https://www.notion.so/69fca96051ca4d0489960b160ac35712">Properties DB</a></td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-yellow">🟡 Pending</span></td><td class="td-title">Carpet vendor comparison sheet (3 quotes)</td><td>Rachel/Ivan</td><td>Carpet One · IFA · Empire Today</td><td class="td-mono">2026-05-26</td></tr>
-          <tr><td><span class="sp sp-gray">⬜ Phase 2</span></td><td class="td-title">Gmail templates + GHL SMS integration</td><td>Ivan-CC</td><td>Awaiting Bennett property data</td><td class="td-mono">TBD</td></tr>
-          <tr><td><span class="sp sp-purple">🟣 Future</span></td><td class="td-title">Commercial SaaS packaging decision</td><td>Bennett</td><td>After 90-day personal proof · $5K+ decision</td><td class="td-mono">2026-08-26</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
-  <div>🏠 Rachel Real Estate CC · Built by Mack 2026-05-26 · council v19 score 3.89/5.5 · Personal + Sky access only</div>
   <div>
-    <a href="https://www.notion.so/349cf5514fd381e6b6e4dbb159517683" target="_blank" style="margin-right:12px">Notion Dashboard</a>
-    <a href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank">Personal Agents CC</a>
+    <div style="color:var(--text2);font-weight:600;margin-bottom:2px;">FKI Real Estate — Bennett Maxwell Portfolio</div>
+    <div>3 LLCs · 5 Rental Properties · Utah · rachel@fki · v2.0 · 2026-05-26</div>
+  </div>
+  <div class="agent-fleet">
+    <span style="color:var(--text3);margin-right:4px;">FLEET:</span>
+    <span class="fleet-agent active">Rachel</span>
+    <span class="fleet-agent">Lex</span>
+    <span class="fleet-agent">Finny</span>
+    <span class="fleet-agent">Ace</span>
+  </div>
+  <div style="text-align:right;">
+    <div>Notion DBs: <span style="color:var(--accent);">Properties · Maintenance</span></div>
+    <div style="margin-top:2px;">Sprint Board: <a class="data-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">335cf551</a></div>
   </div>
 </div>
 
 <script>
-  function updateTs() {
+  // Live clock
+  function updateClock() {
     const now = new Date();
-    document.getElementById('ts').textContent = now.toLocaleString('en-US',{timeZone:'America/Denver',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:true,timeZoneName:'short'});
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    const el = document.getElementById('liveClock');
+    if(el) el.textContent = h + ':' + m + ':' + s + ' MDT';
   }
-  updateTs(); setInterval(updateTs, 30000);
+  updateClock();
+  setInterval(updateClock, 1000);
 </script>
+
 </body>
 </html>
