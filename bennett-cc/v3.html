@@ -493,7 +493,7 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
     <button class="back-btn" onclick="openScreen('home')">← Home</button>
     <div>
       <div class="page-title">Personal Center</div>
-      <div class="page-sub">Bennett + Sky · #leo-sky only · business agents blocked</div>
+      <div class="page-sub">Bennett + Sky · #leo-sky only · business agents blocked · <a href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" target="_blank" style="color:var(--blue);">Notion CC Master ↗</a></div>
     </div>
   </div>
 
@@ -519,7 +519,8 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
         <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>♠️ Ace</b> — Calendar + family ops · meals, kids, anniversaries, travel<br><span style="font-size:11px;color:var(--label);">Automation: shared family calendar feed + Friday weekly digest · Owner: Sky · Status: 🟡 calendar feed pending</span></div>
       </div>
     </div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" target="_blank">💬 #leo-sky</a><a class="ql-link" href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" target="_blank">📝 Notion CC Master</a></div></div>
+    <div class="card"><div class="card-title">10-Section Diamond Template (per agent)</div><div style="font-size:11px;line-height:1.7;color:var(--label);">1. Outcome · 2. Owner + #leo-sky escalation · 3. Critical Links · 4. Tools/Skills · 5. Artifact Inventory · 6. Known Errors · 7. Next 3 Actions · 8. Done Definition · 9. Escalation Cascade · 10. Status + Readiness — <a href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank" style="color:var(--blue);">full spec in Notion ↗</a></div></div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" target="_blank">💬 #leo-sky</a><a class="ql-link" href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank">📝 Bennett Personal Agents</a><a class="ql-link" href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" target="_blank">🎛 CC Master</a></div></div>
   </div>
 
   <!-- FAMILY -->
@@ -528,6 +529,7 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
     <div class="card"><div class="card-title">This Week's Anchors</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Sunday family dinner · Wednesday date night · Saturday kids time · monthly grandparent visit</div></div>
     <div class="card"><div class="card-title">Kids — School + Activities</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Owner: Sky → Ace. School schedule · activities · medical · birthdays. Live data flows into Chore tab.</div></div>
     <div class="card"><div class="card-title">Sky + Bennett</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Date night cadence · trips planned · anniversaries · couples goals for the year</div></div>
+    <div class="card" style="background:var(--amber-lt);"><div class="card-title">🟣 Sky Action</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Confirm 4 anchors (Sun dinner / Wed date / Sat kids / monthly grandparent) — drop edits in <a href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" style="color:var(--blue);">#leo-sky</a></div></div>
     <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://calendar.google.com" target="_blank">📅 Google Calendar</a><a class="ql-link" href="https://dashboard.franchiseki.com/chore-chart/" target="_blank">✅ Family Chart</a></div></div>
   </div>
 
@@ -549,7 +551,7 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
 
   <!-- LEGAL -->
   <div id="personal-legal" class="tab-pane">
-    <div class="card" style="border-left:3px solid var(--red-dark)"><div class="card-title" style="color:var(--red-dark)">🔥 Active Deadline</div><div style="font-size:13px;line-height:1.7;color:var(--text);"><b>Rule 60(b)(1) — July 14, 2026</b> · $437K exposure · Haslam non-responsive 5+ days · garnishment ACTIVE NOW · call <b>(801) 472-7742</b></div></div>
+    <div class="card" style="border-left:3px solid var(--red-dark)"><div class="card-title" style="color:var(--red-dark)">🔥 Active Deadline</div><div style="font-size:13px;line-height:1.7;color:var(--text);"><b>Rule 60(b)(1) — July 14, 2026</b> · <span id="r60-countdown" style="color:var(--red-dark);font-weight:800">— days</span> · $437K exposure · Haslam non-responsive 5+ days · garnishment ACTIVE NOW · <a href="tel:+18014727742" style="color:var(--red-dark);font-weight:800;">📞 (801) 472-7742</a></div></div>
     <div class="card"><div class="card-title">Active Cases</div><div style="font-size:13px;line-height:1.7;color:var(--label);">IronCreek · Haslam (R60(b)(1) July 14) · prior contracts under review · NDA register · Lex agent owns deadline scan + attorney comms</div></div>
     <div class="card"><div class="card-title">Lex Agent</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Daily 8am deadline scan → Slack alert · Owner: Bennett · Status: 🟡 wire Haslam case + R60(b)(1) auto-track</div></div>
     <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/legal/" target="_blank">⚖️ Legal Dashboard (pw: franchiseki2024)</a></div></div>
@@ -576,6 +578,7 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
     <div class="card"><div class="card-title">Maxwell Family Chore Chart</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Live system: 5 kids · weekly points · per-kid streak · reward store · monthly leaderboard · challenge mode. Built mobile-first.</div></div>
     <div class="card"><div class="card-title">How it works</div><div style="font-size:12px;line-height:1.7;color:var(--label);">Kids tap chores → points → reward store buys (Sky funds). Bonus tags, group challenges, payout log, calendar view. Lives at <a href="https://dashboard.franchiseki.com/chore-chart/" style="color:var(--blue);">/chore-chart/</a></div></div>
     <div class="card"><div class="card-title">Home Ops (Sky)</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Cleaning service cadence · grocery + meal plan · home maintenance calendar · holiday prep — TODO Sky enter cadences here</div></div>
+    <div class="card" style="background:var(--amber-lt);"><div class="card-title">🟣 Sky Action</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Enter cleaning/grocery/meal-plan cadences + monthly maintenance calendar in <a href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" style="color:var(--blue);">#leo-sky</a> — Ace surfaces them here weekly.</div></div>
     <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/chore-chart/" target="_blank">✅ Family Chart</a></div></div>
   </div>
 
@@ -585,12 +588,13 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
     <div class="card"><div class="card-title">90-Day Personal Rocks</div><div style="font-size:13px;line-height:1.7;color:var(--label);">3-5 personal rocks (not business) · health · family · learning · reset every quarter</div></div>
     <div class="card"><div class="card-title">Currently Reading + Learning</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Books in flight · courses · podcasts in rotation · skills to develop this quarter</div></div>
     <div class="card"><div class="card-title">Bucket List + Travel</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Trips planned 12 mo · long-term bucket list · family-of-5 milestones</div></div>
+    <div class="card" style="background:var(--amber-lt);"><div class="card-title">🟣 Bennett Action</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Write 2026 North Star (1 sentence) + 3-5 personal rocks for Q3 — drops into Notion CC master below.</div></div>
     <div class="card" style="background:var(--purple-lt);"><div class="card-title">Linked Drive</div><div style="font-size:12px;line-height:1.7;color:var(--text);">Notion CC Master <a href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" style="color:var(--blue);">360cf551…</a> · vision docs lives there</div></div>
   </div>
 </div>
 
 <div style="text-align:center;padding:16px;font-size:11px;color:#6E6E73;">
-  Bennett CEO Command Center · Built by Advaita AI · Last updated: May 26, 2026 ·
+  Bennett CEO Command Center · Built by Advaita AI · Last updated: <span id="cc-last-updated">May 27, 2026</span> · Personal CC build-out wave · gatekeeper score 65→target 80 ·
   <a href="https://dashboard.franchiseki.com" style="color:#0A84FF;text-decoration:none;">dashboard.franchiseki.com ↗</a>
 </div>
 
@@ -631,6 +635,21 @@ function tick() {
   document.getElementById('clock').textContent = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
 }
 tick(); setInterval(tick, 30000);
+
+// R60(b)(1) deadline countdown
+(function() {
+  const deadline = new Date('2026-07-14T00:00:00');
+  function updateCountdown() {
+    const el = document.getElementById('r60-countdown');
+    if (!el) return;
+    const now = new Date();
+    const days = Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
+    el.textContent = days + ' days';
+    if (days <= 7) el.style.textDecoration = 'underline';
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 3600000);
+})();
 </script>
 </body>
 </html>
