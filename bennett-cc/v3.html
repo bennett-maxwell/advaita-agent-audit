@@ -493,35 +493,86 @@ body { background: var(--page); color: var(--text); font-family: -apple-system, 
     <button class="back-btn" onclick="openScreen('home')">← Home</button>
     <div>
       <div class="page-title">Personal Center</div>
-      <div class="page-sub">Private · #leo-sky only</div>
+      <div class="page-sub">Bennett + Sky · #leo-sky only · business agents blocked</div>
     </div>
   </div>
-  <div style="padding:24px 20px;max-width:740px;margin:0 auto;">
-    <div style="background:var(--purple-lt);border:1.5px solid rgba(79,209,197,0.2);border-radius:var(--radius-sm);padding:11px 16px;font-size:12px;color:#0E7490;font-weight:600;margin-bottom:18px;">🔒 Personal space — business agents have no access. Channel: #leo-sky only.</div>
-    <div class="link-grid">
-      <a href="https://dashboard.franchiseki.com/legal/" target="_blank" class="link-tile">
-        <div class="lt-icon-wrap" style="background:#FFF5F5">⚖️</div>
-        <div class="lt-title">Legal Dashboard</div>
-        <div class="lt-sub">Cases · Lex · Deadlines</div>
-        <div style="margin-top:10px;font-size:10px;font-weight:800;color:var(--red-dark)">pw: franchiseki2024</div>
-      </a>
-      <a href="https://dashboard.franchiseki.com/personal-finance/" target="_blank" class="link-tile">
-        <div class="lt-icon-wrap" style="background:var(--green-lt)">💰</div>
-        <div class="lt-title">Personal Finance</div>
-        <div class="lt-sub">Finny · Budget · Bills</div>
-        <div style="margin-top:10px;font-size:10px;font-weight:800;color:#276749">Stub — Kay gate pending</div>
-      </a>
-      <a href="https://dashboard.franchiseki.com/chore-chart/" target="_blank" class="link-tile">
-        <div class="lt-icon-wrap" style="background:var(--amber-lt)">✅</div>
-        <div class="lt-title">Chore Chart</div>
-        <div class="lt-sub">Kids · Weekly review · Points</div>
-      </a>
-      <a href="https://dashboard.franchiseki.com/real-estate/" target="_blank" class="link-tile">
-        <div class="lt-icon-wrap" style="background:var(--purple-lt)">🏠</div>
-        <div class="lt-title">Real Estate</div>
-        <div class="lt-sub">5 Properties · Rachel · Rent</div>
-      </a>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('personal','agents',this)">🤖 Agents</button>
+    <button class="tab-btn" onclick="showTab('personal','family',this)">👨‍👩‍👧 Family</button>
+    <button class="tab-btn" onclick="showTab('personal','health',this)">💪 Health</button>
+    <button class="tab-btn" onclick="showTab('personal','money',this)">💰 Money</button>
+    <button class="tab-btn" onclick="showTab('personal','legal',this)">⚖️ Legal</button>
+    <button class="tab-btn" onclick="showTab('personal','realestate',this)">🏠 Real Estate</button>
+    <button class="tab-btn" onclick="showTab('personal','chore',this)">✅ Chore</button>
+    <button class="tab-btn" onclick="showTab('personal','vision',this)">🎯 Vision</button>
+  </div>
+
+  <!-- AGENTS -->
+  <div id="personal-agents" class="tab-pane active">
+    <div style="background:var(--purple-lt);border:1.5px solid rgba(79,209,197,0.2);border-radius:var(--radius-sm);padding:11px 16px;font-size:12px;color:#0E7490;font-weight:600;margin-bottom:18px;">🔒 Sky + Bennett joint management. Each agent runs autonomously, reports here.</div>
+    <div class="card"><div class="card-title">Personal Agent Roster</div>
+      <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px;">
+        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>🧑‍⚖️ Lex</b> — Legal agent · cases, deadlines, attorney comms · TODO: wire to Haslam case + R60(b)(1) July 14 deadline · owner: Bennett</div>
+        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>🏠 Rachel</b> — Property mgmt · 5 doors · rent, vendors, leases · TODO: monthly P&amp;L per door auto-email · owner: Sky</div>
+        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>💵 Finny</b> — Personal CFO · Divvy, accounts, net worth, bill pay · TODO: weekly net-worth snapshot · owner: Sky</div>
+        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>♠️ Ace</b> — Calendar + family ops · meals, kids, anniversaries, travel · TODO: shared family calendar feed · owner: Sky</div>
+      </div>
     </div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" target="_blank">💬 #leo-sky</a><a class="ql-link" href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" target="_blank">📝 Notion CC Master</a></div></div>
+  </div>
+
+  <!-- FAMILY -->
+  <div id="personal-family" class="tab-pane">
+    <div class="card"><div class="card-title">This Week's Anchors</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Sunday family dinner · Wednesday date night · Saturday morning kids time · monthly grandparent visit</div></div>
+    <div class="card"><div class="card-title">Kids</div><div style="font-size:13px;line-height:1.7;color:var(--label);">School schedule · activities · medical · birthdays · school events — Sky's domain, fed into Ace</div></div>
+    <div class="card"><div class="card-title">Sky + Bennett</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Date night cadence · trips planned · anniversaries · couples goals for the year</div></div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://calendar.google.com" target="_blank">📅 Google Calendar</a></div></div>
+  </div>
+
+  <!-- HEALTH -->
+  <div id="personal-health" class="tab-pane">
+    <div class="card"><div class="card-title">Daily Targets</div><div class="kpi-row"><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Steps</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Sleep hrs</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Workouts/wk</div></div></div></div>
+    <div class="card"><div class="card-title">Doctor + Meds</div><div style="font-size:13px;line-height:1.7;color:var(--label);">PCP · dentist · annual physical date · current meds list · supplements stack</div></div>
+    <div class="card"><div class="card-title">Body Comp Goals</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Weight target · workout split · diet baseline · sleep target</div></div>
+  </div>
+
+  <!-- MONEY -->
+  <div id="personal-money" class="tab-pane">
+    <div class="card"><div class="card-title">Net Worth Snapshot</div><div class="kpi-row"><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Net Worth</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Cash</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Real Estate</div></div></div><div style="margin-top:8px;font-size:11px;color:var(--label);">Finny updates weekly · last refresh: pending</div></div>
+    <div class="card"><div class="card-title">Personal Accounts</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Divvy personal · checking · savings · brokerage · retirement · crypto</div></div>
+    <div class="card"><div class="card-title">Bills + Subscriptions</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Recurring bill list · subscriptions to cancel · annual renewals</div></div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.divvy.co" target="_blank">💳 Divvy</a><a class="ql-link" href="https://dashboard.franchiseki.com/personal-finance/" target="_blank">💰 Personal Finance</a></div></div>
+  </div>
+
+  <!-- LEGAL -->
+  <div id="personal-legal" class="tab-pane">
+    <div class="card" style="border-left:3px solid var(--red-dark)"><div class="card-title" style="color:var(--red-dark)">🔥 Active Deadline</div><div style="font-size:13px;line-height:1.7;color:var(--text);"><b>Rule 60(b)(1) — July 14, 2026</b> · $437K exposure · Haslam non-responsive 5+ days · garnishment ACTIVE NOW · call (801) 472-7742</div></div>
+    <div class="card"><div class="card-title">Case List</div><div style="font-size:13px;line-height:1.7;color:var(--label);">IronCreek · Haslam · prior contracts under review · NDA register</div></div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/legal/" target="_blank">⚖️ Legal Dashboard pw:franchiseki2024</a></div></div>
+  </div>
+
+  <!-- REAL ESTATE -->
+  <div id="personal-realestate" class="tab-pane">
+    <div class="card"><div class="card-title">Portfolio</div><div class="kpi-row"><div class="kpi"><div class="kpi-val">5</div><div class="kpi-label">Doors</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Monthly Rent</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">P&amp;L YTD</div></div></div></div>
+    <div class="card"><div class="card-title">Per-Door Status</div><div style="font-size:13px;line-height:1.7;color:var(--label);">1066 primary · rentals 1-5 · tenant status · lease renewal dates · maintenance backlog</div></div>
+    <div class="card"><div class="card-title">Vendors</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Handyman · plumber · electrician · landscaping · property mgmt company</div></div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/real-estate/" target="_blank">🏠 RE Dashboard</a></div></div>
+  </div>
+
+  <!-- CHORE -->
+  <div id="personal-chore" class="tab-pane">
+    <div class="card"><div class="card-title">Kid Chore Board</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Weekly chore list · points · payout schedule · weekly review meeting</div></div>
+    <div class="card"><div class="card-title">Home Ops (Sky)</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Cleaning service cadence · grocery cadence · meal plan · home maintenance calendar · holiday prep</div></div>
+    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/chore-chart/" target="_blank">✅ Chore Chart</a></div></div>
+  </div>
+
+  <!-- VISION -->
+  <div id="personal-vision" class="tab-pane">
+    <div class="card"><div class="card-title">North Star (2026)</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Annual vision statement · 1 sentence · refreshed each January</div></div>
+    <div class="card"><div class="card-title">90-Day Personal Rocks</div><div style="font-size:13px;line-height:1.7;color:var(--label);">3-5 personal rocks (not business) · health · family · learning · reset every quarter</div></div>
+    <div class="card"><div class="card-title">Currently Reading + Learning</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Books in flight · courses · podcasts in rotation · skills to develop this quarter</div></div>
+    <div class="card"><div class="card-title">Bucket List + Travel</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Trips planned 12 mo · long-term bucket list · family-of-5 milestones</div></div>
   </div>
 </div>
 
