@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-29T06:15:02.863988",
+  "generated": "2026-05-30T06:15:02.623424",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -7,9 +7,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
       "brand": "Indy Clover",
-      "meta_spend": 1225.48,
-      "meta_leads": 32,
-      "meta_cpl": 38.3,
+      "meta_spend": 1010.07,
+      "meta_leads": 28,
+      "meta_cpl": 36.07,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -20,9 +20,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
       "brand": "Salad House",
-      "meta_spend": 334.88,
+      "meta_spend": 259.66,
       "meta_leads": 24,
-      "meta_cpl": 13.95,
+      "meta_cpl": 10.82,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -61,17 +61,17 @@
       ]
     },
     "Indy Clover": {
-      "meta_spend": 1380.83,
-      "step1_booked": 35,
-      "step1_showed": 9,
-      "cost_per_booked": 39.45,
-      "cost_per_showed": 153.43,
-      "show_rate_pct": 25.7,
+      "meta_spend": 1225.48,
+      "step1_booked": 32,
+      "step1_showed": 6,
+      "cost_per_booked": 38.3,
+      "cost_per_showed": 204.25,
+      "show_rate_pct": 18.8,
       "campaigns": [
         {
           "name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 1380.83,
-          "leads": 36
+          "spend": 1225.48,
+          "leads": 32
         }
       ]
     },
@@ -85,17 +85,17 @@
       "campaigns": []
     },
     "Salad House": {
-      "meta_spend": 397.24,
-      "step1_booked": 13,
+      "meta_spend": 334.88,
+      "step1_booked": 12,
       "step1_showed": 3,
-      "cost_per_booked": 30.56,
-      "cost_per_showed": 132.41,
-      "show_rate_pct": 23.1,
+      "cost_per_booked": 27.91,
+      "cost_per_showed": 111.63,
+      "show_rate_pct": 25.0,
       "campaigns": [
         {
           "name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 397.24,
-          "leads": 28
+          "spend": 334.88,
+          "leads": 24
         }
       ]
     }
