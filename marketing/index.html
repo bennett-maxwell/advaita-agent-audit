@@ -175,7 +175,7 @@
   <div class="page-header">
     <div>
       <h1>Marketing Command Center</h1>
-      <div class="subtitle">CEO Design v2 &middot; Meta Ads verified &middot; council 4.58/5 &middot; <span id="ts"></span></div>
+      <div class="subtitle">CEO Design v2 &middot; Meta Ads verified &middot; council 4.58/5</div>
     </div>
     <div class="kpi-row">
       <span class="kp kp-r">2 Pending George Review</span>
@@ -628,10 +628,7 @@
   </div>
 
   <script>
-    document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {
-      month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
-      timeZone: 'America/Denver'
-    }) + ' MDT';
+    /* browser-clock "updated" stamp removed; freshness via /assets/cc-fresh.js footer */
 
     function showTab(id) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -692,5 +689,6 @@
       });
     })();
   </script>
+<!--cc-asof--><div class="cc-asof-footer" data-asof="2026-05-26T12:25:28-06:00" style="margin:24px auto 12px;max-width:1100px;padding:8px 14px;font:12px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#6b7280;border-top:1px solid #e5e7eb;text-align:center;">Page updated 2026-05-26 &middot; <span class="cc-fresh-badge">checking&hellip;</span> &middot; <a href="/hub/" style="color:#6b7280;text-decoration:underline;">Command Center</a></div><script src="/assets/cc-fresh.js"></script><!--/cc-asof-->
 </body>
 </html>
