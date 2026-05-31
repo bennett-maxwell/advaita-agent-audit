@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-26T17:40:00Z",
+  "updated": "2026-05-31T13:50:05Z",
   "machines": [
     {
       "id": "imac",
@@ -10,10 +10,10 @@
       "mem": null,
       "disk": 3,
       "uptime": "daily-check",
-      "last_seen": "2026-05-23T21:04:49Z",
+      "last_seen": "2026-05-31T13:50:05Z",
       "health_status": "warn",
-      "launchagents_total": 207,
-      "launchagents_errors": 15
+      "launchagents_total": 162,
+      "launchagents_errors": 7
     },
     {
       "id": "macbook",
@@ -22,27 +22,24 @@
       "online": true,
       "cpu": null,
       "mem": null,
-      "disk": 15,
+      "disk": 17,
       "uptime": "daily-check",
-      "last_seen": "2026-05-23T21:04:49Z",
-      "cc_version": "2.1.145"
+      "last_seen": "2026-05-31T13:50:05Z",
+      "cc_version": "2.1.158"
     },
     {
       "id": "tiffany",
       "name": "Tiffany HP Omen",
-      "ip": "100.97.16.76",
+      "ip": "100.91.17.106",
       "online": false,
-      "status": "unreachable",
       "cpu": null,
       "mem": null,
       "disk": null,
       "uptime": "offline",
-      "last_seen": "2026-05-23T21:04:49Z",
-      "unreachable_since": "2026-05-26T00:00:00Z",
+      "last_seen": "2026-05-31T13:50:05Z",
       "role": "Local AI compute node",
-      "spec": "128GB RAM \u00b7 Ollama HTTP :11434 \u00b7 no SSH",
-      "metrics_available": false,
-      "notes": "Tailscale unreachable as of 2026-05-26. Test before batch dispatch."
+      "spec": "128GB RAM \u00b7 Ollama HTTP only \u00b7 no SSH",
+      "metrics_available": false
     }
   ]
 }
