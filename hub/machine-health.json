@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-03T16:56:24Z",
+  "updated": "2026-06-03T17:50:08Z",
   "machines": [
     {
       "id": "imac",
@@ -10,7 +10,7 @@
       "mem": null,
       "disk": 4,
       "uptime": "daily-check",
-      "last_seen": "2026-06-03T16:56:24Z",
+      "last_seen": "2026-06-03T17:50:08Z",
       "health_status": "warn",
       "launchagents_total": 159,
       "launchagents_errors": 32
@@ -24,7 +24,7 @@
       "mem": null,
       "disk": 28,
       "uptime": "daily-check",
-      "last_seen": "2026-06-03T16:56:24Z",
+      "last_seen": "2026-06-03T17:50:08Z",
       "cc_version": "2.1.161"
     },
     {
@@ -36,7 +36,7 @@
       "mem": null,
       "disk": null,
       "uptime": "offline",
-      "last_seen": "2026-06-03T16:56:24Z",
+      "last_seen": "2026-06-03T17:50:08Z",
       "role": "Local AI compute node",
       "spec": "128GB RAM \u00b7 Ollama HTTP only \u00b7 no SSH",
       "metrics_available": false
