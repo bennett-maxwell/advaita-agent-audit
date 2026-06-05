@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-04T06:15:02.548603",
+  "generated": "2026-06-05T06:15:03.250744",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -7,9 +7,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
       "brand": "Indy Clover",
-      "meta_spend": 755.47,
-      "meta_leads": 23,
-      "meta_cpl": 32.85,
+      "meta_spend": 682.89,
+      "meta_leads": 21,
+      "meta_cpl": 32.52,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -33,9 +33,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[FKI] FFH - LF",
       "brand": "FKI 2nd Opinion",
-      "meta_spend": 304.4,
+      "meta_spend": 304.69,
       "meta_leads": 24,
-      "meta_cpl": 12.68,
+      "meta_cpl": 12.7,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -46,7 +46,7 @@
   "untagged": [],
   "brand_summary": {
     "FKI 2nd Opinion": {
-      "meta_spend": 132.46,
+      "meta_spend": 304.4,
       "step1_booked": 0,
       "step1_showed": 0,
       "cost_per_booked": null,
@@ -55,23 +55,23 @@
       "campaigns": [
         {
           "name": "[FKI] FFH - LF",
-          "spend": 132.46,
-          "leads": 12
+          "spend": 304.4,
+          "leads": 24
         }
       ]
     },
     "Indy Clover": {
-      "meta_spend": 777.19,
-      "step1_booked": 25,
-      "step1_showed": 5,
-      "cost_per_booked": 31.09,
-      "cost_per_showed": 155.44,
-      "show_rate_pct": 20.0,
+      "meta_spend": 755.47,
+      "step1_booked": 24,
+      "step1_showed": 4,
+      "cost_per_booked": 31.48,
+      "cost_per_showed": 188.87,
+      "show_rate_pct": 16.7,
       "campaigns": [
         {
           "name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 777.19,
-          "leads": 25
+          "spend": 755.47,
+          "leads": 23
         }
       ]
     },
@@ -85,17 +85,17 @@
       "campaigns": []
     },
     "Salad House": {
-      "meta_spend": 426.71,
+      "meta_spend": 434.6,
       "step1_booked": 10,
       "step1_showed": 2,
-      "cost_per_booked": 42.67,
-      "cost_per_showed": 213.35,
+      "cost_per_booked": 43.46,
+      "cost_per_showed": 217.3,
       "show_rate_pct": 20.0,
       "campaigns": [
         {
           "name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 426.71,
-          "leads": 14
+          "spend": 434.6,
+          "leads": 8
         }
       ]
     }
