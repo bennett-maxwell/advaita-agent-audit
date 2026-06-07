@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-06T06:15:01.877235",
+  "generated": "2026-06-07T06:15:02.188067",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -20,9 +20,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
       "brand": "Salad House",
-      "meta_spend": 445.91,
+      "meta_spend": 508.27,
       "meta_leads": 8,
-      "meta_cpl": 55.74,
+      "meta_cpl": 63.53,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -33,7 +33,7 @@
       "utm_campaign": null,
       "meta_campaign_name": "[FKI] FFH - LF",
       "brand": "FKI 2nd Opinion",
-      "meta_spend": 334.46,
+      "meta_spend": 334.49,
       "meta_leads": 24,
       "meta_cpl": 13.94,
       "booked": 0,
@@ -46,7 +46,7 @@
   "untagged": [],
   "brand_summary": {
     "FKI 2nd Opinion": {
-      "meta_spend": 304.69,
+      "meta_spend": 334.46,
       "step1_booked": 0,
       "step1_showed": 0,
       "cost_per_booked": null,
@@ -55,7 +55,7 @@
       "campaigns": [
         {
           "name": "[FKI] FFH - LF",
-          "spend": 304.69,
+          "spend": 334.46,
           "leads": 24
         }
       ]
@@ -63,10 +63,10 @@
     "Indy Clover": {
       "meta_spend": 682.89,
       "step1_booked": 19,
-      "step1_showed": 2,
+      "step1_showed": 4,
       "cost_per_booked": 35.94,
-      "cost_per_showed": 341.44,
-      "show_rate_pct": 10.5,
+      "cost_per_showed": 170.72,
+      "show_rate_pct": 21.1,
       "campaigns": [
         {
           "name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
@@ -85,16 +85,16 @@
       "campaigns": []
     },
     "Salad House": {
-      "meta_spend": 434.6,
-      "step1_booked": 8,
-      "step1_showed": 2,
-      "cost_per_booked": 54.33,
-      "cost_per_showed": 217.3,
-      "show_rate_pct": 25.0,
+      "meta_spend": 445.91,
+      "step1_booked": 7,
+      "step1_showed": 3,
+      "cost_per_booked": 63.7,
+      "cost_per_showed": 148.64,
+      "show_rate_pct": 42.9,
       "campaigns": [
         {
           "name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 434.6,
+          "spend": 445.91,
           "leads": 8
         }
       ]
