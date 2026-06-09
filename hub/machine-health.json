@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-03T17:50:08Z",
+  "updated": "2026-06-09T14:12:42Z",
   "machines": [
     {
       "id": "imac",
@@ -10,22 +10,22 @@
       "mem": null,
       "disk": 4,
       "uptime": "daily-check",
-      "last_seen": "2026-06-03T17:50:08Z",
+      "last_seen": "2026-06-09T14:12:42Z",
       "health_status": "warn",
-      "launchagents_total": 159,
-      "launchagents_errors": 32
+      "launchagents_total": 163,
+      "launchagents_errors": 11
     },
     {
       "id": "macbook",
       "name": "MacBook",
       "ip": "100.112.24.104",
-      "online": true,
+      "online": false,
       "cpu": null,
       "mem": null,
-      "disk": 28,
+      "disk": 0,
       "uptime": "daily-check",
-      "last_seen": "2026-06-03T17:50:08Z",
-      "cc_version": "2.1.161"
+      "last_seen": "2026-06-09T14:12:42Z",
+      "cc_version": "unknown"
     },
     {
       "id": "tiffany",
@@ -36,7 +36,7 @@
       "mem": null,
       "disk": null,
       "uptime": "offline",
-      "last_seen": "2026-06-03T17:50:08Z",
+      "last_seen": "2026-06-09T14:12:42Z",
       "role": "Local AI compute node",
       "spec": "128GB RAM \u00b7 Ollama HTTP only \u00b7 no SSH",
       "metrics_available": false
