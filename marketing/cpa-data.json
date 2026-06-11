@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-10T06:15:03.457911",
+  "generated": "2026-06-11T06:15:02.595165",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -62,11 +62,11 @@
     },
     "Indy Clover": {
       "meta_spend": 868.76,
-      "step1_booked": 19,
+      "step1_booked": 21,
       "step1_showed": 4,
-      "cost_per_booked": 45.72,
+      "cost_per_booked": 41.37,
       "cost_per_showed": 217.19,
-      "show_rate_pct": 21.1,
+      "show_rate_pct": 19.0,
       "campaigns": [
         {
           "name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
