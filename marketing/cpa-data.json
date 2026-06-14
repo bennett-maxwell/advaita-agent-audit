@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-13T06:15:03.134797",
+  "generated": "2026-06-14T06:15:02.355982",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -46,9 +46,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[FKI] DAILY-TEST",
       "brand": "FKI 2nd Opinion",
-      "meta_spend": 57.32,
-      "meta_leads": 4,
-      "meta_cpl": 14.33,
+      "meta_spend": 102.0,
+      "meta_leads": 8,
+      "meta_cpl": 12.75,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -59,9 +59,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[SH] DAILY-TEST",
       "brand": "Salad House",
-      "meta_spend": 17.37,
-      "meta_leads": 6,
-      "meta_cpl": 2.9,
+      "meta_spend": 30.36,
+      "meta_leads": 10,
+      "meta_cpl": 3.04,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -72,7 +72,7 @@
   "untagged": [],
   "brand_summary": {
     "FKI 2nd Opinion": {
-      "meta_spend": 563.31,
+      "meta_spend": 620.63,
       "step1_booked": 0,
       "step1_showed": 0,
       "cost_per_booked": null,
@@ -83,16 +83,21 @@
           "name": "[FKI] FFH - LF",
           "spend": 563.31,
           "leads": 36
+        },
+        {
+          "name": "[FKI] DAILY-TEST",
+          "spend": 57.32,
+          "leads": 4
         }
       ]
     },
     "Indy Clover": {
       "meta_spend": 868.76,
-      "step1_booked": 17,
+      "step1_booked": 15,
       "step1_showed": 3,
-      "cost_per_booked": 51.1,
+      "cost_per_booked": 57.92,
       "cost_per_showed": 289.59,
-      "show_rate_pct": 17.6,
+      "show_rate_pct": 20.0,
       "campaigns": [
         {
           "name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
@@ -111,17 +116,22 @@
       "campaigns": []
     },
     "Salad House": {
-      "meta_spend": 519.92,
+      "meta_spend": 537.29,
       "step1_booked": 7,
       "step1_showed": 3,
-      "cost_per_booked": 74.27,
-      "cost_per_showed": 173.31,
+      "cost_per_booked": 76.76,
+      "cost_per_showed": 179.1,
       "show_rate_pct": 42.9,
       "campaigns": [
         {
           "name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
           "spend": 519.92,
           "leads": 8
+        },
+        {
+          "name": "[SH] DAILY-TEST",
+          "spend": 17.37,
+          "leads": 6
         }
       ]
     }
