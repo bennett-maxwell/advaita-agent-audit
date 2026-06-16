@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-15T06:15:02.428179",
+  "generated": "2026-06-16T06:15:03.042995",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -7,9 +7,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
       "brand": "Indy Clover",
-      "meta_spend": 868.76,
-      "meta_leads": 31,
-      "meta_cpl": 28.02,
+      "meta_spend": 1050.6,
+      "meta_leads": 51,
+      "meta_cpl": 20.6,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -20,9 +20,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[FKI] FFH - LF",
       "brand": "FKI 2nd Opinion",
-      "meta_spend": 563.31,
-      "meta_leads": 36,
-      "meta_cpl": 15.65,
+      "meta_spend": 798.66,
+      "meta_leads": 50,
+      "meta_cpl": 15.97,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -46,9 +46,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[FKI] DAILY-TEST",
       "brand": "FKI 2nd Opinion",
-      "meta_spend": 102.07,
+      "meta_spend": 130.35,
       "meta_leads": 8,
-      "meta_cpl": 12.76,
+      "meta_cpl": 16.29,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -59,9 +59,35 @@
       "utm_campaign": null,
       "meta_campaign_name": "[SH] DAILY-TEST",
       "brand": "Salad House",
-      "meta_spend": 41.94,
+      "meta_spend": 51.37,
       "meta_leads": 10,
-      "meta_cpl": 4.19,
+      "meta_cpl": 5.14,
+      "booked": 0,
+      "showed": 0,
+      "cost_per_booked": null,
+      "cost_per_showed": null,
+      "is_untagged": false
+    },
+    {
+      "utm_campaign": null,
+      "meta_campaign_name": "[BPAI] Blueprint AI - Daily Test - LEADS",
+      "brand": "Unknown",
+      "meta_spend": 34.48,
+      "meta_leads": 4,
+      "meta_cpl": 8.62,
+      "booked": 0,
+      "showed": 0,
+      "cost_per_booked": null,
+      "cost_per_showed": null,
+      "is_untagged": false
+    },
+    {
+      "utm_campaign": null,
+      "meta_campaign_name": "[IC] DAILY-TEST",
+      "brand": "Indy Clover",
+      "meta_spend": 27.12,
+      "meta_leads": 0,
+      "meta_cpl": null,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -72,7 +98,7 @@
   "untagged": [],
   "brand_summary": {
     "FKI 2nd Opinion": {
-      "meta_spend": 665.31,
+      "meta_spend": 665.38,
       "step1_booked": 0,
       "step1_showed": 0,
       "cost_per_booked": null,
@@ -86,7 +112,7 @@
         },
         {
           "name": "[FKI] DAILY-TEST",
-          "spend": 102.0,
+          "spend": 102.07,
           "leads": 8
         }
       ]
@@ -116,12 +142,12 @@
       "campaigns": []
     },
     "Salad House": {
-      "meta_spend": 550.28,
-      "step1_booked": 7,
-      "step1_showed": 3,
-      "cost_per_booked": 78.61,
-      "cost_per_showed": 183.43,
-      "show_rate_pct": 42.9,
+      "meta_spend": 561.86,
+      "step1_booked": 5,
+      "step1_showed": 2,
+      "cost_per_booked": 112.37,
+      "cost_per_showed": 280.93,
+      "show_rate_pct": 40.0,
       "campaigns": [
         {
           "name": "[SH] Leadform \u2013 FNL - 12 Feb - CBO",
@@ -130,7 +156,7 @@
         },
         {
           "name": "[SH] DAILY-TEST",
-          "spend": 30.36,
+          "spend": 41.94,
           "leads": 10
         }
       ]
