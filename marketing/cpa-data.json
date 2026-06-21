@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-20T06:15:04.157059",
+  "generated": "2026-06-21T06:15:02.195301",
   "window_days": 30,
   "meta_available": true,
   "by_campaign": [
@@ -7,9 +7,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
       "brand": "Indy Clover",
-      "meta_spend": 1565.25,
-      "meta_leads": 83,
-      "meta_cpl": 18.86,
+      "meta_spend": 1691.98,
+      "meta_leads": 88,
+      "meta_cpl": 19.23,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -46,9 +46,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[BPAI] Blueprint AI - Daily Test - LEADS",
       "brand": "Unknown",
-      "meta_spend": 174.44,
+      "meta_spend": 174.5,
       "meta_leads": 16,
-      "meta_cpl": 10.9,
+      "meta_cpl": 10.91,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -72,9 +72,9 @@
       "utm_campaign": null,
       "meta_campaign_name": "[SH] DAILY-TEST",
       "brand": "Salad House",
-      "meta_spend": 119.14,
+      "meta_spend": 119.23,
       "meta_leads": 14,
-      "meta_cpl": 8.51,
+      "meta_cpl": 8.52,
       "booked": 0,
       "showed": 0,
       "cost_per_booked": null,
@@ -118,17 +118,17 @@
       ]
     },
     "Indy Clover": {
-      "meta_spend": 1476.55,
+      "meta_spend": 1592.86,
       "step1_booked": 20,
-      "step1_showed": 5,
-      "cost_per_booked": 73.83,
-      "cost_per_showed": 295.31,
-      "show_rate_pct": 25.0,
+      "step1_showed": 4,
+      "cost_per_booked": 79.64,
+      "cost_per_showed": 398.21,
+      "show_rate_pct": 20.0,
       "campaigns": [
         {
           "name": "[IC] Leadform \u2013 FNL - 12 Feb - CBO",
-          "spend": 1448.94,
-          "leads": 76
+          "spend": 1565.25,
+          "leads": 83
         },
         {
           "name": "[IC] DAILY-TEST",
@@ -147,11 +147,11 @@
       "campaigns": []
     },
     "Salad House": {
-      "meta_spend": 629.91,
+      "meta_spend": 639.06,
       "step1_booked": 5,
       "step1_showed": 2,
-      "cost_per_booked": 125.98,
-      "cost_per_showed": 314.95,
+      "cost_per_booked": 127.81,
+      "cost_per_showed": 319.53,
       "show_rate_pct": 40.0,
       "campaigns": [
         {
@@ -161,7 +161,7 @@
         },
         {
           "name": "[SH] DAILY-TEST",
-          "spend": 109.99,
+          "spend": 119.14,
           "leads": 14
         }
       ]
