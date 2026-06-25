@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FKI — Master Command Center</title>
+<style>
+:root{
+  --bg:#0d0f14; --card:#1e2230; --border:#2a2f3e; --text:#eef2f7;
+  --muted:#9aa5b5; --accent:#4f8ef7; --green:#34d399; --amber:#fbbf24; --red:#f87171;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; min-height:100vh; padding:32px 20px 64px;
+  background:radial-gradient(circle at top left,rgba(79,142,247,.18),transparent 34rem),linear-gradient(180deg,#0d0f14,#11151e);
+  color:var(--text); font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.wrap{max-width:1100px;margin:0 auto;}
+header{text-align:center;margin-bottom:8px;}
+h1{margin:0 0 6px;font-size:clamp(26px,5vw,40px);letter-spacing:-.04em;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 4px;}
+.stamp{color:var(--muted);font-size:12px;opacity:.7;}
+
+.banner{
+  margin:24px 0;padding:18px 20px;border:1px solid rgba(52,211,153,.35);
+  border-radius:12px;background:rgba(52,211,153,.08);
+}
+.banner h2{margin:0 0 10px;font-size:16px;color:var(--green);}
+.deal{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:14px;}
+.deal:last-child{border-bottom:none;}
+.deal .who{color:var(--muted);}
+.deal .amt{font-variant-numeric:tabular-nums;font-weight:600;}
+
+h3.section{margin:28px 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:6px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+a.tile{
+  display:flex;flex-direction:column;gap:6px;min-height:64px;padding:14px 16px;
+  border:1px solid var(--border);border-radius:10px;text-decoration:none;
+  background:rgba(30,34,48,.85);color:var(--text);transition:border-color .15s,transform .1s;
+}
+a.tile:hover{border-color:var(--accent);transform:translateY(-1px);}
+.tile .name{font-size:15px;font-weight:600;}
+.tile .meta{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.dot.g{background:var(--green);} .dot.a{background:var(--amber);} .dot.r{background:var(--red);} .dot.n{background:#64748b;}
+.note{margin-top:36px;padding:16px 18px;border:1px solid var(--border);border-radius:10px;background:rgba(30,34,48,.6);color:var(--muted);font-size:13px;line-height:1.6;}
+.note b{color:var(--text);}
+footer{margin-top:28px;text-align:center;color:var(--muted);font-size:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>FKI — Master Command Center</h1>
+  <p class="sub">One front door to every live dashboard. Click any card.</p>
+  <p class="stamp">Built 2026-06-25 · 33 live dashboards · status dots are manual until Sprint Board is wired (see note below)</p>
+</header>
+
+<div class="banner">
+  <h2>💰 Cash by Monday — close these (live GHL pipeline, ~$210K open)</h2>
+  <div class="deal"><span class="who">Anthony Castillo · FA/Invoice · Kay</span><span class="amt">$5K</span></div>
+  <div class="deal"><span class="who">James Vasill · Discovery Day · Bennett</span><span class="amt">$30K</span></div>
+  <div class="deal"><span class="who">Janane Strength · Financial Review · Bennett</span><span class="amt">$30K</span></div>
+  <div class="deal"><span class="who">Ashlee Shakir · Territory Review (fresh) · Bennett</span><span class="amt">$30K</span></div>
+  <div class="deal"><span class="who">Tanya Burke · David Limpert · Rashmi Bhankhede · Kay</span><span class="amt">$85K</span></div>
+  <div class="deal"><span class="who">Elie Chafii · Territory Review (stale) · Madison</span><span class="amt">$30K</span></div>
+</div>
+
+<h3 class="section">🏢 Company / Top-Level</h3>
+<div class="grid">
+  <a class="tile" href="/fki-cc/"><span class="name">FKI Command Center</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/mission-control/"><span class="name">Mission Control</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/personal-cc/"><span class="name">Personal Command Center</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/vision/"><span class="name">Vision</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/pulse/"><span class="name">Pulse</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/daily-digest/"><span class="name">Daily Digest</span><span class="meta"><span class="dot g"></span>live</span></a>
+</div>
+
+<h3 class="section">💰 Money &amp; Sales</h3>
+<div class="grid">
+  <a class="tile" href="/sales/"><span class="name">Sales</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/sales-intelligence/"><span class="name">Sales Intelligence</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/finance/"><span class="name">Finance</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/finance-hub/"><span class="name">Finance Hub</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/forecast/"><span class="name">Forecast</span><span class="meta"><span class="dot g"></span>live</span></a>
+</div>
+
+<h3 class="section">🎯 Leads &amp; Marketing</h3>
+<div class="grid">
+  <a class="tile" href="/lead-acquisition/"><span class="name">Lead Acquisition</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/lead-processing/"><span class="name">Lead Processing</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/marketing/"><span class="name">Marketing</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/content-engine/"><span class="name">Content Engine</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/social/"><span class="name">Social</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/seo/"><span class="name">SEO</span><span class="meta"><span class="dot g"></span>live</span></a>
+</div>
+
+<h3 class="section">🗺️ Franchise / MapKI</h3>
+<div class="grid">
+  <a class="tile" href="/mapki/"><span class="name">MapKI</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/franchise-ranking/"><span class="name">Franchise Ranking</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/franchise-score/"><span class="name">Franchise Score</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/franchisors/"><span class="name">Franchisors</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/ai-franchise-kit/"><span class="name">AI Franchise Kit</span><span class="meta"><span class="dot g"></span>live</span></a>
+</div>
+
+<h3 class="section">🤖 AI / Agents / Ops</h3>
+<div class="grid">
+  <a class="tile" href="/ai-agents/"><span class="name">AI Agents</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/autonomy/"><span class="name">Autonomy</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/angie/"><span class="name">Angie</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/operations/"><span class="name">Operations</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/software/"><span class="name">Software</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/skills-registry/"><span class="name">Skills Registry</span><span class="meta"><span class="dot g"></span>live</span></a>
+</div>
+
+<h3 class="section">📋 Other</h3>
+<div class="grid">
+  <a class="tile" href="/legal/"><span class="name">Legal</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/meeting-prep/"><span class="name">Meeting Prep</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/real-estate/"><span class="name">Real Estate</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/brand-gallery/"><span class="name">Brand Gallery</span><span class="meta"><span class="dot g"></span>live</span></a>
+  <a class="tile" href="/chore-chart/"><span class="name">Chore Chart</span><span class="meta"><span class="dot g"></span>live</span></a>
+</div>
+
+<div class="note">
+  <b>How to make this show live status + progress (next step):</b> right now every dot is green = "the page is up," not "the project is on track."
+  To get real 🟢🟡🔴 status and progress bars per project, the <b>AI Sprint Board</b> in Notion must be shared with the OpenClaw integration
+  (it currently returns 404). Once shared, this page can pull each project's status + % complete on load and replace the manual dots automatically.
+  <br><br>
+  <b>33 dashboards live · verified HTTP 200 on 2026-06-25.</b> Bookmark this page — it's your single front door.
+</div>
+
+<footer>FKI Master Command Center · dashboard.franchiseki.com/home · regenerate this index any time</footer>
+</div>
+</body>
+</html>
