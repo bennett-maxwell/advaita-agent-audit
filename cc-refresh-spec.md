@@ -1,3 +1,17 @@
+> ## ⛔ GATED 2026-08-04 — READ BEFORE IMPLEMENTING THIS CRON
+> Company financial figures were **removed from this public repo** on 2026-08-04 by decision of
+> Madison Lanz (Operations Manager). `dashboard.franchiseki.com` is a **public** GitHub Pages site
+> served from the **public** repo `bennett-maxwell/advaita-agent-audit`, so anything written here is
+> world-readable.
+>
+> **Do NOT restore the finance sed-replace steps below until the company-only access gate is live**
+> (runbook: `fki-dashboard/docs/COMPANY-ONLY-ACCESS-RUNBOOK.md`).
+>
+> The old `"$390K"` sed anchors **no longer exist** — `hub/index.html`, `finance-hub/index.html`,
+> `personal-finance/index.html` and `cc-data-snapshot.json` now render/where applicable a `🔒 gated`
+> placeholder. A sed-replace keyed on the old anchor will silently no-op. Operational metrics
+> (leads, autonomy, CPL, funnel, machine RAM) are unchanged and still safe to refresh.
+
 # CC Daily Refresh Script Spec
 # For Leo to implement as daily 6AM cron on Ivan
 # Generated: 2026-05-26 by Helix sub-agent

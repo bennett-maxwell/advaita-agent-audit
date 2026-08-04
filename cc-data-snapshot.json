@@ -1,14 +1,6 @@
 {
   "snapshot_date": "2026-05-26T18:40:00Z",
   "ttl_hours": 24,
-  "fki_financials": {
-    "ytd_revenue": 390000,
-    "ytd_net": 252000,
-    "gross_margin_pct": 64.8,
-    "monthly_run_rate": 48750,
-    "source": "QB live 2026-05-26",
-    "last_updated": "2026-05-26"
-  },
   "sales_pipeline": {
     "total_active_leads": null,
     "stage_1_new": null,
@@ -131,5 +123,6 @@
       }
     ],
     "source": "Slack API via Leo cron \u2014 refreshed daily"
-  }
+  },
+  "_redacted_2026_08_04": "fki_financials removed \u2014 company financials must not be served from a public repo. Decision: Madison Lanz 2026-08-04. Restore only behind the company-only access gate."
 }
