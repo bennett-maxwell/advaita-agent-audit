@@ -24,26 +24,26 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 .page { max-width: 960px; margin: 0 auto; background: var(--white); min-height: 100vh; }
-.banner { padding: 10px 32px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.banner { padding: 10px 40px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .banner.stale { background: #FFF4E5; color: #9A6700; }
 .banner.blocked { background: #FF3B3008; color: var(--red); border-bottom: 2px solid var(--red); }
 .banner.ok { background: #E8F8EE; color: #1F7A3A; }
-.header { padding: 28px 32px 20px; border-bottom: 1px solid var(--div); }
+.header { padding: 32px 40px 24px; border-bottom: 1px solid var(--div); }
 .kicker { font-size: 13px; font-weight: 600; color: var(--secondary); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 4px; }
-.header h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
-.sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.header h1 { font-size: 34px; font-weight: 700; color: var(--text); letter-spacing: -.4px; }
+.sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
 .kpis { display: flex; border-bottom: 1px solid var(--div); }
-.kpi { flex: 1; text-align: center; padding: 20px 8px; }
+.kpi { flex: 1; text-align: center; padding: 24px 12px; }
 .kpi .n { font-size: 32px; font-weight: 700; letter-spacing: -.6px; line-height: 1.1; }
 .kpi .l { font-size: 11px; font-weight: 500; color: var(--secondary); margin-top: 4px; }
 .kpi .m { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.35; }
-.sec { padding: 20px 32px; border-top: 1px solid var(--div); }
+.sec { padding: 24px 40px; border-top: 1px solid var(--div); }
 .sec-h { font-size: 11px; font-weight: 600; color: var(--secondary); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px; }
 .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F2F2F7; }
 .row:last-child { border-bottom: none; }
 .row .lab { font-size: 14px; color: var(--text); }
 .row .val { font-size: 14px; font-weight: 500; white-space: nowrap; }
-.alert { padding: 14px 32px; background: #FF3B3008; border-bottom: 2px solid var(--red); }
+.alert { padding: 16px 40px; background: #FF3B3008; border-bottom: 2px solid var(--red); }
 .alert .h { font-size: 12px; font-weight: 600; color: var(--red); letter-spacing: .04em; text-transform: uppercase; }
 .alert ul { margin: 8px 0 0 18px; }
 .alert li { font-size: 14px; color: var(--text); margin: 0 0 6px; line-height: 1.4; }
@@ -63,11 +63,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); min-
 .pill-amber { background: #FFF1D6; color: #9A6700; }
 .pill-green { background: #D8F5E3; color: #1F7A3A; }
 .red { color: var(--red); } .amber { color: var(--amber); } .green { color: var(--green); }
-.foot { padding: 16px 32px; border-top: 1px solid var(--div); background: var(--bg); }
+.foot { padding: 16px 40px; border-top: 1px solid var(--div); background: var(--bg); }
 .foot .line { font-size: 12px; color: var(--muted); line-height: 1.45; }
 .funcs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 @media (max-width: 640px) {
   .header, .sec, .alert, .banner, .foot { padding-left: 20px; padding-right: 20px; }
+  .header h1 { font-size: 28px; }
   .kpis { flex-wrap: wrap; }
   .kpi { flex: 1 1 45%; }
   .funcs { grid-template-columns: 1fr; }
@@ -96,9 +97,23 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); min-
     <div class="h">Action required</div>
     <ul>
       <li>$105k sitting on Courtney + Syed — collect, don’t dashboard. as_of L10 8/17</li>
-      <li>ION Solar $5k verbal — invoice + agreement. Anthony Castillo dropped 8/13</li>
-      <li>Grok Bot leftover: 41 drafts still sitting · 0 of 45 sent. Target is 10/10 delivered</li>
+      <li>ION Solar $5k — agreement sent; Stripe still open. Anthony Castillo dropped 8/13</li>
+      <li>Grok Bot leftover: 41 drafts still sitting · 0 of 45 prospect sent. Target is 10/10 delivered</li>
     </ul>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h">180-day money vs AI (Madison + Monday L10)</div>
+    <div class="row"><div class="lab">Cash collected last scored week</div><div class="val red">$1k of $7k · payroll missed 8/15</div></div>
+    <div class="own" style="margin-bottom:8px">as_of 2026-08-17 · L10 Weekly 3bfcf5514fd381ce94dce96ae5bfd33e · Shared</div>
+    <div class="row"><div class="lab">Sitting paper, not in bank</div><div class="val amber">$105k Courtney + Syed</div></div>
+    <div class="own" style="margin-bottom:8px">as_of 2026-08-17 · same L10 · not live CRM</div>
+    <div class="row"><div class="lab">Fastest franchise cash this week</div><div class="val red">IC ads $50/day — nothing running</div></div>
+    <div class="own" style="margin-bottom:8px">Bennett on L10 8/17: “Indy Clover is the quickest for franchising to get money in.” George: nothing live.</div>
+    <div class="row"><div class="lab">Advaita ads vs cash</div><div class="val red">0 appointments / 5 days · 1 form fill</div></div>
+    <div class="own" style="margin-bottom:8px">as_of L10 8/17 · AI spend bought learning, not booked calls</div>
+    <div class="row"><div class="lab">Sweep coverage this seat</div><div class="val amber">25 Daily Sync pages + 16 L10/Monday pages in window · not every transcript byte</div></div>
+    <div class="own">Window 2026-02-18 → 2026-08-18 · Notion search + L10 8/17 + Daily Sync 8/18 fetched. Feb–Apr L10s exist (e.g. 3/3, 4/27) but not every daily page was opened.</div>
   </div>
 
   <div class="sec">
@@ -147,7 +162,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); min-
   </div>
 
   <div class="foot">
-    <div class="line">MODE B Apple · design-skill tokens · white #FFFFFF · SF Pro · no dark Bloomberg.</div>
+    <div class="line">MODE B Apple · design-skill tokens · white #FFFFFF · SF Pro · 34px title · 40px pad · no dark Bloomberg.</div>
     <div class="line">Style source: CEO Command Center v2 360cf5514fd381a9ab97ed5136e88dab · Employee Board collection://0a7d31fd-e70b-4344-a30e-55e841203476</div>
     <div class="line">Cash BLOCKED until FKI QB realm is live. Vercel is a feed, not a second home.</div>
   </div>
@@ -156,8 +171,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); min-
 <script>
 const BOTS = [
   {name:"Leo", lane:"Leftover send cadence", today:"0/10", delivered:"0 prospect", reply:"—", status:"RED", as_of:"2026-08-18", source:"aiteam@ 41 leftovers sitting · 0 of 45 sent", href:"https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e"},
-  {name:"Wevly", lane:"Website sales", today:"0/10", delivered:"18/21 last batch", reply:"0%", status:"RED", as_of:"2026-08-17", source:"AgentMail wevly@ 21 sent · 3 bounce · 0 human replies · freeze after Bennett tap", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
-  {name:"Penny", lane:"Podcast pitches", today:"0/10", delivered:"0 prospect", reply:"BLOCKED", status:"RED", as_of:"2026-08-18", source:"Daily 20 drafts · last AgentMail to bennett@ canaries Jun–Jul · none to hosts today", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Wevly", lane:"Website sales", today:"0/10", delivered:"21 sent · 3 bounce", reply:"0 human", status:"RED", as_of:"2026-08-18", source:"AgentMail wevly@ live list 24 msgs · 0 human replies · leftover send FROZEN", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Penny", lane:"Podcast pitches", today:"0/10", delivered:"0 prospect today", reply:"0 host", status:"RED", as_of:"2026-08-18", source:"podcastpr@ 27 msgs · last sends are Jun–Jul canaries to bennett@ · 0 host pitches today", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
   {name:"Connie", lane:"Inbox triage drafts", today:"0/10", delivered:"0 send", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Drafts only · Tyler/Balkhi HELD · never send from Bot", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
   {name:"Sam", lane:"Sales next-touch", today:"0/10", delivered:"3 drafts staged", reply:"—", status:"RED", as_of:"2026-08-17", source:"Jessica/Aaron/Shaina drafts · never send until tap", href:"https://app.notion.com/p/3c0cf5514fd38102984cd8aee2f16837"},
   {name:"Blue", lane:"Blueprint drafts", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"No Blue AgentMail inbox · 14 claimed sends unproven", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
