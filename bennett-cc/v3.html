@@ -2,218 +2,225 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>FKI Function Command Center</title>
-<!-- CC-BUILD-FOLLOWUP-20260818-CAMERON unique public-proof marker -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Today — Franchise KI</title>
+<!-- CC-APPLE-LIGHT-20260818-CAMERON unique public-proof marker -->
 <style>
 :root {
-  --bg: #0d0f14;
-  --surface: #161922;
-  --card: #1e2230;
-  --border: #2a2f3e;
-  --accent: #4f8ef7;
-  --green: #22c55e;
-  --red: #ef4444;
-  --yellow: #f59e0b;
-  --text: #e8eaf0;
-  --muted: #7b8196;
-  --radius: 14px;
-  --font: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+  --bg: #F5F5F7;
+  --white: #FFFFFF;
+  --text: #1D1D1F;
+  --secondary: #6E6E73;
+  --muted: #8E8E93;
+  --div: #E5E5EA;
+  --border: #D1D1D6;
+  --card: #F5F5F7;
+  --blue: #0071E3;
+  --green: #34C759;
+  --amber: #FF9F0A;
+  --red: #FF3B30;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-.screen { display: none; }
-.screen.active { display: block; }
-.banner { padding: 10px 16px; font-size: 13px; font-weight: 800; letter-spacing: .02em; }
-.banner.stale { background: #7a4d00; color: #fff; }
-.banner.blocked { background: #7f1d1d; color: #fff; }
-.banner.ok { background: #14532d; color: #fff; }
-.header { background: linear-gradient(135deg, #1a1f2e 0%, #12161f 100%); padding: 16px 16px 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; }
-.header h1 { font-size: 20px; font-weight: 800; letter-spacing: -.4px; }
-.header h1 span { color: var(--accent); }
-.header-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-.back { font-size: 12px; font-weight: 700; color: var(--accent); background: none; border: 0; cursor: pointer; margin-bottom: 8px; }
-.strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px 12px 0; }
-@media (min-width: 720px) { .strip { grid-template-columns: repeat(6, 1fr); } }
-.s-cell { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
-.s-lab { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-.s-val { font-size: 18px; font-weight: 800; margin-top: 4px; letter-spacing: -.3px; }
-.s-meta { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.35; }
-.red { color: var(--red); } .amber { color: var(--yellow); } .green { color: var(--green); }
-.wrap { padding: 14px 12px 28px; max-width: 820px; margin: 0 auto; }
-.now { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
-.now h2 { font-size: 12px; color: var(--red); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
-.now li { margin: 0 0 6px 16px; font-size: 14px; line-height: 1.4; }
-.imb { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 14px; }
-.imb h2 { font-size: 12px; color: var(--yellow); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
-.bar { height: 10px; background: #2a2f3e; border-radius: 20px; overflow: hidden; display: flex; margin: 8px 0; }
-.bar .m { background: var(--green); } .bar .h { background: var(--accent); }
-.home-cards { display: flex; flex-direction: column; gap: 12px; padding: 16px 12px 32px; max-width: 560px; margin: 0 auto; }
-.home-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-align: left; cursor: pointer; color: var(--text); width: 100%; }
-.home-card .k { font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
-.home-card h3 { font-size: 20px; margin: 4px 0; }
-.home-card p { font-size: 13px; color: var(--muted); }
-.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-@media (max-width: 420px) { .tiles { grid-template-columns: 1fr; } }
-.tile { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; cursor: pointer; text-align: left; color: var(--text); width: 100%; }
-.tile .n { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; }
-.tile h3 { font-size: 16px; margin: 4px 0 6px; }
-.tile .rag { font-size: 12px; font-weight: 800; }
-.detail { display: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+.page { max-width: 960px; margin: 0 auto; background: var(--white); min-height: 100vh; }
+.banner { padding: 10px 32px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.banner.stale { background: #FFF4E5; color: #9A6700; }
+.banner.blocked { background: #FF3B3008; color: var(--red); border-bottom: 2px solid var(--red); }
+.banner.ok { background: #E8F8EE; color: #1F7A3A; }
+.header { padding: 28px 32px 20px; border-bottom: 1px solid var(--div); }
+.kicker { font-size: 13px; font-weight: 600; color: var(--secondary); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 4px; }
+.header h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
+.sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.kpis { display: flex; border-bottom: 1px solid var(--div); }
+.kpi { flex: 1; text-align: center; padding: 20px 8px; }
+.kpi .n { font-size: 32px; font-weight: 700; letter-spacing: -.6px; line-height: 1.1; }
+.kpi .l { font-size: 11px; font-weight: 500; color: var(--secondary); margin-top: 4px; }
+.kpi .m { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+.sec { padding: 20px 32px; border-top: 1px solid var(--div); }
+.sec-h { font-size: 11px; font-weight: 600; color: var(--secondary); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F2F2F7; }
+.row:last-child { border-bottom: none; }
+.row .lab { font-size: 14px; color: var(--text); }
+.row .val { font-size: 14px; font-weight: 500; white-space: nowrap; }
+.alert { padding: 14px 32px; background: #FF3B3008; border-bottom: 2px solid var(--red); }
+.alert .h { font-size: 12px; font-weight: 600; color: var(--red); letter-spacing: .04em; text-transform: uppercase; }
+.alert ul { margin: 8px 0 0 18px; }
+.alert li { font-size: 14px; color: var(--text); margin: 0 0 6px; line-height: 1.4; }
+.proj { padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
+.proj:last-child { border-bottom: none; }
+.proj .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.proj .name { font-size: 14px; font-weight: 600; color: var(--text); }
+.proj .name a { color: var(--blue); text-decoration: none; }
+.proj .own { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.bot-table { width: 100%; border-collapse: collapse; }
+.bot-table th { font-size: 11px; font-weight: 600; color: var(--secondary); text-align: left; padding: 0 8px 10px 0; letter-spacing: .04em; text-transform: uppercase; }
+.bot-table td { font-size: 13px; padding: 10px 8px 10px 0; border-top: 1px solid #F2F2F7; vertical-align: top; color: var(--text); }
+.bot-table .bot { font-weight: 600; }
+.bot-table .lane { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.pill { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+.pill-red { background: #FFE5E3; color: var(--red); }
+.pill-amber { background: #FFF1D6; color: #9A6700; }
+.pill-green { background: #D8F5E3; color: #1F7A3A; }
+.red { color: var(--red); } .amber { color: var(--amber); } .green { color: var(--green); }
+.foot { padding: 16px 32px; border-top: 1px solid var(--div); background: var(--bg); }
+.foot .line { font-size: 12px; color: var(--muted); line-height: 1.45; }
+.funcs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 640px) {
+  .header, .sec, .alert, .banner, .foot { padding-left: 20px; padding-right: 20px; }
+  .kpis { flex-wrap: wrap; }
+  .kpi { flex: 1 1 45%; }
+  .funcs { grid-template-columns: 1fr; }
+  .bot-table { font-size: 12px; display: block; overflow-x: auto; }
+}
+.fbtn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-align: left; cursor: pointer; width: 100%; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+.fbtn .n { font-size: 11px; font-weight: 600; color: var(--secondary); text-transform: uppercase; letter-spacing: .05em; }
+.fbtn h2 { font-size: 16px; font-weight: 700; margin-top: 4px; }
+.detail { display: none; margin-top: 12px; }
 .detail.on { display: block; }
-.rock { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
-.rock a { color: var(--accent); font-weight: 700; text-decoration: none; }
-.rock .own { font-size: 11px; color: var(--muted); }
-.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
-.kpi .v { font-size: 20px; font-weight: 800; }
-.kpi .d { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
-.foot { font-size: 11px; color: var(--muted); margin-top: 18px; line-height: 1.45; }
-.pill { display: inline-block; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
-.pill-red { background: #7f1d1d; color: #fecaca; }
-.pill-amber { background: #78350f; color: #fde68a; }
-.pill-green { background: #14532d; color: #bbf7d0; }
 </style>
 </head>
 <body>
-<div id="freshBanner" class="banner blocked">BLOCKED — snapshot not bound yet</div>
+<div class="page">
+  <div id="freshBanner" class="banner blocked">BLOCKED — live books not bound</div>
 
-<div id="screen-home" class="screen active">
   <div class="header">
-    <h1>FKI <span>Function</span> Command Center</h1>
-    <div class="header-sub">Cash first · exceptions first · 60-second scan · Aug 18 2026 rebuild</div>
+    <div class="kicker">Franchise KI · Tuesday</div>
+    <h1>Today</h1>
+    <div class="sub">Cash first · main projects · Grok Bot 10/10 · Aug 18 2026</div>
   </div>
-  <div class="home-cards">
-    <button class="home-card" onclick="openScreen('biz')">
-      <div class="k">Business</div>
-      <h3>Six functions. One money strip.</h3>
-      <p>Marketing · Appointments · Cold lead gen · CRO/sales · AI harness (cost) · Finance. Agents are owners, not a tab.</p>
-    </button>
-    <button class="home-card" onclick="openScreen('personal')">
-      <div class="k">Personal</div>
-      <h3>Personal Center</h3>
-      <p>Legal · personal finance · chores · real estate. Private. Not FKI cash.</p>
-    </button>
-  </div>
-</div>
 
-<div id="screen-biz" class="screen">
-  <div class="header">
-    <button class="back" onclick="openScreen('home')">← Home</button>
-    <h1>Business <span>now</span></h1>
-    <div class="header-sub" id="bizSub">Bind snapshot on open. Vercel is a feed, not a second home.</div>
+  <div class="kpis" id="moneyStrip"></div>
+
+  <div class="alert">
+    <div class="h">Action required</div>
+    <ul>
+      <li>$105k sitting on Courtney + Syed — collect, don’t dashboard. as_of L10 8/17</li>
+      <li>ION Solar $5k verbal — invoice + agreement. Anthony Castillo dropped 8/13</li>
+      <li>Grok Bot leftover: 41 drafts still sitting · 0 of 45 sent. Target is 10/10 delivered</li>
+    </ul>
   </div>
-  <div class="strip" id="moneyStrip"></div>
-  <div class="wrap">
-    <div class="now">
-      <h2>Right now</h2>
-      <ul>
-        <li><b>$105k</b> sitting on Courtney + Syed (L10 8/17). Collect, don’t dashboard.</li>
-        <li><b>ION Solar $5k</b> verbal close 8/18 — invoice + agreement. Anthony Castillo is DROPPED.</li>
-        <li><b>Indy Clover ads $50/day</b> — Bennett: fastest franchise cash. Nothing was running.</li>
-        <li><b>FKI cash</b> last proven $269 vs $146k liabilities as_of Jul 2. Live QB BLOCKED — not $0.</li>
-        <li>Payroll missed 8/15. $6k still out. Late-fee clock named 8/20.</li>
-      </ul>
+
+  <div class="sec">
+    <div class="sec-h">Main projects</div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3b8cf5514fd38167a38dfacd161c7184">Collect $105k — Courtney + Syed</a></div><span class="pill pill-red">RED</span></div>
+      <div class="own">CRO · Madison · KPI: dollars in bank · as_of 2026-08-17 · Shared</div>
     </div>
-    <div class="imb">
-      <h2>180 days — money vs harness</h2>
-      <div class="bar"><div class="m" style="width:38%"></div><div class="h" style="width:62%"></div></div>
-      <div class="s-meta">Green = money named in Madison/Monday rooms (collect, book, close). Blue = harness (CC, Pulse, Trail, bots, skill fleet). L10 8/17: demand generated, paper did not become cash. Window 2026-02-18 → 2026-08-18.</div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3c0cf5514fd38166b3ebe61f6bae4f68">ION Solar close — $5k</a></div><span class="pill pill-amber">AMBER</span></div>
+      <div class="own">CRO · Madison/Kay · KPI: invoice sent · as_of 2026-08-18 · Shared</div>
     </div>
-    <div class="tiles" id="tiles"></div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/33dcf5514fd381d382fae7e19a5f14fd">Indy Clover + Meta ads live $50/day</a></div><span class="pill pill-red">RED</span></div>
+      <div class="own">Marketing · George/Brent · KPI: spend vs cap · as_of BLOCKED Meta · Human-owned</div>
+    </div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/34dcf5514fd3810bb0ecfea9fbbdb0d0">Salad House CBO scale + FKI 2nd Opinion tests</a></div><span class="pill pill-amber">AMBER</span></div>
+      <div class="own">Marketing · SH ~1.41x / 2nd Op ~1.26x as_of 2026-04-25 · Human-owned</div>
+    </div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/34dcf5514fd381e1abdcff9683327c08">Broker outreach — $0 CAC</a></div><span class="pill pill-amber">AMBER</span></div>
+      <div class="own">Cold lead gen · Cody · historically $0 ad cost · Agent-owned</div>
+    </div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3aacf5514fd3812090b5dfdbfdc53ec9">Speed-to-lead under 60s on a real clock</a></div><span class="pill pill-red">RED</span></div>
+      <div class="own">Appointments · Cody · missing live log = RED, never 4.0 · Agent-owned</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h">Grok Bot projects · 10 emails / 10 delivered</div>
+    <table class="bot-table">
+      <thead>
+        <tr><th>Project</th><th>Today</th><th>Delivered</th><th>Reply</th><th>Status</th></tr>
+      </thead>
+      <tbody id="bots"></tbody>
+    </table>
+    <div class="sub" style="margin-top:12px">Bots are ongoing projects, not an org chart. Drafts ≠ delivered. as_of stamped per row.</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h">Functions</div>
+    <div class="funcs" id="tiles"></div>
     <div id="detail" class="detail"></div>
-    <p class="foot" id="agentFoot">Agents appear only as current owner on a rock. No Agents tile. Feed: fki-dashboard.vercel.app · Home: this page.</p>
   </div>
-</div>
 
-<div id="screen-personal" class="screen">
-  <div class="header">
-    <button class="back" onclick="openScreen('home')">← Home</button>
-    <h1>Personal</h1>
-    <div class="header-sub">Not FKI QB. Do not mix with the money strip.</div>
-  </div>
-  <div class="wrap">
-    <div class="rock">Legal · personal finance (Finny) · chores · real estate (Rachel). Existing personal surfaces only — no new product.</div>
+  <div class="foot">
+    <div class="line">MODE B Apple · design-skill tokens · white #FFFFFF · SF Pro · no dark Bloomberg.</div>
+    <div class="line">Style source: CEO Command Center v2 360cf5514fd381a9ab97ed5136e88dab · Employee Board collection://0a7d31fd-e70b-4344-a30e-55e841203476</div>
+    <div class="line">Cash BLOCKED until FKI QB realm is live. Vercel is a feed, not a second home.</div>
   </div>
 </div>
 
 <script>
-const TILES = [
-  {id:"marketing", name:"Marketing", sub:"Lead acquisition", rocks:[
-    ["IC CPL → $60 / ads live $50/day","https://app.notion.com/p/34dcf5514fd3810bb0ecfea9fbbdb0d0","George"],
-    ["SH scale winning CBO","https://app.notion.com/p/35fcf5514fd381998756d52a1383e9c5","Brent/George"],
-    ["FKI 2nd Opinion creative tests","https://app.notion.com/p/34dcf5514fd3810bb0ecfea9fbbdb0d0","George"],
-    ["Daily social cadence","https://app.notion.com/p/3bfcf5514fd381ce94dce96ae5bfd33e","Christelle"]
-  ]},
-  {id:"appointment_setting", name:"Appointments", sub:"Lead processing", rocks:[
-    ["Speed-to-lead <60s on REAL clock","https://app.notion.com/p/3aacf5514fd3812090b5dfdbfdc53ec9","Cody"],
-    ["3-touch reminder","https://app.notion.com/p/3b4cf5514fd381c89ab4e589611e10ad","Jenn"],
-    ["No-show rebook + SH path live test","https://app.notion.com/p/3b8cf5514fd381679c55e71cf7f3dff8","Jenn"]
-  ]},
-  {id:"cold_lead_gen", name:"Cold lead gen", sub:"$0 CAC brokers", rocks:[
-    ["Broker outreach ($0 ad cost hist.)","https://app.notion.com/p/34dcf5514fd381e1abdcff9683327c08","Cody"],
-    ["Broker handoff every unqualified SH lead","https://app.notion.com/p/3bfcf5514fd381338c49df5e1a272159","Cody"],
-    ["Apollo / cold email health","https://app.notion.com/p/360cf5514fd381a9ab97ed5136e88dab","Kay"],
-    ["Advaita inbound in CORRECT GHL","https://app.notion.com/p/3bacf5514fd3810fbc12dee7ed95c4be","Jenn"]
-  ]},
-  {id:"cro_sales", name:"CRO / sales", sub:"Close + collect", rocks:[
-    ["ION Solar $5k collect","https://app.notion.com/p/3c0cf5514fd38166b3ebe61f6bae4f68","Madison/Kay"],
-    ["Courtney Grant collect","https://app.notion.com/p/3b8cf5514fd38167a38dfacd161c7184","Madison"],
-    ["Syed Ali dated answer","https://app.notion.com/p/3b8cf5514fd3814085cbc1e8159c3c8b","Madison"],
-    ["Neal / Cookie Cutters","https://app.notion.com/p/39dcf5514fd381aa988bfb066e7f4339","Bennett/Madison"],
-    ["Anthony $3k/mo DROPPED 8/13","https://app.notion.com/p/381cf5514fd3814587aacac331a1c6f5","—"]
-  ]},
-  {id:"ai_harness", name:"AI harness", sub:"Cost, not org chart", rocks:[
-    ["Double CORE money artifact daily","https://app.notion.com/p/392cf5514fd381dbbb63c16a43de5b84","Cameron/Mack"],
-    ["Trail / routing actually bound","https://app.notion.com/p/360cf5514fd381a9ab97ed5136e88dab","Cameron"],
-    ["One dashboard refresh cron","https://app.notion.com/p/3aacf5514fd3812b8beeeecb782d2519","Madison"]
-  ]},
-  {id:"finance", name:"Finance", sub:"FKI QB only", rocks:[
-    ["FKI QB realm re-auth","https://app.notion.com/p/392cf5514fd3810eac75c77cbcbe863f","Bennett/Kay"],
-    ["Weekly P&L posted","https://app.notion.com/p/360cf5514fd381f6aca0f88bb00b991a","Kay"],
-    ["Divvy real, not SAMPLE","https://app.notion.com/p/392cf5514fd3810eac75c77cbcbe863f","Kay"],
-    ["Subscriptions off Divvy before freeze","https://app.notion.com/p/3bfcf5514fd381ce94dce96ae5bfd33e","Kay"]
-  ]}
+const BOTS = [
+  {name:"Leo", lane:"Leftover send cadence", today:"0/10", delivered:"0 prospect", reply:"—", status:"RED", as_of:"2026-08-18", source:"aiteam@ 41 leftovers sitting · 0 of 45 sent", href:"https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e"},
+  {name:"Wevly", lane:"Website sales", today:"0/10", delivered:"18/21 last batch", reply:"0%", status:"RED", as_of:"2026-08-17", source:"AgentMail wevly@ 21 sent · 3 bounce · 0 human replies · freeze after Bennett tap", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Penny", lane:"Podcast pitches", today:"0/10", delivered:"0 prospect", reply:"BLOCKED", status:"RED", as_of:"2026-08-18", source:"Daily 20 drafts · last AgentMail to bennett@ canaries Jun–Jul · none to hosts today", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Connie", lane:"Inbox triage drafts", today:"0/10", delivered:"0 send", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Drafts only · Tyler/Balkhi HELD · never send from Bot", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Sam", lane:"Sales next-touch", today:"0/10", delivered:"3 drafts staged", reply:"—", status:"RED", as_of:"2026-08-17", source:"Jessica/Aaron/Shaina drafts · never send until tap", href:"https://app.notion.com/p/3c0cf5514fd38102984cd8aee2f16837"},
+  {name:"Blue", lane:"Blueprint drafts", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"No Blue AgentMail inbox · 14 claimed sends unproven", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Reem", lane:"Outreach drafts", today:"0/10", delivered:"drafts only", reply:"—", status:"RED", as_of:"2026-08-17", source:"Weekday 5 outreach · Easy Apply banned · never send", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Marry", lane:"Meeting prep", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-17", source:"Briefs only · no prospect email lane", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Addy", lane:"Meta ads status", today:"n/a", delivered:"n/a", reply:"—", status:"RED", as_of:"2026-08-17", source:"Composio metaads disconnected · no email quota", href:"https://app.notion.com/p/3bfcf5514fd381b08386d658a89d5424"},
+  {name:"Colby", lane:"Instantly / Apollo", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"Instantly DISCONNECTED · Meta DISCONNECTED", href:"https://app.notion.com/p/3bfcf5514fd381b68402d2c4380ff725"},
+  {name:"Reed", lane:"Pulse digest", today:"n/a", delivered:"internal", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Hourly Pulse · not a 10/10 prospect lane", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Sally", lane:"Social + study", today:"0/10", delivered:"0 posts", reply:"—", status:"RED", as_of:"2026-08-13", source:"100-day engine · do not auto-post", href:"https://app.notion.com/p/3bbcf5514fd3812f9efac5cd65fa534c"},
+  {name:"Angie", lane:"Weekly audits", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Audit project · not an email lane", href:"https://app.notion.com/p/33dcf5514fd381ce8e1af0956a8986ec"}
 ];
 
-function openScreen(id){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById("screen-"+id).classList.add("active");
-}
+const TILES = [
+  {id:"marketing", name:"Marketing", sub:"Lead acquisition"},
+  {id:"appointment_setting", name:"Appointments", sub:"Lead processing"},
+  {id:"cold_lead_gen", name:"Cold lead gen", sub:"$0 CAC brokers"},
+  {id:"cro_sales", name:"CRO / sales", sub:"Close + collect"},
+  {id:"ai_harness", name:"AI harness", sub:"Cost, not org chart"},
+  {id:"finance", name:"Finance", sub:"FKI QB only"}
+];
+
 function ragClass(s){ return s==="GREEN"?"green":(s==="AMBER"?"amber":"red"); }
 function pill(s){ return `<span class="pill pill-${(s||"RED").toLowerCase()}">${s||"RED"}</span>`; }
 
 function renderStrip(ms){
   const keys = [
     ["cash","Cash"],
-    ["pipeline_this_week_usd","Pipeline $ this week"],
-    ["booked_calls","Booked calls"],
-    ["ad_spend","Ad spend"],
-    ["bennett_gates","Bennett gates"]
+    ["pipeline_this_week_usd","Sitting $"],
+    ["booked_calls","Booked"],
+    ["ad_spend","Ad spend"]
   ];
-  const extra = `<div class="s-cell"><div class="s-lab">as_of</div><div class="s-val">${(window.CC_SNAP&&window.CC_SNAP.as_of||"—").slice(0,16)}</div><div class="s-meta">qb_realm_id ${(window.CC_SNAP&&window.CC_SNAP.qb_realm_id)||"UNAVAILABLE"}</div></div>`;
   document.getElementById("moneyStrip").innerHTML = keys.map(([k,lab])=>{
     const x = (ms&&ms[k])||{};
-    return `<div class="s-cell"><div class="s-lab">${lab}</div><div class="s-val ${ragClass(x.status)}">${x.display||"BLOCKED"}</div><div class="s-meta">${x.as_of||"no as_of"} · ${x.source||""}<br>${x.owner_kpi_type||""} · tgt ${x.target||""}</div></div>`;
-  }).join("") + extra;
+    return `<div class="kpi"><div class="n ${ragClass(x.status)}">${x.display||"BLOCKED"}</div><div class="l">${lab}</div><div class="m">${x.as_of||"no as_of"} · ${x.source||""}</div></div>`;
+  }).join("");
+}
+
+function renderBots(){
+  document.getElementById("bots").innerHTML = BOTS.map(b=>`
+    <tr>
+      <td><div class="bot"><a href="${b.href}" style="color:#0071E3;text-decoration:none">${b.name}</a></div><div class="lane">${b.lane}</div></td>
+      <td class="${ragClass(b.status)}">${b.today}</td>
+      <td>${b.delivered}</td>
+      <td>${b.reply}</td>
+      <td>${pill(b.status)}<div class="lane">${b.as_of} · ${b.source}</div></td>
+    </tr>`).join("");
 }
 
 function renderTiles(snap){
   document.getElementById("tiles").innerHTML = TILES.map(t=>{
     const tile = snap && snap.tiles && snap.tiles[t.id];
     const worst = (tile && tile.kpis || []).some(k=>k.status==="RED") ? "RED" : ((tile && tile.kpis || []).some(k=>k.status==="AMBER")?"AMBER":"RED");
-    return `<button class="tile" onclick="openTile('${t.id}')"><div class="n">${t.sub}</div><h3>${t.name}</h3><div class="rag ${ragClass(worst)}">${worst} · ${(t.rocks||[]).length} rocks</div></button>`;
+    return `<button class="fbtn" onclick="openTile('${t.id}')"><div class="n">${t.sub}</div><h2>${t.name}</h2><div class="${ragClass(worst)}" style="font-size:12px;font-weight:700;margin-top:6px">${worst}</div></button>`;
   }).join("");
 }
 
 function openTile(id){
   const t = TILES.find(x=>x.id===id);
   const tile = window.CC_SNAP && window.CC_SNAP.tiles && window.CC_SNAP.tiles[id];
-  const rocks = (t.rocks||[]).map(r=>`<div class="rock"><a href="${r[1]}" target="_blank">${r[0]}</a><div class="own">owner ${r[2]} — not an Agents tab</div></div>`).join("");
-  const kpis = ((tile&&tile.kpis)||[]).map(k=>`<div class="kpi"><div class="v ${ragClass(k.status)}">${k.display||"BLOCKED"} ${pill(k.status)}</div><div class="d">tgt ${k.target||"—"} · as_of ${k.as_of||"MISSING"} · ${k.source||"—"} · ${k.owner_kpi_type||"—"}<br>${k.reason||""}</div></div>`).join("");
+  const kpis = ((tile&&tile.kpis)||[]).map(k=>`<div class="row"><div class="lab">${k.display||"BLOCKED"} · tgt ${k.target||"—"}</div><div class="val ${ragClass(k.status)}">${k.status||"RED"}</div></div><div class="own" style="margin-bottom:8px">${k.as_of||"MISSING as_of"} · ${k.source||"—"} · ${k.owner_kpi_type||"—"}</div>`).join("");
   const el = document.getElementById("detail");
   el.className = "detail on";
-  el.innerHTML = `<h2 style="margin:16px 0 8px">${t.name}</h2>${rocks}<h3 style="font-size:12px;color:var(--muted);margin:12px 0 8px">KPIs</h3>${kpis}`;
+  el.innerHTML = `<div class="sec-h">${t.name} KPIs</div>${kpis||'<div class="row"><div class="lab">No live KPIs in snapshot</div><div class="val red">RED</div></div>'}`;
   el.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
@@ -228,12 +235,12 @@ function setBanner(snap){
   const blocked = !snap || snap.status === "BLOCKED" || (snap.flags||[]).includes("SAMPLE_FIXTURE_NOT_REAL");
   if (stale){
     b.className = "banner stale";
-    b.textContent = "STALE — snapshot older than 24h (or clock missing). Do not treat numbers as today.";
+    b.textContent = "STALE — snapshot older than 24h. Do not treat numbers as today.";
     return;
   }
   if (blocked){
     b.className = "banner blocked";
-    b.textContent = "BLOCKED — QB/Meta/GHL auth failed. SAMPLE_FIXTURE_NOT_REAL. qb_realm_id=" + ((snap&&snap.qb_realm_id)||"UNAVAILABLE");
+    b.textContent = "BLOCKED — QB/Meta/GHL not live. SAMPLE_FIXTURE_NOT_REAL. qb_realm_id=" + ((snap&&snap.qb_realm_id)||"UNAVAILABLE");
     return;
   }
   b.className = "banner ok";
@@ -253,9 +260,9 @@ async function bindSnapshot(){
   setBanner(snap);
   renderStrip(snap.money_strip||{});
   renderTiles(snap);
-  document.getElementById("bizSub").textContent = (snap.status||"BLOCKED") + " · feed-only " + (snap.vercel_url||"https://fki-dashboard.vercel.app");
 }
 
+renderBots();
 bindSnapshot();
 </script>
 </body>
