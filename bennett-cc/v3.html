@@ -52,7 +52,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); min-
 .proj .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
 .proj .name { font-size: 14px; font-weight: 600; color: var(--text); }
 .proj .name a { color: var(--blue); text-decoration: none; }
-.proj .own { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.own { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .bot-table { width: 100%; border-collapse: collapse; }
 .bot-table th { font-size: 11px; font-weight: 600; color: var(--secondary); text-align: left; padding: 0 8px 10px 0; letter-spacing: .04em; text-transform: uppercase; }
 .bot-table td { font-size: 13px; padding: 10px 8px 10px 0; border-top: 1px solid #F2F2F7; vertical-align: top; color: var(--text); }
@@ -170,7 +170,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); min-
 
 <script>
 const BOTS = [
-  {name:"Leo", lane:"Leftover send cadence", today:"0/10", delivered:"0 prospect", reply:"—", status:"RED", as_of:"2026-08-18", source:"aiteam@ 41 leftovers sitting · 0 of 45 sent", href:"https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e"},
+  {name:"Leo", lane:"Leftover send cadence", today:"0/10", delivered:"0 prospect", reply:"—", status:"RED", as_of:"2026-08-18", source:"aiteam@ live drafts 23 this query · status email still says 0 of 45 sent · leftover PROTECTED", href:"https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e"},
   {name:"Wevly", lane:"Website sales", today:"0/10", delivered:"21 sent · 3 bounce", reply:"0 human", status:"RED", as_of:"2026-08-18", source:"AgentMail wevly@ live list 24 msgs · 0 human replies · leftover send FROZEN", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
   {name:"Penny", lane:"Podcast pitches", today:"0/10", delivered:"0 prospect today", reply:"0 host", status:"RED", as_of:"2026-08-18", source:"podcastpr@ 27 msgs · last sends are Jun–Jul canaries to bennett@ · 0 host pitches today", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
   {name:"Connie", lane:"Inbox triage drafts", today:"0/10", delivered:"0 send", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Drafts only · Tyler/Balkhi HELD · never send from Bot", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
@@ -248,14 +248,16 @@ function setBanner(snap){
     stale = !Number.isFinite(age) || age > 24*3600*1000;
   }
   const blocked = !snap || snap.status === "BLOCKED" || (snap.flags||[]).includes("SAMPLE_FIXTURE_NOT_REAL");
+  if (blocked){
+    b.className = "banner blocked";
+    let msg = "BLOCKED — QB/Meta/GHL not live. SAMPLE_FIXTURE_NOT_REAL. qb_realm_id=" + ((snap&&snap.qb_realm_id)||"UNAVAILABLE");
+    if (stale) msg += " · also STALE (>24h)";
+    b.textContent = msg;
+    return;
+  }
   if (stale){
     b.className = "banner stale";
     b.textContent = "STALE — snapshot older than 24h. Do not treat numbers as today.";
-    return;
-  }
-  if (blocked){
-    b.className = "banner blocked";
-    b.textContent = "BLOCKED — QB/Meta/GHL not live. SAMPLE_FIXTURE_NOT_REAL. qb_realm_id=" + ((snap&&snap.qb_realm_id)||"UNAVAILABLE");
     return;
   }
   b.className = "banner ok";
@@ -270,6 +272,7 @@ async function bindSnapshot(){
   } catch(e) { snap = null; }
   if (!snap){
     snap = {status:"BLOCKED", flags:["SAMPLE_FIXTURE_NOT_REAL"], as_of:null, qb_realm_id:"UNAVAILABLE", money_strip:{}, tiles:{}};
+    /* fetch miss stays BLOCKED, never a soft STALE-only banner */
   }
   window.CC_SNAP = snap;
   setBanner(snap);

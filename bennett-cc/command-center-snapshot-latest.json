@@ -1,8 +1,8 @@
 {
   "schema": "fki.command-center-snapshot.v1",
   "command_center": "Function Command Center",
-  "snapshot_date": "2026-08-18T21:59:33.712863+00:00",
-  "as_of": "2026-08-18T21:59:33.713036+00:00",
+  "snapshot_date": "2026-08-18T22:20:28.708313+00:00",
+  "as_of": "2026-08-18T22:20:28.708486+00:00",
   "status": "BLOCKED",
   "flags": [
     "SAMPLE_FIXTURE_NOT_REAL"
@@ -377,7 +377,7 @@
           "value": null,
           "display": "this write",
           "target": "<24h",
-          "as_of": "2026-08-18T21:59:33.713058+00:00",
+          "as_of": "2026-08-18T22:20:28.708503+00:00",
           "source": "snapshot writer",
           "owner_kpi_type": "Agent-owned",
           "status": "GREEN",
@@ -387,11 +387,11 @@
           "value": 2,
           "display": "2 designed canaries (STL log, QB expire)",
           "target": "0 false-green",
-          "as_of": "2026-08-18T21:59:33.713060+00:00",
-          "source": "false-green-canary",
+          "as_of": "2026-08-18T22:20:28.708505+00:00",
+          "source": "false-green-canary-latest.json",
           "owner_kpi_type": "Agent-owned",
-          "status": "AMBER",
-          "reason": ""
+          "status": "GREEN",
+          "reason": "canary PASS as_of 2026-08-18T22:20:28.599663+00:00; production snapshot not mutated"
         },
         {
           "value": null,
@@ -483,7 +483,7 @@
           "value": "UNAVAILABLE",
           "display": "UNAVAILABLE",
           "target": "print FKI realm",
-          "as_of": "2026-08-18T21:59:33.713062+00:00",
+          "as_of": "2026-08-18T22:20:28.708644+00:00",
           "source": "writer",
           "owner_kpi_type": "Agent-owned",
           "status": "RED",
