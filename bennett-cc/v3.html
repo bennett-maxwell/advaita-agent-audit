@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Today — Franchise KI</title>
 <!-- CC-APPLE-LIGHT-20260818-CAMERON unique public-proof marker -->
+<!-- CC-TODAY-IA-THINGS-STRIPE-LINEAR-20260818 copied IA, not invented -->
 <style>
 :root {
   --bg: #F5F5F7;
   --white: #FFFFFF;
+  --bg-card: #FFFFFF;
   --text: #1D1D1F;
   --secondary: #6E6E73;
   --muted: #8E8E93;
@@ -23,35 +26,37 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-.page { max-width: 960px; margin: 0 auto; background: var(--white); min-height: 100vh; }
-.banner { padding: 10px 40px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.page { max-width: 680px; margin: 0 auto; background: var(--white); min-height: 100vh; }
+.bar { background: #0071E3; color: #FFFFFF; padding: 12px 28px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.banner { padding: 10px 28px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .banner.stale { background: #FFF4E5; color: #9A6700; }
 .banner.blocked { background: #FF3B3008; color: var(--red); border-bottom: 2px solid var(--red); }
 .banner.ok { background: #E8F8EE; color: #1F7A3A; }
-.header { padding: 32px 40px 24px; border-bottom: 1px solid var(--div); }
+.header { padding: 28px 28px 16px; }
 .kicker { font-size: 13px; font-weight: 600; color: var(--secondary); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 4px; }
 .header h1 { font-size: 34px; font-weight: 700; color: var(--text); letter-spacing: -.4px; }
-.sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
-.kpis { display: flex; border-bottom: 1px solid var(--div); }
-.kpi { flex: 1; text-align: center; padding: 24px 12px; }
-.kpi .n { font-size: 32px; font-weight: 700; letter-spacing: -.6px; line-height: 1.1; }
-.kpi .l { font-size: 11px; font-weight: 500; color: var(--secondary); margin-top: 4px; }
+.how { font-size: 13px; color: var(--secondary); margin-top: 8px; line-height: 1.45; }
+.kpis { display: flex; border-top: 1px solid var(--div); border-bottom: 1px solid var(--div); }
+.kpi { flex: 1; text-align: left; padding: 20px 12px 20px 28px; }
+.kpi + .kpi { padding-left: 12px; }
+.kpi .n { font-size: 28px; font-weight: 700; letter-spacing: -.5px; line-height: 1.1; }
+.kpi .l { font-size: 11px; font-weight: 600; color: var(--secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: .04em; }
 .kpi .m { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.35; }
-.sec { padding: 24px 40px; border-top: 1px solid var(--div); }
-.sec-h { font-size: 11px; font-weight: 600; color: var(--secondary); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px; }
-.row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F2F2F7; }
-.row:last-child { border-bottom: none; }
-.row .lab { font-size: 14px; color: var(--text); }
-.row .val { font-size: 14px; font-weight: 500; white-space: nowrap; }
-.alert { padding: 16px 40px; background: #FF3B3008; border-bottom: 2px solid var(--red); }
-.alert .h { font-size: 12px; font-weight: 600; color: var(--red); letter-spacing: .04em; text-transform: uppercase; }
-.alert ul { margin: 8px 0 0 18px; }
-.alert li { font-size: 14px; color: var(--text); margin: 0 0 6px; line-height: 1.4; }
-.proj { padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
+.sec { padding: 20px 28px; border-bottom: 1px solid var(--div); }
+.sec-h { font-size: 11px; font-weight: 600; color: var(--secondary); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+.sec-why { font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+.do { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F2F2F7; text-decoration: none; color: inherit; }
+.do:last-child { border-bottom: none; }
+.do .num { width: 22px; height: 22px; border-radius: 11px; background: var(--card); color: var(--secondary); font-size: 12px; font-weight: 700; text-align: center; line-height: 22px; flex: 0 0 22px; margin-top: 1px; }
+.do .body { flex: 1; min-width: 0; }
+.do .title { font-size: 16px; font-weight: 600; color: var(--text); }
+.do .who { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.proj { padding: 14px 0; border-bottom: 1px solid #F2F2F7; }
 .proj:last-child { border-bottom: none; }
 .proj .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-.proj .name { font-size: 14px; font-weight: 600; color: var(--text); }
-.proj .name a { color: var(--blue); text-decoration: none; }
+.proj .name { font-size: 16px; font-weight: 600; }
+.proj .name a { color: var(--text); text-decoration: none; }
+.proj .next { font-size: 13px; color: var(--secondary); margin-top: 4px; line-height: 1.35; }
 .own { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .bot-table { width: 100%; border-collapse: collapse; }
 .bot-table th { font-size: 11px; font-weight: 600; color: var(--secondary); text-align: left; padding: 0 8px 10px 0; letter-spacing: .04em; text-transform: uppercase; }
@@ -63,126 +68,166 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); min-
 .pill-amber { background: #FFF1D6; color: #9A6700; }
 .pill-green { background: #D8F5E3; color: #1F7A3A; }
 .red { color: var(--red); } .amber { color: var(--amber); } .green { color: var(--green); }
-.foot { padding: 16px 40px; border-top: 1px solid var(--div); background: var(--bg); }
+.foot { padding: 16px 28px 28px; background: var(--bg); }
 .foot .line { font-size: 12px; color: var(--muted); line-height: 1.45; }
 .funcs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+details.more { padding: 8px 28px 20px; border-bottom: 1px solid var(--div); }
+details.more > summary { font-size: 15px; font-weight: 600; color: var(--blue); cursor: pointer; padding: 12px 0; list-style: none; }
+details.more > summary::-webkit-details-marker { display: none; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F2F2F7; }
+.row:last-child { border-bottom: none; }
+.row .lab { font-size: 14px; color: var(--text); }
+.row .val { font-size: 14px; font-weight: 500; white-space: nowrap; }
+.fbtn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-align: left; cursor: pointer; width: 100%; color: var(--text); }
+.fbtn .n { font-size: 11px; font-weight: 600; color: var(--secondary); text-transform: uppercase; letter-spacing: .05em; }
+.fbtn h2 { font-size: 16px; font-weight: 700; margin-top: 4px; }
+.detail { display: none; margin-top: 12px; }
+.detail.on { display: block; }
 @media (max-width: 640px) {
-  .header, .sec, .alert, .banner, .foot { padding-left: 20px; padding-right: 20px; }
+  .header, .sec, .banner, .foot, .bar, details.more { padding-left: 20px; padding-right: 20px; }
+  .kpi { padding-left: 20px; }
   .header h1 { font-size: 28px; }
   .kpis { flex-wrap: wrap; }
   .kpi { flex: 1 1 45%; }
   .funcs { grid-template-columns: 1fr; }
   .bot-table { font-size: 12px; display: block; overflow-x: auto; }
 }
-.fbtn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-align: left; cursor: pointer; width: 100%; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.07); }
-.fbtn .n { font-size: 11px; font-weight: 600; color: var(--secondary); text-transform: uppercase; letter-spacing: .05em; }
-.fbtn h2 { font-size: 16px; font-weight: 700; margin-top: 4px; }
-.detail { display: none; margin-top: 12px; }
-.detail.on { display: block; }
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="bar">Franchise KI</div>
   <div id="freshBanner" class="banner blocked">BLOCKED — live books not bound</div>
 
   <div class="header">
-    <div class="kicker">Franchise KI · Tuesday</div>
+    <div class="kicker">Tuesday · Aug 18</div>
     <h1>Today</h1>
-    <div class="sub">Cash first · main projects · Grok Bot 10/10 · Aug 18 2026</div>
+    <div class="how">Same layout as Things 3 Today + Stripe Home: only what you do before the day ends, then four money numbers, then a few projects. Folded lists are Anytime / Someday — not this morning.</div>
   </div>
 
   <div class="kpis" id="moneyStrip"></div>
 
-  <div class="alert">
-    <div class="h">Action required</div>
-    <ul>
-      <li>$105k sitting on Courtney + Syed — collect, don’t dashboard. as_of L10 8/17</li>
-      <li>ION Solar $5k — agreement sent; Stripe still open. Anthony Castillo dropped 8/13</li>
-      <li>Grok Bot leftover: 41 drafts still sitting · 0 of 45 prospect sent. Target is 10/10 delivered</li>
-    </ul>
-  </div>
-
   <div class="sec">
-    <div class="sec-h">180-day money vs AI (Madison + Monday L10)</div>
-    <div class="row"><div class="lab">Cash collected last scored week</div><div class="val red">$1k of $7k · payroll missed 8/15</div></div>
-    <div class="own" style="margin-bottom:8px">as_of 2026-08-17 · L10 Weekly 3bfcf5514fd381ce94dce96ae5bfd33e · Shared</div>
-    <div class="row"><div class="lab">Sitting paper, not in bank</div><div class="val amber">$105k Courtney + Syed</div></div>
-    <div class="own" style="margin-bottom:8px">as_of 2026-08-17 · same L10 · not live CRM</div>
-    <div class="row"><div class="lab">Fastest franchise cash this week</div><div class="val red">IC ads $50/day — nothing running</div></div>
-    <div class="own" style="margin-bottom:8px">Bennett on L10 8/17: “Indy Clover is the quickest for franchising to get money in.” George: nothing live.</div>
-    <div class="row"><div class="lab">Advaita ads vs cash</div><div class="val red">0 appointments / 5 days · 1 form fill</div></div>
-    <div class="own" style="margin-bottom:8px">as_of L10 8/17 · AI spend bought learning, not booked calls</div>
-    <div class="row"><div class="lab">Sweep coverage this seat</div><div class="val amber">25 Daily Sync pages + 16 L10/Monday pages in window · not every transcript byte</div></div>
-    <div class="own">Window 2026-02-18 → 2026-08-18 · Notion search + L10 8/17 + Daily Sync 8/18 fetched. Feb–Apr L10s exist (e.g. 3/3, 4/27) but not every daily page was opened.</div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-h">Main projects</div>
-    <div class="proj">
-      <div class="top"><div class="name"><a href="https://app.notion.com/p/3b8cf5514fd38167a38dfacd161c7184">Collect $105k — Courtney + Syed</a></div><span class="pill pill-red">RED</span></div>
-      <div class="own">CRO · Madison · KPI: dollars in bank · as_of 2026-08-17 · Shared</div>
+    <div class="sec-h">Do now</div>
+    <div class="sec-why">Copied from Things Today: this list is only today’s commitments, in order. Not a department org chart.</div>
+    <a class="do" href="https://app.notion.com/p/3b8cf5514fd38167a38dfacd161c7184">
+      <div class="num">1</div>
+      <div class="body">
+        <div class="title">Collect the $105k sitting on Courtney + Syed</div>
+        <div class="who">Madison · as_of L10 8/17 · not a dashboard job</div>
+      </div>
+    </a>
+    <a class="do" href="https://app.notion.com/p/3c0cf5514fd38166b3ebe61f6bae4f68">
+      <div class="num">2</div>
+      <div class="body">
+        <div class="title">Close ION $5k — agreement sent, Stripe still open</div>
+        <div class="who">Madison / Kay · as_of 8/18 · Anthony Castillo dropped 8/13</div>
+      </div>
+    </a>
+    <a class="do" href="https://app.notion.com/p/33dcf5514fd381d382fae7e19a5f14fd">
+      <div class="num">3</div>
+      <div class="body">
+        <div class="title">Turn on Indy Clover ads at $50/day</div>
+        <div class="who">George / Brent · fastest franchise cash this week · nothing live</div>
+      </div>
+    </a>
+    <div class="do">
+      <div class="num">4</div>
+      <div class="body">
+        <div class="title">Do not send leftover Grok Bot prospect mail</div>
+        <div class="who">Protected · Leo 23 live drafts · Wevly 0 replies · 10/10 stays red until you tap</div>
+      </div>
     </div>
-    <div class="proj">
-      <div class="top"><div class="name"><a href="https://app.notion.com/p/3c0cf5514fd38166b3ebe61f6bae4f68">ION Solar close — $5k</a></div><span class="pill pill-amber">AMBER</span></div>
-      <div class="own">CRO · Madison/Kay · KPI: invoice sent · as_of 2026-08-18 · Shared</div>
-    </div>
-    <div class="proj">
-      <div class="top"><div class="name"><a href="https://app.notion.com/p/33dcf5514fd381d382fae7e19a5f14fd">Indy Clover + Meta ads live $50/day</a></div><span class="pill pill-red">RED</span></div>
-      <div class="own">Marketing · George/Brent · KPI: spend vs cap · as_of BLOCKED Meta · Human-owned</div>
-    </div>
-    <div class="proj">
-      <div class="top"><div class="name"><a href="https://app.notion.com/p/34dcf5514fd3810bb0ecfea9fbbdb0d0">Salad House CBO scale + FKI 2nd Opinion tests</a></div><span class="pill pill-amber">AMBER</span></div>
-      <div class="own">Marketing · SH ~1.41x / 2nd Op ~1.26x as_of 2026-04-25 · Human-owned</div>
-    </div>
-    <div class="proj">
-      <div class="top"><div class="name"><a href="https://app.notion.com/p/34dcf5514fd381e1abdcff9683327c08">Broker outreach — $0 CAC</a></div><span class="pill pill-amber">AMBER</span></div>
-      <div class="own">Cold lead gen · Cody · historically $0 ad cost · Agent-owned</div>
-    </div>
-    <div class="proj">
-      <div class="top"><div class="name"><a href="https://app.notion.com/p/3aacf5514fd3812090b5dfdbfdc53ec9">Speed-to-lead under 60s on a real clock</a></div><span class="pill pill-red">RED</span></div>
-      <div class="own">Appointments · Cody · missing live log = RED, never 4.0 · Agent-owned</div>
+    <div class="do">
+      <div class="num">5</div>
+      <div class="body">
+        <div class="title">Reconnect FKI QuickBooks so cash is real</div>
+        <div class="who">Bennett / Kay · until then every cash number is BLOCKED</div>
+      </div>
     </div>
   </div>
 
   <div class="sec">
-    <div class="sec-h">Grok Bot projects · 10 emails / 10 delivered</div>
+    <div class="sec-h">Projects</div>
+    <div class="sec-why">Copied from Linear My Issues: five open items, one next action each. Not six functions.</div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3b8cf5514fd38167a38dfacd161c7184">Collect $105k</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: Madison payment touch on Courtney; dated Bailey blocker on Syed $70k</div>
+      <div class="own">CRO · as_of 2026-08-17 · Shared</div>
+    </div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3c0cf5514fd38166b3ebe61f6bae4f68">ION Solar $5k</a></div><span class="pill pill-amber">AMBER</span></div>
+      <div class="next">Next: get the signed agreement into Stripe</div>
+      <div class="own">CRO · as_of 2026-08-18 · Shared</div>
+    </div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/33dcf5514fd381d382fae7e19a5f14fd">Indy Clover ads live</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: $50/day actually running</div>
+      <div class="own">Marketing · Meta Insights BLOCKED · Human-owned</div>
+    </div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e">Grok email 10/10 delivered</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: 0 of 10 today. Leftover send stays frozen until you tap.</div>
+      <div class="own">Leo 23 drafts · Wevly 21 sent / 0 replies · Penny 0 today · as_of 2026-08-18</div>
+    </div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3aacf5514fd3812090b5dfdbfdc53ec9">Speed-to-lead under 60s</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: missing live log stays RED. Never a hardcoded 4.0.</div>
+      <div class="own">Appointments · Cody · Agent-owned</div>
+    </div>
+  </div>
+
+  <details class="more">
+    <summary>Later today — Grok Bot 10/10 table</summary>
+    <div class="sec-why">Things “This Evening”: still here, not in the morning list. 13 rows is too many for Today.</div>
     <table class="bot-table">
       <thead>
         <tr><th>Project</th><th>Today</th><th>Delivered</th><th>Reply</th><th>Status</th></tr>
       </thead>
       <tbody id="bots"></tbody>
     </table>
-    <div class="sub" style="margin-top:12px">Bots are ongoing projects, not an org chart. Drafts ≠ delivered. as_of stamped per row.</div>
-  </div>
+  </details>
 
-  <div class="sec">
-    <div class="sec-h">Functions</div>
+  <details class="more">
+    <summary>Anytime — 180-day money vs AI notes</summary>
+    <div class="sec-why">Research, not today’s list. Window 2026-02-18 → 2026-08-18.</div>
+    <div class="row"><div class="lab">Cash collected last scored week</div><div class="val red">$1k of $7k · payroll missed 8/15</div></div>
+    <div class="own" style="margin-bottom:8px">as_of 2026-08-17 · L10 Weekly 3bfcf5514fd381ce94dce96ae5bfd33e</div>
+    <div class="row"><div class="lab">Sitting paper, not in bank</div><div class="val amber">$105k Courtney + Syed</div></div>
+    <div class="row"><div class="lab">Fastest franchise cash this week</div><div class="val red">IC ads $50/day — nothing running</div></div>
+    <div class="row"><div class="lab">Advaita ads vs cash</div><div class="val red">0 appointments / 5 days · 1 form fill</div></div>
+    <div class="own">as_of L10 8/17 · 25 Daily Sync + 16 L10 pages searched · not every transcript byte</div>
+  </details>
+
+  <details class="more">
+    <summary>Someday — six functions</summary>
+    <div class="sec-why">Org chart lives here so it cannot compete with Today. Copied from Things Areas.</div>
     <div class="funcs" id="tiles"></div>
     <div id="detail" class="detail"></div>
-  </div>
+  </details>
 
   <div class="foot">
-    <div class="line">MODE B Apple · design-skill tokens · white #FFFFFF · SF Pro · 34px title · 40px pad · no dark Bloomberg.</div>
-    <div class="line">Style source: CEO Command Center v2 360cf5514fd381a9ab97ed5136e88dab · Employee Board collection://0a7d31fd-e70b-4344-a30e-55e841203476</div>
+    <div class="line">IA copied from Things 3 Today (Cultured Code), Stripe Home (five numbers, job not org chart), Linear My Issues, and exception reporting (only what is off). Apple tokens MODE B.</div>
+    <div class="line">Sources: culturedcode.com/things/support · docs.stripe.com/dashboard/basics · linear.app/docs/my-issues · juiceanalytics.com dashboard alerts</div>
     <div class="line">Cash BLOCKED until FKI QB realm is live. Vercel is a feed, not a second home.</div>
   </div>
 </div>
 
 <script>
 const BOTS = [
-  {name:"Leo", lane:"Leftover send cadence", today:"0/10", delivered:"0 prospect", reply:"—", status:"RED", as_of:"2026-08-18", source:"aiteam@ live drafts 23 this query · status email still says 0 of 45 sent · leftover PROTECTED", href:"https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e"},
-  {name:"Wevly", lane:"Website sales", today:"0/10", delivered:"21 sent · 3 bounce", reply:"0 human", status:"RED", as_of:"2026-08-18", source:"AgentMail wevly@ live list 24 msgs · 0 human replies · leftover send FROZEN", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
-  {name:"Penny", lane:"Podcast pitches", today:"0/10", delivered:"0 prospect today", reply:"0 host", status:"RED", as_of:"2026-08-18", source:"podcastpr@ 27 msgs · last sends are Jun–Jul canaries to bennett@ · 0 host pitches today", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
-  {name:"Connie", lane:"Inbox triage drafts", today:"0/10", delivered:"0 send", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Drafts only · Tyler/Balkhi HELD · never send from Bot", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
-  {name:"Sam", lane:"Sales next-touch", today:"0/10", delivered:"3 drafts staged", reply:"—", status:"RED", as_of:"2026-08-17", source:"Jessica/Aaron/Shaina drafts · never send until tap", href:"https://app.notion.com/p/3c0cf5514fd38102984cd8aee2f16837"},
-  {name:"Blue", lane:"Blueprint drafts", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"No Blue AgentMail inbox · 14 claimed sends unproven", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
-  {name:"Reem", lane:"Outreach drafts", today:"0/10", delivered:"drafts only", reply:"—", status:"RED", as_of:"2026-08-17", source:"Weekday 5 outreach · Easy Apply banned · never send", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
-  {name:"Marry", lane:"Meeting prep", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-17", source:"Briefs only · no prospect email lane", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
-  {name:"Addy", lane:"Meta ads status", today:"n/a", delivered:"n/a", reply:"—", status:"RED", as_of:"2026-08-17", source:"Composio metaads disconnected · no email quota", href:"https://app.notion.com/p/3bfcf5514fd381b08386d658a89d5424"},
-  {name:"Colby", lane:"Instantly / Apollo", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"Instantly DISCONNECTED · Meta DISCONNECTED", href:"https://app.notion.com/p/3bfcf5514fd381b68402d2c4380ff725"},
-  {name:"Reed", lane:"Pulse digest", today:"n/a", delivered:"internal", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Hourly Pulse · not a 10/10 prospect lane", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
-  {name:"Sally", lane:"Social + study", today:"0/10", delivered:"0 posts", reply:"—", status:"RED", as_of:"2026-08-13", source:"100-day engine · do not auto-post", href:"https://app.notion.com/p/3bbcf5514fd3812f9efac5cd65fa534c"},
-  {name:"Angie", lane:"Weekly audits", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Audit project · not an email lane", href:"https://app.notion.com/p/33dcf5514fd381ce8e1af0956a8986ec"}
+  {name:"Leo", lane:"Leftover send cadence", today:"0/10", delivered:"0 prospect", reply:"—", status:"RED", as_of:"2026-08-18", source:"aiteam@ live drafts 23 · leftover PROTECTED", href:"https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e"},
+  {name:"Wevly", lane:"Website sales", today:"0/10", delivered:"21 sent · 3 bounce", reply:"0 human", status:"RED", as_of:"2026-08-18", source:"wevly@ 0 human replies · leftover FROZEN", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Penny", lane:"Podcast pitches", today:"0/10", delivered:"0 prospect today", reply:"0 host", status:"RED", as_of:"2026-08-18", source:"podcastpr@ 0 host pitches today", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Connie", lane:"Inbox triage drafts", today:"0/10", delivered:"0 send", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Drafts only · never send from Bot", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Sam", lane:"Sales next-touch", today:"0/10", delivered:"3 drafts staged", reply:"—", status:"RED", as_of:"2026-08-17", source:"never send until tap", href:"https://app.notion.com/p/3c0cf5514fd38102984cd8aee2f16837"},
+  {name:"Blue", lane:"Blueprint drafts", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"No Blue AgentMail inbox", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Reem", lane:"Outreach drafts", today:"0/10", delivered:"drafts only", reply:"—", status:"RED", as_of:"2026-08-17", source:"never send", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Marry", lane:"Meeting prep", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-17", source:"Briefs only", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Addy", lane:"Meta ads status", today:"n/a", delivered:"n/a", reply:"—", status:"RED", as_of:"2026-08-17", source:"metaads disconnected", href:"https://app.notion.com/p/3bfcf5514fd381b08386d658a89d5424"},
+  {name:"Colby", lane:"Instantly / Apollo", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"Instantly DISCONNECTED", href:"https://app.notion.com/p/3bfcf5514fd381b68402d2c4380ff725"},
+  {name:"Reed", lane:"Pulse digest", today:"n/a", delivered:"internal", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"not a 10/10 prospect lane", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Sally", lane:"Social + study", today:"0/10", delivered:"0 posts", reply:"—", status:"RED", as_of:"2026-08-13", source:"do not auto-post", href:"https://app.notion.com/p/3bbcf5514fd3812f9efac5cd65fa534c"},
+  {name:"Angie", lane:"Weekly audits", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"not an email lane", href:"https://app.notion.com/p/33dcf5514fd381ce8e1af0956a8986ec"}
 ];
 
 const TILES = [
@@ -200,13 +245,13 @@ function pill(s){ return `<span class="pill pill-${(s||"RED").toLowerCase()}">${
 function renderStrip(ms){
   const keys = [
     ["cash","Cash"],
-    ["pipeline_this_week_usd","Sitting $"],
+    ["pipeline_this_week_usd","Sitting"],
     ["booked_calls","Booked"],
-    ["ad_spend","Ad spend"]
+    ["ad_spend","Ads"]
   ];
   document.getElementById("moneyStrip").innerHTML = keys.map(([k,lab])=>{
     const x = (ms&&ms[k])||{};
-    return `<div class="kpi"><div class="n ${ragClass(x.status)}">${x.display||"BLOCKED"}</div><div class="l">${lab}</div><div class="m">${x.as_of||"no as_of"} · ${x.source||""}</div></div>`;
+    return `<div class="kpi"><div class="n ${ragClass(x.status)}">${x.display||"BLOCKED"}</div><div class="l">${lab}</div><div class="m">${x.as_of||"no as_of"}</div></div>`;
   }).join("");
 }
 
@@ -272,7 +317,6 @@ async function bindSnapshot(){
   } catch(e) { snap = null; }
   if (!snap){
     snap = {status:"BLOCKED", flags:["SAMPLE_FIXTURE_NOT_REAL"], as_of:null, qb_realm_id:"UNAVAILABLE", money_strip:{}, tiles:{}};
-    /* fetch miss stays BLOCKED, never a soft STALE-only banner */
   }
   window.CC_SNAP = snap;
   setBanner(snap);
