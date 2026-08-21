@@ -74,7 +74,7 @@ MapKI's enrichment pipeline extracts territory data from FDD Item 12 and cross-r
 
 **Salad House** territory data is actively being enriched.
 
-**For all other brands**: territory data completeness varies. MapKI's Tiffany AI pipeline is extracting Item 12 territory language from all 3,200+ FDDs in the database.
+**For all other brands**: territory data completeness varies. MapKI's enrichment pipeline is extracting Item 12 territory language from all 3,200+ FDDs in the database.
 
 ## For Buyers: How to Research Territory Before You Apply
 

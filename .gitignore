@@ -15,6 +15,9 @@ hub/machine-health.html
 hub/funnel-snapshot.json
 cc-refresh-spec.md
 update_index.py
+cc-data-snapshot.json
+hub-data.json
+overnight-sprint-state.json
 angie/data/*.json
 # Personal books and legal dashboards stay on disk; never serve them on Pages
 finance/
