@@ -10,6 +10,7 @@ bennett-cc/data/tailscale.json
 bennett-cc/data/machines.json
 hub/machine-health.json
 hub/agent-status.json
+hub/machine-health-collector.sh
 cc-refresh-spec.md
 update_index.py
 angie/data/*.json
