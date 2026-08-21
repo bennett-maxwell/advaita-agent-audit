@@ -4,3 +4,4 @@ Disallow: /finance/
 Disallow: /legal/
 Disallow: /forecast/
 Disallow: /finance-hub/
+Disallow: /hub/

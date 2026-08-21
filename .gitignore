@@ -11,6 +11,8 @@ bennett-cc/data/machines.json
 hub/machine-health.json
 hub/agent-status.json
 hub/machine-health-collector.sh
+hub/machine-health.html
+hub/funnel-snapshot.json
 cc-refresh-spec.md
 update_index.py
 angie/data/*.json
