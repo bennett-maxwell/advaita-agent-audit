@@ -3,3 +3,5 @@ bennett-cc/index.html.bak*
 # Live books stay on disk for the canary; never publish them on Pages
 bennett-cc/command-center-snapshot-latest.json
 bennett-cc/command-center-snapshot-writer.py
+# Canary receipt names internal temp paths and the private books sha; keep it off Pages too
+bennett-cc/false-green-canary-latest.json
