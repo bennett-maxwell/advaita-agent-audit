@@ -100,7 +100,7 @@ details.more > summary::-webkit-details-marker { display: none; }
   <div id="freshBanner" class="banner blocked">BLOCKED — live books not bound</div>
 
   <div class="header">
-    <div class="kicker">Tuesday · Aug 18</div>
+    <div class="kicker" id="kickerDay"></div>
     <h1>Today</h1>
     <div class="how">Same layout as Things 3 Today + Stripe Home: only what you do before the day ends, then four money numbers, then a few projects. Folded lists are Anytime / Someday — not this morning.</div>
   </div>
@@ -239,8 +239,11 @@ const TILES = [
   {id:"finance", name:"Finance", sub:"FKI QB only"}
 ];
 
+function esc(s){
+  return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
 function ragClass(s){ return s==="GREEN"?"green":(s==="AMBER"?"amber":"red"); }
-function pill(s){ return `<span class="pill pill-${(s||"RED").toLowerCase()}">${s||"RED"}</span>`; }
+function pill(s){ return `<span class="pill pill-${esc((s||"RED").toLowerCase())}">${esc(s||"RED")}</span>`; }
 
 function renderStrip(ms){
   const keys = [
@@ -251,18 +254,18 @@ function renderStrip(ms){
   ];
   document.getElementById("moneyStrip").innerHTML = keys.map(([k,lab])=>{
     const x = (ms&&ms[k])||{};
-    return `<div class="kpi"><div class="n ${ragClass(x.status)}">${x.display||"BLOCKED"}</div><div class="l">${lab}</div><div class="m">${x.as_of||"no as_of"}</div></div>`;
+    return `<div class="kpi"><div class="n ${ragClass(x.status)}">${esc(x.display||"BLOCKED")}</div><div class="l">${esc(lab)}</div><div class="m">${esc(x.as_of||"no as_of")}</div></div>`;
   }).join("");
 }
 
 function renderBots(){
   document.getElementById("bots").innerHTML = BOTS.map(b=>`
     <tr>
-      <td><div class="bot"><a href="${b.href}" style="color:#0071E3;text-decoration:none">${b.name}</a></div><div class="lane">${b.lane}</div></td>
-      <td class="${ragClass(b.status)}">${b.today}</td>
-      <td>${b.delivered}</td>
-      <td>${b.reply}</td>
-      <td>${pill(b.status)}<div class="lane">${b.as_of} · ${b.source}</div></td>
+      <td><div class="bot"><a href="${esc(b.href)}" style="color:#0071E3;text-decoration:none">${esc(b.name)}</a></div><div class="lane">${esc(b.lane)}</div></td>
+      <td class="${ragClass(b.status)}">${esc(b.today)}</td>
+      <td>${esc(b.delivered)}</td>
+      <td>${esc(b.reply)}</td>
+      <td>${pill(b.status)}<div class="lane">${esc(b.as_of)} · ${esc(b.source)}</div></td>
     </tr>`).join("");
 }
 
@@ -270,17 +273,17 @@ function renderTiles(snap){
   document.getElementById("tiles").innerHTML = TILES.map(t=>{
     const tile = snap && snap.tiles && snap.tiles[t.id];
     const worst = (tile && tile.kpis || []).some(k=>k.status==="RED") ? "RED" : ((tile && tile.kpis || []).some(k=>k.status==="AMBER")?"AMBER":"RED");
-    return `<button class="fbtn" onclick="openTile('${t.id}')"><div class="n">${t.sub}</div><h2>${t.name}</h2><div class="${ragClass(worst)}" style="font-size:12px;font-weight:700;margin-top:6px">${worst}</div></button>`;
+    return `<button class="fbtn" onclick="openTile('${esc(t.id)}')"><div class="n">${esc(t.sub)}</div><h2>${esc(t.name)}</h2><div class="${ragClass(worst)}" style="font-size:12px;font-weight:700;margin-top:6px">${esc(worst)}</div></button>`;
   }).join("");
 }
 
 function openTile(id){
   const t = TILES.find(x=>x.id===id);
   const tile = window.CC_SNAP && window.CC_SNAP.tiles && window.CC_SNAP.tiles[id];
-  const kpis = ((tile&&tile.kpis)||[]).map(k=>`<div class="row"><div class="lab">${k.display||"BLOCKED"} · tgt ${k.target||"—"}</div><div class="val ${ragClass(k.status)}">${k.status||"RED"}</div></div><div class="own" style="margin-bottom:8px">${k.as_of||"MISSING as_of"} · ${k.source||"—"} · ${k.owner_kpi_type||"—"}</div>`).join("");
+  const kpis = ((tile&&tile.kpis)||[]).map(k=>`<div class="row"><div class="lab">${esc(k.display||"BLOCKED")} · tgt ${esc(k.target||"—")}</div><div class="val ${ragClass(k.status)}">${esc(k.status||"RED")}</div></div><div class="own" style="margin-bottom:8px">${esc(k.as_of||"MISSING as_of")} · ${esc(k.source||"—")} · ${esc(k.owner_kpi_type||"—")}</div>`).join("");
   const el = document.getElementById("detail");
   el.className = "detail on";
-  el.innerHTML = `<div class="sec-h">${t.name} KPIs</div>${kpis||'<div class="row"><div class="lab">No live KPIs in snapshot</div><div class="val red">RED</div></div>'}`;
+  el.innerHTML = `<div class="sec-h">${esc(t.name)} KPIs</div>${kpis||'<div class="row"><div class="lab">No live KPIs in snapshot</div><div class="val red">RED</div></div>'}`;
   el.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
@@ -326,6 +329,11 @@ async function bindSnapshot(){
 
 renderBots();
 bindSnapshot();
+(function setKicker(){
+  const el = document.getElementById("kickerDay");
+  if (!el) return;
+  el.textContent = new Date().toLocaleDateString("en-US", {weekday:"long", month:"short", day:"numeric"});
+})();
 </script>
 </body>
 </html>
