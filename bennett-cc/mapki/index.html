@@ -40,7 +40,7 @@
 
 <div class="card">
   <div class="lbl">Tiffany</div>
-  <div class="sub" id="tiffany">probing 100.97.16.76:11434…</div>
+  <div class="sub" id="tiffany">not probed from this public page</div>
 </div>
 
 <div class="foot">
@@ -73,16 +73,7 @@ async function load(){
     document.getElementById("total").textContent = "?";
   }
 }
-async function tiffany(){
-  try{
-    const r = await fetch("http://100.97.16.76:11434/api/tags");
-    const j = await r.json();
-    document.getElementById("tiffany").textContent = `online · ${j.models.length} models loaded`;
-  }catch(e){
-    document.getElementById("tiffany").textContent = "browser-CORS blocked (Tiffany works server-side)";
-  }
-}
-load(); tiffany();
+load();
 </script>
 </body>
 </html>

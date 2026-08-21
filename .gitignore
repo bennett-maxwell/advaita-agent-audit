@@ -7,3 +7,9 @@ bennett-cc/command-center-snapshot-writer.py
 bennett-cc/false-green-canary-latest.json
 # Tailnet inventory is local ops data, not a public page
 bennett-cc/data/tailscale.json
+bennett-cc/data/machines.json
+hub/machine-health.json
+hub/agent-status.json
+cc-refresh-spec.md
+update_index.py
+angie/data/*.json
