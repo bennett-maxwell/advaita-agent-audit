@@ -1,2 +1,4 @@
 Dashboard auto-generated files
 bennett-cc/index.html.bak.*
+# Live books stay on disk for the canary; never publish them on Pages
+bennett-cc/command-center-snapshot-latest.json
