@@ -5,3 +5,5 @@ bennett-cc/command-center-snapshot-latest.json
 bennett-cc/command-center-snapshot-writer.py
 # Canary receipt names internal temp paths and the private books sha; keep it off Pages too
 bennett-cc/false-green-canary-latest.json
+# Tailnet inventory is local ops data, not a public page
+bennett-cc/data/tailscale.json
