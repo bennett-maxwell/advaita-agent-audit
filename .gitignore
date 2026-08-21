@@ -13,3 +13,8 @@ hub/agent-status.json
 cc-refresh-spec.md
 update_index.py
 angie/data/*.json
+# Personal books and legal dashboards stay on disk; never serve them on Pages
+finance/
+legal/
+forecast/
+finance-hub/
