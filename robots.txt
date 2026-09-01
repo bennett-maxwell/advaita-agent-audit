@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /bennett-cc/
+Disallow: /finance/
+Disallow: /legal/
+Disallow: /forecast/
+Disallow: /finance-hub/
+Disallow: /hub/

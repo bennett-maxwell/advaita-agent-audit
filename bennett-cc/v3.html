@@ -3,677 +3,337 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bennett Command Center v4 — Phase 2 Complete</title>
+<meta name="color-scheme" content="light">
+<title>Today — Franchise KI</title>
+<!-- CC-APPLE-LIGHT-20260818-CAMERON unique public-proof marker -->
+<!-- CC-TODAY-IA-THINGS-STRIPE-LINEAR-20260818 copied IA, not invented -->
 <style>
 :root {
-  --page:    #F4F7FE;
-  --white:   #FFFFFF;
-  --text:    #2D3748;
-  --label:   #A0AEC0;
-  --muted:   #CBD5E0;
-  --div:     #E8EDF6;
-  --border:  #E2E8F0;
-
-  --blue:    #0071E3;
-  --blue-lt: #E8F4FE;
-  --teal:    #4FD1C5;
-  --teal-lt: #E6FFFA;
-  --green:   #48BB78;
-  --green-lt:#C6F6D5;
-  --amber:   #ED8936;
-  --amber-lt:#FEEBCB;
-  --red:     #FC8181;
-  --red-lt:  #FFF5F5;
-  --red-dark:#E53E3E;
-  --purple:  #4FD1C5;
-  --purple-lt:#E6FFFA;
-
-  --radius-lg: 20px;
-  --radius-md: 14px;
-  --radius-sm: 10px;
-  --shadow-card: 14px 17px 40px 4px rgba(112,144,176,0.08);
-  --shadow-hover: 14px 17px 40px 4px rgba(112,144,176,0.18);
+  --bg: #F5F5F7;
+  --white: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --text: #1D1D1F;
+  --secondary: #6E6E73;
+  --muted: #8E8E93;
+  --div: #E5E5EA;
+  --border: #D1D1D6;
+  --card: #F5F5F7;
+  --blue: #0071E3;
+  --green: #34C759;
+  --amber: #FF9F0A;
+  --red: #FF3B30;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--page); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'DM Sans', 'Helvetica Neue', Arial, sans-serif; min-height: 100vh; font-size: 14px; }
-
-/* ── TOPBAR ── */
-.topbar { background: var(--white); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 0 var(--div); gap: 12px; flex-wrap: wrap; }
-.topbar-brand { font-size: 16px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
-.topbar-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-.sys-chip { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--label); }
-.dot { width: 7px; height: 7px; border-radius: 50%; }
-.dot-green  { background: var(--green); }
-.dot-amber  { background: var(--amber); }
-.dot-muted  { background: var(--muted); }
-.topbar-time { font-size: 12px; font-weight: 800; color: var(--text); }
-
-/* ── SCREENS ── */
-.screen { display: none; }
-.screen.active { display: block; }
-
-/* ══════════════════ HOME ══════════════════ */
-#screen-home { max-width: 600px; margin: 0 auto; padding: 40px 20px 32px; }
-.home-eyebrow { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-.home-headline { font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; margin-bottom: 8px; }
-.home-date { font-size: 13px; color: var(--label); margin-bottom: 36px; }
-
-.home-cards { display: flex; flex-direction: column; gap: 16px; }
-.home-card { background: var(--white); border-radius: var(--radius-lg); padding: 28px 28px 26px; cursor: pointer; text-align: left; transition: box-shadow 0.2s, transform 0.15s; box-shadow: var(--shadow-card); border: 1.5px solid transparent; display: flex; align-items: flex-start; gap: 20px; }
-.home-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
-.home-card.fki { border-color: rgba(0,113,227,0.12); }
-.home-card.personal { border-color: rgba(79,209,197,0.15); }
-.hc-icon-wrap { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
-.fki .hc-icon-wrap { background: var(--blue-lt); }
-.personal .hc-icon-wrap { background: var(--purple-lt); }
-.hc-body { flex: 1; }
-.hc-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
-.fki .hc-label { color: var(--blue); }
-.personal .hc-label { color: var(--purple); }
-.hc-title { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
-.hc-desc { font-size: 13px; color: var(--label); line-height: 1.55; }
-.hc-chips { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
-.hc-chip { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-.fki .hc-chip { background: var(--blue-lt); color: var(--blue); }
-.personal .hc-chip { background: var(--purple-lt); color: var(--purple); }
-.hc-arrow { font-size: 18px; color: var(--muted); margin-top: 2px; flex-shrink: 0; }
-
-/* ══════════════════ INNER ══════════════════ */
-.page-header { background: var(--white); padding: 16px 24px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 0 var(--div); }
-.back-btn { font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); cursor: pointer; background: var(--white); color: var(--label); transition: all 0.12s; white-space: nowrap; }
-.back-btn:hover { background: var(--page); color: var(--text); }
-.page-title { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
-.page-sub { font-size: 11px; color: var(--label); margin-top: 1px; }
-
-/* ── TABS ── */
-.tab-nav { background: var(--white); padding: 0 24px; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; box-shadow: 0 1px 0 var(--div); }
-.tab-nav::-webkit-scrollbar { display: none; }
-.tab-btn { font-size: 13px; font-weight: 600; padding: 13px 18px; cursor: pointer; color: var(--label); background: transparent; border: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; flex-shrink: 0; }
-.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 800; }
-.tab-btn:hover:not(.active) { color: var(--text); }
-.tab-pane { display: none; padding: 24px 20px; max-width: 740px; margin: 0 auto; }
-.tab-pane.active { display: block; }
-
-/* ── SUB TABS ── */
-.sub-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-.sub-btn { font-size: 12px; font-weight: 700; padding: 7px 16px; border-radius: 20px; cursor: pointer; color: var(--label); background: var(--white); border: 1.5px solid var(--border); box-shadow: var(--shadow-card); white-space: nowrap; transition: all 0.15s; }
-.sub-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
-.sub-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
-.sub-pane { display: none; }
-.sub-pane.active { display: block; }
-
-/* ── CARD ── */
-.card { background: var(--white); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow-card); }
-.card-title { font-size: 11px; font-weight: 800; color: var(--label); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
-
-/* ── KPI ROW ── */
-.kpi-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 16px; }
-@media (min-width: 480px) { .kpi-row { grid-template-columns: repeat(4,1fr); } }
-.kpi { background: var(--white); border-radius: var(--radius-md); padding: 16px 18px; text-align: left; box-shadow: var(--shadow-card); }
-.kpi-val { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
-.kpi-label { font-size: 11px; color: var(--label); margin-top: 4px; font-weight: 600; }
-.kpi-delta { font-size: 11px; margin-top: 6px; font-weight: 600; }
-
-/* ── ROW ── */
-.row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--div); gap: 10px; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+.page { max-width: 680px; margin: 0 auto; background: var(--white); min-height: 100vh; }
+.bar { background: #0071E3; color: #FFFFFF; padding: 12px 28px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.banner { padding: 10px 28px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.banner.stale { background: #FFF4E5; color: #9A6700; }
+.banner.blocked { background: #FF3B3008; color: var(--red); border-bottom: 2px solid var(--red); }
+.banner.ok { background: #E8F8EE; color: #1F7A3A; }
+.header { padding: 28px 28px 16px; }
+.kicker { font-size: 13px; font-weight: 600; color: var(--secondary); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 4px; }
+.header h1 { font-size: 34px; font-weight: 700; color: var(--text); letter-spacing: -.4px; }
+.how { font-size: 13px; color: var(--secondary); margin-top: 8px; line-height: 1.45; }
+.kpis { display: flex; border-top: 1px solid var(--div); border-bottom: 1px solid var(--div); }
+.kpi { flex: 1; text-align: left; padding: 20px 12px 20px 28px; }
+.kpi + .kpi { padding-left: 12px; }
+.kpi .n { font-size: 28px; font-weight: 700; letter-spacing: -.5px; line-height: 1.1; }
+.kpi .l { font-size: 11px; font-weight: 600; color: var(--secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: .04em; }
+.kpi .m { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+.sec { padding: 20px 28px; border-bottom: 1px solid var(--div); }
+.sec-h { font-size: 11px; font-weight: 600; color: var(--secondary); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+.sec-why { font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+.do { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F2F2F7; text-decoration: none; color: inherit; }
+.do:last-child { border-bottom: none; }
+.do .num { width: 22px; height: 22px; border-radius: 11px; background: var(--card); color: var(--secondary); font-size: 12px; font-weight: 700; text-align: center; line-height: 22px; flex: 0 0 22px; margin-top: 1px; }
+.do .body { flex: 1; min-width: 0; }
+.do .title { font-size: 16px; font-weight: 600; color: var(--text); }
+.do .who { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.proj { padding: 14px 0; border-bottom: 1px solid #F2F2F7; }
+.proj:last-child { border-bottom: none; }
+.proj .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.proj .name { font-size: 16px; font-weight: 600; }
+.proj .name a { color: var(--text); text-decoration: none; }
+.proj .next { font-size: 13px; color: var(--secondary); margin-top: 4px; line-height: 1.35; }
+.own { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.bot-table { width: 100%; border-collapse: collapse; }
+.bot-table th { font-size: 11px; font-weight: 600; color: var(--secondary); text-align: left; padding: 0 8px 10px 0; letter-spacing: .04em; text-transform: uppercase; }
+.bot-table td { font-size: 13px; padding: 10px 8px 10px 0; border-top: 1px solid #F2F2F7; vertical-align: top; color: var(--text); }
+.bot-table .bot { font-weight: 600; }
+.bot-table .lane { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.pill { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+.pill-red { background: #FFE5E3; color: var(--red); }
+.pill-amber { background: #FFF1D6; color: #9A6700; }
+.pill-green { background: #D8F5E3; color: #1F7A3A; }
+.red { color: var(--red); } .amber { color: var(--amber); } .green { color: var(--green); }
+.foot { padding: 16px 28px 28px; background: var(--bg); }
+.foot .line { font-size: 12px; color: var(--muted); line-height: 1.45; }
+.funcs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+details.more { padding: 8px 28px 20px; border-bottom: 1px solid var(--div); }
+details.more > summary { font-size: 15px; font-weight: 600; color: var(--blue); cursor: pointer; padding: 12px 0; list-style: none; }
+details.more > summary::-webkit-details-marker { display: none; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F2F2F7; }
 .row:last-child { border-bottom: none; }
-.row-label { font-size: 14px; font-weight: 500; }
-.row-sub   { font-size: 12px; color: var(--label); margin-top: 2px; }
-
-/* ── AGENT CARDS ── */
-.agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 440px) { .agent-grid { grid-template-columns: 1fr; } }
-.agent-card { background: var(--white); border-radius: var(--radius-md); padding: 18px 18px 16px; box-shadow: var(--shadow-card); }
-.agent-badge-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.agent-icon-wrap { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; background: var(--blue-lt); }
-.agent-name { font-size: 15px; font-weight: 800; color: var(--text); margin-top: 6px; }
-.agent-machine { font-size: 10px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.06em; }
-.agent-role { font-size: 12px; color: var(--label); margin-top: 3px; line-height: 1.4; }
-.agent-task { font-size: 11px; color: var(--blue); font-weight: 600; margin-top: 10px; background: var(--blue-lt); padding: 5px 10px; border-radius: 8px; display: inline-block; }
-
-/* ── PILL ── */
-.pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; white-space: nowrap; }
-.pill-green  { background: var(--green-lt); color: #276749; }
-.pill-amber  { background: var(--amber-lt); color: #744210; }
-.pill-red    { background: var(--red-lt);   color: var(--red-dark); }
-.pill-blue   { background: var(--blue-lt);  color: var(--blue); }
-.pill-purple { background: var(--purple-lt);color: #0E7490; }
-.pill-muted  { background: var(--div);      color: var(--label); }
-
-/* ── QUICK LINKS ── */
-.ql-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.ql-link { font-size: 12px; font-weight: 700; color: var(--blue); background: var(--blue-lt); border-radius: 20px; padding: 7px 14px; text-decoration: none; white-space: nowrap; transition: background 0.12s; }
-.ql-link:hover { background: #bfdbfe; }
-
-/* ── LINK TILES ── */
-.link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.link-tile { background: var(--white); border-radius: var(--radius-md); padding: 20px 18px; text-decoration: none; color: var(--text); display: block; transition: box-shadow 0.15s, transform 0.12s; box-shadow: var(--shadow-card); }
-.link-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-.lt-icon-wrap { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
-.lt-title { font-size: 14px; font-weight: 800; color: var(--text); }
-.lt-sub { font-size: 12px; color: var(--label); margin-top: 4px; line-height: 1.4; }
-
-/* ── PLACEHOLDER ── */
-.placeholder { border: 2px dashed var(--muted); border-radius: var(--radius-md); padding: 36px; text-align: center; color: var(--label); margin-bottom: 16px; }
-.ph-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.row .lab { font-size: 14px; color: var(--text); }
+.row .val { font-size: 14px; font-weight: 500; white-space: nowrap; }
+.fbtn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-align: left; cursor: pointer; width: 100%; color: var(--text); }
+.fbtn .n { font-size: 11px; font-weight: 600; color: var(--secondary); text-transform: uppercase; letter-spacing: .05em; }
+.fbtn h2 { font-size: 16px; font-weight: 700; margin-top: 4px; }
+.detail { display: none; margin-top: 12px; }
+.detail.on { display: block; }
+@media (max-width: 640px) {
+  .header, .sec, .banner, .foot, .bar, details.more { padding-left: 20px; padding-right: 20px; }
+  .kpi { padding-left: 20px; }
+  .header h1 { font-size: 28px; }
+  .kpis { flex-wrap: wrap; }
+  .kpi { flex: 1 1 45%; }
+  .funcs { grid-template-columns: 1fr; }
+  .bot-table { font-size: 12px; display: block; overflow-x: auto; }
+}
 </style>
 </head>
 <body>
+<div class="page">
+  <div class="bar">Franchise KI</div>
+  <div id="freshBanner" class="banner blocked">BLOCKED — live books not bound</div>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-brand">Bennett Maxwell <span style="font-size:11px;font-weight:600;color:#A0AEC0;margin-left:6px;">v4 · Phase 2 Complete</span></div>
-  <div class="topbar-right">
-    <div class="sys-chip"><span class="dot dot-green"></span>Leo</div>
-    <div class="sys-chip"><span class="dot dot-green"></span>Ivan</div>
-    <div class="sys-chip"><span class="dot dot-green"></span>Mack</div>
-    <div class="sys-chip"><span class="dot dot-muted"></span>Tiffany</div>
-    <div class="topbar-time" id="clock"></div>
-  </div>
-</div>
-
-<!-- ══════ HOME ══════ -->
-<div id="screen-home" class="screen active">
-  <div class="home-eyebrow">Command Center</div>
-  <div class="home-headline">Good afternoon, Bennett.</div>
-  <div class="home-date" id="homeDate"></div>
-
-  <div class="home-cards">
-    <button class="home-card fki" onclick="openScreen('fki')">
-      <div class="hc-icon-wrap">🏢</div>
-      <div class="hc-body">
-        <div class="hc-label">Business</div>
-        <div class="hc-title">FKI Command Center</div>
-        <div class="hc-desc">Operations · Tech · Marketing · Finance — everything Franchise KI in one place.</div>
-        <div class="hc-chips">
-          <span class="hc-chip">Operations</span>
-          <span class="hc-chip">Tech</span>
-          <span class="hc-chip">Marketing</span>
-          <span class="hc-chip">Finance</span>
-        </div>
-      </div>
-      <div class="hc-arrow">›</div>
-    </button>
-
-    <button class="home-card personal" onclick="openScreen('personal')">
-      <div class="hc-icon-wrap">👤</div>
-      <div class="hc-body">
-        <div class="hc-label">Personal</div>
-        <div class="hc-title">Personal Center</div>
-        <div class="hc-desc">Legal · Finance · Chore Chart · Real Estate — private, #leo-sky only.</div>
-        <div class="hc-chips">
-          <span class="hc-chip">Legal</span>
-          <span class="hc-chip">Finance</span>
-          <span class="hc-chip">Chores</span>
-          <span class="hc-chip">Real Estate</span>
-        </div>
-      </div>
-      <div class="hc-arrow">›</div>
-    </button>
-  </div>
-</div>
-
-<!-- ══════ FKI ══════ -->
-<div id="screen-fki" class="screen">
-  <div class="page-header">
-    <button class="back-btn" onclick="openScreen('home')">← Home</button>
-    <div>
-      <div class="page-title">FKI Command Center</div>
-      <div class="page-sub">Franchise KI — Business Operations</div>
-    </div>
-  </div>
-  <div class="tab-nav">
-    <button class="tab-btn active" onclick="showTab('fki','ops',this)">⚙️ Operations</button>
-    <button class="tab-btn" onclick="showTab('fki','tech',this)">💻 Tech</button>
-    <button class="tab-btn" onclick="showTab('fki','marketing',this)">📣 Marketing</button>
-    <button class="tab-btn" onclick="showTab('fki','finance',this)">💰 Finance</button>
+  <div class="header">
+    <div class="kicker" id="kickerDay"></div>
+    <h1>Today</h1>
+    <div class="how">Same layout as Things 3 Today + Stripe Home: only what you do before the day ends, then four money numbers, then a few projects. Folded lists are Anytime / Someday — not this morning.</div>
   </div>
 
-  <!-- OPS -->
-  <div id="fki-ops" class="tab-pane active">
-    <div class="sub-nav">
-      <button class="sub-btn active" onclick="showSub('ops','agents',this)">🤖 Agents</button>
-      <button class="sub-btn" onclick="showSub('ops','angie',this)">📋 Angie Audits</button>
-      <button class="sub-btn" onclick="showSub('ops','humans',this)">👥 Humans</button>
-      <button class="sub-btn" onclick="showSub('ops','rocks',this)">🪨 Rocks</button>
-    </div>
+  <div class="kpis" id="moneyStrip"></div>
 
-    <div id="ops-agents" class="sub-pane active">
-      <div class="agent-grid">
-        <div class="agent-card">
-          <div class="agent-badge-row">
-            <div class="agent-icon-wrap">🧠</div>
-            <span class="pill pill-green">Online</span>
-          </div>
-          <div class="agent-machine">Orchestrator</div>
-          <div class="agent-name">Leo</div>
-          <div class="agent-role">Router · Dispatcher · Multi-agent coordinator</div>
-          <div class="agent-task">→ Routing tasks via Slack</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-badge-row">
-            <div class="agent-icon-wrap">💻</div>
-            <span class="pill pill-green">Online</span>
-          </div>
-          <div class="agent-machine">MacBook</div>
-          <div class="agent-name">Guy (Mack)</div>
-          <div class="agent-role">CLI · Interactive tasks · SSH</div>
-          <div class="agent-task">→ Active session</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-badge-row">
-            <div class="agent-icon-wrap">🖥️</div>
-            <span class="pill pill-green">Online</span>
-          </div>
-          <div class="agent-machine">iMac</div>
-          <div class="agent-name">Ivan CC</div>
-          <div class="agent-role">Crons · Daemons · Persistent ops</div>
-          <div class="agent-task">→ Auto-commits running</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-badge-row">
-            <div class="agent-icon-wrap">🤖</div>
-            <span class="pill pill-red">Unreachable</span>
-          </div>
-          <div class="agent-machine">HP Omen</div>
-          <div class="agent-name">Tiffany</div>
-          <div class="agent-role">Windows · Ollama local models</div>
-          <div class="agent-task">→ ⚠️ Offline — check Tailscale</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-badge-row">
-            <div class="agent-icon-wrap">💬</div>
-            <span class="pill pill-green">Online</span>
-          </div>
-          <div class="agent-machine">Slack MCP</div>
-          <div class="agent-name">Sky</div>
-          <div class="agent-role">Team communications</div>
-          <div class="agent-task">→ Listening on channels</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-badge-row">
-            <div class="agent-icon-wrap">📊</div>
-            <span class="pill pill-amber">Scheduled</span>
-          </div>
-          <div class="agent-machine">Scheduled</div>
-          <div class="agent-name">Piper + Reed</div>
-          <div class="agent-role">Pipeline · Pulse Reports</div>
-          <div class="agent-task">→ Daily cron</div>
-        </div>
+  <div class="sec">
+    <div class="sec-h">Do now</div>
+    <div class="sec-why">Copied from Things Today: this list is only today’s commitments, in order. Not a department org chart.</div>
+    <a class="do" href="https://app.notion.com/p/3b8cf5514fd38167a38dfacd161c7184">
+      <div class="num">1</div>
+      <div class="body">
+        <div class="title">Collect overdue invoices on the CRO board</div>
+        <div class="who">Madison · as_of L10 8/17 · amounts live in private books only</div>
       </div>
-      <div class="card">
-        <div class="card-title">Quick Access</div>
-        <div class="ql-row">
-          <a class="ql-link" href="https://dashboard.franchiseki.com/hub/agent-monitor.html" target="_blank">📊 Agent Monitor</a>
-          <a class="ql-link" href="https://franchiseki.slack.com/archives/C0AKXT2S1T2" target="_blank">⚡ #leo-auto</a>
-          <a class="ql-link" href="https://www.notion.so/335cf5514fd3813488dec82a68622d7b" target="_blank">📌 Sprint Board</a>
-        </div>
+    </a>
+    <a class="do" href="https://app.notion.com/p/3c0cf5514fd38166b3ebe61f6bae4f68">
+      <div class="num">2</div>
+      <div class="body">
+        <div class="title">Close the open Stripe agreement</div>
+        <div class="who">Madison / Kay · as_of 8/18 · named balances not on this public page</div>
+      </div>
+    </a>
+    <a class="do" href="https://app.notion.com/p/33dcf5514fd381d382fae7e19a5f14fd">
+      <div class="num">3</div>
+      <div class="body">
+        <div class="title">Turn on Indy Clover ads at $50/day</div>
+        <div class="who">George / Brent · fastest franchise cash this week · nothing live</div>
+      </div>
+    </a>
+    <div class="do">
+      <div class="num">4</div>
+      <div class="body">
+        <div class="title">Do not send leftover Grok Bot prospect mail</div>
+        <div class="who">Protected · Leo 23 live drafts · Wevly 0 replies · 10/10 stays red until you tap</div>
       </div>
     </div>
-
-    <div id="ops-angie" class="sub-pane">
-      <div class="placeholder"><div class="ph-title">📋 Angie Audits</div>Daily audit reports auto-populate here — coming soon.</div>
-      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://mail.google.com/mail/u/0/#search/from%3Aangie" target="_blank">📧 Angie Emails</a></div></div>
-    </div>
-
-    <div id="ops-humans" class="sub-pane">
-      <div class="placeholder"><div class="ph-title">👥 Human Work Reports</div>Keith · Bailey · Madison · Kay — activity tracking coming soon.</div>
-    </div>
-
-    <div id="ops-rocks" class="sub-pane">
-      <div class="kpi-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:16px;">
-        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$109</div><div class="kpi-label">IC CPL (target $60)</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">50%</div><div class="kpi-label">Show Rate (target 70%)</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--amber)">60%</div><div class="kpi-label">AI Autonomy (target 90%)</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$17.8K</div><div class="kpi-label">CC Payments Due</div></div>
-      </div>
-
-      <div class="card" style="cursor:pointer" onclick="toggleRock('rock1',this)">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="card-title">🎯 ROCK 1 — IC Lead Cost</div><div style="font-size:14px;font-weight:700;color:var(--text)">Get IC CPL from $109 → $60</div></div>
-          <span class="pill pill-amber">In Progress</span>
-        </div>
-        <div id="rock1" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
-          <div class="row"><div class="row-label">Upload new community-hub creative</div><span class="pill pill-blue">Leo</span></div>
-          <div class="row"><div class="row-label">New adset parallel test vs Investor Headlines v1.1</div><span class="pill pill-blue">Leo</span></div>
-          <div class="row"><div class="row-label">Kill $76 CPL adset once new adset &lt;$60</div><span class="pill pill-muted">Pending</span></div>
-          <a href="https://www.facebook.com/adsmanager" class="l3-link" target="_blank">Open Ads Manager →</a>
-        </div>
-      </div>
-
-      <div class="card" style="cursor:pointer" onclick="toggleRock('rock2',this)">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="card-title">📊 ROCK 2 — Show Rate</div><div style="font-size:14px;font-weight:700;color:var(--text)">Improve show rate from 50% → 70%</div></div>
-          <span class="pill pill-red">Critical</span>
-        </div>
-        <div id="rock2" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
-          <div class="row"><div class="row-label">Publish 3 unpublished reminder workflows in GHL</div><span class="pill pill-blue">Leo</span></div>
-          <div class="row"><div class="row-label">3-touch pre-call sequence (24hr/2hr/1hr SMS)</div><span class="pill pill-blue">Leo</span></div>
-          <div class="row"><div class="row-label">No-show rebook sequence (30min/4hr/24hr)</div><span class="pill pill-blue">Leo</span></div>
-          <a href="https://app.crmx.app" class="l3-link" target="_blank">Open GHL →</a>
-        </div>
-      </div>
-
-      <div class="card" style="cursor:pointer" onclick="toggleRock('rock3',this)">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="card-title">🤖 ROCK 3 — AI Autonomy</div><div style="font-size:14px;font-weight:700;color:var(--text)">Grow agent autonomy from 60% → 90%</div></div>
-          <span class="pill pill-blue">Active</span>
-        </div>
-        <div id="rock3" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
-          <div class="row"><div class="row-label">Lead scorer webhook → GHL ContactCreate</div><span class="pill pill-blue">Leo</span></div>
-          <div class="row"><div class="row-label">SynthFlow → GHL sub-account connect</div><span class="pill pill-muted">Pending</span></div>
-          <div class="row"><div class="row-label">Deploy 4 new domain CCs to dashboard</div><span class="pill pill-muted">Pending</span></div>
-          <a href="https://dashboard.franchiseki.com/autonomy/" class="l3-link" target="_blank">Autonomy Dashboard →</a>
-        </div>
-      </div>
-
-      <div class="card" style="cursor:pointer" onclick="toggleRock('rock4',this)">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="card-title">💰 ROCK 4 — Collections</div><div style="font-size:14px;font-weight:700;color:var(--text)">Clear $17.8K in near-term obligations</div></div>
-          <span class="pill pill-red">Urgent</span>
-        </div>
-        <div id="rock4" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
-          <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">🚨 PAST DUE (May 9)</div></div><span class="pill pill-red">$8,909</span></div>
-          <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">🚨 PAST DUE (May 19)</div></div><span class="pill pill-amber">$8,864</span></div>
-          <div class="row"><div><div class="row-label">SRP / Reardon / Patel forecasts</div><div class="row-sub">Watch</div></div><span class="pill pill-muted">Pipeline</span></div>
-          <a href="https://quickbooks.intuit.com" class="l3-link" target="_blank">Open QuickBooks →</a>
-        </div>
-      </div>
-
-      <div class="card" style="cursor:pointer" onclick="toggleRock('rock5',this)">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="card-title">👥 ROCK 5 — Team Performance</div><div style="font-size:14px;font-weight:700;color:var(--text)">Keith + Bailey pipeline + Madison research</div></div>
-          <span class="pill pill-muted">Monitor</span>
-        </div>
-        <div id="rock5" style="display:none;margin-top:14px;border-top:1px solid var(--div);padding-top:14px;">
-          <div class="row"><div class="row-label">Batch-assign 506 unassigned leads round-robin</div><span class="pill pill-blue">Leo</span></div>
-          <div class="row"><div class="row-label">Metricool Standard upgrade + brand connections</div><span class="pill pill-amber">Kay</span></div>
-          <div class="row"><div class="row-label">Week 3 content queue review</div><span class="pill pill-amber">Christelle</span></div>
-          <a href="https://franchiseki.slack.com" class="l3-link" target="_blank">Open Slack →</a>
-        </div>
+    <div class="do">
+      <div class="num">5</div>
+      <div class="body">
+        <div class="title">Reconnect FKI QuickBooks so cash is real</div>
+        <div class="who">Bennett / Kay · until then every cash number is BLOCKED</div>
       </div>
     </div>
   </div>
 
-  <!-- TECH -->
-  <div id="fki-tech" class="tab-pane">
-    <div class="sub-nav">
-      <button class="sub-btn active" onclick="showSub('tech','health',this)">💻 Computer Health</button>
+  <div class="sec">
+    <div class="sec-h">Projects</div>
+    <div class="sec-why">Copied from Linear My Issues: five open items, one next action each. Not six functions.</div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3b8cf5514fd38167a38dfacd161c7184">Collect overdue invoices</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: Madison payment touch; dated Bailey blocker. Dollar amounts stay off this public page.</div>
+      <div class="own">CRO · as_of 2026-08-17 · Shared</div>
     </div>
-    <div id="tech-health" class="sub-pane active">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-val" style="color:var(--green)">3</div><div class="kpi-label">Machines Online</div></div>
-        <div class="kpi"><div class="kpi-val">101</div><div class="kpi-label">LaunchAgents</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--green)">✓</div><div class="kpi-label">Ivan Health</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--green)">✓</div><div class="kpi-label">Mack Health</div></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Machines</div>
-        <div class="row"><div><div class="row-label">Ivan (iMac)</div><div class="row-sub">openclaw · 100.103.51.12</div></div><span class="pill pill-green">Online</span></div>
-        <div class="row"><div><div class="row-label">Mack (MacBook)</div><div class="row-sub">temp · 100.112.24.104</div></div><span class="pill pill-green">Online</span></div>
-        <div class="row"><div><div class="row-label">Tiffany (HP Omen)</div><div class="row-sub">Windows · Ollama · 100.97.16.76</div></div><span class="pill pill-red">Unreachable</span></div>
-      </div>
-      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/hub/machine-health.html" target="_blank">💻 Machine Health Dashboard</a><a class="ql-link" href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" target="_blank">🛠 #leo-coaches</a></div></div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3c0cf5514fd38166b3ebe61f6bae4f68">Stripe agreement close</a></div><span class="pill pill-amber">AMBER</span></div>
+      <div class="next">Next: get the signed agreement into Stripe</div>
+      <div class="own">CRO · as_of 2026-08-18 · Shared</div>
     </div>
-  </div>
-
-  <!-- MARKETING -->
-  <div id="fki-marketing" class="tab-pane">
-    <div class="sub-nav">
-      <button class="sub-btn active" onclick="showSub('mkt','overview',this)">📊 Overview</button>
-      <button class="sub-btn" onclick="showSub('mkt','pipeline',this)">🔀 Pipeline</button>
-      <button class="sub-btn" onclick="showSub('mkt','nut',this)">🎯 Nut</button>
-      <button class="sub-btn" onclick="showSub('mkt','content',this)">🎨 Content & Ads</button>
-      <button class="sub-btn" onclick="showSub('mkt','social',this)">📱 Social</button>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/33dcf5514fd381d382fae7e19a5f14fd">Indy Clover ads live</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: $50/day actually running</div>
+      <div class="own">Marketing · Meta Insights BLOCKED · Human-owned</div>
     </div>
-
-    <div id="mkt-overview" class="sub-pane active">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-val" style="color:var(--blue)">$109</div><div class="kpi-label">IC CPL</div><div class="kpi-delta" style="color:var(--amber)">↑ Watch</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--green)">$30</div><div class="kpi-label">SH CPL</div><div class="kpi-delta" style="color:var(--green)">✓ Strong</div></div>
-        <div class="kpi"><div class="kpi-val">50%</div><div class="kpi-label">IC Show Rate</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--green)">100%</div><div class="kpi-label">SH Show Rate</div></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Platform Status</div>
-        <div class="row"><div class="row-label">Meta Ads — IC</div><span class="pill pill-green">Active</span></div>
-        <div class="row"><div class="row-label">Meta Ads — SH</div><span class="pill pill-green">Active</span></div>
-        <div class="row"><div class="row-label">Meta CAPI</div><span class="pill pill-green">Live</span></div>
-        <div class="row"><div class="row-label">Metricool</div><span class="pill pill-blue">Scheduling</span></div>
-        <div class="row"><div class="row-label">AdStellar</div><span class="pill pill-amber">Monitor</span></div>
-        <div class="row"><div class="row-label">Blaze AI</div><span class="pill pill-blue">Active</span></div>
-      </div>
-      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://www.facebook.com/adsmanager" target="_blank">📣 Ads Manager</a><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 GHL</a><a class="ql-link" href="https://metricool.com" target="_blank">📅 Metricool</a></div></div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e">Grok email 10/10 delivered</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: 0 of 10 today. Leftover send stays frozen until you tap.</div>
+      <div class="own">Leo 23 drafts · Wevly 21 sent / 0 replies · Penny 0 today · as_of 2026-08-18</div>
     </div>
-
-    <div id="mkt-pipeline" class="sub-pane">
-      <div class="kpi-row">
-        <div class="kpi"><div class="kpi-val">7,039</div><div class="kpi-label">Total Opps</div></div>
-        <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">440</div><div class="kpi-label">Stuck Leads</div></div>
-        <div class="kpi"><div class="kpi-val">12%</div><div class="kpi-label">Form TR Rate</div></div>
-        <div class="kpi"><div class="kpi-val">2%</div><div class="kpi-label">FB TR Rate</div></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Pipeline Stages</div>
-        <div class="row"><div><div class="row-label">New Lead (stuck)</div><div class="row-sub">Re-engage campaign needed</div></div><span class="pill pill-red">440</span></div>
-        <div class="row"><div class="row-label">Discovery Scheduled</div><span class="pill pill-blue">Check GHL</span></div>
-        <div class="row"><div class="row-label">Brand Match</div><span class="pill pill-blue">Check GHL</span></div>
-        <div class="row"><div class="row-label">FDD Sent</div><span class="pill pill-blue">Check GHL</span></div>
-        <div class="row"><div class="row-label">FA Signed</div><span class="pill pill-blue">Check GHL</span></div>
-      </div>
-      <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 Open GHL</a></div></div>
-    </div>
-
-    <div id="mkt-nut" class="sub-pane"><div class="placeholder"><div class="ph-title">🎯 Nut — GHL Pipeline</div>Coming soon.</div><div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.crmx.app" target="_blank">📋 Open GHL</a></div></div></div>
-    <div id="mkt-content" class="sub-pane"><div class="placeholder"><div class="ph-title">🎨 Content & Ad Management</div>Creative pipeline · Ad performance · Content calendar — coming soon.</div></div>
-    <div id="mkt-social" class="sub-pane"><div class="placeholder"><div class="ph-title">📱 Social Media</div>FKI + Personal — LinkedIn · Facebook · Instagram — coming soon.</div></div>
-  </div>
-
-  <!-- FINANCE -->
-  <div id="fki-finance" class="tab-pane">
-    <div class="kpi-row">
-      <div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">$8,909</div><div class="kpi-label">Amex 🚨 PAST DUE</div><div class="kpi-delta" style="color:var(--red-dark)">🚨 Urgent</div></div>
-      <div class="kpi"><div class="kpi-val" style="color:var(--amber)">$8,864</div><div class="kpi-label">Divvy 🚨 PAST DUE</div><div class="kpi-delta" style="color:var(--amber)">⚠ Watch</div></div>
-      <div class="kpi"><div class="kpi-val" style="color:var(--amber)">71.5%</div><div class="kpi-label">CC Utilization</div></div>
-      <div class="kpi"><div class="kpi-val">$122K</div><div class="kpi-label">Total Balance</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Upcoming Payments</div>
-      <div class="row"><div><div class="row-label">Amex 1005</div><div class="row-sub">🚨 PAST DUE (May 9)</div></div><span class="pill pill-red">$8,909</span></div>
-      <div class="row"><div><div class="row-label">BME</div><div class="row-sub">Due Sunday</div></div><span class="pill pill-amber">$84</span></div>
-      <div class="row"><div><div class="row-label">Divvy</div><div class="row-sub">🚨 PAST DUE (May 19)</div></div><span class="pill pill-amber">$8,864</span></div>
-    </div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://quickbooks.intuit.com" target="_blank">📊 QuickBooks</a><a class="ql-link" href="https://dashboard.franchiseki.com/finance-hub/" target="_blank">💰 Finance Dashboard</a><a class="ql-link" href="https://dashboard.franchiseki.com/legal/" target="_blank">⚖️ Legal CC (pw: franchiseki2024)</a></div></div>
-  </div>
-</div>
-
-<!-- ══════ PERSONAL ══════ -->
-<div id="screen-personal" class="screen">
-  <div class="page-header">
-    <button class="back-btn" onclick="openScreen('home')">← Home</button>
-    <div>
-      <div class="page-title">Personal Center</div>
-      <div class="page-sub">Bennett + Sky · #leo-sky only · <a href="https://www.notion.so/33acf5514fd381c09c13eb8d16fb6c7f" target="_blank" style="color:var(--blue);">Bennett-Personal CC ↗</a> · <a href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" target="_blank" style="color:var(--blue);">CEO CC Master ↗</a> · <a href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank" style="color:var(--blue);">Personal Agents ↗</a></div>
+    <div class="proj">
+      <div class="top"><div class="name"><a href="https://app.notion.com/p/3aacf5514fd3812090b5dfdbfdc53ec9">Speed-to-lead under 60s</a></div><span class="pill pill-red">RED</span></div>
+      <div class="next">Next: missing live log stays RED. Never a hardcoded 4.0.</div>
+      <div class="own">Appointments · Cody · Agent-owned</div>
     </div>
   </div>
 
-  <div class="tab-nav">
-    <button class="tab-btn active" onclick="showTab('personal','agents',this)">🤖 Agents</button>
-    <button class="tab-btn" onclick="showTab('personal','family',this)">👨‍👩‍👧 Family</button>
-    <button class="tab-btn" onclick="showTab('personal','health',this)">💪 Health</button>
-    <button class="tab-btn" onclick="showTab('personal','money',this)">💰 Money</button>
-    <button class="tab-btn" onclick="showTab('personal','legal',this)">⚖️ Legal</button>
-    <button class="tab-btn" onclick="showTab('personal','realestate',this)">🏠 Real Estate</button>
-    <button class="tab-btn" onclick="showTab('personal','chore',this)">✅ Chore</button>
-    <button class="tab-btn" onclick="showTab('personal','vision',this)">🎯 Vision</button>
-  </div>
+  <details class="more">
+    <summary>Later today — Grok Bot 10/10 table</summary>
+    <div class="sec-why">Things “This Evening”: still here, not in the morning list. 13 rows is too many for Today.</div>
+    <table class="bot-table">
+      <thead>
+        <tr><th>Project</th><th>Today</th><th>Delivered</th><th>Reply</th><th>Status</th></tr>
+      </thead>
+      <tbody id="bots"></tbody>
+    </table>
+  </details>
 
-  <!-- AGENTS -->
-  <div id="personal-agents" class="tab-pane active">
-    <div style="background:var(--purple-lt);border:1.5px solid rgba(79,209,197,0.2);border-radius:var(--radius-sm);padding:11px 16px;font-size:12px;color:#0E7490;font-weight:600;margin-bottom:18px;">🔒 Sky + Bennett joint management. Each agent runs autonomously, reports here. <b>Next:</b> Sky reviews each tab, fills placeholders in <a href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" style="color:#0E7490;text-decoration:underline">#leo-sky</a>.</div>
-    <div class="card"><div class="card-title">Personal Agent Roster</div>
-      <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px;">
-        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>🧑‍⚖️ Lex</b> — Legal · contracts, NDAs, attorney comms, CraveWorthy / Dirty Dough<br><span style="font-size:11px;color:var(--label);">Channel: #leo-sky · Owner: Bennett · Status: 🔴 Case 250905143 P0 ACTIVE · daily 8am deadline scan pending</span><br><a href="https://www.notion.so/36dcf5514fd381dfbc75e135cdd018b6" style="font-size:11px;color:var(--blue);">Case Timeline ↗</a> · <a href="https://www.notion.so/36dcf5514fd38196a062fe96dcb6a96c" style="font-size:11px;color:var(--blue);">Craveworthy Master ↗</a></div>
-        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>🏠 Rachel</b> — Property mgmt · 6 doors (5 rental + 1 primary) · rent, vendors, leases<br><span style="font-size:11px;color:var(--label);">Channel: #leo-sky · Owner: Sky · Status: 🟡 cron stub on disk, awaiting Rentler API + QB classes</span><br><a href="https://www.notion.so/349cf5514fd381e6b6e4dbb159517683" style="font-size:11px;color:var(--blue);">Rachel Dashboard ↗</a></div>
-        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>💵 Finny</b> — Personal CFO · Divvy, Mountain America CU, net worth, bill pay, QB Personal<br><span style="font-size:11px;color:var(--label);">Channel: #leo-sky · Owner: Sky · Status: 🟡 cron stub on disk, awaiting Plaid + QB Personal connect</span><br><a href="https://www.notion.so/36dcf5514fd38105b68cf745baf421e2" style="font-size:11px;color:var(--blue);">Onboarding ↗</a> · <a href="https://www.notion.so/36dcf5514fd38158b8d0fd0e12417889" style="font-size:11px;color:var(--blue);">QB Account Map ↗</a></div>
-        <div style="border:1px solid var(--div);border-radius:8px;padding:12px;"><b>♠️ Ace</b> — Chief of Staff · calendar, travel, kids, errands, morning brief<br><span style="font-size:11px;color:var(--label);">Channel: #leo-sky + #communication-triage · Owner: Bennett · Status: 🟢 BlueBubbles + email + 6AM morning brief LIVE</span><br><a href="https://www.notion.so/349cf5514fd38165b489c2b70f391647" style="font-size:11px;color:var(--blue);">Ace Dashboard ↗</a> · <a href="https://www.notion.so/36dcf5514fd38113a099e115fea5aa23" style="font-size:11px;color:var(--blue);">Morning Routine ↗</a></div>
-      </div>
-    </div>
-    <div class="card"><div class="card-title">10-Section Diamond Template (per agent)</div><div style="font-size:11px;line-height:1.7;color:var(--label);">1. Outcome · 2. Owner + #leo-sky escalation · 3. Critical Links · 4. Tools/Skills · 5. Artifact Inventory · 6. Known Errors · 7. Next 3 Actions · 8. Done Definition · 9. Escalation Cascade · 10. Status + Readiness — <a href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank" style="color:var(--blue);">full spec in Notion ↗</a></div></div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" target="_blank">💬 #leo-sky</a><a class="ql-link" href="https://www.notion.so/345cf5514fd38123a863c6b3fed2eb12" target="_blank">📝 Bennett Personal Agents</a><a class="ql-link" href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" target="_blank">🎛 CC Master</a></div></div>
-  </div>
+  <details class="more">
+    <summary>Anytime — 180-day money vs AI notes</summary>
+    <div class="sec-why">Research, not today’s list. Window 2026-02-18 → 2026-08-18.</div>
+    <div class="row"><div class="lab">Cash collected last scored week</div><div class="val red">BLOCKED on this public page</div></div>
+    <div class="own" style="margin-bottom:8px">as_of 2026-08-17 · L10 Weekly — figures stay in private books</div>
+    <div class="row"><div class="lab">Sitting paper, not in bank</div><div class="val amber">Open the CRO board — not listed here</div></div>
+    <div class="row"><div class="lab">Fastest franchise cash this week</div><div class="val red">IC ads $50/day — nothing running</div></div>
+    <div class="row"><div class="lab">Advaita ads vs cash</div><div class="val red">0 appointments / 5 days · 1 form fill</div></div>
+    <div class="own">as_of L10 8/17 · 25 Daily Sync + 16 L10 pages searched · not every transcript byte</div>
+  </details>
 
-  <!-- FAMILY -->
-  <div id="personal-family" class="tab-pane">
-    <div class="card"><div class="card-title">Maxwell Family</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Bennett · Sky · 5 kids (Maxwell Family Chore Chart system live) · Ace agent owns family calendar + meal plan + anniversaries</div></div>
-    <div class="card"><div class="card-title">This Week's Anchors</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Sunday family dinner · Wednesday date night · Saturday kids time · monthly grandparent visit</div></div>
-    <div class="card"><div class="card-title">Kids — School + Activities</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Owner: Sky → Ace. School schedule · activities · medical · birthdays. Live data flows into Chore tab.</div></div>
-    <div class="card"><div class="card-title">Sky + Bennett</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Date night cadence · trips planned · anniversaries · couples goals for the year</div></div>
-    <div class="card" style="background:var(--amber-lt);"><div class="card-title">🟣 Sky Action</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Confirm 4 anchors (Sun dinner / Wed date / Sat kids / monthly grandparent) — drop edits in <a href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" style="color:var(--blue);">#leo-sky</a></div></div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://calendar.google.com" target="_blank">📅 Google Calendar</a><a class="ql-link" href="https://dashboard.franchiseki.com/chore-chart/" target="_blank">✅ Family Chart</a></div></div>
-  </div>
+  <details class="more">
+    <summary>Someday — six functions</summary>
+    <div class="sec-why">Org chart lives here so it cannot compete with Today. Copied from Things Areas.</div>
+    <div class="funcs" id="tiles"></div>
+    <div id="detail" class="detail"></div>
+  </details>
 
-  <!-- HEALTH -->
-  <div id="personal-health" class="tab-pane">
-    <div class="card"><div class="card-title">Daily Targets</div><div class="kpi-row"><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Steps</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Sleep hrs</div></div><div class="kpi"><div class="kpi-val">—</div><div class="kpi-label">Workouts/wk</div></div></div><div style="margin-top:8px;font-size:11px;color:var(--label);">No agent yet — Finny gate. Sky picks tracker (Apple Health / Whoop / Oura).</div></div>
-    <div class="card"><div class="card-title">Doctor + Meds</div><div style="font-size:13px;line-height:1.7;color:var(--label);">PCP · dentist · annual physical · current meds list · supplements stack — to be entered by Sky</div></div>
-    <div class="card"><div class="card-title">Body Comp Goals</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Weight target · workout split · diet baseline · sleep target</div></div>
-    <div class="card" style="background:var(--amber-lt);"><div class="card-title">🟣 Sky Action</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Pick health tracker → connect via Finny → KPIs auto-fill</div></div>
+  <div class="foot">
+    <div class="line">IA copied from Things 3 Today (Cultured Code), Stripe Home (five numbers, job not org chart), Linear My Issues, and exception reporting (only what is off). Apple tokens MODE B.</div>
+    <div class="line">Sources: culturedcode.com/things/support · docs.stripe.com/dashboard/basics · linear.app/docs/my-issues · juiceanalytics.com dashboard alerts</div>
+    <div class="line">Cash BLOCKED until FKI QB realm is live. Vercel is a feed, not a second home.</div>
   </div>
-
-  <!-- MONEY -->
-  <div id="personal-money" class="tab-pane">
-    <div class="card"><div class="card-title">Finny — Personal Finance (Bennett Maxwell)</div><div class="kpi-row"><div class="kpi"><div class="kpi-val" style="color:var(--green)">$390K</div><div class="kpi-label">YTD Revenue</div></div><div class="kpi"><div class="kpi-val" style="color:#0EA5E9">$252K</div><div class="kpi-label">Net Income</div></div><div class="kpi"><div class="kpi-val">64.8%</div><div class="kpi-label">Profit Margin</div></div><div class="kpi"><div class="kpi-val" style="color:var(--amber)">$15.3K</div><div class="kpi-label">Cost / Signed Deal</div></div></div></div>
-    <div class="card"><div class="card-title">Net Worth Breakdown</div><div class="kpi-row"><div class="kpi"><div class="kpi-val">$—</div><div class="kpi-label">Cash + Checking</div></div><div class="kpi"><div class="kpi-val">$—</div><div class="kpi-label">Investments</div></div><div class="kpi"><div class="kpi-val">$53K</div><div class="kpi-label">RE Equity</div></div><div class="kpi"><div class="kpi-val">$—</div><div class="kpi-label">Other Assets</div></div></div><div style="margin-top:8px;font-size:11px;color:var(--label);">Net monthly cash flow: $— · Finny refresh blocked on Plaid + QB Personal connection</div></div>
-    <div class="card"><div class="card-title">Integration Status</div><div style="font-size:12px;line-height:1.7;"><b style="color:var(--red-dark)">🔴 Finny / Plaid API</b> — Not Connected<br><b style="color:var(--red-dark)">🔴 QuickBooks Personal Sync</b> — Not Connected<br><b style="color:var(--amber)">🟡 Dashboard Build</b> — Stub Live</div></div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://app.divvy.co" target="_blank">💳 Divvy</a><a class="ql-link" href="https://dashboard.franchiseki.com/personal-finance/" target="_blank">💰 Finny Dashboard</a></div></div>
-  </div>
-
-  <!-- LEGAL -->
-  <div id="personal-legal" class="tab-pane">
-    <div class="card" style="border-left:3px solid var(--red-dark);background:#FFF5F5"><div class="card-title" style="color:var(--red-dark)">🚨 P0 — Case 250905143 (Craveworthy / Dirty Dough)</div><div style="font-size:13px;line-height:1.7;color:var(--text);"><b>Status:</b> 🔴 ACTIVE P0 · <b>Attorneys:</b> Ron Haslam + Heideman · <b>Action:</b> Call Ron Haslam URGENT (email draft Gmail r-5392054640518130286). Banks opened 2026-05-27 at Mountain America CU (Bennett + Iana accounts).</div></div>
-    <div class="card" style="border-left:3px solid var(--amber-lt)"><div class="card-title">⏰ R60(b)(1) Deadline — IronCreek</div><div style="font-size:13px;line-height:1.7;color:var(--text);"><b>July 14, 2026</b> · <span id="r60-countdown" style="color:var(--red-dark);font-weight:800">— days</span> · $437K exposure · garnishment ACTIVE · attorneys <a href="tel:+18014727742" style="color:var(--red-dark);font-weight:800;">📞 (801) 472-7742</a></div></div>
-    <div class="card"><div class="card-title">Financial Commitments</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Attorney retainer: <b>$15,000</b> (Mountain America CU, Bennett acct) · Cash reserves: <b>$5,000</b> (same acct) · Strategy 2026-05-26: retain $20K + pay $60K CC + open 2 banks ✅</div></div>
-    <div class="card"><div class="card-title">Documents Status</div><div style="font-size:12px;line-height:1.7;color:var(--label);">
-      🟡 Dirty Dough LLC ownership binder — location unknown<br>
-      🟡 FDD records — archived in Drive<br>
-      🔴 Case 250905143 filing — need copy from Ron Haslam<br>
-      🔴 Retainer agreement — not signed (pending bank acct)
-    </div></div>
-    <div class="card"><div class="card-title">Open Action Items (Lex)</div><div style="font-size:12px;line-height:1.7;color:var(--text);">
-      ☐ Call Ron Haslam URGENT (email draft staged in Gmail)<br>
-      ☐ Get copy of Case 250905143 filing<br>
-      ☐ Locate Dirty Dough LLC ownership binder<br>
-      ☐ Sign retainer agreement<br>
-      ☐ Transfer $15K to Bennett account for attorney fees
-    </div></div>
-    <div class="card"><div class="card-title">Other Cases on File</div><div style="font-size:12px;line-height:1.7;color:var(--label);">IronCreek (R60(b)(1) July 14 garnishment active) · Commercial Funding · Craveworthy cross-claim filed Apr 27 2026 by Ron Haslam vs Craveworthy LLC + Dirty Dough · CFP 250905143 — original retainer only covered Sheridan/Castle Pines, not above (disclosed 3/19/2026)</div></div>
-    <div class="card"><div class="card-title">Lex Agent</div><div style="font-size:12px;line-height:1.7;color:var(--label);">Daily 8am deadline scan → Slack alert · Owner: Bennett · #leo-sky · Status: 🟡 cron stub pending</div></div>
-    <div class="card" style="background:var(--amber-lt);"><div class="card-title">⏱ Retainer funded — TODAY 5pm</div><div style="font-size:13px;line-height:1.7;color:var(--text);"><b>Lex success metric (Notion 36dcf551...4f):</b> $15K retainer must be funded to Bennett Mountain America CU acct by 5pm today.</div></div>
-    <div class="card"><div class="card-title">Lex Success Metrics</div><div style="font-size:12px;line-height:1.7;color:var(--text);">
-      🔴 Ron Haslam last contact: never tracked (target &lt;7d)<br>
-      🔴 Case 250905143: ACTIVE P0 (target: resolved)<br>
-      🔴 Legal deadlines tracked: 0 (target: all)<br>
-      🟡 Retainer funded: TODAY 5pm
-    </div></div>
-    <div class="card"><div class="card-title">LCC v1.0 — Full Legal Command Center</div><div style="font-size:12px;line-height:1.7;color:var(--text);"><b>17 cases · 36 questions · 6 Bennett gates active</b> · Tailscale-gated · staticrypt-protected · built 2026-05-11<br><a href="http://100.103.51.12:8733/legal/lcc.html" target="_blank" style="color:var(--blue);">→ http://100.103.51.12:8733/legal/lcc.html</a> (Tailscale only) · pw in 1Password FKI-Production vault → "LCC Tailscale Gate"</div></div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/legal/" target="_blank">⚖️ Legal CC (pw: franchiseki2024)</a><a class="ql-link" href="https://www.notion.so/36dcf5514fd381dfbc75e135cdd018b6" target="_blank">📝 Case Timeline</a><a class="ql-link" href="https://www.notion.so/36dcf5514fd38196a062fe96dcb6a96c" target="_blank">⚖️ Craveworthy Master</a><a class="ql-link" href="https://www.notion.so/33acf5514fd381c09c13eb8d16fb6c7f" target="_blank">🔒 Bennett-Personal CC</a></div></div>
-  </div>
-
-  <!-- REAL ESTATE -->
-  <div id="personal-realestate" class="tab-pane">
-    <div class="card"><div class="card-title">Portfolio Snapshot (Rachel)</div><div class="kpi-row"><div class="kpi"><div class="kpi-val" style="color:#0EA5E9">6</div><div class="kpi-label">Properties (5 rental + 1 primary)</div></div><div class="kpi"><div class="kpi-val" style="color:var(--amber)">~$5,600</div><div class="kpi-label">Monthly Rent In</div></div><div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">~$8,700</div><div class="kpi-label">Monthly Mortgage Out</div></div><div class="kpi"><div class="kpi-val" style="color:var(--red-dark)">~-$3,100</div><div class="kpi-label">Net (income bleeding)</div></div></div><div style="margin-top:8px;font-size:11px;color:var(--label);">~$53K total equity · vacancy cost tracker active</div></div>
-    <div class="card"><div class="card-title">Properties</div><div style="font-size:12px;line-height:1.8;color:var(--text);">
-      <b>1.</b> Lehi Condo — previously Airbnb (HOA violation $850+ open), now LTR<br>
-      <b>2.</b> Provo Duplex — multi-tenant room rentals via Rentler<br>
-      <b>3.</b> NSL Chidester — +sewer added to rent · FSBO decision pending<br>
-      <b>4.</b> Pleasant Grove (Mom) — basement vacant since Jezebel left Jul 2025<br>
-      <b>5.</b> Lehi Townhome LTR — cat urine remediation $4,200–$5,700 (3 contractor bids)<br>
-      <b>6.</b> 1066 Tanglewood — primary (verify price + rent)
-    </div></div>
-    <div class="card"><div class="card-title">LLCs</div><div style="font-size:12px;line-height:1.7;color:var(--label);">LM Real Estate LLC · Saratoga Springs One LLC · Chidester Real Estate LLC</div></div>
-    <div class="card"><div class="card-title">Rachel — Phase 2 Readiness</div><div style="font-size:12px;line-height:1.7;color:var(--label);">Real-time rent status (Rentler webhook) · auto rent reminders 3d/1d · maintenance ticket auto-create · monthly P&amp;L per-door email · Status: 🟡 cron stub pending Sky approval</div></div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/real-estate/" target="_blank">🏠 Rachel Dashboard</a><a class="ql-link" href="https://rentler.com" target="_blank">🔑 Rentler</a></div></div>
-  </div>
-
-  <!-- CHORE -->
-  <div id="personal-chore" class="tab-pane">
-    <div class="card"><div class="card-title">Maxwell Family Chore Chart</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Live system: 5 kids · weekly points · per-kid streak · reward store · monthly leaderboard · challenge mode. Built mobile-first.</div></div>
-    <div class="card"><div class="card-title">How it works</div><div style="font-size:12px;line-height:1.7;color:var(--label);">Kids tap chores → points → reward store buys (Sky funds). Bonus tags, group challenges, payout log, calendar view. Lives at <a href="https://dashboard.franchiseki.com/chore-chart/" style="color:var(--blue);">/chore-chart/</a></div></div>
-    <div class="card"><div class="card-title">Home Ops (Sky)</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Cleaning service cadence · grocery + meal plan · home maintenance calendar · holiday prep — TODO Sky enter cadences here</div></div>
-    <div class="card" style="background:var(--amber-lt);"><div class="card-title">🟣 Sky Action</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Enter cleaning/grocery/meal-plan cadences + monthly maintenance calendar in <a href="https://franchiseki.slack.com/archives/C0AQ4KB1SA0" style="color:var(--blue);">#leo-sky</a> — Ace surfaces them here weekly.</div></div>
-    <div class="card"><div class="card-title">Quick Access</div><div class="ql-row"><a class="ql-link" href="https://dashboard.franchiseki.com/chore-chart/" target="_blank">✅ Family Chart</a></div></div>
-  </div>
-
-  <!-- VISION -->
-  <div id="personal-vision" class="tab-pane">
-    <div class="card"><div class="card-title">North Star (2026)</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Annual vision statement · 1 sentence · refreshed each January — Bennett to fill</div></div>
-    <div class="card"><div class="card-title">90-Day Personal Rocks</div><div style="font-size:13px;line-height:1.7;color:var(--label);">3-5 personal rocks (not business) · health · family · learning · reset every quarter</div></div>
-    <div class="card"><div class="card-title">Currently Reading + Learning</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Books in flight · courses · podcasts in rotation · skills to develop this quarter</div></div>
-    <div class="card"><div class="card-title">Bucket List + Travel</div><div style="font-size:13px;line-height:1.7;color:var(--label);">Trips planned 12 mo · long-term bucket list · family-of-5 milestones</div></div>
-    <div class="card" style="background:var(--amber-lt);"><div class="card-title">🟣 Bennett Action</div><div style="font-size:13px;line-height:1.7;color:var(--text);">Write 2026 North Star (1 sentence) + 3-5 personal rocks for Q3 — drops into Notion CC master below.</div></div>
-    <div class="card" style="background:var(--purple-lt);"><div class="card-title">Linked Drive</div><div style="font-size:12px;line-height:1.7;color:var(--text);">Notion CC Master <a href="https://www.notion.so/360cf5514fd381a9ab97ed5136e88dab" style="color:var(--blue);">360cf551…</a> · vision docs lives there</div></div>
-  </div>
-</div>
-
-<div style="text-align:center;padding:16px;font-size:11px;color:#6E6E73;">
-  Bennett CEO Command Center · Built by Advaita AI · Last updated: <span id="cc-last-updated">May 27, 2026</span> · Personal CC build-out wave · gatekeeper score 65→target 80 ·
-  <a href="https://dashboard.franchiseki.com" style="color:#0A84FF;text-decoration:none;">dashboard.franchiseki.com ↗</a>
 </div>
 
 <script>
-function openScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  window.scrollTo(0,0);
-}
-function showTab(screen, name, btn) {
-  const root = document.getElementById('screen-' + screen);
-  root.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  root.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  // Backwards-compat: FKI tabs use fki-<name>, Personal tabs use personal-<name>
-  const prefix = (screen === 'fki') ? 'fki' : screen;
-  const target = document.getElementById(prefix + '-' + name);
-  if (target) target.classList.add('active');
-  btn.classList.add('active');
-}
-function showSub(group, name, btn) {
-  const prefix = group + '-';
-  document.querySelectorAll('[id^="' + prefix + '"].sub-pane').forEach(p => p.classList.remove('active'));
-  btn.closest('.tab-pane').querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(prefix + name).classList.add('active');
-  btn.classList.add('active');
-}
-function toggleRock(id, card) {
-  const el = document.getElementById(id);
-  const open = el.style.display === 'block';
-  document.querySelectorAll('[id^="rock"]').forEach(r => r.style.display = 'none');
-  if (!open) el.style.display = 'block';
-}
-function tick() {
-  const now = new Date();
-  const h = now.getHours(), greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-  document.querySelector('.home-headline').textContent = greeting + ', Bennett.';
-  document.getElementById('homeDate').textContent = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-}
-tick(); setInterval(tick, 30000);
+const BOTS = [
+  {name:"Leo", lane:"Leftover send cadence", today:"0/10", delivered:"0 prospect", reply:"—", status:"RED", as_of:"2026-08-18", source:"aiteam@ live drafts 23 · leftover PROTECTED", href:"https://app.notion.com/p/3c0cf5514fd38115845cf3ebffa8097e"},
+  {name:"Wevly", lane:"Website sales", today:"0/10", delivered:"21 sent · 3 bounce", reply:"0 human", status:"RED", as_of:"2026-08-18", source:"wevly@ 0 human replies · leftover FROZEN", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Penny", lane:"Podcast pitches", today:"0/10", delivered:"0 prospect today", reply:"0 host", status:"RED", as_of:"2026-08-18", source:"podcastpr@ 0 host pitches today", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Connie", lane:"Inbox triage drafts", today:"0/10", delivered:"0 send", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"Drafts only · never send from Bot", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Sam", lane:"Sales next-touch", today:"0/10", delivered:"3 drafts staged", reply:"—", status:"RED", as_of:"2026-08-17", source:"never send until tap", href:"https://app.notion.com/p/3c0cf5514fd38102984cd8aee2f16837"},
+  {name:"Blue", lane:"Blueprint drafts", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"No Blue AgentMail inbox", href:"https://app.notion.com/p/3bfcf5514fd381dabac0e6cad480efbb"},
+  {name:"Reem", lane:"Outreach drafts", today:"0/10", delivered:"drafts only", reply:"—", status:"RED", as_of:"2026-08-17", source:"never send", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Marry", lane:"Meeting prep", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-17", source:"Briefs only", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Addy", lane:"Meta ads status", today:"n/a", delivered:"n/a", reply:"—", status:"RED", as_of:"2026-08-17", source:"metaads disconnected", href:"https://app.notion.com/p/3bfcf5514fd381b08386d658a89d5424"},
+  {name:"Colby", lane:"Instantly / Apollo", today:"0/10", delivered:"BLOCKED", reply:"BLOCKED", status:"RED", as_of:"2026-08-17", source:"Instantly DISCONNECTED", href:"https://app.notion.com/p/3bfcf5514fd381b68402d2c4380ff725"},
+  {name:"Reed", lane:"Pulse digest", today:"n/a", delivered:"internal", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"not a 10/10 prospect lane", href:"https://app.notion.com/p/3bfcf5514fd38144ad7adad86ca59e61"},
+  {name:"Sally", lane:"Social + study", today:"0/10", delivered:"0 posts", reply:"—", status:"RED", as_of:"2026-08-13", source:"do not auto-post", href:"https://app.notion.com/p/3bbcf5514fd3812f9efac5cd65fa534c"},
+  {name:"Angie", lane:"Weekly audits", today:"n/a", delivered:"n/a", reply:"—", status:"AMBER", as_of:"2026-08-18", source:"not an email lane", href:"https://app.notion.com/p/33dcf5514fd381ce8e1af0956a8986ec"}
+];
 
-// R60(b)(1) deadline countdown
-(function() {
-  const deadline = new Date('2026-07-14T00:00:00');
-  function updateCountdown() {
-    const el = document.getElementById('r60-countdown');
-    if (!el) return;
-    const now = new Date();
-    const days = Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
-    el.textContent = days + ' days';
-    if (days <= 7) el.style.textDecoration = 'underline';
+const TILES = [
+  {id:"marketing", name:"Marketing", sub:"Lead acquisition"},
+  {id:"appointment_setting", name:"Appointments", sub:"Lead processing"},
+  {id:"cold_lead_gen", name:"Cold lead gen", sub:"$0 CAC brokers"},
+  {id:"cro_sales", name:"CRO / sales", sub:"Close + collect"},
+  {id:"ai_harness", name:"AI harness", sub:"Cost, not org chart"},
+  {id:"finance", name:"Finance", sub:"FKI QB only"}
+];
+
+function esc(s){
+  return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function ragClass(s){ return s==="GREEN"?"green":(s==="AMBER"?"amber":"red"); }
+function pill(s){ return `<span class="pill pill-${esc((s||"RED").toLowerCase())}">${esc(s||"RED")}</span>`; }
+
+function renderStrip(ms){
+  const keys = [
+    ["cash","Cash"],
+    ["pipeline_this_week_usd","Sitting"],
+    ["booked_calls","Booked"],
+    ["ad_spend","Ads"]
+  ];
+  document.getElementById("moneyStrip").innerHTML = keys.map(([k,lab])=>{
+    const x = (ms&&ms[k])||{};
+    return `<div class="kpi"><div class="n ${ragClass(x.status)}">${esc(x.display||"BLOCKED")}</div><div class="l">${esc(lab)}</div><div class="m">${esc(x.as_of||"no as_of")}</div></div>`;
+  }).join("");
+}
+
+function renderBots(){
+  document.getElementById("bots").innerHTML = BOTS.map(b=>`
+    <tr>
+      <td><div class="bot"><a href="${esc(b.href)}" style="color:#0071E3;text-decoration:none">${esc(b.name)}</a></div><div class="lane">${esc(b.lane)}</div></td>
+      <td class="${ragClass(b.status)}">${esc(b.today)}</td>
+      <td>${esc(b.delivered)}</td>
+      <td>${esc(b.reply)}</td>
+      <td>${pill(b.status)}<div class="lane">${esc(b.as_of)} · ${esc(b.source)}</div></td>
+    </tr>`).join("");
+}
+
+function renderTiles(snap){
+  document.getElementById("tiles").innerHTML = TILES.map(t=>{
+    const tile = snap && snap.tiles && snap.tiles[t.id];
+    const worst = (tile && tile.kpis || []).some(k=>k.status==="RED") ? "RED" : ((tile && tile.kpis || []).some(k=>k.status==="AMBER")?"AMBER":"RED");
+    return `<button class="fbtn" onclick="openTile('${esc(t.id)}')"><div class="n">${esc(t.sub)}</div><h2>${esc(t.name)}</h2><div class="${ragClass(worst)}" style="font-size:12px;font-weight:700;margin-top:6px">${esc(worst)}</div></button>`;
+  }).join("");
+}
+
+function openTile(id){
+  const t = TILES.find(x=>x.id===id);
+  const tile = window.CC_SNAP && window.CC_SNAP.tiles && window.CC_SNAP.tiles[id];
+  const kpis = ((tile&&tile.kpis)||[]).map(k=>`<div class="row"><div class="lab">${esc(k.display||"BLOCKED")} · tgt ${esc(k.target||"—")}</div><div class="val ${ragClass(k.status)}">${esc(k.status||"RED")}</div></div><div class="own" style="margin-bottom:8px">${esc(k.as_of||"MISSING as_of")} · ${esc(k.source||"—")} · ${esc(k.owner_kpi_type||"—")}</div>`).join("");
+  const el = document.getElementById("detail");
+  el.className = "detail on";
+  el.innerHTML = `<div class="sec-h">${esc(t.name)} KPIs</div>${kpis||'<div class="row"><div class="lab">No live KPIs in snapshot</div><div class="val red">RED</div></div>'}`;
+  el.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function setBanner(snap){
+  const b = document.getElementById("freshBanner");
+  const asof = snap && (snap.as_of || snap.snapshot_date);
+  let stale = true;
+  if (asof){
+    const age = Date.now() - Date.parse(asof);
+    stale = !Number.isFinite(age) || age > 24*3600*1000;
   }
-  updateCountdown();
-  setInterval(updateCountdown, 3600000);
+  const blocked = !snap || snap.status === "BLOCKED" || (snap.flags||[]).includes("SAMPLE_FIXTURE_NOT_REAL");
+  if (blocked){
+    b.className = "banner blocked";
+    let msg = "BLOCKED — QB/Meta/GHL not live. SAMPLE_FIXTURE_NOT_REAL. qb_realm_id=" + ((snap&&snap.qb_realm_id)||"UNAVAILABLE");
+    if (stale) msg += " · also STALE (>24h)";
+    b.textContent = msg;
+    return;
+  }
+  if (stale){
+    b.className = "banner stale";
+    b.textContent = "STALE — snapshot older than 24h. Do not treat numbers as today.";
+    return;
+  }
+  b.className = "banner ok";
+  b.textContent = "LIVE snapshot · qb_realm_id=" + snap.qb_realm_id;
+}
+
+async function bindSnapshot(){
+  let snap = null;
+  try {
+    const r = await fetch("command-center-snapshot-latest.json", {cache:"no-store"});
+    if (r.ok) snap = await r.json();
+  } catch(e) { snap = null; }
+  if (!snap){
+    snap = {status:"BLOCKED", flags:["SAMPLE_FIXTURE_NOT_REAL"], as_of:null, qb_realm_id:"UNAVAILABLE", money_strip:{}, tiles:{}};
+  }
+  window.CC_SNAP = snap;
+  setBanner(snap);
+  renderStrip(snap.money_strip||{});
+  renderTiles(snap);
+}
+
+renderBots();
+bindSnapshot();
+(function setKicker(){
+  const el = document.getElementById("kickerDay");
+  if (!el) return;
+  el.textContent = new Date().toLocaleDateString("en-US", {weekday:"long", month:"short", day:"numeric"});
 })();
 </script>
-<!--cc-asof--><div class="cc-asof-footer" data-asof="2026-05-27T11:47:29-06:00" style="margin:24px auto 12px;max-width:1100px;padding:8px 14px;font:12px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#6b7280;border-top:1px solid #e5e7eb;text-align:center;">Page updated 2026-05-27 &middot; <span class="cc-fresh-badge">checking&hellip;</span> &middot; <a href="/hub/" style="color:#6b7280;text-decoration:underline;">Command Center</a></div><script src="/assets/cc-fresh.js"></script><!--/cc-asof-->
 </body>
 </html>

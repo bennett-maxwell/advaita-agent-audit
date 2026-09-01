@@ -14,7 +14,7 @@ Only ~35% have full FDD-verified data.
 The other 65% are stubs.
 
 Here's how we're fixing it:
-→ Tiffany (local AI model on our server) reads each FDD
+→ A local model on our server reads each FDD
 → Extracts 42 fields per brand automatically  
 → Pushes the data to Convex
 → Live page updates instantly

@@ -1,2 +1,26 @@
-Dashboard auto-generated files
-bennett-cc/index.html.bak.*
+# Dashboard auto-generated files — bak and bak2 both stay off Pages
+bennett-cc/index.html.bak*
+# Live books stay on disk for the canary; never publish them on Pages
+bennett-cc/command-center-snapshot-latest.json
+bennett-cc/command-center-snapshot-writer.py
+# Canary receipt names internal temp paths and the private books sha; keep it off Pages too
+bennett-cc/false-green-canary-latest.json
+# Tailnet inventory is local ops data, not a public page
+bennett-cc/data/tailscale.json
+bennett-cc/data/machines.json
+hub/machine-health.json
+hub/agent-status.json
+hub/machine-health-collector.sh
+hub/machine-health.html
+hub/funnel-snapshot.json
+cc-refresh-spec.md
+update_index.py
+cc-data-snapshot.json
+hub-data.json
+overnight-sprint-state.json
+angie/data/*.json
+# Personal books and legal dashboards stay on disk; never serve them on Pages
+finance/
+legal/
+forecast/
+finance-hub/

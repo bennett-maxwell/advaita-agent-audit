@@ -507,7 +507,7 @@ function checkROITrigger() {
 
 // ─── GHL SUBMISSION ──────────────────────────────────────────
 (function() {
-  var GHL_KEY = 'pit-81e14317-71e3-44c2-864c-0dd014f570cd';
+  var GHL_KEY = ''; // HIGH-2 2026-08-21: leaked PIT removed from public JS. Wire via server proxy; never embed again.
   var GHL_LOC = '14RD8KklxR9G4e0Rf7v2';
   var GHL_API = 'https://services.leadconnectorhq.com';
 
@@ -558,6 +558,7 @@ function checkROITrigger() {
   }
 
   async function submitToGHL(d) {
+    if (!GHL_KEY) return;
     try {
       var res = await fetch(GHL_API + '/contacts/', {
         method: 'POST', headers: ghlHeaders(),

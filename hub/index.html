@@ -261,10 +261,10 @@
     <div class="action-row">
       <span class="priority-pill p-critical">🔴 CRITICAL</span>
       <div class="action-content">
-        <div class="action-title">Cash Runway 3.5 Weeks</div>
+        <div class="action-title">Cash Runway — figure gated</div>
         <div class="action-detail">Close 1 deal now. 11 at Discovery Day stage.</div>
         <div class="action-buttons">
-          <button class="btn-copy" onclick="copyDispatch('URGENT: Cash runway at 3.5 weeks (~$40K checking). 11 leads at Discovery Day. Priority: close 1 deal immediately. Review pipeline and identify fastest path to close.')">Copy ↗</button>
+          <button class="btn-copy" onclick="copyDispatch('URGENT: Cash runway is short (figure gated - see Finance Hub, company-only). 11 leads at Discovery Day. Priority: close 1 deal immediately. Review pipeline and identify fastest path to close.')">Copy ↗</button>
           <button class="btn-done" onclick="markDone('action-1')">✓ Done</button>
           <button class="btn-snooze" onclick="snoozeItem('action-1')">⏸ Snooze</button>
         </div>
@@ -315,7 +315,7 @@
         <div class="action-title">GHL PIT Token 403</div>
         <div class="action-detail">Attribution-daily.py failing. app.crmx.app → Settings → Private Integrations</div>
         <div class="action-buttons">
-          <button class="btn-copy" onclick="copyDispatch('Fix GHL PIT Token 403 error. pit-3987cca6 returning 403. Go to app.crmx.app → Settings → Private Integrations → generate new token. Update attribution-daily.py with new token. Leo/Ivan can resolve via browser automation.')">Copy ↗</button>
+          <button class="btn-copy" onclick="copyDispatch('Fix GHL PIT Token 403 error. Token prefix redacted 2026-08-21. Go to app.crmx.app → Settings → Private Integrations → generate new token. Update attribution-daily.py with new token. Leo/Ivan can resolve via browser automation.')">Copy ↗</button>
           <button class="btn-done" onclick="markDone('action-4')">✓ Done</button>
           <button class="btn-snooze" onclick="snoozeItem('action-4')">⏸ Snooze</button>
         </div>
@@ -402,13 +402,13 @@
   <div class="kpi-grid">
     <div class="kpi-cell">
       <div class="kpi-label">YTD Revenue</div>
-      <div class="kpi-value kpi-green">$390K</div>
-      <div class="kpi-sub">QB live · 64.8% margin</div>
+      <div class="kpi-value"><span title="Gated 2026-08-04 — company-only sign-in pending">🔒 gated</span></div>
+      <div class="kpi-sub">company-only</div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-label">Cash Runway</div>
-      <div class="kpi-value kpi-red">3.5 wks</div>
-      <div class="kpi-sub">$40K checking</div>
+      <div class="kpi-value"><span title="Gated 2026-08-04 — company-only sign-in pending">🔒 gated</span></div>
+      <div class="kpi-sub">company-only</div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-label">Active Leads</div>
@@ -434,30 +434,13 @@
   </div>
 </section>
 
-<!-- REVENUE FORECAST -->
+<!-- REVENUE FORECAST — GATED 2026-08-04 -->
 <section>
   <div class="section-header">
     <span class="section-label">Revenue Forecast</span>
   </div>
-  <div class="forecast-grid">
-    <div class="forecast-cell">
-      <div class="forecast-horizon">30-Day</div>
-      <div class="forecast-value">$40K</div>
-      <div class="forecast-deals">est · 1 deal</div>
-    </div>
-    <div class="forecast-cell">
-      <div class="forecast-horizon">60-Day</div>
-      <div class="forecast-value">$80K</div>
-      <div class="forecast-deals">est · 2 deals</div>
-    </div>
-    <div class="forecast-cell">
-      <div class="forecast-horizon">90-Day</div>
-      <div class="forecast-value">$120K</div>
-      <div class="forecast-deals">est · 3 deals</div>
-    </div>
-  </div>
-  <div class="forecast-footer">Based on $40K avg deal &nbsp;·&nbsp; current pipeline 11 at Discovery Day</div>
-  <a class="forecast-link" href="/finance-hub/">→ Full Finance View</a>
+  <div class="forecast-footer">🔒 Forecast figures are company-only and moved behind sign-in on 2026-08-04.</div>
+  <a class="forecast-link" href="/finance-hub/">→ Finance Hub (restricted)</a>
 </section>
 
 <!-- CONTENT CALENDAR -->
@@ -598,8 +581,8 @@
     <a class="cc-card" href="/finance-hub/">
       <div class="cc-icon">💰</div>
       <div class="cc-name">Finance</div>
-      <div class="cc-metric green">$390K</div>
-      <div class="cc-sub">YTD · 64.8% margin</div>
+      <div class="cc-metric"><span title="Gated 2026-08-04 — company-only sign-in pending">🔒 gated</span></div>
+      <div class="cc-sub">company-only</div>
     </a>
     <a class="cc-card" href="/marketing/">
       <div class="cc-icon">📣</div>
@@ -655,7 +638,7 @@
       <div class="cc-metric">—</div>
       <div class="cc-sub">AI team active</div>
     </a>
-    <a class="cc-card red-card" href="/legal/">
+    <a class="cc-card red-card" href="/hub/">
       <div class="cc-icon">⚖️</div>
       <div class="cc-name">Legal CC</div>
       <div class="cc-metric red">TOMORROW</div>
@@ -767,7 +750,7 @@
         <div class="action-title">Legal CC Outcomes — Heideman+Haslam</div>
         <div class="action-detail">Legal CC has outstanding action items requiring Bennett input beyond the P0 case. Review legal dashboard.</div>
         <div class="action-buttons">
-          <a class="btn-copy" href="/legal/" style="text-decoration:none;display:inline-block;">Open Legal CC →</a>
+          <span class="btn-copy">Legal CC stays off this public page</span>
         </div>
       </div>
     </div>
@@ -827,8 +810,8 @@
         <div style="font-size:10px;color:#8E8E93;margin-top:2px;">Advaita Score</div>
       </div>
       <div style="background:#1C1C1E;border:1px solid #2C2C2E;border-radius:10px;padding:12px;text-align:center;">
-        <div style="font-size:22px;font-weight:800;color:#30D158;">$390K</div>
-        <div style="font-size:10px;color:#8E8E93;margin-top:2px;">YTD Revenue</div>
+        <div style="font-size:22px;font-weight:800;color:#8E8E93;">🔒</div>
+        <div style="font-size:10px;color:#8E8E93;margin-top:2px;">YTD Revenue · gated</div>
       </div>
       <div style="background:#1C1C1E;border:1px solid #2C2C2E;border-radius:10px;padding:12px;text-align:center;">
         <div style="font-size:22px;font-weight:800;color:#FF3B30;">$55</div>
@@ -888,7 +871,7 @@
           <div style="width:8px;height:8px;border-radius:50%;background:#30D158;"></div>
           <span style="font-size:13px;font-weight:700;color:#F5F5F7;">Ivan (iMac)</span>
         </div>
-        <div style="font-size:11px;color:#8E8E93;">Tailscale: 100.103.51.12</div>
+        <div style="font-size:11px;color:#8E8E93;">address not listed here</div>
         <div style="font-size:11px;color:#30D158;margin-top:4px;">Online · 6 crons running</div>
       </div>
       <div style="background:#1C1C1E;border:1px solid #2C2C2E;border-radius:10px;padding:14px;">
@@ -902,9 +885,9 @@
       <div style="background:#1C1C1E;border:1px solid #2C2C2E;border-radius:10px;padding:14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
           <div style="width:8px;height:8px;border-radius:50%;background:#FF3B30;"></div>
-          <span style="font-size:13px;font-weight:700;color:#F5F5F7;">Tiffany (HP Omen)</span>
+          <span style="font-size:13px;font-weight:700;color:#F5F5F7;">Windows node</span>
         </div>
-        <div style="font-size:11px;color:#8E8E93;">100.97.16.76 · Ollama</div>
+        <div style="font-size:11px;color:#8E8E93;">status not listed here</div>
         <div style="font-size:11px;color:#FF3B30;margin-top:4px;">Unreachable · Verify power</div>
       </div>
       <div style="background:#1C1C1E;border:1px solid #2C2C2E;border-radius:10px;padding:14px;">
@@ -978,7 +961,7 @@
         </div>
         <div style="display:flex;align-items:flex-start;gap:8px;">
           <span style="color:#30D158;font-size:14px;margin-top:1px;">✓</span>
-          <div><div style="font-size:12px;font-weight:700;color:#F5F5F7;">Legal cases</div><div style="font-size:11px;color:#8E8E93;"><a href="/legal/" style="color:#0A84FF;text-decoration:none;">Legal CC ↗</a> · pw: franchiseki2024</div></div>
+          <div><div style="font-size:12px;font-weight:700;color:#F5F5F7;">Legal cases</div><div style="font-size:11px;color:#8E8E93;">not linked from this public page</div></div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:8px;">
           <span style="color:#30D158;font-size:14px;margin-top:1px;">✓</span>
@@ -1001,7 +984,7 @@
       <button onclick="copyDispatch('Run daily CC refresh: pull QB, Meta, GHL data → update cc-data-snapshot.json → git push → Slack receipt. Spec at /cc-refresh-spec.md')" style="background:#0A84FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;">📡 Refresh CC Data</button>
       <button onclick="copyDispatch('Run Angie audit on all 8 CC pages using each CC skill self-audit checklist. Score each page, auto-fix yellow findings, DM Bennett on red.')" style="background:#30D158;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;">🔍 Run Angie Audit</button>
       <button onclick="copyDispatch('Check legal deadlines: Case 250905143 due 2026-05-27. Call Ron Haslam. Update legal CC at dashboard.franchiseki.com/legal/')" style="background:#FF3B30;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;">⚖️ Legal Alert</button>
-      <button onclick="copyDispatch('Generate today CEO briefing: QB YTD $390K, Meta CPL $55/34 leads, Advaita 61.9%, 7 human gates open. Format: Bennett-mode 10-card email. Send to bennett@franchiseki.com.')" style="background:#FF9F0A;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;">📧 CEO Briefing</button>
+      <button onclick="copyDispatch('Generate today CEO briefing: QB YTD (gated - pull from Finance Hub), Meta CPL $55/34 leads, Advaita 61.9%, 7 human gates open. Format: Bennett-mode 10-card email. Send to bennett@franchiseki.com.')" style="background:#FF9F0A;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;">📧 CEO Briefing</button>
     </div>
   </div>
 </section>
